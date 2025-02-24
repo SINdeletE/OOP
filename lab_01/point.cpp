@@ -6,7 +6,7 @@ point_t point_init()
 }
 
 // Может лучше error_t? Думаю нет, так как будет использоваться в чтении в файле, где лучше True и False.
-int point_read(point_t &point, const FILE *file)
+int point_read(point_t &point, FILE *file)
 {
     point_t tmp_point = point_init();
 

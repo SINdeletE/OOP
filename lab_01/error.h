@@ -1,7 +1,7 @@
 #ifndef ERROR_H
 #define ERROR_H
 
-enum error_t
+enum err_t
 {
     ERR_NONE,
 
@@ -9,11 +9,11 @@ enum error_t
     ERR_FILE_INVALID_STRUCTURE,
     ERR_FILE_INVALID_DATA,
 
-    ERR_POINT_INVALID_READ,
+    ERR_LINKS_INVALID_ALLOC,
 
     ERR_POINTS_INVALID_ALLOC
 };
 
-void error_msg(error_t error);
+void error_msg(err_t error);
 
 #endif // ERROR_H

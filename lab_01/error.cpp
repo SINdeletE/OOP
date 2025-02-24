@@ -4,7 +4,7 @@
 
 #include "error.h"
 
-void error_msg(error_t error)
+void error_msg(err_t error)
 {
     switch (error)
     {

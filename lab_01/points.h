@@ -12,6 +12,7 @@ struct points_t
     point_t *array;
 };
 
-error_t points_alloc(points_t &points, const size_t n);
+err_t points_alloc(points_t &points, const size_t n);
+void points_free(points_t &points);
 
 #endif // POINTS_H

@@ -4,7 +4,7 @@
 #include "points.h"
 #include "consts.h"
 
-error_t points_alloc(points_t &points, const size_t n)
+err_t points_alloc(points_t &points, const size_t n)
 {
     point_t *array = NULL;
 
@@ -40,6 +40,7 @@ int points_are_equal(const point_t &point_1, const point_t &point_2)
     return res;
 }
 
+// Функция проверяет, является ли точка в файле повторяющейся
 int is_point_in_points(const points_t &points, const point_t &point)
 {
     int res = 0;

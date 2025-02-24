@@ -11,6 +11,6 @@ struct point_t
 };
 
 point_t point_init();
-int point_read(point_t &point, const FILE *file);
+int point_read(point_t &point, FILE *file);
 
 #endif // POINT_H
