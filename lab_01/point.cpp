@@ -42,18 +42,53 @@ point_t point_scale(point_t &point, const double kx, const double ky, const doub
     return tmp_point;
 }
 
-double deg_to_rad(double deg)
+double rad_from_degree(double degree)
 {
-    return deg * M_PI / 180;
+    return degree * M_PI / 180;
+}
+
+double coordinate_rotate(const double coord_1, const double coord_2, const double degree)
+{
+    double rad = rad_from_degree(degree);
+
+    return coord_1 * cos(rad) + coord_2 * sin(rad);
+}
+
+void point_rotate_x(point_t &point, const double ox, const double oy, const double oz)
+{
+    double component_1 = point.x * (cos(oy) * cos(oz));
+    double component_2 = point.y * (sin(ox) * sin(oy) * cos(oz) + sin(oz) * cos(ox));
+    double component_3 = point.z * (sin(ox) * sin(oz) - sin(oy) * cos(ox) * cos(oz));
+
+    point.x = component_1 + component_2 + component_3;
+}
+
+void point_rotate_y(point_t &point, const double ox, const double oy, const double oz)
+{
+    double component_1 = point.x * -(sin(oz) * cos(oy));
+    double component_2 = point.y * (-sin(ox) * sin(oy) * sin(oz) + cos(ox) * cos(oz));
+    double component_3 = point.z * (sin(ox) * cos(oz) + sin(oy) * sin(oz) * cos(ox));
+
+    point.y = component_1 + component_2 + component_3;
+}
+
+void point_rotate_z(point_t &point, const double ox, const double oy, const double oz)
+{
+    double component_1 = point.x * sin(oy);
+    double component_2 = point.y * -(sin(ox) * cos(oy));
+    double component_3 = point.z * cos(ox) * cos(oy);
+
+    point.z = component_1 + component_2 + component_3;
 }
 
 point_t point_rotate(point_t &point, const double ox, const double oy, const double oz)
 {
     point_t tmp_point = point;
 
-    tmp_point.x *= ox;
-    tmp_point.y *= oy;
-    tmp_point.z *= oz;
+    // Умножение координат на матрицу поворота
+    point_rotate_x(tmp_point, ox, oy, oz);
+    point_rotate_y(tmp_point, ox, oy, oz);
+    point_rotate_z(tmp_point, ox, oy, oz);
 
     return tmp_point;
 }

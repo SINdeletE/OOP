@@ -66,9 +66,9 @@ void points_move(points_t &points, const double x, const double y, const double 
 
 void points_scale(points_t &points, const point_t &center, const double kx, const double ky, const double kz)
 {
-    // Для масштабирования перенесём фигуру в начало координат, а затем смасштабируем и вернём обратно
+    // Для масштабирования перенесём фигуру в центр масштабирования, а затем смасштабируем и вернём обратно
 
-    // Возврат точки к началу координат
+    // Перенос фигуры в центр масштабирования
     for (size_t i = 0; i < points.n; i++)
         points.array[i] = point_move(points.array[i], -center.x, -center.y, -center.z);
 
@@ -81,9 +81,19 @@ void points_scale(points_t &points, const point_t &center, const double kx, cons
         points.array[i] = point_move(points.array[i], center.x, center.y, center.z);
 }
 
-
-void points_rotate(points_t &points, const double ox, const double oy, const double oz)
+void points_rotate(points_t &points, const point_t &center, const double ox, const double oy, const double oz)
 {
+    // Для поворота перенесём фигуру в центр вращения, а затем повернём и вернём обратно
+
+    // Перенос фигуры в центр вращения
     for (size_t i = 0; i < points.n; i++)
-        points.array[i] = point_move(points.array[i], ox, oy, oz);
+        points.array[i] = point_move(points.array[i], -center.x, -center.y, -center.z);
+
+    // Поворот
+    for (size_t i = 0; i < points.n; i++)
+        points.array[i] = point_rotate(points.array[i], ox, oy, oz);
+
+    // Возвращение отмасшатбированной фигуры в исходное положение
+    for (size_t i = 0; i < points.n; i++)
+        points.array[i] = point_move(points.array[i], center.x, center.y, center.z);
 }

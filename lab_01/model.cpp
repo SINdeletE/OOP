@@ -31,7 +31,7 @@ err_t model_rotate(model_t &model, const double x, const double y, const double 
     if (is_model_empty(model))
         return ERR_MODEL_IS_EMPTY;
 
-    points_rotate(model.points, x, y, z);
+    points_rotate(model.points, model.center, x, y, z);
 
     return ERR_NONE;
 }
