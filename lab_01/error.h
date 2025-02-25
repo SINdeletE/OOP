@@ -11,7 +11,9 @@ enum err_t
 
     ERR_LINKS_INVALID_ALLOC,
 
-    ERR_POINTS_INVALID_ALLOC
+    ERR_POINTS_INVALID_ALLOC,
+
+    ERR_MODEL_IS_EMPTY
 };
 
 void error_msg(err_t error);
