@@ -1,9 +1,0 @@
-/home/nuelex/Desktop/git/OOP/lab_01/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/lab_01.dir
-/home/nuelex/Desktop/git/OOP/lab_01/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/edit_cache.dir
-/home/nuelex/Desktop/git/OOP/lab_01/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/rebuild_cache.dir
-/home/nuelex/Desktop/git/OOP/lab_01/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/list_install_components.dir
-/home/nuelex/Desktop/git/OOP/lab_01/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/install.dir
-/home/nuelex/Desktop/git/OOP/lab_01/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/install/local.dir
-/home/nuelex/Desktop/git/OOP/lab_01/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/install/strip.dir
-/home/nuelex/Desktop/git/OOP/lab_01/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/lab_01_autogen_timestamp_deps.dir
-/home/nuelex/Desktop/git/OOP/lab_01/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/lab_01_autogen.dir
