@@ -17,10 +17,14 @@ MainWindow::MainWindow(QWidget *parent)
     err_t res = ERR_NONE;
 
     res = scene_init(this->scene, ui->graphicsView);
-    if (! res)
-        draw_action_init(this->draw_action, this->scene);
-    else
+    if (res)
         throw std::runtime_error("Ошибка создания сцены");
+    else
+    {
+        scene_configure(this->scene, ui->graphicsView);
+
+        draw_action_init(this->draw_action, this->scene);
+    }
 }
 
 MainWindow::~MainWindow()
@@ -52,10 +56,10 @@ err_t action_move_read(action_data_t &data, Ui::MainWindow *ui)
 
     tmp_move.dx = ui->MoveEditX->text().toDouble(&convert_res);
 
-    if (! convert_res)
+    if (convert_res)
         tmp_move.dy = ui->MoveEditY->text().toDouble(&convert_res);
 
-    if (! convert_res)
+    if (convert_res)
         tmp_move.dz = ui->MoveEditZ->text().toDouble(&convert_res);
 
     if (! convert_res)
@@ -79,10 +83,10 @@ err_t action_scale_read(action_data_t &data, Ui::MainWindow *ui)
 
     tmp_scale.kx = ui->ScaleEditX->text().toDouble(&convert_res);
 
-    if (! convert_res)
+    if (convert_res)
         tmp_scale.ky = ui->ScaleEditY->text().toDouble(&convert_res);
 
-    if (! convert_res)
+    if (convert_res)
         tmp_scale.kz = ui->ScaleEditZ->text().toDouble(&convert_res);
 
     if (! convert_res)
@@ -106,10 +110,10 @@ err_t action_rotate_read(action_data_t &data, Ui::MainWindow *ui)
 
     tmp_rotate.ox = ui->RotateEditX->text().toDouble(&convert_res);
 
-    if (! convert_res)
+    if (convert_res)
         tmp_rotate.oy = ui->RotateEditY->text().toDouble(&convert_res);
 
-    if (! convert_res)
+    if (convert_res)
         tmp_rotate.oz = ui->RotateEditZ->text().toDouble(&convert_res);
 
     if (! convert_res)

@@ -11,12 +11,17 @@ err_t links_alloc(links_t &links, const size_t n)
 {
     link_t *array = NULL;
 
+    err_t res = ERR_NONE;
+
     array = (link_t *)calloc(n, sizeof(link_t));
     if (! array)
-        return ERR_LINKS_INVALID_ALLOC;
+        res = ERR_LINKS_INVALID_ALLOC;
 
-    links.array = array;
-    links.n = n;
+    if (! res)
+    {
+        links.array = array;
+        links.n = n;
+    }
 
     return ERR_NONE;
 }
@@ -61,12 +66,15 @@ err_t links_count_read(size_t &n, FILE *file)
     size_t tmp_n;
     long long sign_detector;
 
-    if (fscanf(file, "%lld", &sign_detector) != 1)
-        return ERR_FILE_INVALID_DATA;
+    err_t res = ERR_NONE;
 
-    n = (size_t)sign_detector;
+    if (fscanf(file, "%lld", &sign_detector) != 1 || sign_detector <= 0)
+        res = ERR_FILE_INVALID_DATA;
 
-    return ERR_NONE;
+    if (! res)
+        n = (size_t)sign_detector;
+
+    return res;
 }
 
 err_t links_read(links_t &links, FILE *file, const size_t points_size)
@@ -82,7 +90,7 @@ err_t links_read(links_t &links, FILE *file, const size_t points_size)
     {
         res = link_read(tmp_links.array[i], file);
 
-        if (! res && is_link_is_valid(tmp_links.array[i], points_size))
+        if (! res && ! is_link_is_valid(tmp_links.array[i], points_size))
             res = ERR_LINKS_INVALID_LINK;
 
         if (! res && is_link_in_links(tmp_links, i, tmp_links.array[i]))

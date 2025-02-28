@@ -44,7 +44,7 @@ int points_are_equal(const point_t &point_1, const point_t &point_2)
         res = 0;
     else if (fabs(point_1.y - point_2.y) >= EPS)
         res = 0;
-    else if (fabs(point_1.x - point_2.x) >= EPS)
+    else if (fabs(point_1.z - point_2.z) >= EPS)
         res = 0;
 
     return res;
@@ -69,16 +69,20 @@ int is_points_empty(const points_t &points)
 }
 
 err_t points_count_read(size_t &n, FILE *file)
-{
+{    
     size_t tmp_n;
     long long sign_detector;
 
-    if (fscanf(file, "%lld", &sign_detector) != 1)
-        return ERR_FILE_INVALID_DATA;
+    err_t res = ERR_NONE;
+
+    if (fscanf(file, "%lld", &sign_detector) != 1 || sign_detector <= 0)
+    {
+        res = ERR_FILE_INVALID_DATA;
+    }
 
     n = (size_t)sign_detector;
 
-    return ERR_NONE;
+    return res;
 }
 
 err_t points_read(points_t &points, FILE *file)
@@ -88,14 +92,18 @@ err_t points_read(points_t &points, FILE *file)
 
     res = points_count_read(tmp_points.n, file);
     if (! res)
+    {
         res = points_alloc(tmp_points, tmp_points.n);
+    }
 
     for (size_t i = 0; ! res && i < tmp_points.n; i++)
     {
         res = point_read(tmp_points.array[i], file);
 
         if (! res && is_point_in_points(tmp_points, i, tmp_points.array[i]))
+        {
             res = ERR_POINTS_SAME_POINTS;
+        }
     }
 
     if (res)

@@ -25,12 +25,15 @@ err_t scene_init(scene_t &scene, QGraphicsView *gV)
         tmp_scene.pen = tmp_pen;
     }
 
+    if (! res)
+        scene = tmp_scene;
+
     return res;
 }
 
 void scene_clear(scene_t &scene)
 {
-    qDeleteAll(scene.scene->items());
+    scene.scene->clear();
 }
 
 void points_get_by_link(point_t &p1, point_t &p2, const points_t &points, const link_t &link)
@@ -70,8 +73,8 @@ err_t scene_draw_model(scene_t &scene, const model_t &model)
     return res;
 }
 
-// void scene_configure(scene_t &scene, QGraphicsView *gV)
-// {
-//     gV->setScene(scene.scene);
-//     gV->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-// }
+void scene_configure(scene_t &scene, QGraphicsView *gV)
+{
+    gV->setScene(scene.scene);
+    gV->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+}

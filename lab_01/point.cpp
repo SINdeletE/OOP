@@ -9,12 +9,15 @@ point_t point_init()
 
 err_t point_read(point_t &point, FILE *file)
 {
-    point_t tmp_point = point_init();
+    point_t tmp_point;
 
-    if (fscanf(file, "%lf%lf%lf", &tmp_point.x, &tmp_point.y, &tmp_point.z) != 2)
-        return ERR_FILE_INVALID_DATA;
+    err_t res = ERR_NONE;
 
-    point = tmp_point;
+    if (fscanf(file, "%lf%lf%lf", &tmp_point.x, &tmp_point.y, &tmp_point.z) != 3)
+        res = ERR_FILE_INVALID_DATA;
 
-    return ERR_NONE;
+    if (! res)
+        point = tmp_point;
+
+    return res;
 }
