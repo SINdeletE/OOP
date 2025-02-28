@@ -3,7 +3,7 @@
 
 enum err_t
 {
-    ERR_NONE,
+    ERR_NONE = 0,
 
     ERR_FILE_NOT_FOUND,
     ERR_FILE_INVALID_STRUCTURE,
@@ -13,7 +13,11 @@ enum err_t
 
     ERR_POINTS_INVALID_ALLOC,
 
-    ERR_MODEL_IS_EMPTY
+    ERR_MODEL_IS_EMPTY,
+
+    ERR_SCENE_INVALID_ALLOC,
+
+    ERR_ACTION_NO_MODEL
 };
 
 void error_msg(err_t error);

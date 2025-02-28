@@ -23,13 +23,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(lab_01
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        error.h error.cpp
-        points.h points.cpp
         consts.h
-        point.h point.cpp
-        link.h link.cpp
-        links.h links.cpp
-        model.h model.cpp
+        consts.h error.cpp error.h link.cpp link.h links.cpp links.h main.cpp mainwindow.cpp mainwindow.h mainwindow.ui model.cpp model.h point.cpp point.h points.cpp points.h
+        scene.h scene.cpp
+
+        operation.h operation.cpp
+        action.h action.cpp
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET lab_01 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

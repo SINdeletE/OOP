@@ -2,6 +2,11 @@
 
 #include <cstdlib>
 
+links_t links_init()
+{
+    return (links_t){0, NULL};
+}
+
 err_t links_alloc(links_t &links, const size_t n)
 {
     link_t *array = NULL;
@@ -44,6 +49,39 @@ int is_link_in_links(const links_t &links, const link_t &link)
     for (size_t i = 0; ! res && i < links.n; i++)
         if (links_are_equal(links.array[i], link))
             res = 1;
+
+    return res;
+}
+
+err_t links_count_read(size_t &n, FILE *file)
+{
+    size_t tmp_n;
+    long long sign_detector;
+
+    if (fscanf(file, "%lld", &sign_detector) != 1)
+        return ERR_FILE_INVALID_DATA;
+
+    n = (size_t)sign_detector;
+
+    return ERR_NONE;
+}
+
+err_t links_read(links_t &links, FILE *file)
+{
+    links_t tmp_links = links_init();
+    err_t res = ERR_NONE;
+
+    res = links_count_read(tmp_links.n, file);
+    if (! res)
+        res = links_alloc(tmp_links, tmp_links.n);
+
+    for (size_t i = 0; ! res && i < tmp_links.n; i++)
+        res = link_read(tmp_links.array[i], file);
+
+    if (res)
+        links_free(tmp_links);
+    else
+        links = tmp_links;
 
     return res;
 }

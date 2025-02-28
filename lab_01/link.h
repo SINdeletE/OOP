@@ -4,12 +4,15 @@
 #include <cstdio>
 #include <cstddef>
 
+#include "error.h"
+
 struct link_t
 {
     size_t beg;
     size_t end;
 };
 
-
+link_t link_init();
+err_t link_read(link_t &link, FILE *file);
 
 #endif // LINK_H
