@@ -6,7 +6,6 @@
 #include <QGraphicsScene>
 #include <QGraphicsItemGroup>
 
-#include "action.h"
 #include "scene.h"
 #include "model.h"
 
@@ -24,11 +23,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_ImportButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 
     scene_t scene;
-    action_t action_manager;
     model_t model;
 };
 #endif // MAINWINDOW_H

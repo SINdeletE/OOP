@@ -25,7 +25,7 @@
      <rect>
       <x>39</x>
       <y>29</y>
-      <width>411</width>
+      <width>401</width>
       <height>201</height>
      </rect>
     </property>
@@ -40,7 +40,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_3"/>
+        <widget class="QLineEdit" name="MoveEditX"/>
        </item>
        <item>
         <widget class="QLabel" name="label_2">
@@ -50,7 +50,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_2"/>
+        <widget class="QLineEdit" name="MoveEditY"/>
        </item>
        <item>
         <widget class="QLabel" name="label_3">
@@ -60,10 +60,10 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit"/>
+        <widget class="QLineEdit" name="MoveEditZ"/>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="MoveButton">
          <property name="text">
           <string>Переместить</string>
          </property>
@@ -81,7 +81,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_7"/>
+        <widget class="QLineEdit" name="ScaleEditX"/>
        </item>
        <item>
         <widget class="QLabel" name="label_8">
@@ -91,7 +91,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_8"/>
+        <widget class="QLineEdit" name="ScaleEditY"/>
        </item>
        <item>
         <widget class="QLabel" name="label_9">
@@ -101,10 +101,10 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_9"/>
+        <widget class="QLineEdit" name="ScaleEditZ"/>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="ScaleButton">
          <property name="text">
           <string>Масштабировать</string>
          </property>
@@ -122,7 +122,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_10"/>
+        <widget class="QLineEdit" name="RotateEditX"/>
        </item>
        <item>
         <widget class="QLabel" name="label_11">
@@ -132,7 +132,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_11"/>
+        <widget class="QLineEdit" name="RotateEditY"/>
        </item>
        <item>
         <widget class="QLabel" name="label_12">
@@ -142,10 +142,10 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_12"/>
+        <widget class="QLineEdit" name="RotateEditZ"/>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_4">
+        <widget class="QPushButton" name="RotateButton">
          <property name="text">
           <string>Вращать</string>
          </property>
@@ -156,10 +156,10 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_5">
        <item>
-        <widget class="QLineEdit" name="lineEdit_13"/>
+        <widget class="QLineEdit" name="ImportFilename"/>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_5">
+        <widget class="QPushButton" name="ImportButton">
          <property name="text">
           <string>Импортировать файл</string>
          </property>

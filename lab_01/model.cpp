@@ -1,5 +1,15 @@
 #include "model.h"
 
+model_t model_init()
+{
+    model_t tmp_model;
+
+    tmp_model.links = links_init();
+    tmp_model.points = points_init();
+
+    return tmp_model;
+}
+
 err_t model_alloc(model_t &model, size_t n_links, size_t n_points)
 {
     err_t res = ERR_NONE;
@@ -65,7 +75,21 @@ err_t model_rotate(model_t &model, const rotate_t &rotate)
     return ERR_NONE;
 }
 
-err_t model_read(model_t &model, FILE *f)
+err_t model_read(model_t &model, FILE *file)
 {
+    model_t tmp_model = model_init();
 
+    err_t res = ERR_NONE;
+
+    res = points_read(tmp_model.points, file);
+
+    if (! res)
+        res = links_read(tmp_model.links, file, points_get_size(tmp_model.points));
+
+    if (res)
+        model_free(tmp_model);
+    else
+        model = tmp_model;
+
+    return res;
 }

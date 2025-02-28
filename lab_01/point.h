@@ -3,6 +3,8 @@
 
 #include <cstdio>
 
+#include "error.h"
+
 struct point_t
 {
     double x;
@@ -11,6 +13,6 @@ struct point_t
 };
 
 point_t point_init();
-int point_read(point_t &point, FILE *file);
+err_t point_read(point_t &point, FILE *file);
 
 #endif // POINT_H

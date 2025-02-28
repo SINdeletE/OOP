@@ -22,4 +22,6 @@ err_t model_move(model_t &model, const move_t &move);
 err_t model_scale(model_t &model, const scale_t &scale);
 err_t model_rotate(model_t &model, const rotate_t &rotate);
 
+err_t model_read(model_t &model, FILE *file);
+
 #endif // MODEL_H

@@ -14,6 +14,7 @@ enum process_t
 
 union action_data_t
 {
+    const char *filename;
     struct move_t move;
     struct scale_t scale;
     struct rotate_t rotate;

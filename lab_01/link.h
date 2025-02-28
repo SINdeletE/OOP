@@ -13,6 +13,8 @@ struct link_t
 };
 
 link_t link_init();
+int is_link_is_valid(const link_t &link, const size_t points_size);
+
 err_t link_read(link_t &link, FILE *file);
 
 #endif // LINK_H

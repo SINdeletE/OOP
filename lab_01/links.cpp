@@ -38,15 +38,18 @@ int links_are_equal(const link_t &link_1, const link_t &link_2)
     else if (link_1.end != link_2.end)
         res = 0;
 
+    if (link_1.beg == link_2.end && link_1.end == link_2.beg)
+        res = 1;
+
     return res;
 }
 
 // Функция проверяет, является ли точка в файле повторяющейся
-int is_link_in_links(const links_t &links, const link_t &link)
+int is_link_in_links(const links_t &links, const size_t size, const link_t &link)
 {
     int res = 0;
 
-    for (size_t i = 0; ! res && i < links.n; i++)
+    for (size_t i = 0; ! res && i < size; i++)
         if (links_are_equal(links.array[i], link))
             res = 1;
 
@@ -66,7 +69,7 @@ err_t links_count_read(size_t &n, FILE *file)
     return ERR_NONE;
 }
 
-err_t links_read(links_t &links, FILE *file)
+err_t links_read(links_t &links, FILE *file, const size_t points_size)
 {
     links_t tmp_links = links_init();
     err_t res = ERR_NONE;
@@ -76,7 +79,15 @@ err_t links_read(links_t &links, FILE *file)
         res = links_alloc(tmp_links, tmp_links.n);
 
     for (size_t i = 0; ! res && i < tmp_links.n; i++)
+    {
         res = link_read(tmp_links.array[i], file);
+
+        if (! res && is_link_is_valid(tmp_links.array[i], points_size))
+            res = ERR_LINKS_INVALID_LINK;
+
+        if (! res && is_link_in_links(tmp_links, i, tmp_links.array[i]))
+            res = ERR_LINKS_SAME_LINKS;
+    }
 
     if (res)
         links_free(tmp_links);
@@ -85,4 +96,3 @@ err_t links_read(links_t &links, FILE *file)
 
     return res;
 }
-
