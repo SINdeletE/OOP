@@ -13,11 +13,22 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    ;
+    err_t res = ERR_NONE;
+
+    this->model = model_init();
+    res = scene_init(this->scene, ui->graphicsView);
+    if (res)
+    {
+        model_free(this->model);
+        throw std::runtime_error("Ошибка создания сцены");
+    }
 }
 
 MainWindow::~MainWindow()
 {
+    model_free(this->model);
+    scene_free(this->scene);
+
     delete ui;
 }
 
@@ -120,7 +131,7 @@ void MainWindow::on_ImportButton_clicked()
     action.process = READ_FILE;
     action_filename_read(action.data, this->ui);
 
-    res = action_perform(action);
+    res = action_perform(this->model, action);
     if (res)
         error_msg(res);
 }

@@ -29,7 +29,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    scene_t scene;
-    model_t model;
+    static scene_t scene;
+    static model_t model;
 };
 #endif // MAINWINDOW_H

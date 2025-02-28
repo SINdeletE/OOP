@@ -2,6 +2,7 @@
 #define ACTION_H
 
 #include "error.h"
+#include "model.h"
 #include "operation.h"
 
 enum process_t
@@ -26,6 +27,6 @@ struct action_t
     action_data_t data;
 };
 
-err_t action_perform(action_t &action);
+err_t action_perform(model_t &model, const action_t &action);
 
 #endif // ACTION_H

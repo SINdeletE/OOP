@@ -15,6 +15,7 @@ struct model_t
     points_t points;
 };
 
+model_t model_init();
 err_t model_alloc(model_t &model, size_t n_links, size_t n_points);
 void model_free(model_t &model);
 

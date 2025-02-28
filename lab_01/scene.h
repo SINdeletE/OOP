@@ -12,6 +12,7 @@ struct scene_t
     QPen pen;
 };
 
-err_t scene_init(scene_t &scene);
+err_t scene_init(scene_t &scene, QGraphicsView *gV);
+void scene_free(scene_t &scene);
 
 #endif // SCENE_H

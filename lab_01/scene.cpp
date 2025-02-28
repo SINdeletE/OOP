@@ -1,3 +1,5 @@
+#include <cstddef>
+
 #include "scene.h"
 
 err_t scene_init(scene_t &scene, QGraphicsView *gV)
@@ -21,4 +23,11 @@ err_t scene_init(scene_t &scene, QGraphicsView *gV)
     }
 
     return res;
+}
+
+void scene_free(scene_t &scene)
+{
+    free(scene.scene);
+
+    scene.scene = NULL;
 }
