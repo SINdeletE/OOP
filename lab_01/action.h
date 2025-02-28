@@ -2,23 +2,26 @@
 #define ACTION_H
 
 #include "error.h"
-#include "model.h"
 #include "operation.h"
+#include "scene.h"
 
 enum process_t
 {
+    FREE_MODEL,
     READ_FILE,
-    MOVE_FIGURE,
-    SCALE_FIGURE,
-    ROTATE_FIGURE
+    MOVE_MODEL,
+    SCALE_MODEL,
+    ROTATE_MODEL,
+    DRAW_MODEL
 };
 
 union action_data_t
 {
     const char *filename;
-    struct move_t move;
-    struct scale_t scale;
-    struct rotate_t rotate;
+    move_t move;
+    scale_t scale;
+    rotate_t rotate;
+    scene_t *scene; // Невозможно передать просто структуру, так как внутри структуры элемент с нетривиальным конструктором
 };
 
 struct action_t
@@ -27,6 +30,7 @@ struct action_t
     action_data_t data;
 };
 
-err_t action_perform(model_t &model, const action_t &action);
+void draw_action_init(action_t &action, scene_t &scene);
+err_t action_perform(const action_t &action);
 
 #endif // ACTION_H

@@ -6,8 +6,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsItemGroup>
 
+#include "action.h"
 #include "scene.h"
-#include "model.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -26,10 +26,16 @@ public:
 private slots:
     void on_ImportButton_clicked();
 
+    void on_RotateButton_clicked();
+
+    void on_ScaleButton_clicked();
+
+    void on_MoveButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 
-    static scene_t scene;
-    static model_t model;
+    scene_t scene;
+    action_t draw_action;
 };
 #endif // MAINWINDOW_H

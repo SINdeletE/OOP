@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
+#include <cstdio>
 #include <cstdbool>
 
 #include "error.h"
@@ -15,19 +16,19 @@ MainWindow::MainWindow(QWidget *parent)
 
     err_t res = ERR_NONE;
 
-    this->model = model_init();
     res = scene_init(this->scene, ui->graphicsView);
-    if (res)
-    {
-        model_free(this->model);
+    if (! res)
+        draw_action_init(this->draw_action, this->scene);
+    else
         throw std::runtime_error("Ошибка создания сцены");
-    }
 }
 
 MainWindow::~MainWindow()
 {
-    model_free(this->model);
-    scene_free(this->scene);
+    action_t action;
+
+    action.process = FREE_MODEL;
+    action_perform(action);
 
     delete ui;
 }
@@ -58,7 +59,7 @@ err_t action_move_read(action_data_t &data, Ui::MainWindow *ui)
         tmp_move.dz = ui->MoveEditZ->text().toDouble(&convert_res);
 
     if (! convert_res)
-        res = ERR_FILE_INVALID_FILENAME;
+        res = ERR_ACTION_INVALID_ENTERED_DATA;
     else
     {
         tmp_data.move = tmp_move;
@@ -85,7 +86,7 @@ err_t action_scale_read(action_data_t &data, Ui::MainWindow *ui)
         tmp_scale.kz = ui->ScaleEditZ->text().toDouble(&convert_res);
 
     if (! convert_res)
-        res = ERR_FILE_INVALID_FILENAME;
+        res = ERR_ACTION_INVALID_ENTERED_DATA;
     else
     {
         tmp_data.scale = tmp_scale;
@@ -112,7 +113,7 @@ err_t action_rotate_read(action_data_t &data, Ui::MainWindow *ui)
         tmp_rotate.oz = ui->RotateEditZ->text().toDouble(&convert_res);
 
     if (! convert_res)
-        res = ERR_FILE_INVALID_FILENAME;
+        res = ERR_ACTION_INVALID_ENTERED_DATA;
     else
     {
         tmp_data.rotate = tmp_rotate;
@@ -126,13 +127,80 @@ void MainWindow::on_ImportButton_clicked()
 {
     action_t action;
 
-    err_t res;
+    err_t res = ERR_NONE;
 
     action.process = READ_FILE;
     action_filename_read(action.data, this->ui);
 
-    res = action_perform(this->model, action);
+    res = action_perform(action);
+
+    if (! res)
+    {
+        res = action_perform(this->draw_action);
+    }
+
     if (res)
         error_msg(res);
 }
 
+void MainWindow::on_MoveButton_clicked()
+{
+    action_t action;
+
+    err_t res = ERR_NONE;
+
+    action.process = MOVE_MODEL;
+    res = action_move_read(action.data, this->ui);
+    if (! res)
+        res = action_perform(action);
+
+    if (! res)
+    {
+        res = action_perform(this->draw_action);
+    }
+
+    if (res)
+        error_msg(res);
+}
+
+void MainWindow::on_ScaleButton_clicked()
+{
+    action_t action;
+
+    err_t res = ERR_NONE;
+
+    action.process = SCALE_MODEL;
+    res = action_scale_read(action.data, this->ui);
+    if (! res)
+        res = action_perform(action);
+
+    if (! res)
+    {
+        res = action_perform(this->draw_action);
+    }
+
+    if (res)
+        error_msg(res);
+}
+
+void MainWindow::on_RotateButton_clicked()
+{
+    action_t action;
+
+    err_t res = ERR_NONE;
+
+    action.process = ROTATE_MODEL;
+    res = action_rotate_read(action.data, this->ui);
+    if (! res)
+    {
+        res = action_perform(action);
+    }
+
+    if (! res)
+    {
+        res = action_perform(this->draw_action);
+    }
+
+    if (res)
+        error_msg(res);
+}

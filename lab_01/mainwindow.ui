@@ -117,7 +117,7 @@
        <item>
         <widget class="QLabel" name="label_10">
          <property name="text">
-          <string>Ox:</string>
+          <string>Ox (°):</string>
          </property>
         </widget>
        </item>
@@ -127,7 +127,7 @@
        <item>
         <widget class="QLabel" name="label_11">
          <property name="text">
-          <string>Oy:</string>
+          <string>Oy (°):</string>
          </property>
         </widget>
        </item>
@@ -137,7 +137,7 @@
        <item>
         <widget class="QLabel" name="label_12">
          <property name="text">
-          <string>Oz:</string>
+          <string>Oz (°):</string>
          </property>
         </widget>
        </item>
@@ -177,6 +177,19 @@
       <width>781</width>
       <height>571</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>580</y>
+      <width>261</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Вращение происходит вокруг центра</string>
     </property>
    </widget>
   </widget>
