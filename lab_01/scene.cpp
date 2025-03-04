@@ -25,7 +25,7 @@ err_t scene_init(scene_t &scene, QGraphicsView *gV)
         tmp_scene.pen = tmp_pen;
     }
 
-    if (! res)
+    if (res == ERR_NONE)
         scene = tmp_scene;
 
     return res;

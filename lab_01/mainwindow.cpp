@@ -144,7 +144,7 @@ void MainWindow::on_ImportButton_clicked()
 
     res = action_perform(action);
 
-    if (! res)
+    if (res == ERR_NONE)
         res = action_perform(this->draw_action);
 
     if (res)
@@ -161,11 +161,11 @@ void MainWindow::on_MoveButton_clicked()
 
     res = action_move_read(action.data, this->ui);
 
-    if (! res)
+    if (res == ERR_NONE)
     {
         res = action_perform(action);
 
-        if (! res)
+        if (res == ERR_NONE)
             res = action_perform(this->draw_action);
     }
 
@@ -183,11 +183,11 @@ void MainWindow::on_ScaleButton_clicked()
 
     res = action_scale_read(action.data, this->ui);
 
-    if (! res)
+    if (res == ERR_NONE)
     {
         res = action_perform(action);
 
-        if (! res)
+        if (res == ERR_NONE)
             res = action_perform(this->draw_action);
     }
 
@@ -205,11 +205,11 @@ void MainWindow::on_RotateButton_clicked()
 
     res = action_rotate_read(action.data, this->ui);
 
-    if (! res)
+    if (res == ERR_NONE)
     {
         res = action_perform(action);
 
-        if (! res)
+        if (res == ERR_NONE)
             res = action_perform(this->draw_action);
     }
 

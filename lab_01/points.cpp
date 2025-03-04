@@ -26,7 +26,7 @@ err_t points_alloc(points_t &points, const size_t n)
     if (! array)
         res = ERR_POINTS_INVALID_ALLOC;
 
-    if (! res)
+    if (res == ERR_NONE)
     {
         points.array = array;
         points.n = n;
@@ -62,9 +62,11 @@ int is_point_in_points(const points_t &points, const size_t size, const point_t 
 {
     int res = 0;
 
-    for (size_t i = 0; ! res && i < size; i++)
+    for (size_t i = 0; res == 0 && i < size; i++)
         if (points_are_equal(points.array[i], point))
+        {
             res = 1;
+        }
 
     return res;
 }
@@ -90,7 +92,32 @@ err_t points_count_read(size_t &n, FILE *file)
     return res;
 }
 
-err_t points_read(points_t &points, FILE *file)
+err_t points_are_valid(const points_t &points)
+{
+    err_t res = ERR_NONE;
+
+    for (size_t i = 0; res == ERR_NONE && i < points.n; i++)
+    {
+        if (is_point_in_points(points, i, points.array[i]))
+            res = ERR_POINTS_SAME_POINTS;
+    }
+
+    return res;
+}
+
+err_t points_read_file(points_t &points, FILE *file)
+{
+    if (! file) return ERR_FILE_NOT_FOUND;
+
+    err_t res = ERR_NONE;
+
+    for (size_t i = 0; res == ERR_NONE && i < points.n; i++)
+        res = point_read(points.array[i], file);
+
+    return res;
+}
+
+err_t points_read_from_file(points_t &points, FILE *file)
 {
     if (! file) return ERR_FILE_NOT_FOUND;
 
@@ -98,24 +125,42 @@ err_t points_read(points_t &points, FILE *file)
     err_t res = ERR_NONE;
 
     res = points_count_read(tmp_points.n, file);
-    if (! res)
+    if (res == ERR_NONE)
     {
         res = points_alloc(tmp_points, tmp_points.n);
+
+        if (res == ERR_NONE)
+        {
+            res = points_read_file(tmp_points, file);
+
+            if (res == ERR_NONE)
+                points = tmp_points;
+            else
+                points_free(tmp_points);
+        }
     }
 
-    for (size_t i = 0; ! res && i < tmp_points.n; i++)
-        res = point_read(tmp_points.array[i], file);
+    return res;
+}
 
-    for (size_t i = 0; ! res && i < tmp_points.n; i++)
+err_t points_read(points_t &points, FILE *file)
+{
+    if (! file) return ERR_FILE_NOT_FOUND;
+
+    points_t tmp_points = points_init();
+    err_t res = ERR_NONE;
+
+    res = points_read_from_file(tmp_points, file);
+
+    if (res == ERR_NONE)
     {
-        if (is_point_in_points(tmp_points, i, tmp_points.array[i]))
-            res = ERR_POINTS_SAME_POINTS;
-    }
+        res = points_are_valid(tmp_points);
 
-    if (res)
-        points_free(tmp_points);
-    else
-        points = tmp_points;
+        if (res == ERR_NONE)
+            points = tmp_points;
+        else
+            points_free(tmp_points);
+    }
 
     return res;
 }

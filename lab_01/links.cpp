@@ -17,7 +17,7 @@ err_t links_alloc(links_t &links, const size_t n)
     if (! array)
         res = ERR_LINKS_INVALID_ALLOC;
 
-    if (! res)
+    if (res == ERR_NONE)
     {
         links.array = array;
         links.n = n;
@@ -54,7 +54,7 @@ int is_link_in_links(const links_t &links, const size_t size, const link_t &link
 {
     int res = 0;
 
-    for (size_t i = 0; ! res && i < size; i++)
+    for (size_t i = 0; res == ERR_NONE && i < size; i++)
         if (links_are_equal(links.array[i], link))
             res = 1;
 
@@ -76,7 +76,34 @@ err_t links_count_read(size_t &n, FILE *file)
     return res;
 }
 
-err_t links_read(links_t &links, FILE *file, const size_t points_size)
+err_t links_read_file(links_t &links, FILE *file)
+{
+    if (! file) return ERR_FILE_NOT_FOUND;
+
+    err_t res = ERR_NONE;
+
+    for (size_t i = 0; res == ERR_NONE && i < links.n; i++)
+        res = link_read(links.array[i], file);
+
+    return res;
+}
+
+err_t links_are_valid(const links_t &links, const size_t points_size)
+{
+    err_t res = ERR_NONE;
+
+    for (size_t i = 0; res == ERR_NONE && i < links.n; i++)
+    {
+        if (! is_link_is_valid(links.array[i], points_size))
+            res = ERR_LINKS_INVALID_LINK;
+        else if (is_link_in_links(links, i, links.array[i]))
+            res = ERR_LINKS_SAME_LINKS;
+    }
+
+    return res;
+}
+
+err_t links_read_from_file(links_t &links, FILE *file, const size_t points_size)
 {
     if (! file) return ERR_FILE_NOT_FOUND;
 
@@ -84,24 +111,40 @@ err_t links_read(links_t &links, FILE *file, const size_t points_size)
     err_t res = ERR_NONE;
 
     res = links_count_read(tmp_links.n, file);
-    if (! res)
+
+    if (res == ERR_NONE)
+    {
         res = links_alloc(tmp_links, tmp_links.n);
 
-    for (size_t i = 0; ! res && i < tmp_links.n; i++)
-        res = link_read(tmp_links.array[i], file);
+        if (res == ERR_NONE)
+        {
+            res = links_read_file(tmp_links, file);
 
-    for (size_t i = 0; ! res && i < tmp_links.n; i++)
-    {
-        if (! is_link_is_valid(tmp_links.array[i], points_size))
-            res = ERR_LINKS_INVALID_LINK;
-        else if (is_link_in_links(tmp_links, i, tmp_links.array[i]))
-            res = ERR_LINKS_SAME_LINKS;
+            if (res == ERR_NONE)
+                links = tmp_links;
+            else
+                links_free(tmp_links);
+        }
     }
 
-    if (res)
-        links_free(tmp_links);
-    else
+    return res;
+}
+
+err_t links_read(links_t &links, FILE *file, const size_t points_size)
+{
+    if (! file) return ERR_FILE_NOT_FOUND;
+
+    links_t tmp_links = links_init();
+    err_t res = ERR_NONE;
+
+    res = links_read_from_file(tmp_links, file, points_size);
+
+    if (res == ERR_NONE)
+    {
+        res = links_are_valid(tmp_links, points_size);
+
         links = tmp_links;
+    }
 
     return res;
 }

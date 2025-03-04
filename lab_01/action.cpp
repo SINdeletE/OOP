@@ -37,10 +37,15 @@ err_t action_read_file(model_t &model, const char *filename)
 
         res = model_read(tmp_model, file);
 
-        if (! res)
+        if (res == ERR_NONE)
+        {
+            model_free(model);
+
             model = tmp_model;
+        }
     }
-    if (! res)
+
+    if (res == ERR_NONE)
         fclose(file);
 
     return res;
@@ -99,6 +104,8 @@ err_t action_perform(const action_t &action)
             break;
         case DRAW_MODEL:
             res = action_draw_model(model, *data.scene);
+
+            break;
     }
 
     return res;
