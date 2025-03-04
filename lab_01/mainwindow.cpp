@@ -41,7 +41,7 @@ void action_filename_read(action_data_t &data, Ui::MainWindow *ui)
 {
     action_data_t tmp_data;
 
-    tmp_data.filename = ui->ImportFilename->text().toStdString().c_str();
+    tmp_data.filename = ui->ImportFilename->text().toUtf8().constData();
 
     data = tmp_data;
 }
@@ -57,10 +57,12 @@ err_t action_move_read(action_data_t &data, Ui::MainWindow *ui)
     tmp_move.dx = ui->MoveEditX->text().toDouble(&convert_res);
 
     if (convert_res)
+    {
         tmp_move.dy = ui->MoveEditY->text().toDouble(&convert_res);
 
-    if (convert_res)
-        tmp_move.dz = ui->MoveEditZ->text().toDouble(&convert_res);
+        if (convert_res)
+            tmp_move.dz = ui->MoveEditZ->text().toDouble(&convert_res);
+    }
 
     if (! convert_res)
         res = ERR_ACTION_INVALID_ENTERED_DATA;
@@ -84,10 +86,12 @@ err_t action_scale_read(action_data_t &data, Ui::MainWindow *ui)
     tmp_scale.kx = ui->ScaleEditX->text().toDouble(&convert_res);
 
     if (convert_res)
+    {
         tmp_scale.ky = ui->ScaleEditY->text().toDouble(&convert_res);
 
-    if (convert_res)
-        tmp_scale.kz = ui->ScaleEditZ->text().toDouble(&convert_res);
+        if (convert_res)
+            tmp_scale.kz = ui->ScaleEditZ->text().toDouble(&convert_res);
+    }
 
     if (! convert_res)
         res = ERR_ACTION_INVALID_ENTERED_DATA;
@@ -110,11 +114,13 @@ err_t action_rotate_read(action_data_t &data, Ui::MainWindow *ui)
 
     tmp_rotate.ox = ui->RotateEditX->text().toDouble(&convert_res);
 
-    if (convert_res)
+    if (! convert_res)
+    {
         tmp_rotate.oy = ui->RotateEditY->text().toDouble(&convert_res);
 
-    if (convert_res)
-        tmp_rotate.oz = ui->RotateEditZ->text().toDouble(&convert_res);
+        if (! convert_res)
+            tmp_rotate.oz = ui->RotateEditZ->text().toDouble(&convert_res);
+    }
 
     if (! convert_res)
         res = ERR_ACTION_INVALID_ENTERED_DATA;
@@ -139,9 +145,7 @@ void MainWindow::on_ImportButton_clicked()
     res = action_perform(action);
 
     if (! res)
-    {
         res = action_perform(this->draw_action);
-    }
 
     if (res)
         error_msg(res);
@@ -154,13 +158,15 @@ void MainWindow::on_MoveButton_clicked()
     err_t res = ERR_NONE;
 
     action.process = MOVE_MODEL;
+
     res = action_move_read(action.data, this->ui);
-    if (! res)
-        res = action_perform(action);
 
     if (! res)
     {
-        res = action_perform(this->draw_action);
+        res = action_perform(action);
+
+        if (! res)
+            res = action_perform(this->draw_action);
     }
 
     if (res)
@@ -174,13 +180,15 @@ void MainWindow::on_ScaleButton_clicked()
     err_t res = ERR_NONE;
 
     action.process = SCALE_MODEL;
+
     res = action_scale_read(action.data, this->ui);
-    if (! res)
-        res = action_perform(action);
 
     if (! res)
     {
-        res = action_perform(this->draw_action);
+        res = action_perform(action);
+
+        if (! res)
+            res = action_perform(this->draw_action);
     }
 
     if (res)
@@ -194,15 +202,15 @@ void MainWindow::on_RotateButton_clicked()
     err_t res = ERR_NONE;
 
     action.process = ROTATE_MODEL;
+
     res = action_rotate_read(action.data, this->ui);
-    if (! res)
-    {
-        res = action_perform(action);
-    }
 
     if (! res)
     {
-        res = action_perform(this->draw_action);
+        res = action_perform(action);
+
+        if (! res)
+            res = action_perform(this->draw_action);
     }
 
     if (res)

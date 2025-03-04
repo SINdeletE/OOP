@@ -14,11 +14,21 @@ void draw_action_init(action_t &action, scene_t &scene)
     action.data = tmp_data;
 }
 
-err_t action_read_file(model_t &model, FILE *file)
+void action_free_model(model_t &model)
 {
+    model_free(model);
+}
+
+err_t action_read_file(model_t &model, const char *filename)
+{
+    if (! filename) return ERR_FILE_NOT_FOUND;
+
+    FILE *file = NULL;
+
     model_t tmp_model;
     err_t res = ERR_NONE;
 
+    file = fopen(filename, "r");
     if (! file)
         res = ERR_FILE_NOT_FOUND;
     else
@@ -30,6 +40,8 @@ err_t action_read_file(model_t &model, FILE *file)
         if (! res)
             model = tmp_model;
     }
+    if (! res)
+        fclose(file);
 
     return res;
 }
@@ -56,42 +68,37 @@ err_t action_draw_model(const model_t &model, scene_t &scene)
 
 err_t action_perform(const action_t &action)
 {
-    FILE *file = NULL;
-    err_t res = ERR_NONE;
-
-    action_data_t data = action.data;
-
     // Модель для отрисовки
     static model_t model = model_init();
 
-    if (action.process == FREE_MODEL)
-    {
-        model_free(model);
-    }
-    else if (action.process == READ_FILE)
-    {
-        file = fopen("../../cube.txt", "r");
+    action_data_t data = action.data;
 
-        res = action_read_file(model, file);
+    err_t res = ERR_NONE;
 
-        if (! res && res != ERR_MODEL_IS_EMPTY)
-            fclose(file);
-    }
-    else if (action.process == MOVE_MODEL)
+    switch (action.process)
     {
-        res = action_move_model(model, data.move);
-    }
-    else if (action.process == SCALE_MODEL)
-    {
-        res = action_scale_model(model, data.scale);
-    }
-    else if (action.process == ROTATE_MODEL)
-    {
-        res = action_rotate_model(model, data.rotate);
-    }
-    else if (action.process == DRAW_MODEL)
-    {
-        res = action_draw_model(model, *data.scene);
+        case FREE_MODEL:
+            action_free_model(model);
+
+            break;
+        case READ_FILE:
+            res = action_read_file(model, data.filename);
+
+            break;
+        case MOVE_MODEL:
+            res = action_move_model(model, data.move);
+
+            break;
+        case SCALE_MODEL:
+            res = action_scale_model(model, data.scale);
+
+            break;
+        case ROTATE_MODEL:
+            res = action_rotate_model(model, data.rotate);
+
+            break;
+        case DRAW_MODEL:
+            res = action_draw_model(model, *data.scene);
     }
 
     return res;

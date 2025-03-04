@@ -19,3 +19,4 @@ void scene_configure(scene_t &scene, QGraphicsView *gV);
 err_t scene_draw_model(scene_t &scene, const model_t &model);
 
 #endif // SCENE_H
+

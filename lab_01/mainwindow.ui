@@ -178,18 +178,26 @@
       <height>571</height>
      </rect>
     </property>
+    <property name="sceneRect">
+     <rectf>
+      <x>-390.000000000000000</x>
+      <y>-285.000000000000000</y>
+      <width>781.000000000000000</width>
+      <height>571.000000000000000</height>
+     </rectf>
+    </property>
    </widget>
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>110</x>
       <y>580</y>
-      <width>261</width>
-      <height>18</height>
+      <width>351</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Вращение происходит вокруг центра</string>
+     <string>Преобразования относительно начала координат</string>
     </property>
    </widget>
   </widget>

@@ -16,16 +16,23 @@ size_t points_get_size(points_t &points)
 
 err_t points_alloc(points_t &points, const size_t n)
 {
+    if (n == 0) return ERR_POINTS_INVALID_ALLOC;
+
     point_t *array = NULL;
+
+    err_t res = ERR_NONE;
 
     array = (point_t *)calloc(n, sizeof(point_t));
     if (! array)
-        return ERR_POINTS_INVALID_ALLOC;
+        res = ERR_POINTS_INVALID_ALLOC;
 
-    points.array = array;
-    points.n = n;
+    if (! res)
+    {
+        points.array = array;
+        points.n = n;
+    }
 
-    return ERR_NONE;
+    return res;
 }
 
 void points_free(points_t &points)
@@ -76,17 +83,17 @@ err_t points_count_read(size_t &n, FILE *file)
     err_t res = ERR_NONE;
 
     if (fscanf(file, "%lld", &sign_detector) != 1 || sign_detector <= 0)
-    {
         res = ERR_FILE_INVALID_DATA;
-    }
-
-    n = (size_t)sign_detector;
+    else
+        n = (size_t)sign_detector;
 
     return res;
 }
 
 err_t points_read(points_t &points, FILE *file)
 {
+    if (! file) return ERR_FILE_NOT_FOUND;
+
     points_t tmp_points = points_init();
     err_t res = ERR_NONE;
 
@@ -97,13 +104,12 @@ err_t points_read(points_t &points, FILE *file)
     }
 
     for (size_t i = 0; ! res && i < tmp_points.n; i++)
-    {
         res = point_read(tmp_points.array[i], file);
 
-        if (! res && is_point_in_points(tmp_points, i, tmp_points.array[i]))
-        {
+    for (size_t i = 0; ! res && i < tmp_points.n; i++)
+    {
+        if (is_point_in_points(tmp_points, i, tmp_points.array[i]))
             res = ERR_POINTS_SAME_POINTS;
-        }
     }
 
     if (res)

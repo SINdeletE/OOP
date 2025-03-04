@@ -14,10 +14,10 @@ err_t scene_init(scene_t &scene, QGraphicsView *gV)
     err_t res = ERR_NONE;
 
     tmp_graphics_scene = new QGraphicsScene(gV);
+
     if (! tmp_graphics_scene)
         res = ERR_SCENE_INVALID_ALLOC;
-
-    if (! res)
+    else
     {
         tmp_pen = QPen(Qt::red);
 

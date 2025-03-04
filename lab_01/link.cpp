@@ -24,14 +24,14 @@ int is_link_is_valid(const link_t &link, const size_t points_size)
 
 err_t link_read(link_t &link, FILE *file)
 {
-    link_t tmp_link;
+    if (! file) return ERR_FILE_NOT_FOUND;
 
+    link_t tmp_link;
     err_t res = ERR_NONE;
 
     if (fscanf(file, "%zu%zu", &tmp_link.beg, &tmp_link.end) != 2)
         res = ERR_FILE_INVALID_DATA;
-
-    if (! res)
+    else
         link = tmp_link;
 
     return res;
