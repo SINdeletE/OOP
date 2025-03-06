@@ -15,19 +15,19 @@ enum process_t
     DRAW_MODEL
 };
 
-union action_data_t
-{
-    const char *filename;
-    move_t move;
-    scale_t scale;
-    rotate_t rotate;
-    scene_t *scene; // Невозможно передать просто структуру, так как внутри структуры элемент с нетривиальным конструктором
-};
 
 struct action_t
 {
     process_t process;
-    action_data_t data;
+
+    union
+    {
+        const char *filename;
+        move_t move;
+        scale_t scale;
+        rotate_t rotate;
+        scene_t *scene; // Невозможно передать просто структуру, так как внутри структуры элемент с нетривиальным конструктором
+    };
 };
 
 void draw_action_init(action_t &action, scene_t &scene);

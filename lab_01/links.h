@@ -11,9 +11,11 @@ struct links_t
 };
 
 links_t links_init();
-err_t links_alloc(links_t &links, const size_t n);
 void links_free(links_t &links);
 
-err_t links_read(links_t &links, FILE *file, const size_t points_size);
+err_t links_are_valid(const links_t &links, const size_t points_size);
+
+err_t links_read(links_t &links, FILE *file);
+err_t links_are_valid(const links_t &links, const size_t points_size);
 
 #endif // LINKS_H

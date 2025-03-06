@@ -10,31 +10,6 @@ model_t model_init()
     return tmp_model;
 }
 
-err_t model_alloc(model_t &model, size_t n_links, size_t n_points)
-{
-    err_t res = ERR_NONE;
-    model_t tmp_model;
-
-    points_t tmp_points;
-    links_t tmp_links;
-
-    res = points_alloc(tmp_points, n_points);
-
-    if (res == ERR_NONE)
-    {
-        res = links_alloc(tmp_links, n_links);
-        if (res == ERR_NONE)
-        {
-            tmp_model.points = tmp_points;
-            tmp_model.links = tmp_links;
-
-            model = tmp_model;
-        }
-    }
-
-    return res;
-}
-
 void model_free(model_t &model)
 {
     links_free(model.links);
@@ -82,7 +57,7 @@ err_t model_rotate(model_t &model, const rotate_t &rotate)
     return ERR_NONE;
 }
 
-err_t model_read(model_t &model, FILE *file)
+err_t model_read_from_file(model_t &model, FILE *file)
 {
     if (! file) return ERR_FILE_NOT_FOUND;
 
@@ -94,7 +69,46 @@ err_t model_read(model_t &model, FILE *file)
 
     if (res == ERR_NONE)
     {
-        res = links_read(tmp_model.links, file, points_get_size(tmp_model.points));
+        res = links_read(tmp_model.links, file);
+
+        if (res)
+            points_free(tmp_model.points);
+        else
+            model = tmp_model;
+    }
+
+    return res;
+}
+
+err_t model_is_valid(const model_t &model)
+{
+    err_t res = ERR_NONE;
+
+    res = points_are_valid(model.points);
+
+    if (res == ERR_NONE)
+    {
+        size_t points_n = points_get_size(model.points);
+
+        res = links_are_valid(model.links, points_n);
+    }
+
+    return res;
+}
+
+err_t model_read(model_t &model, FILE *file)
+{
+    if (! file) return ERR_FILE_NOT_FOUND;
+
+    model_t tmp_model = model_init();
+
+    err_t res = ERR_NONE;
+
+    res = model_read_from_file(tmp_model, file);
+
+    if (res == ERR_NONE)
+    {
+        res = model_is_valid(tmp_model);
 
         if (res)
             model_free(tmp_model);

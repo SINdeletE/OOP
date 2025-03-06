@@ -37,18 +37,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void action_filename_read(action_data_t &data, Ui::MainWindow *ui)
+void action_filename_read(action_t &action, Ui::MainWindow *ui)
 {
-    action_data_t tmp_data;
-
-    tmp_data.filename = ui->ImportFilename->text().toUtf8().constData();
-
-    data = tmp_data;
+    action.filename = ui->ImportFilename->text().toUtf8().constData();
 }
 
-err_t action_move_read(action_data_t &data, Ui::MainWindow *ui)
+err_t action_move_read(action_t &action, Ui::MainWindow *ui)
 {
-    action_data_t tmp_data;
     move_t tmp_move;
 
     err_t res = ERR_NONE;
@@ -67,17 +62,13 @@ err_t action_move_read(action_data_t &data, Ui::MainWindow *ui)
     if (! convert_res)
         res = ERR_ACTION_INVALID_ENTERED_DATA;
     else
-    {
-        tmp_data.move = tmp_move;
-        data = tmp_data;
-    }
+        action.move = tmp_move;
 
     return res;
 }
 
-err_t action_scale_read(action_data_t &data, Ui::MainWindow *ui)
+err_t action_scale_read(action_t &action, Ui::MainWindow *ui)
 {
-    action_data_t tmp_data;
     scale_t tmp_scale;
 
     err_t res = ERR_NONE;
@@ -96,17 +87,13 @@ err_t action_scale_read(action_data_t &data, Ui::MainWindow *ui)
     if (! convert_res)
         res = ERR_ACTION_INVALID_ENTERED_DATA;
     else
-    {
-        tmp_data.scale = tmp_scale;
-        data = tmp_data;
-    }
+        action.scale = tmp_scale;
 
     return res;
 }
 
-err_t action_rotate_read(action_data_t &data, Ui::MainWindow *ui)
+err_t action_rotate_read(action_t &action, Ui::MainWindow *ui)
 {
-    action_data_t tmp_data;
     rotate_t tmp_rotate;
 
     err_t res = ERR_NONE;
@@ -125,10 +112,7 @@ err_t action_rotate_read(action_data_t &data, Ui::MainWindow *ui)
     if (! convert_res)
         res = ERR_ACTION_INVALID_ENTERED_DATA;
     else
-    {
-        tmp_data.rotate = tmp_rotate;
-        data = tmp_data;
-    }
+        action.rotate = tmp_rotate;
 
     return res;
 }
@@ -140,7 +124,7 @@ void MainWindow::on_ImportButton_clicked()
     err_t res = ERR_NONE;
 
     action.process = READ_FILE;
-    action_filename_read(action.data, this->ui);
+    action_filename_read(action, this->ui);
 
     res = action_perform(action);
 
@@ -159,7 +143,7 @@ void MainWindow::on_MoveButton_clicked()
 
     action.process = MOVE_MODEL;
 
-    res = action_move_read(action.data, this->ui);
+    res = action_move_read(action, this->ui);
 
     if (res == ERR_NONE)
     {
@@ -181,7 +165,7 @@ void MainWindow::on_ScaleButton_clicked()
 
     action.process = SCALE_MODEL;
 
-    res = action_scale_read(action.data, this->ui);
+    res = action_scale_read(action, this->ui);
 
     if (res == ERR_NONE)
     {
@@ -203,7 +187,7 @@ void MainWindow::on_RotateButton_clicked()
 
     action.process = ROTATE_MODEL;
 
-    res = action_rotate_read(action.data, this->ui);
+    res = action_rotate_read(action, this->ui);
 
     if (res == ERR_NONE)
     {

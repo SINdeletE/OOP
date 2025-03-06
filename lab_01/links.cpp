@@ -7,21 +7,13 @@ links_t links_init()
     return (links_t){0, NULL};
 }
 
-err_t links_alloc(links_t &links, const size_t n)
+err_t links_array_alloc(link_t* &array, const size_t n)
 {
-    link_t *array = NULL;
-
     err_t res = ERR_NONE;
 
     array = (link_t *)calloc(n, sizeof(link_t));
     if (! array)
         res = ERR_LINKS_INVALID_ALLOC;
-
-    if (res == ERR_NONE)
-    {
-        links.array = array;
-        links.n = n;
-    }
 
     return res;
 }
@@ -76,14 +68,14 @@ err_t links_count_read(size_t &n, FILE *file)
     return res;
 }
 
-err_t links_read_file(links_t &links, FILE *file)
+err_t links_array_read_file(link_t* &array, const size_t n, FILE *file)
 {
     if (! file) return ERR_FILE_NOT_FOUND;
 
     err_t res = ERR_NONE;
 
-    for (size_t i = 0; res == ERR_NONE && i < links.n; i++)
-        res = link_read(links.array[i], file);
+    for (size_t i = 0; res == ERR_NONE && i < n; i++)
+        res = link_read(array[i], file);
 
     return res;
 }
@@ -103,7 +95,7 @@ err_t links_are_valid(const links_t &links, const size_t points_size)
     return res;
 }
 
-err_t links_read_from_file(links_t &links, FILE *file, const size_t points_size)
+err_t links_read_from_file(links_t &links, FILE *file)
 {
     if (! file) return ERR_FILE_NOT_FOUND;
 
@@ -114,11 +106,11 @@ err_t links_read_from_file(links_t &links, FILE *file, const size_t points_size)
 
     if (res == ERR_NONE)
     {
-        res = links_alloc(tmp_links, tmp_links.n);
+        res = links_array_alloc(tmp_links.array, tmp_links.n);
 
         if (res == ERR_NONE)
         {
-            res = links_read_file(tmp_links, file);
+            res = links_array_read_file(tmp_links.array, tmp_links.n, file);
 
             if (res == ERR_NONE)
                 links = tmp_links;
@@ -130,21 +122,17 @@ err_t links_read_from_file(links_t &links, FILE *file, const size_t points_size)
     return res;
 }
 
-err_t links_read(links_t &links, FILE *file, const size_t points_size)
+err_t links_read(links_t &links, FILE *file)
 {
     if (! file) return ERR_FILE_NOT_FOUND;
 
     links_t tmp_links = links_init();
     err_t res = ERR_NONE;
 
-    res = links_read_from_file(tmp_links, file, points_size);
+    res = links_read_from_file(tmp_links, file);
 
     if (res == ERR_NONE)
-    {
-        res = links_are_valid(tmp_links, points_size);
-
         links = tmp_links;
-    }
 
     return res;
 }

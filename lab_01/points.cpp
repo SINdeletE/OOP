@@ -9,28 +9,20 @@ points_t points_init()
     return (points_t){0, NULL};
 }
 
-size_t points_get_size(points_t &points)
+size_t points_get_size(const points_t &points)
 {
     return points.n;
 }
 
-err_t points_alloc(points_t &points, const size_t n)
+err_t points_array_alloc(point_t* &arr, const size_t n)
 {
     if (n == 0) return ERR_POINTS_INVALID_ALLOC;
 
-    point_t *array = NULL;
-
     err_t res = ERR_NONE;
 
-    array = (point_t *)calloc(n, sizeof(point_t));
-    if (! array)
+    arr = (point_t *)calloc(n, sizeof(point_t));
+    if (! arr)
         res = ERR_POINTS_INVALID_ALLOC;
-
-    if (res == ERR_NONE)
-    {
-        points.array = array;
-        points.n = n;
-    }
 
     return res;
 }
@@ -105,14 +97,14 @@ err_t points_are_valid(const points_t &points)
     return res;
 }
 
-err_t points_read_file(points_t &points, FILE *file)
+err_t points_array_read_file(point_t* &array, const size_t n, FILE *file)
 {
     if (! file) return ERR_FILE_NOT_FOUND;
 
     err_t res = ERR_NONE;
 
-    for (size_t i = 0; res == ERR_NONE && i < points.n; i++)
-        res = point_read(points.array[i], file);
+    for (size_t i = 0; res == ERR_NONE && i < n; i++)
+        res = point_read(array[i], file);
 
     return res;
 }
@@ -127,11 +119,11 @@ err_t points_read_from_file(points_t &points, FILE *file)
     res = points_count_read(tmp_points.n, file);
     if (res == ERR_NONE)
     {
-        res = points_alloc(tmp_points, tmp_points.n);
+        res = points_array_alloc(tmp_points.array, tmp_points.n);
 
         if (res == ERR_NONE)
         {
-            res = points_read_file(tmp_points, file);
+            res = points_array_read_file(tmp_points.array, tmp_points.n, file);
 
             if (res == ERR_NONE)
                 points = tmp_points;
@@ -153,14 +145,7 @@ err_t points_read(points_t &points, FILE *file)
     res = points_read_from_file(tmp_points, file);
 
     if (res == ERR_NONE)
-    {
-        res = points_are_valid(tmp_points);
-
-        if (res == ERR_NONE)
-            points = tmp_points;
-        else
-            points_free(tmp_points);
-    }
+        points = tmp_points;
 
     return res;
 }

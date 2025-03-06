@@ -1,6 +1,7 @@
 #include <cstddef>
 
 #include "scene.h"
+#include "link.h"
 #include "links.h"
 #include "point.h"
 #include "points.h"
@@ -36,25 +37,51 @@ void scene_clear(scene_t &scene)
     scene.scene->clear();
 }
 
-void points_get_by_link(point_t &p1, point_t &p2, const points_t &points, const link_t &link)
+void points_assign_by_link(point_t &p1, point_t &p2, const points_t &points, const link_t &link)
 {
     p1 = points.array[link.beg];
     p2 = points.array[link.end];
 }
 
-void model_draw_by_links(scene_t &scene, const model_t &model)
+err_t points_get_by_link(point_t &p1, point_t &p2, const points_t &points, const link_t &link)
+{
+    err_t res = ERR_NONE;
+    int valid_res;
+
+    const size_t points_n = points_get_size(points);
+
+    valid_res = is_link_is_valid(link, points_n);
+    if (! valid_res)
+        res = ERR_LINKS_INVALID_LINK;
+    else
+        points_assign_by_link(p1, p2, points, link);
+
+    return res;
+}
+
+void scene_add_line(scene_t &scene, const point_t &point_1, const point_t &point_2)
+{
+    scene.scene->addLine(point_1.x, point_1.y, point_2.x, point_2.y, scene.pen);
+}
+
+err_t model_draw_by_links(scene_t &scene, const model_t &model)
 {
     const links_t links = model.links;
     const points_t points = model.points;
 
     point_t p1, p2;
 
-    for (size_t i = 0; i < links.n; i++)
-    {
-        points_get_by_link(p1, p2, points, links.array[i]);
+    err_t res = ERR_NONE;
 
-        scene.scene->addLine(p1.x, p1.y, p2.x, p2.y, scene.pen);
+    for (size_t i = 0; res == ERR_NONE && i < links.n; i++)
+    {
+        res = points_get_by_link(p1, p2, points, links.array[i]);
+
+        if (res == ERR_NONE)
+            scene_add_line(scene, p1, p2);
     }
+
+    return res;
 }
 
 err_t scene_draw_model(scene_t &scene, const model_t &model)
@@ -67,7 +94,10 @@ err_t scene_draw_model(scene_t &scene, const model_t &model)
     {
         scene_clear(scene);
 
-        model_draw_by_links(scene, model);
+        res = model_draw_by_links(scene, model);
+
+        if (res != ERR_NONE)
+            scene_clear(scene);
     }
 
     return res;

@@ -6,12 +6,8 @@
 
 void draw_action_init(action_t &action, scene_t &scene)
 {
-    action_data_t tmp_data;
-
-    tmp_data.scene = &scene;
-
     action.process = DRAW_MODEL;
-    action.data = tmp_data;
+    action.scene = &scene;
 }
 
 void action_free_model(model_t &model)
@@ -25,7 +21,6 @@ err_t action_read_file(model_t &model, const char *filename)
 
     FILE *file = NULL;
 
-    model_t tmp_model;
     err_t res = ERR_NONE;
 
     file = fopen(filename, "r");
@@ -33,9 +28,11 @@ err_t action_read_file(model_t &model, const char *filename)
         res = ERR_FILE_NOT_FOUND;
     else
     {
-        rewind(file);
+        model_t tmp_model;
 
         res = model_read(tmp_model, file);
+
+        fclose(file);
 
         if (res == ERR_NONE)
         {
@@ -44,9 +41,6 @@ err_t action_read_file(model_t &model, const char *filename)
             model = tmp_model;
         }
     }
-
-    if (res == ERR_NONE)
-        fclose(file);
 
     return res;
 }
@@ -76,8 +70,6 @@ err_t action_perform(const action_t &action)
     // Модель для отрисовки
     static model_t model = model_init();
 
-    action_data_t data = action.data;
-
     err_t res = ERR_NONE;
 
     switch (action.process)
@@ -87,23 +79,23 @@ err_t action_perform(const action_t &action)
 
             break;
         case READ_FILE:
-            res = action_read_file(model, data.filename);
+            res = action_read_file(model, action.filename);
 
             break;
         case MOVE_MODEL:
-            res = action_move_model(model, data.move);
+            res = action_move_model(model, action.move);
 
             break;
         case SCALE_MODEL:
-            res = action_scale_model(model, data.scale);
+            res = action_scale_model(model, action.scale);
 
             break;
         case ROTATE_MODEL:
-            res = action_rotate_model(model, data.rotate);
+            res = action_rotate_model(model, action.rotate);
 
             break;
         case DRAW_MODEL:
-            res = action_draw_model(model, *data.scene);
+            res = action_draw_model(model, *action.scene);
 
             break;
     }

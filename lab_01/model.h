@@ -26,5 +26,6 @@ err_t model_scale(model_t &model, const scale_t &scale);
 err_t model_rotate(model_t &model, const rotate_t &rotate);
 
 err_t model_read(model_t &model, FILE *file);
+err_t model_is_valid(const model_t &model);
 
 #endif // MODEL_H
