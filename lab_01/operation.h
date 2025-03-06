@@ -11,30 +11,26 @@ struct move_t
     double dz;
 };
 
-struct scale_data_t
-{
-    double kx;
-    double ky;
-    double kz;
-};
-
 struct scale_t
 {
-    scale_data_t data;
+    struct
+    {
+        double kx;
+        double ky;
+        double kz;
+    };
 
     point_t center;
 };
 
-struct rotate_data_t
-{
-    double ox;
-    double oy;
-    double oz;
-};
-
 struct rotate_t
 {
-    rotate_data_t data;
+    struct
+    {
+        double ox;
+        double oy;
+        double oz;
+    };
 
     point_t center;
 };
