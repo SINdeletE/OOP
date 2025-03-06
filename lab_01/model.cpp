@@ -118,3 +118,33 @@ err_t model_read(model_t &model, FILE *file)
 
     return res;
 }
+
+err_t model_read_file(model_t &model, const char *filename)
+{
+    if (! filename) return ERR_FILE_NOT_FOUND;
+
+    FILE *file = NULL;
+
+    err_t res = ERR_NONE;
+
+    file = fopen(filename, "r");
+    if (! file)
+        res = ERR_FILE_NOT_FOUND;
+    else
+    {
+        model_t tmp_model;
+
+        res = model_read(tmp_model, file);
+
+        fclose(file);
+
+        if (res == ERR_NONE)
+        {
+            model_free(model);
+
+            model = tmp_model;
+        }
+    }
+
+    return res;
+}
