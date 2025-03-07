@@ -58,20 +58,16 @@ err_t model_read_from_file(model_t &model, FILE *file)
 {
     if (! file) return ERR_FILE_NOT_FOUND;
 
-    model_t tmp_model = model_init();
-
     err_t res = ERR_NONE;
 
-    res = points_read(tmp_model.points, file);
+    res = points_read(model.points, file);
 
     if (res == ERR_NONE)
     {
-        res = links_read(tmp_model.links, file);
+        res = links_read(model.links, file);
 
         if (res)
-            points_free(tmp_model.points);
-        else
-            model = tmp_model;
+            points_free(model.points);
     }
 
     return res;
@@ -97,20 +93,16 @@ err_t model_read(model_t &model, FILE *file)
 {
     if (! file) return ERR_FILE_NOT_FOUND;
 
-    model_t tmp_model = model_init();
-
     err_t res = ERR_NONE;
 
-    res = model_read_from_file(tmp_model, file);
+    res = model_read_from_file(model, file);
 
     if (res == ERR_NONE)
     {
-        res = model_is_valid(tmp_model);
+        res = model_is_valid(model);
 
         if (res)
-            model_free(tmp_model);
-        else
-            model = tmp_model;
+            model_free(model);
     }
 
     return res;

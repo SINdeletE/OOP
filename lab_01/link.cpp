@@ -35,13 +35,10 @@ err_t link_read(link_t &link, FILE *file)
 {
     if (! file) return ERR_FILE_NOT_FOUND;
 
-    link_t tmp_link;
     err_t res = ERR_NONE;
 
-    if (fscanf(file, "%zu%zu", &tmp_link.beg, &tmp_link.end) != 2)
+    if (fscanf(file, "%zu%zu", &link.beg, &link.end) != 2)
         res = ERR_FILE_INVALID_DATA;
-    else
-        link = tmp_link;
 
     return res;
 }

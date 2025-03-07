@@ -93,48 +93,39 @@ point_t point_rotate(point_t &point, const rotate_t &rotate)
 
 err_t operation_move(points_t &points, const move_t &move)
 {
+    if (is_points_empty(points)) return ERR_MODEL_IS_EMPTY;
+
     err_t res = ERR_NONE;
 
-    if (is_points_empty(points))
-        res = ERR_MODEL_IS_EMPTY;
-    else
-    {
-        // Перенос
-        for (size_t i = 0; i < points.n; i++)
-            points.array[i] = point_move(points.array[i], move);
-    }
+    // Перенос
+    for (size_t i = 0; i < points.n; i++)
+        points.array[i] = point_move(points.array[i], move);
 
     return res;
 }
 
 err_t operation_scale(points_t &points, const scale_t &scale)
 {
+    if (is_points_empty(points)) return ERR_MODEL_IS_EMPTY;
+
     err_t res = ERR_NONE;
 
-    if (is_points_empty(points))
-        res = ERR_MODEL_IS_EMPTY;
-    else
-    {
-        // Масштабирование
-        for (size_t i = 0; i < points.n; i++)
-            points.array[i] = point_scale(points.array[i], scale);
-    }
+    // Масштабирование
+    for (size_t i = 0; i < points.n; i++)
+        points.array[i] = point_scale(points.array[i], scale);
 
     return res;
 }
 
 err_t operation_rotate(points_t &points, const rotate_t &rotate)
 {
+    if (is_points_empty(points)) return ERR_MODEL_IS_EMPTY;
+
     err_t res = ERR_NONE;
 
-    if (is_points_empty(points))
-        res = ERR_MODEL_IS_EMPTY;
-    else
-    {
-        // Поворот
-        for (size_t i = 0; i < points.n; i++)
-            points.array[i] = point_rotate(points.array[i], rotate);
-    }
+    // Поворот
+    for (size_t i = 0; i < points.n; i++)
+        points.array[i] = point_rotate(points.array[i], rotate);
 
     return res;
 }

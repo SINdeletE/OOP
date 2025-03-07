@@ -77,8 +77,7 @@ bool is_points_empty(const points_t &points)
 }
 
 err_t points_count_read(size_t &n, FILE *file)
-{    
-    size_t tmp_n;
+{
     long long sign_detector;
 
     err_t res = ERR_NONE;
@@ -120,22 +119,19 @@ err_t points_read_from_file(points_t &points, FILE *file)
 {
     if (! file) return ERR_FILE_NOT_FOUND;
 
-    points_t tmp_points = points_init();
     err_t res = ERR_NONE;
 
-    res = points_count_read(tmp_points.n, file);
+    res = points_count_read(points.n, file);
     if (res == ERR_NONE)
     {
-        res = points_array_alloc(tmp_points.array, tmp_points.n);
+        res = points_array_alloc(points.array, points.n);
 
         if (res == ERR_NONE)
         {
-            res = points_array_read_file(tmp_points.array, tmp_points.n, file);
+            res = points_array_read_file(points.array, points.n, file);
 
-            if (res == ERR_NONE)
-                points = tmp_points;
-            else
-                points_free(tmp_points);
+            if (res != ERR_NONE)
+                points_free(points);
         }
     }
 
@@ -146,13 +142,9 @@ err_t points_read(points_t &points, FILE *file)
 {
     if (! file) return ERR_FILE_NOT_FOUND;
 
-    points_t tmp_points = points_init();
     err_t res = ERR_NONE;
 
-    res = points_read_from_file(tmp_points, file);
-
-    if (res == ERR_NONE)
-        points = tmp_points;
+    res = points_read_from_file(points, file);
 
     return res;
 }

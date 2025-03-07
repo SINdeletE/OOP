@@ -60,7 +60,6 @@ int is_link_in_links(const links_t &links, const size_t size, const link_t &link
 
 err_t links_count_read(size_t &n, FILE *file)
 {
-    size_t tmp_n;
     long long sign_detector;
 
     err_t res = ERR_NONE;
@@ -104,23 +103,20 @@ err_t links_read_from_file(links_t &links, FILE *file)
 {
     if (! file) return ERR_FILE_NOT_FOUND;
 
-    links_t tmp_links = links_init();
     err_t res = ERR_NONE;
 
-    res = links_count_read(tmp_links.n, file);
+    res = links_count_read(links.n, file);
 
     if (res == ERR_NONE)
     {
-        res = links_array_alloc(tmp_links.array, tmp_links.n);
+        res = links_array_alloc(links.array, links.n);
 
         if (res == ERR_NONE)
         {
-            res = links_array_read_file(tmp_links.array, tmp_links.n, file);
+            res = links_array_read_file(links.array, links.n, file);
 
-            if (res == ERR_NONE)
-                links = tmp_links;
-            else
-                links_free(tmp_links);
+            if (res != ERR_NONE)
+                links_free(links);
         }
     }
 
@@ -131,13 +127,9 @@ err_t links_read(links_t &links, FILE *file)
 {
     if (! file) return ERR_FILE_NOT_FOUND;
 
-    links_t tmp_links = links_init();
     err_t res = ERR_NONE;
 
-    res = links_read_from_file(tmp_links, file);
-
-    if (res == ERR_NONE)
-        links = tmp_links;
+    res = links_read_from_file(links, file);
 
     return res;
 }

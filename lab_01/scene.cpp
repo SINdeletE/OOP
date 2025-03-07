@@ -125,21 +125,18 @@ err_t model_draw_by_links(scene_t &scene, const model_t &model)
 
 err_t scene_draw_model(scene_t &scene, const model_t &model)
 {
+    if (is_model_empty(model)) return ERR_ACTION_NO_MODEL;
+
     err_t res = ERR_NONE;
 
-    if (is_model_empty(model))
-        res = ERR_ACTION_NO_MODEL;
-    else
+    res = scene_clear(scene);
+
+    if (res == ERR_NONE)
     {
-        res = scene_clear(scene);
+        res = model_draw_by_links(scene, model);
 
-        if (res == ERR_NONE)
-        {
-            res = model_draw_by_links(scene, model);
-
-            if (res != ERR_NONE)
-                res = scene_clear(scene);
-        }
+        if (res != ERR_NONE)
+            res = scene_clear(scene);
     }
 
     return res;
