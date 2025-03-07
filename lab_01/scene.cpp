@@ -38,6 +38,11 @@ bool is_scene_is_empty(QGraphicsScene *scene)
     return ! scene;
 }
 
+bool is_scene_struct_is_empty(scene_t &scene)
+{
+    return ! scene.scene;
+}
+
 err_t scene_clear(scene_t &scene)
 {
     err_t res = ERR_NONE;
@@ -58,7 +63,7 @@ bool points_assign_by_link(point_t &p1, point_t &p2, const points_t &points, con
         res = false;
     else
     {
-        if (! is_link_field_is_valid(link.beg, points.n))
+        if (! is_link_field_is_valid(link.end, points.n))
             res = false;
         else
         {
@@ -105,6 +110,9 @@ err_t scene_add_line(scene_t &scene, const point_t &point_1, const point_t &poin
 
 err_t model_draw_by_links(scene_t &scene, const model_t &model)
 {
+    if (is_scene_struct_is_empty(scene)) return ERR_SCENE_IS_EMPTY;
+    if (is_model_empty(model)) return ERR_ACTION_NO_MODEL;
+
     const links_t links = model.links;
     const points_t points = model.points;
 
@@ -125,6 +133,7 @@ err_t model_draw_by_links(scene_t &scene, const model_t &model)
 
 err_t scene_draw_model(scene_t &scene, const model_t &model)
 {
+    if (is_scene_struct_is_empty(scene)) return ERR_SCENE_IS_EMPTY;
     if (is_model_empty(model)) return ERR_ACTION_NO_MODEL;
 
     err_t res = ERR_NONE;

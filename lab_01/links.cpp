@@ -60,6 +60,8 @@ int is_link_in_links(const links_t &links, const size_t size, const link_t &link
 
 err_t links_count_read(size_t &n, FILE *file)
 {
+    if (! file) return ERR_FILE_NOT_FOUND;
+
     long long sign_detector;
 
     err_t res = ERR_NONE;
@@ -99,7 +101,7 @@ err_t links_are_valid(const links_t &links, const size_t points_size)
     return res;
 }
 
-err_t links_read_from_file(links_t &links, FILE *file)
+err_t links_read(links_t &links, FILE *file)
 {
     if (! file) return ERR_FILE_NOT_FOUND;
 
@@ -119,17 +121,6 @@ err_t links_read_from_file(links_t &links, FILE *file)
                 links_free(links);
         }
     }
-
-    return res;
-}
-
-err_t links_read(links_t &links, FILE *file)
-{
-    if (! file) return ERR_FILE_NOT_FOUND;
-
-    err_t res = ERR_NONE;
-
-    res = links_read_from_file(links, file);
 
     return res;
 }

@@ -78,6 +78,8 @@ bool is_points_empty(const points_t &points)
 
 err_t points_count_read(size_t &n, FILE *file)
 {
+    if (! file) return ERR_FILE_NOT_FOUND;
+
     long long sign_detector;
 
     err_t res = ERR_NONE;
@@ -115,7 +117,7 @@ err_t points_array_read_file(point_t* &array, const size_t n, FILE *file)
     return res;
 }
 
-err_t points_read_from_file(points_t &points, FILE *file)
+err_t points_read(points_t &points, FILE *file)
 {
     if (! file) return ERR_FILE_NOT_FOUND;
 
@@ -134,17 +136,6 @@ err_t points_read_from_file(points_t &points, FILE *file)
                 points_free(points);
         }
     }
-
-    return res;
-}
-
-err_t points_read(points_t &points, FILE *file)
-{
-    if (! file) return ERR_FILE_NOT_FOUND;
-
-    err_t res = ERR_NONE;
-
-    res = points_read_from_file(points, file);
 
     return res;
 }

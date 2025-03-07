@@ -35,7 +35,7 @@ point_t point_scale(point_t &point, const scale_t &scale)
     return tmp_point;
 }
 
-double rad_from_degree(double degree)
+double rad_from_degree(const double degree)
 {
     return degree * M_PI / 180;
 }
@@ -78,10 +78,9 @@ rotate_t rad_rotate_get(const rotate_t &rotate)
     return rad_rotate;
 }
 
-point_t point_rotate(point_t &point, const rotate_t &rotate)
+point_t point_rotate(point_t &point, const rotate_t &rad_rotate)
 {
     point_t tmp_point = point;
-    rotate_t rad_rotate = rad_rotate_get(rotate);
 
     // Умножение координат на матрицу поворота
     point_rotate_ox(tmp_point, rad_rotate);
@@ -121,11 +120,13 @@ err_t operation_rotate(points_t &points, const rotate_t &rotate)
 {
     if (is_points_empty(points)) return ERR_MODEL_IS_EMPTY;
 
+    rotate_t rad_rotate = rad_rotate_get(rotate);
+
     err_t res = ERR_NONE;
 
     // Поворот
     for (size_t i = 0; i < points.n; i++)
-        points.array[i] = point_rotate(points.array[i], rotate);
+        points.array[i] = point_rotate(points.array[i], rad_rotate);
 
     return res;
 }
@@ -141,7 +142,7 @@ err_t move(points_t &points, const move_t &move)
     return res;
 }
 
-move_t move_neg_from_center(const point_t &center)
+const move_t move_neg_from_center(const point_t &center)
 {
     move_t move;
 
@@ -152,7 +153,7 @@ move_t move_neg_from_center(const point_t &center)
     return move;
 }
 
-move_t move_pos_from_center(const point_t &center)
+const move_t move_pos_from_center(const point_t &center)
 {
     move_t move;
 
@@ -168,7 +169,7 @@ err_t scale(points_t &points, const scale_t &scale)
     if (is_points_empty(points)) return ERR_MODEL_IS_EMPTY;
 
     const point_t center = center_get(scale);
-    move_t move_neg = move_neg_from_center(center);
+    const move_t move_neg = move_neg_from_center(center);
 
     err_t res = ERR_NONE;
 
@@ -180,7 +181,7 @@ err_t scale(points_t &points, const scale_t &scale)
 
         if (res == ERR_NONE)
         {
-            move_t move_pos = move_pos_from_center(center);
+            const move_t move_pos = move_pos_from_center(center);
 
             res = operation_move(points, move_pos);
         }
@@ -194,7 +195,7 @@ err_t rotate(points_t &points, const rotate_t &rotate)
     if (is_points_empty(points)) return ERR_MODEL_IS_EMPTY;
 
     const point_t center = center_get(rotate);
-    move_t move_neg = move_neg_from_center(center);
+    const move_t move_neg = move_neg_from_center(center);
 
     err_t res = ERR_NONE;
 
@@ -206,7 +207,7 @@ err_t rotate(points_t &points, const rotate_t &rotate)
 
         if (res == ERR_NONE)
         {
-            move_t move_pos = move_pos_from_center(center);
+            const move_t move_pos = move_pos_from_center(center);
 
             res = operation_move(points, move_pos);
         }
