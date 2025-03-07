@@ -23,8 +23,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(lab_01
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        consts.h
-        consts.h error.cpp error.h link.cpp link.h links.cpp links.h main.cpp mainwindow.cpp mainwindow.h mainwindow.ui model.cpp model.h point.cpp point.h points.cpp points.h
+
+        error.cpp error.h link.cpp link.h links.cpp links.h main.cpp mainwindow.cpp mainwindow.h mainwindow.ui model.cpp model.h point.cpp point.h points.cpp points.h
         scene.h scene.cpp
 
         operation.h operation.cpp

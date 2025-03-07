@@ -37,6 +37,12 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void draw_action_init(action_t &action, scene_t &scene)
+{
+    action.process = DRAW_MODEL;
+    action.scene = &scene;
+}
+
 void action_filename_read(action_t &action, Ui::MainWindow *ui)
 {
     action.filename = ui->ImportFilename->text().toUtf8().constData();

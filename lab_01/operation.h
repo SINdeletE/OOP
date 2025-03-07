@@ -35,8 +35,8 @@ struct rotate_t
     point_t center;
 };
 
-void operation_move(points_t &points, const move_t &move);
-void operation_scale(points_t &points, const scale_t &scale);
-void operation_rotate(points_t &points, const rotate_t &rotate);
+err_t move(points_t &points, const move_t &move);
+err_t scale(points_t &points, const scale_t &scale);
+err_t rotate(points_t &points, const rotate_t &rotate);
 
 #endif // OPERATION_H

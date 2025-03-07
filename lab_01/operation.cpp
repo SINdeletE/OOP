@@ -3,6 +3,16 @@
 #include "point.h"
 #include "operation.h"
 
+const point_t center_get(const scale_t &scale)
+{
+    return scale.center;
+}
+
+const point_t center_get(const rotate_t &rotate)
+{
+    return rotate.center;
+}
+
 point_t point_move(point_t &point, const move_t &move)
 {
     point_t tmp_point = point;
@@ -81,23 +91,135 @@ point_t point_rotate(point_t &point, const rotate_t &rotate)
     return tmp_point;
 }
 
-void operation_move(points_t &points, const move_t &move)
+err_t operation_move(points_t &points, const move_t &move)
 {
-    // Перенос
-    for (size_t i = 0; i < points.n; i++)
-        points.array[i] = point_move(points.array[i], move);
+    err_t res = ERR_NONE;
+
+    if (is_points_empty(points))
+        res = ERR_MODEL_IS_EMPTY;
+    else
+    {
+        // Перенос
+        for (size_t i = 0; i < points.n; i++)
+            points.array[i] = point_move(points.array[i], move);
+    }
+
+    return res;
 }
 
-void operation_scale(points_t &points, const scale_t &scale)
+err_t operation_scale(points_t &points, const scale_t &scale)
 {
-    // Масштабирование
-    for (size_t i = 0; i < points.n; i++)
-        points.array[i] = point_scale(points.array[i], scale);
+    err_t res = ERR_NONE;
+
+    if (is_points_empty(points))
+        res = ERR_MODEL_IS_EMPTY;
+    else
+    {
+        // Масштабирование
+        for (size_t i = 0; i < points.n; i++)
+            points.array[i] = point_scale(points.array[i], scale);
+    }
+
+    return res;
 }
 
-void operation_rotate(points_t &points, const rotate_t &rotate)
+err_t operation_rotate(points_t &points, const rotate_t &rotate)
 {
-    // Поворот
-    for (size_t i = 0; i < points.n; i++)
-        points.array[i] = point_rotate(points.array[i], rotate);
+    err_t res = ERR_NONE;
+
+    if (is_points_empty(points))
+        res = ERR_MODEL_IS_EMPTY;
+    else
+    {
+        // Поворот
+        for (size_t i = 0; i < points.n; i++)
+            points.array[i] = point_rotate(points.array[i], rotate);
+    }
+
+    return res;
+}
+
+err_t move(points_t &points, const move_t &move)
+{
+    if (is_points_empty(points)) return ERR_MODEL_IS_EMPTY;
+
+    err_t res = ERR_NONE;
+
+    res = operation_move(points, move);
+
+    return res;
+}
+
+move_t move_neg_from_center(const point_t &center)
+{
+    move_t move;
+
+    move.dx = -center.x;
+    move.dy = -center.y;
+    move.dz = -center.z;
+
+    return move;
+}
+
+move_t move_pos_from_center(const point_t &center)
+{
+    move_t move;
+
+    move.dx = center.x;
+    move.dy = center.y;
+    move.dz = center.z;
+
+    return move;
+}
+
+err_t scale(points_t &points, const scale_t &scale)
+{
+    if (is_points_empty(points)) return ERR_MODEL_IS_EMPTY;
+
+    const point_t center = center_get(scale);
+    move_t move_neg = move_neg_from_center(center);
+
+    err_t res = ERR_NONE;
+
+    res = operation_move(points, move_neg);
+
+    if (res == ERR_NONE)
+    {
+        res = operation_scale(points, scale);
+
+        if (res == ERR_NONE)
+        {
+            move_t move_pos = move_pos_from_center(center);
+
+            res = operation_move(points, move_pos);
+        }
+    }
+
+    return res;
+}
+
+err_t rotate(points_t &points, const rotate_t &rotate)
+{
+    if (is_points_empty(points)) return ERR_MODEL_IS_EMPTY;
+
+    const point_t center = center_get(rotate);
+    move_t move_neg = move_neg_from_center(center);
+
+    err_t res = ERR_NONE;
+
+    res = operation_move(points, move_neg);
+
+    if (res == ERR_NONE)
+    {
+        res = operation_rotate(points, rotate);
+
+        if (res == ERR_NONE)
+        {
+            move_t move_pos = move_pos_from_center(center);
+
+            res = operation_move(points, move_pos);
+        }
+    }
+
+    return res;
 }

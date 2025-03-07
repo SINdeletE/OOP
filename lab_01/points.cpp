@@ -2,7 +2,8 @@
 #include <cmath>
 
 #include "points.h"
-#include "consts.h"
+
+#define EPS std::numeric_limits<double>::epsilon()
 
 points_t points_init()
 {
@@ -35,36 +36,42 @@ void points_free(points_t &points)
     points.array = NULL;
 }
 
-int points_are_equal(const point_t &point_1, const point_t &point_2)
+bool points_are_equal(const point_t &point_1, const point_t &point_2)
 {
-    int res = 1;
+    bool res = true;
 
     if (fabs(point_1.x - point_2.x) >= EPS)
-        res = 0;
-    else if (fabs(point_1.y - point_2.y) >= EPS)
-        res = 0;
-    else if (fabs(point_1.z - point_2.z) >= EPS)
-        res = 0;
+        res = false;
+    else
+    {
+        if (fabs(point_1.y - point_2.y) >= EPS)
+            res = false;
+        else
+        {
+            if (fabs(point_1.z - point_2.z) >= EPS)
+                res = false;
+        }
+    }
 
     return res;
 }
 
 // Функция проверяет, является ли точка в файле повторяющейся
-int is_point_in_points(const points_t &points, const size_t size, const point_t &point)
+bool is_point_in_points(const points_t &points, const size_t size, const point_t &point)
 {
-    int res = 0;
+    bool res = false;
 
-    for (size_t i = 0; res == 0 && i < size; i++)
+    for (size_t i = 0; res == false && i < size; i++)
         if (points_are_equal(points.array[i], point))
         {
-            res = 1;
+            res = true;
         }
 
     return res;
 }
 
 // Функция проверяет, является ли массив точек пустым
-int is_points_empty(const points_t &points)
+bool is_points_empty(const points_t &points)
 {
     return ! points.array;
 }

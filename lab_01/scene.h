@@ -3,6 +3,7 @@
 
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <cstdbool>
 
 #include "error.h"
 #include "model.h"

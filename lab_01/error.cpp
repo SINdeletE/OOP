@@ -4,7 +4,7 @@
 
 #include "error.h"
 
-void error_msg(err_t error)
+void error_msg(const err_t error)
 {
     switch (error)
     {
@@ -50,6 +50,14 @@ void error_msg(err_t error)
             break;
         case ERR_ACTION_INVALID_ENTERED_DATA:
             QMessageBox::critical(NULL, "Ошибка", "Неверные входные данные");
+
+            break;
+        case ERR_SCENE_INVALID_ALLOC:
+            QMessageBox::critical(NULL, "Ошибка", "Ошибка выделения памяти под: сцена");
+
+            break;
+        case ERR_SCENE_IS_EMPTY:
+            QMessageBox::critical(NULL, "Ошибка", "Ошибка сцены: она неинициализирована");
 
             break;
         default:

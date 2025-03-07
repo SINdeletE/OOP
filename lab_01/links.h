@@ -1,6 +1,8 @@
 #ifndef LINKS_H
 #define LINKS_H
 
+#include <cstdbool>
+
 #include "link.h"
 #include "error.h"
 
@@ -16,6 +18,5 @@ void links_free(links_t &links);
 err_t links_are_valid(const links_t &links, const size_t points_size);
 
 err_t links_read(links_t &links, FILE *file);
-err_t links_are_valid(const links_t &links, const size_t points_size);
 
 #endif // LINKS_H

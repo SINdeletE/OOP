@@ -30,7 +30,6 @@ struct action_t
     };
 };
 
-void draw_action_init(action_t &action, scene_t &scene);
 err_t action_perform(const action_t &action);
 
 #endif // ACTION_H

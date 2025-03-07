@@ -1,3 +1,4 @@
+#include <iostream>
 #include <cstddef>
 
 #include "scene.h"
@@ -32,21 +33,47 @@ err_t scene_init(scene_t &scene, QGraphicsView *gV)
     return res;
 }
 
-void scene_clear(scene_t &scene)
+bool is_scene_is_empty(QGraphicsScene *scene)
 {
-    scene.scene->clear();
+    return ! scene;
 }
 
-void points_assign_by_link(point_t &p1, point_t &p2, const points_t &points, const link_t &link)
+err_t scene_clear(scene_t &scene)
 {
-    p1 = points.array[link.beg];
-    p2 = points.array[link.end];
+    err_t res = ERR_NONE;
+
+    if (is_scene_is_empty(scene.scene))
+        res = ERR_SCENE_IS_EMPTY;
+    else
+        scene.scene->clear();
+
+    return res;
+}
+
+bool points_assign_by_link(point_t &p1, point_t &p2, const points_t &points, const link_t &link)
+{
+    bool res = true;
+
+    if (! is_link_field_is_valid(link.beg, points.n))
+        res = false;
+    else
+    {
+        if (! is_link_field_is_valid(link.beg, points.n))
+            res = false;
+        else
+        {
+            p1 = points.array[link.beg];
+            p2 = points.array[link.end];
+        }
+    }
+
+    return res;
 }
 
 err_t points_get_by_link(point_t &p1, point_t &p2, const points_t &points, const link_t &link)
 {
     err_t res = ERR_NONE;
-    int valid_res;
+    bool valid_res;
 
     const size_t points_n = points_get_size(points);
 
@@ -54,14 +81,26 @@ err_t points_get_by_link(point_t &p1, point_t &p2, const points_t &points, const
     if (! valid_res)
         res = ERR_LINKS_INVALID_LINK;
     else
-        points_assign_by_link(p1, p2, points, link);
+    {
+        valid_res = points_assign_by_link(p1, p2, points, link);
+
+        if (! valid_res)
+            res = ERR_LINKS_INVALID_LINK;
+    }
 
     return res;
 }
 
-void scene_add_line(scene_t &scene, const point_t &point_1, const point_t &point_2)
+err_t scene_add_line(scene_t &scene, const point_t &point_1, const point_t &point_2)
 {
-    scene.scene->addLine(point_1.x, point_1.y, point_2.x, point_2.y, scene.pen);
+    err_t res = ERR_NONE;
+
+    if (is_scene_is_empty(scene.scene))
+        res = ERR_SCENE_IS_EMPTY;
+    else
+        scene.scene->addLine(point_1.x, point_1.y, point_2.x, point_2.y, scene.pen);
+
+    return res;
 }
 
 err_t model_draw_by_links(scene_t &scene, const model_t &model)
@@ -78,7 +117,7 @@ err_t model_draw_by_links(scene_t &scene, const model_t &model)
         res = points_get_by_link(p1, p2, points, links.array[i]);
 
         if (res == ERR_NONE)
-            scene_add_line(scene, p1, p2);
+            res = scene_add_line(scene, p1, p2);
     }
 
     return res;
@@ -92,12 +131,15 @@ err_t scene_draw_model(scene_t &scene, const model_t &model)
         res = ERR_ACTION_NO_MODEL;
     else
     {
-        scene_clear(scene);
+        res = scene_clear(scene);
 
-        res = model_draw_by_links(scene, model);
+        if (res == ERR_NONE)
+        {
+            res = model_draw_by_links(scene, model);
 
-        if (res != ERR_NONE)
-            scene_clear(scene);
+            if (res != ERR_NONE)
+                res = scene_clear(scene);
+        }
     }
 
     return res;

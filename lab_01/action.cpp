@@ -3,12 +3,6 @@
 #include "model.h"
 #include "action.h"
 
-void draw_action_init(action_t &action, scene_t &scene)
-{
-    action.process = DRAW_MODEL;
-    action.scene = &scene;
-}
-
 err_t action_perform(const action_t &action)
 {
     // Модель для отрисовки

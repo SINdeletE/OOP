@@ -26,17 +26,22 @@ void links_free(links_t &links)
     links.array = NULL;
 }
 
-int links_are_equal(const link_t &link_1, const link_t &link_2)
+bool links_are_equal(const link_t &link_1, const link_t &link_2)
 {
-    int res = 1;
-
-    if (link_1.beg != link_2.beg)
-        res = 0;
-    else if (link_1.end != link_2.end)
-        res = 0;
+    int res = true;
 
     if (link_1.beg == link_2.end && link_1.end == link_2.beg)
-        res = 1;
+        res = true;
+    else
+    {
+        if (link_1.beg != link_2.beg)
+            res = false;
+        else
+        {
+            if (link_1.end != link_2.end)
+                res = false;
+        }
+    }
 
     return res;
 }

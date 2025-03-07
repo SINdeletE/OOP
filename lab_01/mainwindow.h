@@ -38,4 +38,7 @@ private:
     scene_t scene;
     action_t draw_action;
 };
+
+void draw_action_init(action_t &action, scene_t &scene);
+
 #endif // MAINWINDOW_H

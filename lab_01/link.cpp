@@ -5,19 +5,28 @@ link_t link_init()
     return (link_t){0, 0};
 }
 
-// Функция проверяет, указывает ли link на одинаковые точки/не существующие точки
-int is_link_is_valid(const link_t &link, const size_t points_size)
+bool is_link_field_is_valid(const size_t link_field, const size_t points_size)
 {
-    int res = 1;
+    return link_field < points_size;
+}
+
+// Функция проверяет, указывает ли link на одинаковые точки/не существующие точки
+bool is_link_is_valid(const link_t &link, const size_t points_size)
+{
+    bool res = true;
 
     if (link.beg == link.end)
-        res = 0;
-
-    if (res && link.beg >= points_size)
-        res = 0;
-
-    if (res && link.end >= points_size)
-        res = 0;
+        res = false;
+    else
+    {
+        if (! is_link_field_is_valid(link.beg, points_size))
+            res = false;
+        else
+        {
+            if (! is_link_field_is_valid(link.end, points_size))
+                res = false;
+        }
+    }
 
     return res;
 }

@@ -19,11 +19,12 @@ enum err_t
     ERR_MODEL_IS_EMPTY,
 
     ERR_SCENE_INVALID_ALLOC,
+    ERR_SCENE_IS_EMPTY,
 
     ERR_ACTION_NO_MODEL,
     ERR_ACTION_INVALID_ENTERED_DATA
 };
 
-void error_msg(err_t error);
+void error_msg(const err_t error);
 
 #endif // ERROR_H

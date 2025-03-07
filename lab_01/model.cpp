@@ -16,45 +16,42 @@ void model_free(model_t &model)
     points_free(model.points);
 }
 
-int is_model_empty(const model_t &model)
+bool is_model_empty(const model_t &model)
 {
     return is_points_empty(model.points);
 }
 
-err_t model_move(model_t &model, const move_t &move)
+err_t model_move(model_t &model, const move_t &move_data)
 {
+    if (is_model_empty(model)) return ERR_MODEL_IS_EMPTY;
+
     err_t res = ERR_NONE;
 
-    if (is_model_empty(model)) res = ERR_MODEL_IS_EMPTY;
+    res = move(model.points, move_data);
 
-    if (res == ERR_NONE)
-        operation_move(model.points, move);
-
-    return ERR_NONE;
+    return res;
 }
 
-err_t model_scale(model_t &model, const scale_t &scale)
+err_t model_scale(model_t &model, const scale_t &scale_data)
 {
+    if (is_model_empty(model)) return ERR_MODEL_IS_EMPTY;
+
     err_t res = ERR_NONE;
 
-    if (is_model_empty(model)) res = ERR_MODEL_IS_EMPTY;
+    res = scale(model.points, scale_data);
 
-    if (res == ERR_NONE)
-        operation_scale(model.points, scale);
-
-    return ERR_NONE;
+    return res;
 }
 
-err_t model_rotate(model_t &model, const rotate_t &rotate)
+err_t model_rotate(model_t &model, const rotate_t &rotate_data)
 {
+    if (is_model_empty(model)) return ERR_MODEL_IS_EMPTY;
+
     err_t res = ERR_NONE;
 
-    if (is_model_empty(model)) res = ERR_MODEL_IS_EMPTY;
+    res = rotate(model.points, rotate_data);
 
-    if (res == ERR_NONE)
-        operation_rotate(model.points, rotate);
-
-    return ERR_NONE;
+    return res;
 }
 
 err_t model_read_from_file(model_t &model, FILE *file)
