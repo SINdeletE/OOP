@@ -15,7 +15,7 @@ struct points_t
 
 points_t points_init();
 size_t points_get_size(points_t &points);
-void points_free(points_t &points);
+void points_free(points_t &points_array);
 size_t points_get_size(const points_t &points);
 
 bool is_points_empty(const points_t &points);

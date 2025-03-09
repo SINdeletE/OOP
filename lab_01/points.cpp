@@ -36,6 +36,13 @@ void points_free(points_t &points)
     points.array = NULL;
 }
 
+void points_array_free(point_t* &points_array)
+{
+    free(points_array);
+
+    points_array = NULL;
+}
+
 bool points_are_equal(const point_t &point_1, const point_t &point_2)
 {
     bool res = true;
@@ -133,7 +140,7 @@ err_t points_read(points_t &points, FILE *file)
             res = points_array_read_file(points.array, points.n, file);
 
             if (res != ERR_NONE)
-                points_free(points);
+                points_array_free(points.array);
         }
     }
 

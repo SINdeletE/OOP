@@ -16,6 +16,7 @@ struct scene_t
 
 err_t scene_init(scene_t &scene, QGraphicsView *gV);
 void scene_configure(scene_t &scene, QGraphicsView *gV);
+bool is_scene_is_empty(QGraphicsScene *scene);
 
 err_t scene_draw_model(scene_t &scene, const model_t &model);
 

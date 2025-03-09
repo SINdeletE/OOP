@@ -29,6 +29,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
         operation.h operation.cpp
         action.h action.cpp
+        draw.h draw.cpp
 
 
     )
