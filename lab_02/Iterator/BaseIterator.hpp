@@ -1,6 +1,5 @@
 #pragma once
 
-template <class Type>
 class BaseIterator
 {
     public:
@@ -12,8 +11,8 @@ class BaseIterator
         BaseIterator();
         virtual ~BaseIterator() = default;
     
-    protected:
-        size_t index;
-        size_t size;
+    private:
+        std::size_t index;
+        std::size_t size;
 };
 
