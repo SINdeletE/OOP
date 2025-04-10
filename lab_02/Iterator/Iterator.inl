@@ -33,7 +33,7 @@ Iterator<Type>& Iterator<Type>::operator =(const Iterator<Type> &iter)
 }
 
 template <typename Type>
-Iterator<Type>& Iterator<Type>::operator =(const Set<Type []> &set)
+Iterator<Type>& Iterator<Type>::operator =(const Set<Type> &set)
 {
     // Позже
 

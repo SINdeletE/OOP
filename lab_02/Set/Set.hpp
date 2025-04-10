@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <memory>
 
 #include "Iterator.hpp"
@@ -16,7 +17,17 @@ class Set : public BaseSet
         std::shared_ptr<Type []> set_ptr;
     
     public:
-        Set() noexcept;
+        Set() noexcept; // Пустой конструктор
         explicit Set(const Set<Type>&); // Конструктор копирования
         Set(Set<Type>&); // Конструктор переноса
+        ~Set();
+
+        explicit Set<Type>& operator =(const Set<Type>&) // Оператор копирования
+        Set<Type>& operator=(Set<Type>&) // Оператор переноса
+
+
+        // Основные функции
+
+        std::size_t GetSize() const noexcept override;
+        bool IsEmpty() const noexcept override;
 };

@@ -17,10 +17,10 @@ class Iterator : public BaseIterator
         Iterator(const Iterator<Type>&); // Копирование
         Iterator(const Set<Type []>&); // Перенос
         Iterator(size_t size) = delete; // delete (конструктор с 1-м параметром у итератора быть не может)
-        ~Iterator() override; // Деструктор (так-то для weak_ptr не нужно особо)
+        ~Iterator() // override; // Деструктор (так-то для weak_ptr не нужно особо)
 
         Iterator<Type>& operator =(const Iterator<Type>&);
-        Iterator<Type>& operator =(const Set<Type []>&);
+        Iterator<Type>& operator =(const Set<Type>&);
 
         template <sizeType U> Iterator<Type>& operator+=(const U value);
         template <sizeType U> Iterator<Type>& operator-=(const U value);

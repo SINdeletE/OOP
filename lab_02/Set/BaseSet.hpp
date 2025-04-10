@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <cstdbool>
 
 #include "iterator.hpp"
 
@@ -14,6 +15,7 @@ class BaseSet
         BaseSet();
         virtual ~BaseSet() = default;
 
-        virtual size_t GetSize() const = 0;
+        virtual std::size_t GetSize() const = 0;
+        virtual bool IsEmpty() const = 0;
 };
 
