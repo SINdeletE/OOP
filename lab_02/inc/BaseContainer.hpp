@@ -1,19 +1,15 @@
 #pragma once
 
 #include <cstddef>
-#include <cstdbool>
+#include <stdbool.h>
 
-#include "iterator.hpp"
-
-
-class BaseSet
+class BaseContainer
 {
     private:
         std::size_t size;
     
     public:
-        BaseSet();
-        virtual ~BaseSet() = default;
+        virtual ~BaseContainer() = default;
 
         virtual std::size_t GetSize() const = 0;
         virtual bool IsEmpty() const = 0;

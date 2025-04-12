@@ -1,0 +1,47 @@
+#pragma once
+
+#include <cstddef>
+#include <cstdbool>
+
+#include <memory>
+
+#include "Node.hpp"
+#include "BaseIterator.hpp"
+#include "concept.hpp"
+
+template <numType Type>
+class ListIterator : public BaseIterator
+{
+    private:
+        std::weak_ptr<Node<Type>> cur_ptr;
+
+    public:
+        ListIterator(const Node<Type>&); // Инициализация
+        ListIterator(const ListIterator<Type>&); // Копирование
+        ListIterator(ListIterator<Type>&&); // Перенос
+        ListIterator(std::size_t size) = delete; // delete (конструктор с 1-м параметром у итератора быть не может)
+        ~ListIterator() = default; // override; // Деструктор (так-то для weak_ptr не нужно особо)
+
+        ListIterator<Type>& operator =(const ListIterator<Type>&);
+        ListIterator<Type>& operator =(const Node<Type>&);
+        ListIterator<Type>& operator =(ListIterator<Type>&&);
+
+        template <sizeType U> ListIterator<Type>& operator+=(const U value);
+        template <sizeType U> ListIterator<Type>& operator-=(const U value);
+        template <sizeType U> ListIterator<Type> operator+(const U value) const;
+        template <sizeType U> ListIterator<Type> operator-(const U value) const;
+
+        ListIterator<Type>& operator ++();
+        ListIterator<Type> operator ++(int);
+        ListIterator<Type>& operator --();
+        ListIterator<Type> operator --(int);
+
+        Type& operator [](size_t index);
+
+        // operator bool()() const noexcept; // bool в возвращаемом значении нельзя, так как и так подразумевается bool
+        
+        auto operator <=>(const ListIterator<Type>&) const;
+};
+
+#include "ListIterator.inl"
+

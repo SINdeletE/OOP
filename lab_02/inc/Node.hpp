@@ -1,0 +1,41 @@
+#pragma once
+
+#include <memory>
+
+#include "concept.hpp"
+
+template <numType Type>
+class Node
+{
+    private:
+        Type data;
+
+        std::shared_ptr<Node<Type>> parent;
+        std::shared_ptr<Node<Type>> next;
+    
+    public:
+        Node() = default;
+
+        explicit Node(const Type &value); // Конструктор с 1-м параметром
+        explicit Node(const Node<Type>& node); // Конструктор копирования
+        // Node(std::shared_ptr<Node<Type>> &node) // Пока нет необходимости
+
+        Node<Type>& operator=(const Type &value);
+        Node<Type>& operator=(const Node<Type>& node);
+        Node<Type>& operator=(std::shared_ptr<Node<Type>> &node);
+
+        std::shared_ptr<Node<Type>> GetNext();
+        std::shared_ptr<Node<Type>> GetParent();
+
+        void SetNext(std::shared_ptr<Node<Type>> &node);
+        void SetNext(Node<Type> &node);
+
+        void SetParent(std::shared_ptr<Node<Type>> &node);
+        void SetParent(Node<Type> &node);
+
+        void Output(); // для отладки для отладки для отладки для отладки для отладки для отладки для отладки для отладки для отладки
+};
+
+// А НУЖНО ЛИ ПЕРЕНОСИТЬ СВЯЗИ?
+
+#include "Node.inl"

@@ -8,7 +8,7 @@ class BaseIterator
         // virtual bool IsDone() const = 0;
         // virtual Type CurrentItem() const = 0;
 
-        BaseIterator();
+        BaseIterator() = default;
         virtual ~BaseIterator() = default;
     
     private:

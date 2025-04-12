@@ -1,4 +1,4 @@
-// #include "set.hpp"
+#include "set.hpp"
 
 std::size_t Set::GetSize() const noexcept override
 {

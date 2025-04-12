@@ -4,7 +4,7 @@
 #include <concepts>
 
 template <typename T>
-concept sizeType = std::convertible_to<std::size_t> || std::is_signed<T>::value || 
+concept sizeType = std::is_signed<T>::value || // std::convertible_to<std::size_t> || 
                     std::is_unsigned<T>::value || std::is_arithmetic<T>::value;
 
 template <typename T>

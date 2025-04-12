@@ -1,0 +1,87 @@
+#include <memory>
+#include <iostream>
+
+template <numType Type>
+Node<Type>::Node(const Type &value)
+{
+    data = value;
+
+    parent = nullptr;
+    next = nullptr;
+}
+
+template <numType Type>
+Node<Type>::Node(const Node<Type>& node) : Node{node.data}
+{
+    std::cout << "Вызван конструктор копирования" << std::endl;
+}
+
+template <numType Type>
+Node<Type>& Node<Type>::operator=(const Type &value)
+{
+    data = value;
+
+    return *this;
+}
+
+template <numType Type>
+Node<Type>& Node<Type>::operator=(const Node<Type>& node) 
+{
+    if (this != &node)
+        data = node.data;
+
+    return *this;
+}
+
+template <numType Type>
+Node<Type>& Node<Type>::operator=(std::shared_ptr<Node<Type>> &node)
+{
+    if (this != node)
+        data = node.data;
+
+    return *this;
+}
+
+template <numType Type>
+std::shared_ptr<Node<Type>> Node<Type>::GetNext()
+{
+    return next;
+}
+
+template <numType Type>
+std::shared_ptr<Node<Type>> Node<Type>::GetParent()
+{
+    return parent;
+}
+
+template <numType Type>
+void Node<Type>::SetNext(std::shared_ptr<Node<Type>> &node)
+{
+    next = node;
+}
+
+template <numType Type>
+void Node<Type>::SetNext(Node<Type> &node)
+{
+    next = std::make_shared<Node<Type>>(node);
+}
+
+template <numType Type>
+void Node<Type>::SetParent(std::shared_ptr<Node<Type>> &node)
+{
+    parent = node;
+}
+
+template <numType Type>
+void Node<Type>::SetParent(Node<Type> &node)
+{
+    parent = std::make_shared<Node<Type>>(node);
+}
+
+template <numType Type>
+void Node<Type>::Output()
+{
+    std::cout << parent->data << std::endl;
+    std::cout << data << std::endl;
+    std::cout << next->data << std::endl;
+}

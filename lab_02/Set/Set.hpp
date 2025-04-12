@@ -4,26 +4,28 @@
 #include <memory>
 
 #include "Iterator.hpp"
-#include "BaseSet.hpp"
+#include "BaseContainer.hpp"
 
 #include "concept.hpp"
 
 template <numType Type>
-class Set : public BaseSet
+class UnorderedSet : public BaseContainer
 {
     friend class Iterator;
 
     private:
-        std::shared_ptr<Type []> set_ptr;
+        std::shared_ptr<List<Type>> set_ptr;
+        std::size_t table_size;
+        double load_factor;
     
     public:
-        Set() noexcept; // Пустой конструктор
-        explicit Set(const Set<Type>&); // Конструктор копирования
-        Set(Set<Type>&); // Конструктор переноса
-        ~Set();
+        UnorderedSet() noexcept; // Пустой конструктор
+        explicit UnorderedSet(const UnorderedSet<Type>&); // Конструктор копирования
+        UnorderedSet(UnorderedSet<Type>&); // Конструктор переноса
+        ~UnorderedSet();
 
-        explicit Set<Type>& operator =(const Set<Type>&) // Оператор копирования
-        Set<Type>& operator=(Set<Type>&) // Оператор переноса
+        explicit UnorderedSet<Type>& operator =(const UnorderedSet<Type>&) // Оператор копирования
+        UnorderedSet<Type>& operator=(UnorderedSet<Type>&) // Оператор переноса
 
 
         // Основные функции
