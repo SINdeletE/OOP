@@ -14,8 +14,9 @@ class UnorderedSet : public BaseContainer
     friend class Iterator;
 
     private:
-        std::shared_ptr<List<Type>> set_ptr;
+        std::shared_ptr<List<Type []>> set_ptr;
         std::size_t table_size;
+        sid::size_t capacity;
         double load_factor;
     
     public:
