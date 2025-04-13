@@ -1,19 +1,13 @@
 #include <memory>
 
 template <numType Type>
-ListIterator<Type>::ListIterator(const Node<Type> &head)
-{
-    cur_ptr = head;
-}
-
+ListIterator<Type>::ListIterator(const List<Type> &list) cur_ptr(list.head) {}
 template <numType Type>
 ListIterator<Type>::ListIterator(const ListIterator<Type> &iter) : cur_ptr(iter.cur_ptr) {}
 
 template <numType Type>
-ListIterator<Type>::ListIterator(ListIterator<Type> &&iter)
+ListIterator<Type>::ListIterator(ListIterator<Type> &&iter) cur_ptr(iter.cur_ptr)
 {
-    cur_ptr = iter.cur_ptr;
-
     iter.cur_ptr = nullptr;
 }
 

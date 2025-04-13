@@ -14,7 +14,7 @@ class Node
         std::shared_ptr<Node<Type>> next;
     
     public:
-        Node() = default;
+        Node() : data(0), parent(nullptr), next(nullptr) {};
 
         explicit Node(const Type &value); // Конструктор с 1-м параметром
         explicit Node(const Node<Type>& node); // Конструктор копирования
