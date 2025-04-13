@@ -3,6 +3,7 @@
 
 #include "ListIterator.hpp"
 #include "List.hpp"
+#include "Output.hpp"
 
 int main(void)
 {
@@ -39,6 +40,8 @@ int main(void)
     std::cout << "Ожидание: 5. Реальность: " << iter.Current() << std::endl;
     iter--;
     std::cout << "Ожидание: 3. Реальность: " << iter.Current() << std::endl;
+
+    std::cout << "Ожидание: 9. Реальность: " << c_tmp << std::endl;
 
     std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 

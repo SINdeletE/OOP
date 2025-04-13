@@ -35,7 +35,7 @@ class ListIterator : public BaseIterator
         ListIterator<Type>& operator --();
         ListIterator<Type> operator --(int);
 
-        Type& Current();
+        Type Current();
         Type& operator [](size_t index);
 
         // operator bool()() const noexcept; // bool в возвращаемом значении нельзя, так как и так подразумевается bool

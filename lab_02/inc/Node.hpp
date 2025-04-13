@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <iostream>
 
 #include "concept.hpp"
 
@@ -33,8 +34,7 @@ class Node
         void SetParent(std::shared_ptr<Node<Type>> &node);
         void SetParent(Node<Type> &node);
 
-        Type &Data();
-        void Output(); // для отладки для отладки для отладки для отладки для отладки для отладки для отладки для отладки для отладки
+        Type Data();
 };
 
 // А НУЖНО ЛИ ПЕРЕНОСИТЬ СВЯЗИ?

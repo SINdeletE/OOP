@@ -144,7 +144,7 @@ ListIterator<Type> ListIterator<Type>::operator --(int)
 
 
 template <numType Type>
-Type& ListIterator<Type>::Current()
+Type ListIterator<Type>::Current()
 {
     std::shared_ptr<Node<Type>> converted = cur_ptr.lock();
 

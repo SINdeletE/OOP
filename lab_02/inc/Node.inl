@@ -1,5 +1,4 @@
 #include <memory>
-#include <iostream>
 
 template <numType Type>
 Node<Type>::Node(const Type &value)
@@ -79,15 +78,8 @@ void Node<Type>::SetParent(Node<Type> &node)
 }
 
 template <numType Type>
-Type& Node<Type>::Data()
+Type Node<Type>::Data()
 {
     return data;
 }
 
-template <numType Type>
-void Node<Type>::Output()
-{
-    std::cout << parent->data << std::endl;
-    std::cout << data << std::endl;
-    std::cout << next->data << std::endl;
-}
