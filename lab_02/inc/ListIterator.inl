@@ -91,27 +91,40 @@ ListIterator<Type>& ListIterator<Type>::operator -=(const U value)
 
 
 
+template <numType Type>
+ListIterator<Type>& ListIterator<Type>::next()
+{
+    std::shared_ptr<Node<Type>> converted = cur_ptr.lock();
+    
+    cur_ptr = converted->GetNext();
+    ++(this->index);
 
+    return *this;
+}
+
+template <numType Type>
+ListIterator<Type>& ListIterator<Type>::prev()
+{
+    std::shared_ptr<Node<Type>> converted = cur_ptr.lock();
+    
+    cur_ptr = converted->GetParent();
+    --(this->index);
+
+    return *this;
+}
 
 template <numType Type>
 ListIterator<Type>& ListIterator<Type>::operator ++()
 {
-    std::shared_ptr<Node<Type>> converted = cur_ptr.lock();
-    
-    cur_ptr = converted->GetNext(); // ОШИБКА
-    ++(this->index);
-    
-    return *this;
+    return this->next();
 }
 
 template <numType Type>
 ListIterator<Type> ListIterator<Type>::operator ++(int)
 {
     ListIterator<Type> tmp {*this};
-    std::shared_ptr<Node<Type>> converted = cur_ptr.lock();
     
-    cur_ptr = converted->GetNext();
-    ++(this->index);
+    this->next();
 
     return tmp;
 }
@@ -119,22 +132,15 @@ ListIterator<Type> ListIterator<Type>::operator ++(int)
 template <numType Type>
 ListIterator<Type>& ListIterator<Type>::operator --()
 {
-    std::shared_ptr<Node<Type>> converted = cur_ptr.lock();
-
-    cur_ptr = converted->GetParent();
-    --(this->index);
-    
-    return *this;
+    return this->prev();
 }
 
 template <numType Type>
 ListIterator<Type> ListIterator<Type>::operator --(int)
 {
     ListIterator<Type> tmp {*this};
-    std::shared_ptr<Node<Type>> converted = cur_ptr.lock();
     
-    cur_ptr = converted->GetParent();
-    --(this->index);
+    this->prev();
 
     return tmp;
 }
@@ -151,3 +157,43 @@ Type ListIterator<Type>::Current()
     return converted->Data();
 }
 
+template <numType Type>
+auto ListIterator<Type>::operator <=>(const ListIterator<Type> &iter) const
+{
+    if (this->cur_ptr == iter.cur_ptr)
+        return this->index - iter.index; 
+    // else
+    //     ; // Ошибка, если не тот указатель
+
+    return 3838;
+}
+
+template <numType Type>
+bool ListIterator<Type>::operator ==(const ListIterator<Type> &iter) const
+{
+    std::shared_ptr<Node<Type>> iter1 = this->cur_ptr.lock();
+    std::shared_ptr<Node<Type>> iter2 = iter.cur_ptr.lock();
+
+    std::size_t index1 = this->index;
+    std::size_t index2 = iter.index;
+
+    if (iter1 == iter2)
+        return index1 == index2;
+
+    return false;
+}
+
+template <numType Type>
+bool ListIterator<Type>::operator !=(const ListIterator<Type> &iter) const
+{
+    std::shared_ptr<Node<Type>> iter1 = this->cur_ptr.lock();
+    std::shared_ptr<Node<Type>> iter2 = iter.cur_ptr.lock();
+
+    std::size_t index1 = this->index;
+    std::size_t index2 = iter.index;
+
+    if (iter1 == iter2)
+        return index1 != index2;
+
+    return false;
+}

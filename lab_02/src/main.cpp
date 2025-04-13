@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdbool>
 #include <memory>
 
 #include "ListIterator.hpp"
@@ -7,7 +8,7 @@
 
 int main(void)
 {
-    std::cout << "ТЕСТИРОВАНИЕ: class NODE";
+    std::cout << "ТЕСТИРОВАНИЕ: class NODE" << std::endl;
 
     Node<int> a {3};
     Node<int> b {5};
@@ -30,6 +31,11 @@ int main(void)
 
     std::shared_ptr<Node<int>> pseudo_list = b_tmp->GetParent();
     ListIterator<int> iter {pseudo_list};
+
+    ListIterator<int> iter_1 {pseudo_list};
+
+    std::cout << "Ожидание: 1. Реальность: " << (iter == iter_1) << std::endl;
+    std::cout << "Ожидание: 0. Реальность: " << (iter != iter_1) << std::endl;
     
     std::cout << "Ожидание: 3. Реальность: " << iter.Current() << std::endl;
     iter++;

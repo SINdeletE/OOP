@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstddef>
-#include <cstdbool>
+#include <stdbool.h>
 
 #include <memory>
 #include <ranges>
@@ -30,17 +30,20 @@ class ListIterator : public BaseIterator
         template <sizeType U> ListIterator<Type>& operator +=(const U value);
         template <sizeType U> ListIterator<Type>& operator -=(const U value);
 
+        ListIterator<Type>& next();
+        ListIterator<Type>& prev();
         ListIterator<Type>& operator ++();
         ListIterator<Type> operator ++(int);
         ListIterator<Type>& operator --();
         ListIterator<Type> operator --(int);
 
         Type Current();
-        Type& operator [](size_t index);
 
         // operator bool()() const noexcept; // bool в возвращаемом значении нельзя, так как и так подразумевается bool
         
         auto operator <=>(const ListIterator<Type>&) const;
+        bool operator ==(const ListIterator<Type>&) const;
+        bool operator !=(const ListIterator<Type>&) const;
 };
 
 #include "ListIterator.inl"
