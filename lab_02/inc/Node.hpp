@@ -33,6 +33,7 @@ class Node
         void SetParent(std::shared_ptr<Node<Type>> &node);
         void SetParent(Node<Type> &node);
 
+        Type &Data();
         void Output(); // для отладки для отладки для отладки для отладки для отладки для отладки для отладки для отладки для отладки
 };
 

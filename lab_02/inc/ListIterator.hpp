@@ -4,6 +4,7 @@
 #include <cstdbool>
 
 #include <memory>
+#include <ranges>
 
 #include "Node.hpp"
 #include "BaseIterator.hpp"
@@ -16,7 +17,7 @@ class ListIterator : public BaseIterator
         std::weak_ptr<Node<Type>> cur_ptr;
 
     public:
-        ListIterator(const Node<Type>&); // Инициализация
+        ListIterator(std::shared_ptr<Node<Type>> &list); // Инициализация
         ListIterator(const ListIterator<Type>&); // Копирование
         ListIterator(ListIterator<Type>&&); // Перенос
         ListIterator(std::size_t size) = delete; // delete (конструктор с 1-м параметром у итератора быть не может)
@@ -26,16 +27,15 @@ class ListIterator : public BaseIterator
         ListIterator<Type>& operator =(const Node<Type>&);
         ListIterator<Type>& operator =(ListIterator<Type>&&);
 
-        template <sizeType U> ListIterator<Type>& operator+=(const U value);
-        template <sizeType U> ListIterator<Type>& operator-=(const U value);
-        template <sizeType U> ListIterator<Type> operator+(const U value) const;
-        template <sizeType U> ListIterator<Type> operator-(const U value) const;
+        template <sizeType U> ListIterator<Type>& operator +=(const U value);
+        template <sizeType U> ListIterator<Type>& operator -=(const U value);
 
         ListIterator<Type>& operator ++();
         ListIterator<Type> operator ++(int);
         ListIterator<Type>& operator --();
         ListIterator<Type> operator --(int);
 
+        Type& Current();
         Type& operator [](size_t index);
 
         // operator bool()() const noexcept; // bool в возвращаемом значении нельзя, так как и так подразумевается bool

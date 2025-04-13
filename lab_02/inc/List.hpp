@@ -12,7 +12,7 @@
 template <numType Type>
 class List : public BaseContainer
 {
-    friend class ListIterator;
+    friend class ListIterator<Type>;
 
     private:
         std::shared_ptr<Node<Type>> head;

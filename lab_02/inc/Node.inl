@@ -79,6 +79,12 @@ void Node<Type>::SetParent(Node<Type> &node)
 }
 
 template <numType Type>
+Type& Node<Type>::Data()
+{
+    return data;
+}
+
+template <numType Type>
 void Node<Type>::Output()
 {
     std::cout << parent->data << std::endl;
