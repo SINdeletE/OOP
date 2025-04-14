@@ -18,11 +18,12 @@ void List<Type>::push_back(const Type& value)
         head = node;
     else
     {
-        ListIterator<Type> pre_end = this->end();
-        pre_end--;
+        ListIterator<Type> iter = this->begin();
+        for (auto i : std::ranges::views::iota(0, this->GetSize() - 1))
+            iter++;
 
-        std::shared_ptr<Node<Type>> node_ptr = pre_end.GetPtr();
-        node_ptr->AddNext(node_ptr);
+        std::shared_ptr<Node<Type>> node_ptr = iter.GetPtr();
+        node_ptr->SetNext(node_ptr);
     }
 
     size++;
@@ -40,8 +41,7 @@ List<Type>::iterator List<Type>::begin() noexcept
 template <numType Type>
 List<Type>::iterator List<Type>::end() noexcept
 {
-    ListIterator<Type> iter {*this};
-    iter += size;
+    ListIterator<Type> iter {nullptr, size};
 
     return iter;
 }

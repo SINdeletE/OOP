@@ -48,12 +48,6 @@ std::shared_ptr<Node<Type>> Node<Type>::GetNext()
 }
 
 template <numType Type>
-std::shared_ptr<Node<Type>> Node<Type>::GetParent()
-{
-    return parent;
-}
-
-template <numType Type>
 void Node<Type>::SetNext(std::shared_ptr<Node<Type>> &node)
 {
     next = node;
@@ -66,51 +60,7 @@ void Node<Type>::SetNext(Node<Type> &node)
 }
 
 template <numType Type>
-void Node<Type>::SetParent(std::shared_ptr<Node<Type>> &node)
-{
-    parent = node;
-}
-
-template <numType Type>
-void Node<Type>::SetParent(Node<Type> &node)
-{
-    parent = std::make_shared<Node<Type>>(node);
-}
-
-
-
-
-
-template <numType Type>
-void Node<Type>::AddNext(std::shared_ptr<Node<Type>> &node)
-{
-    next = node;
-    next->SetParent(*this);
-}
-
-template <numType Type>
-void Node<Type>::AddNext(Node<Type> &node)
-{
-    next = std::make_shared<Node<Type>>(node);
-    next->SetParent(*this);
-}
-
-template <numType Type>
-void Node<Type>::AddParent(std::shared_ptr<Node<Type>> &node)
-{
-    parent = node;
-    parent->SetNext(*this);
-}
-
-template <numType Type>
-void Node<Type>::AddParent(Node<Type> &node)
-{
-    parent = std::make_shared<Node<Type>>(node);
-}
-
-template <numType Type>
 Type Node<Type>::Data()
 {
     return data;
 }
-

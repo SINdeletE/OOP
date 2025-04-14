@@ -33,6 +33,7 @@ class ListIterator : public BaseIterator
         ListIterator(std::shared_ptr<Node<Type>> &list); // Инициализация
         ListIterator(const ListIterator<Type>&); // Копирование
         ListIterator(ListIterator<Type>&&); // Перенос
+        ListIterator(std::nullptr_t, std::size_t size); // Получение итератора конца
         ListIterator(std::size_t size) = delete; // delete (конструктор с 1-м параметром у итератора быть не может)
         ~ListIterator() = default; // override; // Деструктор (так-то для weak_ptr не нужно особо)
 
@@ -41,14 +42,10 @@ class ListIterator : public BaseIterator
         ListIterator<Type>& operator =(ListIterator<Type>&&);
 
         template <sizeType U> ListIterator<Type>& operator +=(const U value);
-        template <sizeType U> ListIterator<Type>& operator -=(const U value);
 
         ListIterator<Type>& next();
-        ListIterator<Type>& prev();
         ListIterator<Type>& operator ++();
         ListIterator<Type> operator ++(int);
-        ListIterator<Type>& operator --();
-        ListIterator<Type> operator --(int);
 
         Type Current();
         explicit operator bool() const noexcept; // bool в возвращаемом значении нельзя, так как и так подразумевается bool
@@ -60,7 +57,7 @@ class ListIterator : public BaseIterator
         bool operator !=(const ListIterator<Type>&) const;
 };
 
-static_assert(std::bidirectional_iterator<ListIterator<int>>);
+static_assert(std::forward_iterator<ListIterator<int>>);
 
 #include "ListIterator.inl"
 

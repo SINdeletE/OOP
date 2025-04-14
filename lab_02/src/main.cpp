@@ -18,18 +18,16 @@ int main(void)
     
     a_tmp->SetNext(b);
     std::shared_ptr<Node<int>> b_tmp = a_tmp->GetNext();
-    b_tmp->SetParent(a_tmp);
     
     b_tmp->SetNext(c);
     std::shared_ptr<Node<int>> c_tmp = b_tmp->GetNext();
-    c_tmp->SetParent(b_tmp);
 
     std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 
 
     std::cout << "ТЕСТИРОВАНИЕ: class ListIterator" << std::endl;
 
-    std::shared_ptr<Node<int>> pseudo_list = b_tmp->GetParent();
+    std::shared_ptr<Node<int>> pseudo_list = a_tmp;
     ListIterator<int> iter {pseudo_list};
 
     ListIterator<int> iter_1 {pseudo_list};
@@ -42,10 +40,6 @@ int main(void)
     std::cout << "Ожидание: 5. Реальность: " << iter.Current() << std::endl;
     iter++;
     std::cout << "Ожидание: 9. Реальность: " << iter.Current() << std::endl;
-    iter--;
-    std::cout << "Ожидание: 5. Реальность: " << iter.Current() << std::endl;
-    iter--;
-    std::cout << "Ожидание: 3. Реальность: " << iter.Current() << std::endl;
 
     std::cout << "Ожидание: 9. Реальность: " << c_tmp << std::endl;
 

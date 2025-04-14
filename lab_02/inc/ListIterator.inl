@@ -22,6 +22,13 @@ ListIterator<Type>::ListIterator(ListIterator<Type> &&iter)
     this->index = iter.index;
 }
 
+template <numType Type>
+ListIterator<Type>::ListIterator(std::nullptr_t, std::size_t size)
+{
+    cur_ptr = nullptr;
+    this->index = size;
+}
+
 
 
 
@@ -72,18 +79,6 @@ ListIterator<Type>& ListIterator<Type>::operator +=(const U value)
     return *this;
 }
 
-template <numType Type>
-template <sizeType U>
-ListIterator<Type>& ListIterator<Type>::operator -=(const U value)
-{
-    for (auto i : std::ranges::iota_view(0, value))
-        cur_ptr = cur_ptr->GetParent();
-
-    this->index -= value;
-
-    return *this;
-}
-
 
 
 
@@ -103,17 +98,6 @@ ListIterator<Type>& ListIterator<Type>::next()
 }
 
 template <numType Type>
-ListIterator<Type>& ListIterator<Type>::prev()
-{
-    std::shared_ptr<Node<Type>> converted = cur_ptr.lock();
-    
-    cur_ptr = converted->GetParent();
-    --(this->index);
-
-    return *this;
-}
-
-template <numType Type>
 ListIterator<Type>& ListIterator<Type>::operator ++()
 {
     return this->next();
@@ -128,23 +112,6 @@ ListIterator<Type> ListIterator<Type>::operator ++(int)
 
     return tmp;
 }
-
-template <numType Type>
-ListIterator<Type>& ListIterator<Type>::operator --()
-{
-    return this->prev();
-}
-
-template <numType Type>
-ListIterator<Type> ListIterator<Type>::operator --(int)
-{
-    ListIterator<Type> tmp {*this};
-    
-    this->prev();
-
-    return tmp;
-}
-
 
 
 
