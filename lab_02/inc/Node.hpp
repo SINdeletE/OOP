@@ -30,13 +30,15 @@ class Node
 
         void SetNext(std::shared_ptr<Node<Type>> &node);
         void SetNext(Node<Type> &node);
-
         void SetParent(std::shared_ptr<Node<Type>> &node);
         void SetParent(Node<Type> &node);
 
+        void AddNext(std::shared_ptr<Node<Type>> &node); // Добавление только в конец
+        void AddNext(Node<Type> &node); // Добавление только в конец
+        void AddParent(std::shared_ptr<Node<Type>> &node); // Добавление только в начало
+        void AddParent(Node<Type> &node); // Добавление только в начало
+
         Type Data();
 };
-
-// А НУЖНО ЛИ ПЕРЕНОСИТЬ СВЯЗИ?
 
 #include "Node.inl"

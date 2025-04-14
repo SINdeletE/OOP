@@ -5,13 +5,13 @@
 
 class BaseContainer
 {
-    private:
+    protected:
         std::size_t size;
     
     public:
         virtual ~BaseContainer() = default;
 
-        virtual std::size_t GetSize() const = 0;
+        [[nodiscard]] virtual std::size_t GetSize() const = 0;
         virtual bool IsEmpty() const = 0;
 };
 

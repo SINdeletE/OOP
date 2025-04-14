@@ -164,6 +164,27 @@ ListIterator<Type>::operator bool() const noexcept
 }
 
 template <numType Type>
+typename ListIterator<Type>::reference ListIterator<Type>::operator*() const {
+    if (auto ptr = cur_ptr.lock()) {
+        return ptr->data;
+    }
+    throw std::runtime_error("Dereferencing invalid iterator");
+}
+
+template <numType Type>
+typename ListIterator<Type>::pointer ListIterator<Type>::operator->() const {
+    if (auto ptr = cur_ptr.lock()) {
+        return &ptr->data;
+    }
+    throw std::runtime_error("Accessing invalid iterator");
+}
+
+
+
+
+
+
+template <numType Type>
 auto ListIterator<Type>::operator <=>(const ListIterator<Type> &iter) const
 {
     if (this->cur_ptr == iter.cur_ptr)

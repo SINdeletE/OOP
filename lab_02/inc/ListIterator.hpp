@@ -19,6 +19,9 @@ class ListIterator : public BaseIterator
         std::ptrdiff_t index;
         std::size_t size;
 
+    protected:
+        std::shared_ptr<Node<Type>> GetPtr() { return cur_ptr.lock(); };
+
     public:
         using iterator_category = std::bidirectional_iterator_tag;
         using value_type = Type;
@@ -26,6 +29,7 @@ class ListIterator : public BaseIterator
         using pointer = Type*;
         using reference = Type&;
 
+        ListIterator() noexcept = default;
         ListIterator(std::shared_ptr<Node<Type>> &list); // Инициализация
         ListIterator(const ListIterator<Type>&); // Копирование
         ListIterator(ListIterator<Type>&&); // Перенос
@@ -48,13 +52,15 @@ class ListIterator : public BaseIterator
 
         Type Current();
         explicit operator bool() const noexcept; // bool в возвращаемом значении нельзя, так как и так подразумевается bool
-        reference operator *() const { return *this; };
-        pointer operator ->() const { return this; };
+        reference operator *() const;
+        pointer operator ->() const;
 
         auto operator <=>(const ListIterator<Type>&) const;
         bool operator ==(const ListIterator<Type>&) const;
         bool operator !=(const ListIterator<Type>&) const;
 };
+
+static_assert(std::bidirectional_iterator<ListIterator<int>>);
 
 #include "ListIterator.inl"
 

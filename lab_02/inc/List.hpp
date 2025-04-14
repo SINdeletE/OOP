@@ -2,6 +2,7 @@
 
 #include <stdbool.h>
 #include <cstddef>
+
 #include <memory>
 
 #include "concept.hpp"
@@ -18,14 +19,30 @@ class List : public BaseContainer
         std::shared_ptr<Node<Type>> head;
     
     public:
-        List();
-        explicit List(const Type&);
-        List(Type&&);
-        List
-        
+        using difference_type = ptrdiff_t;
+        using reference = Type&;
+        using const_reference = const Type&;
+        using value_type = Type;
+        using size_type = std::size_t;
+        using iterator = ListIterator<Type>;
+        // using const_iterator = ConstListIterator<Type>;
 
-        std::size_t GetSize() const override;
+        List();
+        explicit List(const List<Type>&); // Копирование
+        List(List<Type>&&); // Перенос
+        // explicit List(const Node<Type>&); // Инициализация // Пока не нужен :)
+        explicit List(const Type&); // Инициализация
+
+        void push_back(const Type& value);
+
+        // Итераторы
+        iterator begin() noexcept;
+        iterator end() noexcept;
+
+        [[nodiscard]] size_type GetSize() const override;
         bool IsEmpty() const override;
 };
+
+// static_assert(ContainerConcept<List<int>>);
 
 #include "List.inl"
