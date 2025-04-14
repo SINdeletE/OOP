@@ -10,9 +10,5 @@ class BaseIterator
 
         BaseIterator() = default;
         virtual ~BaseIterator() = default;
-    
-    protected:
-        std::size_t index;
-        std::size_t size;
 };
 

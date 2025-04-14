@@ -5,6 +5,7 @@
 
 #include <memory>
 #include <ranges>
+#include <iterator>
 
 #include "Node.hpp"
 #include "BaseIterator.hpp"
@@ -15,8 +16,16 @@ class ListIterator : public BaseIterator
 {
     private:
         std::weak_ptr<Node<Type>> cur_ptr;
+        std::ptrdiff_t index;
+        std::size_t size;
 
     public:
+        using iterator_category = std::bidirectional_iterator_tag;
+        using value_type = Type;
+        using difference_type = std::ptrdiff_t;
+        using pointer = Type*;
+        using reference = Type&;
+
         ListIterator(std::shared_ptr<Node<Type>> &list); // Инициализация
         ListIterator(const ListIterator<Type>&); // Копирование
         ListIterator(ListIterator<Type>&&); // Перенос
@@ -38,9 +47,10 @@ class ListIterator : public BaseIterator
         ListIterator<Type> operator --(int);
 
         Type Current();
+        explicit operator bool() const noexcept; // bool в возвращаемом значении нельзя, так как и так подразумевается bool
+        reference operator *() const { return *this; };
+        pointer operator ->() const { return this; };
 
-        // operator bool()() const noexcept; // bool в возвращаемом значении нельзя, так как и так подразумевается bool
-        
         auto operator <=>(const ListIterator<Type>&) const;
         bool operator ==(const ListIterator<Type>&) const;
         bool operator !=(const ListIterator<Type>&) const;

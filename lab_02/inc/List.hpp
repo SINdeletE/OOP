@@ -20,7 +20,8 @@ class List : public BaseContainer
     public:
         List();
         explicit List(const Type&);
-
+        List(Type&&);
+        List
         
 
         std::size_t GetSize() const override;

@@ -158,6 +158,12 @@ Type ListIterator<Type>::Current()
 }
 
 template <numType Type>
+ListIterator<Type>::operator bool() const noexcept
+{
+    return index > size || index < 0 || !cur_ptr.expired();
+}
+
+template <numType Type>
 auto ListIterator<Type>::operator <=>(const ListIterator<Type> &iter) const
 {
     if (this->cur_ptr == iter.cur_ptr)
