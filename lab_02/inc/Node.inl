@@ -5,7 +5,6 @@ Node<Type>::Node(const Type &value)
 {
     data = value;
 
-    parent = nullptr;
     next = nullptr;
 }
 
@@ -57,6 +56,12 @@ template <numType Type>
 void Node<Type>::SetNext(Node<Type> &node)
 {
     next = std::make_shared<Node<Type>>(node);
+}
+
+template <numType Type>
+Type& Node<Type>::RefData()
+{
+    return data;
 }
 
 template <numType Type>

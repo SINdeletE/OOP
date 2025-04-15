@@ -28,16 +28,18 @@ class List : public BaseContainer
         // using const_iterator = ConstListIterator<Type>;
 
         List();
-        explicit List(const List<Type>&); // Копирование
-        List(List<Type>&&); // Перенос
-        // explicit List(const Node<Type>&); // Инициализация // Пока не нужен :)
-        explicit List(const Type&); // Инициализация
+        explicit List(const List<Type>&);
+        List(List<Type>&&);
+        // explicit List(const Node<Type>&);
 
         void push_back(const Type& value);
+        void pop_back(); // Если пуст, то UB (по cppreference)
 
         // Итераторы
         iterator begin() noexcept;
         iterator end() noexcept;
+
+        iterator erase(iterator &pos);
 
         [[nodiscard]] size_type GetSize() const override;
         bool IsEmpty() const override;

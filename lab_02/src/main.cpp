@@ -25,12 +25,15 @@ int main(void)
     std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 
 
+
+
+
     std::cout << "ТЕСТИРОВАНИЕ: class ListIterator" << std::endl;
 
     std::shared_ptr<Node<int>> pseudo_list = a_tmp;
-    ListIterator<int> iter {pseudo_list};
+    ListIterator<int> iter {pseudo_list, 0};
 
-    ListIterator<int> iter_1 {pseudo_list};
+    ListIterator<int> iter_1 {pseudo_list, 0};
 
     std::cout << "Ожидание: 1. Реальность: " << (iter == iter_1) << std::endl;
     std::cout << "Ожидание: 0. Реальность: " << (iter != iter_1) << std::endl;
@@ -42,6 +45,23 @@ int main(void)
     std::cout << "Ожидание: 9. Реальность: " << iter.Current() << std::endl;
 
     std::cout << "Ожидание: 9. Реальность: " << c_tmp << std::endl;
+
+    std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
+
+
+
+
+
+    std::cout << "ТЕСТИРОВАНИЕ: class List" << std::endl;
+
+    List<int> list {};
+    list.push_back(123);
+    list.push_back(123);
+    list.push_back(123);
+    list.push_back(123);
+    list.push_back(123);
+
+    std::cout << "Ожидание: 123 123 123 123 123. Реальность: " << list;
 
     std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 

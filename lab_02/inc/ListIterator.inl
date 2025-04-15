@@ -2,31 +2,32 @@
 #include <ranges>
 
 template <numType Type>
-ListIterator<Type>::ListIterator(std::shared_ptr<Node<Type>> &list)
+ListIterator<Type>::ListIterator(std::shared_ptr<Node<Type>> &list, const ListIterator<Type>::difference_type &init_index)
 {
     cur_ptr = list;
-    this->index = 0;
+    index = init_index;
 }
 
 template <numType Type>
 ListIterator<Type>::ListIterator(const ListIterator<Type> &iter)
 {
     cur_ptr = iter.cur_ptr;
-    this->index = iter.index;
+    index = iter.index;
 }
 
 template <numType Type>
 ListIterator<Type>::ListIterator(ListIterator<Type> &&iter)
 {
     cur_ptr = iter.cur_ptr;
-    this->index = iter.index;
+    index = iter.index;
 }
 
 template <numType Type>
-ListIterator<Type>::ListIterator(std::nullptr_t, std::size_t size)
+ListIterator<Type>::ListIterator(std::nullptr_t null, const ListIterator<Type>::difference_type &init_index)
 {
-    cur_ptr = nullptr;
-    this->index = size;
+    std::shared_ptr<Node<Type>> null_ptr = null;
+    cur_ptr = null_ptr;
+    index = init_index;
 }
 
 
@@ -46,14 +47,7 @@ template <numType Type>
 ListIterator<Type>& ListIterator<Type>::operator =(const ListIterator<Type> &iter)
 {
     cur_ptr = iter.cur_ptr;
-
-    return *this;
-}
-
-template <numType Type>
-ListIterator<Type>& ListIterator<Type>::operator =(const Node<Type> &head)
-{
-    cur_ptr = head;
+    index = iter.index;
 
     return *this;
 }
@@ -63,6 +57,9 @@ ListIterator<Type>& ListIterator<Type>::operator =(ListIterator<Type> &&iter)
 {
     cur_ptr = iter.cur_ptr;
     iter.cur_ptr = nullptr;
+
+    index = iter.index;
+    iter.index = 0;
 
     return *this;
 }
@@ -74,7 +71,7 @@ ListIterator<Type>& ListIterator<Type>::operator +=(const U value)
     for (auto i : std::ranges::iota_view(0, value))
         cur_ptr = cur_ptr->GetNext();
 
-    this->index += value;
+    index += value;
 
     return *this;
 }
@@ -113,11 +110,16 @@ ListIterator<Type> ListIterator<Type>::operator ++(int)
     return tmp;
 }
 
+template <numType Type>
+ListIterator<Type>::difference_type ListIterator<Type>::operator -(const ListIterator<Type> &iter)
+{
+    return index - iter.index;
+}
 
 
 
 template <numType Type>
-Type ListIterator<Type>::Current()
+ListIterator<Type>::value_type ListIterator<Type>::Current()
 {
     std::shared_ptr<Node<Type>> converted = cur_ptr.lock();
 
@@ -127,22 +129,22 @@ Type ListIterator<Type>::Current()
 template <numType Type>
 ListIterator<Type>::operator bool() const noexcept
 {
-    return index > size || index < 0 || !cur_ptr.expired();
+    return index < 0 || !cur_ptr.expired();
 }
 
 template <numType Type>
 typename ListIterator<Type>::reference ListIterator<Type>::operator*() const {
-    if (auto ptr = cur_ptr.lock()) {
-        return ptr->data;
-    }
+    if (auto ptr = cur_ptr.lock())
+        return ptr->RefData();
+
     throw std::runtime_error("Dereferencing invalid iterator");
 }
 
 template <numType Type>
 typename ListIterator<Type>::pointer ListIterator<Type>::operator->() const {
-    if (auto ptr = cur_ptr.lock()) {
-        return &ptr->data;
-    }
+    if (auto ptr = cur_ptr.lock())
+        return &ptr->Data();
+
     throw std::runtime_error("Accessing invalid iterator");
 }
 
@@ -155,7 +157,7 @@ template <numType Type>
 auto ListIterator<Type>::operator <=>(const ListIterator<Type> &iter) const
 {
     if (this->cur_ptr == iter.cur_ptr)
-        return this->index - iter.index; 
+        return index - iter.index; 
     // else
     //     ; // Ошибка, если не тот указатель
 

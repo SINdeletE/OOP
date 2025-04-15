@@ -11,15 +11,13 @@ class Node
     private:
         Type data;
 
-        std::shared_ptr<Node<Type>> parent;
         std::shared_ptr<Node<Type>> next;
     
     public:
-        Node() : data(0), parent(nullptr), next(nullptr) {};
+        Node() : data(0), next(nullptr) {};
 
-        explicit Node(const Type &value); // Конструктор с 1-м параметром
-        explicit Node(const Node<Type>& node); // Конструктор копирования
-        // Node(std::shared_ptr<Node<Type>> &node) // Пока нет необходимости
+        explicit Node(const Type &value);
+        explicit Node(const Node<Type>& node);
 
         Node<Type>& operator=(const Type &value);
         Node<Type>& operator=(const Node<Type>& node);
@@ -30,6 +28,7 @@ class Node
         void SetNext(std::shared_ptr<Node<Type>> &node);
         void SetNext(Node<Type> &node);
 
+        Type& RefData();
         Type Data();
 };
 

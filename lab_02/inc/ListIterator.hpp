@@ -17,10 +17,6 @@ class ListIterator : public BaseIterator
     private:
         std::weak_ptr<Node<Type>> cur_ptr;
         std::ptrdiff_t index;
-        std::size_t size;
-
-    protected:
-        std::shared_ptr<Node<Type>> GetPtr() { return cur_ptr.lock(); };
 
     public:
         using iterator_category = std::bidirectional_iterator_tag;
@@ -29,32 +25,33 @@ class ListIterator : public BaseIterator
         using pointer = Type*;
         using reference = Type&;
 
-        ListIterator() noexcept = default;
-        ListIterator(std::shared_ptr<Node<Type>> &list); // Инициализация
-        ListIterator(const ListIterator<Type>&); // Копирование
-        ListIterator(ListIterator<Type>&&); // Перенос
-        ListIterator(std::nullptr_t, std::size_t size); // Получение итератора конца
-        ListIterator(std::size_t size) = delete; // delete (конструктор с 1-м параметром у итератора быть не может)
-        ~ListIterator() = default; // override; // Деструктор (так-то для weak_ptr не нужно особо)
+        ListIterator() noexcept : cur_ptr(nullptr), index(0) {};
+        explicit ListIterator(std::shared_ptr<Node<Type>> &list, const difference_type &index);
+        ListIterator(const ListIterator<Type>&);
+        ListIterator(ListIterator<Type>&&);
+        explicit ListIterator(std::nullptr_t, const difference_type &index); // Получение итератора конца
+        ListIterator(int size) = delete;
+        ~ListIterator() = default;
 
         ListIterator<Type>& operator =(const ListIterator<Type>&);
-        ListIterator<Type>& operator =(const Node<Type>&);
         ListIterator<Type>& operator =(ListIterator<Type>&&);
-
         template <sizeType U> ListIterator<Type>& operator +=(const U value);
 
         ListIterator<Type>& next();
         ListIterator<Type>& operator ++();
         ListIterator<Type> operator ++(int);
+        difference_type operator-(const ListIterator<Type>&);
 
-        Type Current();
-        explicit operator bool() const noexcept; // bool в возвращаемом значении нельзя, так как и так подразумевается bool
+        value_type Current();
+        explicit operator bool() const noexcept;
         reference operator *() const;
         pointer operator ->() const;
 
         auto operator <=>(const ListIterator<Type>&) const;
         bool operator ==(const ListIterator<Type>&) const;
         bool operator !=(const ListIterator<Type>&) const;
+
+        std::shared_ptr<Node<Type>> GetPtr() { return cur_ptr.lock(); };
 };
 
 static_assert(std::forward_iterator<ListIterator<int>>);
