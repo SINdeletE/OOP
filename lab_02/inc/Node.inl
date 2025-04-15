@@ -9,10 +9,7 @@ Node<Type>::Node(const Type &value)
 }
 
 template <numType Type>
-Node<Type>::Node(const Node<Type>& node) : Node{node.data}
-{
-    std::cout << "Вызван конструктор копирования" << std::endl;
-}
+Node<Type>::Node(const Node<Type>& node) : Node{node.data} {}
 
 template <numType Type>
 Node<Type>& Node<Type>::operator=(const Type &value)

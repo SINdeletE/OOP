@@ -56,12 +56,34 @@ int main(void)
 
     List<int> list {};
     list.push_back(123);
-    list.push_back(123);
-    list.push_back(123);
-    list.push_back(123);
-    list.push_back(123);
+    list.push_back(456);
+    list.push_back(789);
+    list.push_back(101112);
+    list.push_back(131415);
+    std::cout << "Ожидание: 123 456 789 101112 131415. Реальность: " << list;
 
-    std::cout << "Ожидание: 123 123 123 123 123. Реальность: " << list;
+    list.pop_back();
+    std::cout << "Ожидание: 123 456 789 101112. Реальность: " << list;
+
+    ListIterator<int> list_iter = list.begin();
+    list_iter += 3;
+    list_iter = list.erase(list_iter);
+    std::cout << "Ожидание: 123 456 789. Реальность: " << list;
+
+    List<int> list_2 {};
+    list_2.push_back(123);
+    list_2.push_back(456);
+    list_2.push_back(789);
+    list_2.push_back(101112);
+    list_2.push_back(131415);
+    ListIterator<int> list_iter_2 = list_2.begin();
+    list_iter_2 += 1;
+    list_iter_2 = list_2.erase(list_iter_2); // Вызывает перенос :O
+    list_iter_2 = list_2.erase(list_iter_2); // Вызывает перенос :O
+    list_iter_2 = list_2.erase(list_iter_2); // Вызывает перенос :O
+    std::cout << "Ожидание: 123 131415. Реальность: " << list_2;
+    std::cout << "Ожидание: 123 456 789. Реальность: " << list;
+
 
     std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 

@@ -23,7 +23,7 @@ class List : public BaseContainer
         using reference = Type&;
         using const_reference = const Type&;
         using value_type = Type;
-        using size_type = std::size_t;
+        using size_type = std::ptrdiff_t;
         using iterator = ListIterator<Type>;
         // using const_iterator = ConstListIterator<Type>;
 

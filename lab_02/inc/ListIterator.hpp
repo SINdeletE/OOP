@@ -25,11 +25,10 @@ class ListIterator : public BaseIterator
         using pointer = Type*;
         using reference = Type&;
 
-        ListIterator() noexcept : cur_ptr(nullptr), index(0) {};
+        ListIterator() noexcept;
         explicit ListIterator(std::shared_ptr<Node<Type>> &list, const difference_type &index);
         ListIterator(const ListIterator<Type>&);
         ListIterator(ListIterator<Type>&&);
-        explicit ListIterator(std::nullptr_t, const difference_type &index); // Получение итератора конца
         ListIterator(int size) = delete;
         ~ListIterator() = default;
 

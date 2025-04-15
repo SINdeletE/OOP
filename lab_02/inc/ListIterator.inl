@@ -2,6 +2,13 @@
 #include <ranges>
 
 template <numType Type>
+ListIterator<Type>::ListIterator() noexcept : index(0)
+{
+    std::shared_ptr<Node<Type>> null_ptr {nullptr};
+    cur_ptr = null_ptr;
+}
+
+template <numType Type>
 ListIterator<Type>::ListIterator(std::shared_ptr<Node<Type>> &list, const ListIterator<Type>::difference_type &init_index)
 {
     cur_ptr = list;
@@ -20,14 +27,6 @@ ListIterator<Type>::ListIterator(ListIterator<Type> &&iter)
 {
     cur_ptr = iter.cur_ptr;
     index = iter.index;
-}
-
-template <numType Type>
-ListIterator<Type>::ListIterator(std::nullptr_t null, const ListIterator<Type>::difference_type &init_index)
-{
-    std::shared_ptr<Node<Type>> null_ptr = null;
-    cur_ptr = null_ptr;
-    index = init_index;
 }
 
 
@@ -55,8 +54,9 @@ ListIterator<Type>& ListIterator<Type>::operator =(const ListIterator<Type> &ite
 template <numType Type>
 ListIterator<Type>& ListIterator<Type>::operator =(ListIterator<Type> &&iter)
 {
+    std::shared_ptr<Node<Type>> null_ptr {nullptr};
     cur_ptr = iter.cur_ptr;
-    iter.cur_ptr = nullptr;
+    iter.cur_ptr = null_ptr; // ОШИБКА
 
     index = iter.index;
     iter.index = 0;
@@ -68,8 +68,15 @@ template <numType Type>
 template <sizeType U>
 ListIterator<Type>& ListIterator<Type>::operator +=(const U value)
 {
-    for (auto i : std::ranges::iota_view(0, value))
-        cur_ptr = cur_ptr->GetNext();
+    if (value < 0) {
+        throw std::invalid_argument("Negative offset");
+    }
+
+    std::shared_ptr<Node<Type>> ptr = cur_ptr.lock();
+    for (int i = 0; i < value; i++)
+        ptr = ptr->GetNext();
+    
+    cur_ptr = ptr;
 
     index += value;
 
@@ -173,10 +180,7 @@ bool ListIterator<Type>::operator ==(const ListIterator<Type> &iter) const
     std::size_t index1 = this->index;
     std::size_t index2 = iter.index;
 
-    if (iter1 == iter2)
-        return index1 == index2;
-
-    return false;
+    return index1 == index2;
 }
 
 template <numType Type>
@@ -188,8 +192,5 @@ bool ListIterator<Type>::operator !=(const ListIterator<Type> &iter) const
     std::size_t index1 = this->index;
     std::size_t index2 = iter.index;
 
-    if (iter1 == iter2)
-        return index1 != index2;
-
-    return false;
+    return index1 != index2;
 }

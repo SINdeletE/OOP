@@ -17,7 +17,7 @@ std::ostream& operator <<(std::ostream &os, std::shared_ptr<Node<Type>> &node)
 template <numType Type>
 std::ostream& operator <<(std::ostream &os, List<Type> &list)
 {
-    for (auto iter = list.begin(); iter != list.end(); iter++)
+    for (auto iter = list.begin(); iter != list.end(); ++iter)
         os << *iter << ' ';
 
     os << std::endl;
