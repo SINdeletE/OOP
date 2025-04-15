@@ -82,8 +82,9 @@ int main(void)
     list_iter_2 = list_2.erase(list_iter_2); // Вызывает перенос :O
     list_iter_2 = list_2.erase(list_iter_2); // Вызывает перенос :O
     std::cout << "Ожидание: 123 131415. Реальность: " << list_2;
-    std::cout << "Ожидание: 123 456 789. Реальность: " << list;
 
+    list_2.push_front(-95);
+    std::cout << "Ожидание: -95 123 131415. Реальность: " << list_2;
 
     std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 

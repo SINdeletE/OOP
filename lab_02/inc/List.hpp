@@ -33,7 +33,8 @@ class List : public BaseContainer
         // explicit List(const Node<Type>&);
 
         void push_back(const Type& value);
-        void pop_back(); // Если пуст, то UB (по cppreference)
+        void pop_back();
+        void push_front(const Type& value);
 
         // Итераторы
         iterator begin() noexcept;

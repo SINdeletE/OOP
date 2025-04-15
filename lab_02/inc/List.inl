@@ -45,6 +45,19 @@ void List<Type>::pop_back()
     size--;
 }
 
+template <numType Type>
+void List<Type>::push_front(const Type& value)
+{
+    Node<Type> node {value};
+    std::shared_ptr<Node<Type>> node_ptr = std::make_shared<Node<Type>>(node);
+
+    node_ptr->SetNext(this->head);
+    this->head = node_ptr;
+
+    size++;
+}
+
+
 
 
 
