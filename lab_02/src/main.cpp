@@ -5,6 +5,7 @@
 
 #include "ListIterator.hpp"
 #include "List.hpp"
+#include "Hash.hpp"
 #include "Output.hpp"
 
 int main(void)

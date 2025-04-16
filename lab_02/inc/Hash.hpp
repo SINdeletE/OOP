@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <memory>
 #include <initializer_list>
+#include <utility>
 
 #include "Iterator.hpp"
 #include "BaseContainer.hpp"
@@ -15,12 +16,6 @@ template <keyType Key, numType Type,
 class UnorderedMap : public BaseContainer
 {
     friend class Iterator;
-
-    private:
-        std::shared_ptr<List<Type>[]> buckets;
-        std::ptrdiff_t table_size;
-        sid::ptrdiff_t capacity;
-        double load_factor;
     
     public:
         using key_type             = Key;
@@ -56,4 +51,16 @@ class UnorderedMap : public BaseContainer
 
         std::size_t GetSize() const noexcept override;
         bool IsEmpty() const noexcept override;
+    
+    private:
+        std::shared_ptr<List<Type>[]> buckets;
+        std::ptrdiff_t table_size;
+        sid::ptrdiff_t capacity;
+        double load_factor;
+
+        void BucketsAlloc(size_type size);
 };
+
+// static_assert(ContainerConcept<UnorderedMap<int>>);
+
+#include "Hash.inl"
