@@ -10,7 +10,7 @@
 #include "ListIterator.hpp"
 #include "BaseContainer.hpp"
 
-template <numType Type>
+template <keyType Type>
 class List : public BaseContainer
 {
     friend class ListIterator<Type>;

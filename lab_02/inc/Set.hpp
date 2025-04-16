@@ -8,33 +8,36 @@
 
 #include "concept.hpp"
 
-template <numType Type>
+template <typename Key, keyType Type, 
+        typename Hash = hash<Key>, 
+        typename Pred = equal_to<Key>>
 class UnorderedMap : public BaseContainer
 {
     friend class Iterator;
 
     private:
-        std::shared_ptr<List<Type>[]> set_ptr;
+        std::shared_ptr<List<Type>[]> buckets;
         std::ptrdiff_t table_size;
         sid::ptrdiff_t capacity;
         double load_factor;
     
     public:
+        using difference_type = std::ptrdiff_t;
+        using reference = Type&;
+        using const_reference = const Type&;
+        using size_type = std::ptrdiff_t;
+        using iterator = UnorderedMapIterator<Type>;
+        using const_iterator = ConstUnorderedMapIterator<Type>;
+        using local_iterator       = ListIterator<Type>;
+        using const_local_iterator = ConstListIterator<Type>;
+
         using key_type             = Key;
-        using mapped_type          = T;
-        using value_type           = pair<const Key, T>;
+        using mapped_type          = Type;
+        using value_type           = pair<const Key, Type>;
         using hasher               = Hash;
         using key_equal            = Pred;
-        using allocator_type       = Allocator;
-        using pointer              = typename allocator_traits<Allocator>::pointer;
-        using const_pointer        = typename allocator_traits<Allocator>::const_pointer;
         using reference            = value_type&;
         using const_reference      = const value_type&;
-        using size_type            = /* implementation-defined */;
-        using difference_type      = /* implementation-defined */;
-    
-        using iterator             = /* implementation-defined */;
-        using const_iterator       = /* implementation-defined */;
 
         UnorderedMap() noexcept; // Пустой конструктор
         explicit UnorderedMap(const UnorderedMap<Type>&); // Конструктор копирования

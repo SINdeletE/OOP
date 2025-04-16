@@ -11,7 +11,7 @@
 #include "BaseIterator.hpp"
 #include "concept.hpp"
 
-template <numType Type>
+template <keyType Type>
 class ListIterator : public BaseIterator
 {
     private:

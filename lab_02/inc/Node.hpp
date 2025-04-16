@@ -4,7 +4,7 @@
 
 #include "concept.hpp"
 
-template <numType Type>
+template <keyType Type>
 class Node
 {
     private:

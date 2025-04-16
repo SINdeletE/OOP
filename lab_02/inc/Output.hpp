@@ -6,7 +6,7 @@
 
 #include "Node.hpp"
 
-template <numType Type>
+template <keyType Type>
 std::ostream& operator <<(std::ostream &os, std::shared_ptr<Node<Type>> &node)
 {
     os << node->Data();
@@ -14,7 +14,7 @@ std::ostream& operator <<(std::ostream &os, std::shared_ptr<Node<Type>> &node)
     return os;
 }
 
-template <numType Type>
+template <keyType Type>
 std::ostream& operator <<(std::ostream &os, List<Type> &list)
 {
     for (auto iter = list.begin(); iter != list.end(); ++iter)

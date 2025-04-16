@@ -1,7 +1,7 @@
 #include <memory>
 #include <ranges>
 
-template <numType Type>
+template <keyType Type>
 List<Type>::List() : head(nullptr)
 {
     this->size = 0;
@@ -9,7 +9,7 @@ List<Type>::List() : head(nullptr)
 
 
 
-template <numType Type>
+template <keyType Type>
 void List<Type>::push_back(const Type& value)
 {
     Node<Type> node {value};
@@ -29,7 +29,7 @@ void List<Type>::push_back(const Type& value)
     size++;
 }
 
-template <numType Type>
+template <keyType Type>
 void List<Type>::pop_back()
 {
     ListIterator<Type> iter = this->begin();
@@ -45,7 +45,7 @@ void List<Type>::pop_back()
     size--;
 }
 
-template <numType Type>
+template <keyType Type>
 void List<Type>::push_front(const Type& value)
 {
     Node<Type> node {value};
@@ -62,7 +62,7 @@ void List<Type>::push_front(const Type& value)
 
 
 // Итераторы
-template <numType Type>
+template <keyType Type>
 List<Type>::iterator List<Type>::begin() noexcept
 {
     ListIterator<Type> iter {this->head, 0};
@@ -70,7 +70,7 @@ List<Type>::iterator List<Type>::begin() noexcept
     return iter;
 }
 
-template <numType Type>
+template <keyType Type>
 List<Type>::iterator List<Type>::end() noexcept
 {
     std::shared_ptr<Node<Type>> null_ptr {nullptr};
@@ -79,7 +79,7 @@ List<Type>::iterator List<Type>::end() noexcept
     return iter;
 }
 
-template <numType Type>
+template <keyType Type>
 List<Type>::iterator List<Type>::erase(List<Type>::iterator &pos)
 {
     ListIterator<Type> iter {};
@@ -120,13 +120,13 @@ List<Type>::iterator List<Type>::erase(List<Type>::iterator &pos)
 
 
 
-template <numType Type>
+template <keyType Type>
 List<Type>::size_type List<Type>::GetSize() const
 {
     return this->size;
 }
 
-template <numType Type>
+template <keyType Type>
 bool List<Type>::IsEmpty() const
 {
     return this->size == 0;

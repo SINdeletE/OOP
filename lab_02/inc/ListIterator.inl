@@ -1,28 +1,28 @@
 #include <memory>
 #include <ranges>
 
-template <numType Type>
+template <keyType Type>
 ListIterator<Type>::ListIterator() noexcept : index(0)
 {
     std::shared_ptr<Node<Type>> null_ptr {nullptr};
     cur_ptr = null_ptr;
 }
 
-template <numType Type>
+template <keyType Type>
 ListIterator<Type>::ListIterator(std::shared_ptr<Node<Type>> &list, const ListIterator<Type>::difference_type &init_index)
 {
     cur_ptr = list;
     index = init_index;
 }
 
-template <numType Type>
+template <keyType Type>
 ListIterator<Type>::ListIterator(const ListIterator<Type> &iter)
 {
     cur_ptr = iter.cur_ptr;
     index = iter.index;
 }
 
-template <numType Type>
+template <keyType Type>
 ListIterator<Type>::ListIterator(ListIterator<Type> &&iter)
 {
     cur_ptr = iter.cur_ptr;
@@ -42,7 +42,7 @@ ListIterator<Type>::ListIterator(ListIterator<Type> &&iter)
 
 
 
-template <numType Type>
+template <keyType Type>
 ListIterator<Type>& ListIterator<Type>::operator =(const ListIterator<Type> &iter)
 {
     cur_ptr = iter.cur_ptr;
@@ -51,7 +51,7 @@ ListIterator<Type>& ListIterator<Type>::operator =(const ListIterator<Type> &ite
     return *this;
 }
 
-template <numType Type>
+template <keyType Type>
 ListIterator<Type>& ListIterator<Type>::operator =(ListIterator<Type> &&iter)
 {
     std::shared_ptr<Node<Type>> null_ptr {nullptr};
@@ -64,7 +64,7 @@ ListIterator<Type>& ListIterator<Type>::operator =(ListIterator<Type> &&iter)
     return *this;
 }
 
-template <numType Type>
+template <keyType Type>
 template <sizeType U>
 ListIterator<Type>& ListIterator<Type>::operator +=(const U value)
 {
@@ -90,7 +90,7 @@ ListIterator<Type>& ListIterator<Type>::operator +=(const U value)
 
 
 
-template <numType Type>
+template <keyType Type>
 ListIterator<Type>& ListIterator<Type>::next()
 {
     std::shared_ptr<Node<Type>> converted = cur_ptr.lock();
@@ -101,13 +101,13 @@ ListIterator<Type>& ListIterator<Type>::next()
     return *this;
 }
 
-template <numType Type>
+template <keyType Type>
 ListIterator<Type>& ListIterator<Type>::operator ++()
 {
     return this->next();
 }
 
-template <numType Type>
+template <keyType Type>
 ListIterator<Type> ListIterator<Type>::operator ++(int)
 {
     ListIterator<Type> tmp {*this};
@@ -117,7 +117,7 @@ ListIterator<Type> ListIterator<Type>::operator ++(int)
     return tmp;
 }
 
-template <numType Type>
+template <keyType Type>
 ListIterator<Type>::difference_type ListIterator<Type>::operator -(const ListIterator<Type> &iter)
 {
     return index - iter.index;
@@ -125,7 +125,7 @@ ListIterator<Type>::difference_type ListIterator<Type>::operator -(const ListIte
 
 
 
-template <numType Type>
+template <keyType Type>
 ListIterator<Type>::value_type ListIterator<Type>::Current()
 {
     std::shared_ptr<Node<Type>> converted = cur_ptr.lock();
@@ -133,13 +133,13 @@ ListIterator<Type>::value_type ListIterator<Type>::Current()
     return converted->Data();
 }
 
-template <numType Type>
+template <keyType Type>
 ListIterator<Type>::operator bool() const noexcept
 {
     return index < 0 || !cur_ptr.expired();
 }
 
-template <numType Type>
+template <keyType Type>
 typename ListIterator<Type>::reference ListIterator<Type>::operator*() const {
     if (auto ptr = cur_ptr.lock())
         return ptr->RefData();
@@ -147,7 +147,7 @@ typename ListIterator<Type>::reference ListIterator<Type>::operator*() const {
     throw std::runtime_error("Dereferencing invalid iterator");
 }
 
-template <numType Type>
+template <keyType Type>
 typename ListIterator<Type>::pointer ListIterator<Type>::operator->() const {
     if (auto ptr = cur_ptr.lock())
         return &ptr->Data();
@@ -160,7 +160,7 @@ typename ListIterator<Type>::pointer ListIterator<Type>::operator->() const {
 
 
 
-template <numType Type>
+template <keyType Type>
 auto ListIterator<Type>::operator <=>(const ListIterator<Type> &iter) const
 {
     if (this->cur_ptr == iter.cur_ptr)
@@ -171,7 +171,7 @@ auto ListIterator<Type>::operator <=>(const ListIterator<Type> &iter) const
     return 3838;
 }
 
-template <numType Type>
+template <keyType Type>
 bool ListIterator<Type>::operator ==(const ListIterator<Type> &iter) const
 {
     std::shared_ptr<Node<Type>> iter1 = this->cur_ptr.lock();
@@ -183,7 +183,7 @@ bool ListIterator<Type>::operator ==(const ListIterator<Type> &iter) const
     return index1 == index2;
 }
 
-template <numType Type>
+template <keyType Type>
 bool ListIterator<Type>::operator !=(const ListIterator<Type> &iter) const
 {
     std::shared_ptr<Node<Type>> iter1 = this->cur_ptr.lock();

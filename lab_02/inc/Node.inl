@@ -1,6 +1,6 @@
 #include <memory>
 
-template <numType Type>
+template <keyType Type>
 Node<Type>::Node(const Type &value)
 {
     data = value;
@@ -8,10 +8,10 @@ Node<Type>::Node(const Type &value)
     next = nullptr;
 }
 
-template <numType Type>
+template <keyType Type>
 Node<Type>::Node(const Node<Type>& node) : Node{node.data} {}
 
-template <numType Type>
+template <keyType Type>
 Node<Type>& Node<Type>::operator=(const Type &value)
 {
     data = value;
@@ -19,7 +19,7 @@ Node<Type>& Node<Type>::operator=(const Type &value)
     return *this;
 }
 
-template <numType Type>
+template <keyType Type>
 Node<Type>& Node<Type>::operator=(const Node<Type>& node) 
 {
     if (this != &node)
@@ -28,7 +28,7 @@ Node<Type>& Node<Type>::operator=(const Node<Type>& node)
     return *this;
 }
 
-template <numType Type>
+template <keyType Type>
 Node<Type>& Node<Type>::operator=(std::shared_ptr<Node<Type>> &node)
 {
     if (this != node)
@@ -37,31 +37,31 @@ Node<Type>& Node<Type>::operator=(std::shared_ptr<Node<Type>> &node)
     return *this;
 }
 
-template <numType Type>
+template <keyType Type>
 std::shared_ptr<Node<Type>> Node<Type>::GetNext()
 {
     return next;
 }
 
-template <numType Type>
+template <keyType Type>
 void Node<Type>::SetNext(std::shared_ptr<Node<Type>> &node)
 {
     next = node;
 }
 
-template <numType Type>
+template <keyType Type>
 void Node<Type>::SetNext(Node<Type> &node)
 {
     next = std::make_shared<Node<Type>>(node);
 }
 
-template <numType Type>
+template <keyType Type>
 Type& Node<Type>::RefData()
 {
     return data;
 }
 
-template <numType Type>
+template <keyType Type>
 Type Node<Type>::Data()
 {
     return data;
