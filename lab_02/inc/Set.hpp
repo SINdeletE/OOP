@@ -8,7 +8,7 @@
 
 #include "concept.hpp"
 
-template <typename Key, keyType Type, 
+template <keyType Key, numType Type, 
         typename Hash = hash<Key>, 
         typename Pred = equal_to<Key>>
 class UnorderedMap : public BaseContainer
@@ -22,22 +22,21 @@ class UnorderedMap : public BaseContainer
         double load_factor;
     
     public:
-        using difference_type = std::ptrdiff_t;
-        using reference = Type&;
-        using const_reference = const Type&;
-        using size_type = std::ptrdiff_t;
-        using iterator = UnorderedMapIterator<Type>;
-        using const_iterator = ConstUnorderedMapIterator<Type>;
-        using local_iterator       = ListIterator<Type>;
-        using const_local_iterator = ConstListIterator<Type>;
-
         using key_type             = Key;
         using mapped_type          = Type;
+        using reference            = Type&;
+        using const_reference      = const Type&;
+        using size_type            = std::ptrdiff_t;
         using value_type           = pair<const Key, Type>;
         using hasher               = Hash;
         using key_equal            = Pred;
         using reference            = value_type&;
         using const_reference      = const value_type&;
+
+        using iterator = UnorderedMapIterator<Type>;
+        using const_iterator = ConstUnorderedMapIterator<Type>;
+        using local_iterator       = ListIterator<Type>;
+        using const_local_iterator = ConstListIterator<Type>;
 
         UnorderedMap() noexcept; // Пустой конструктор
         explicit UnorderedMap(const UnorderedMap<Type>&); // Конструктор копирования
