@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <memory>
+#include <initializer_list>
 
 #include "Iterator.hpp"
 #include "BaseContainer.hpp"
@@ -41,6 +42,10 @@ class UnorderedMap : public BaseContainer
         UnorderedMap() noexcept; // Пустой конструктор
         explicit UnorderedMap(const UnorderedMap<Type>&); // Конструктор копирования
         UnorderedMap(UnorderedMap<Type>&); // Конструктор переноса
+        UnorderedMap(std::initializer_list<Key>); // Инициализация с переменным числом параметров
+        UnorderedMap(Args&&... args); // Переменно
+        // UnorderedMap(R&& range); // Диапазон
+
         ~UnorderedMap();
 
         explicit UnorderedMap<Type>& operator =(const UnorderedMap<Type>&) // Оператор копирования
