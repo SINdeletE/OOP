@@ -80,6 +80,28 @@ List<Type>::iterator List<Type>::end() noexcept
 }
 
 template <keyType Type>
+List<Type>::const_iterator List<Type>::cbegin() noexcept
+{
+    ConstListIterator<Type> iter {this->head, 0};
+
+    return iter;
+}
+
+template <keyType Type>
+List<Type>::const_iterator List<Type>::cend() noexcept
+{
+    std::shared_ptr<Node<Type>> null_ptr {nullptr};
+    ConstListIterator<Type> iter {null_ptr, size};
+
+    return iter;
+}
+
+
+
+
+
+
+template <keyType Type>
 List<Type>::iterator List<Type>::erase(List<Type>::iterator &pos)
 {
     ListIterator<Type> iter {};

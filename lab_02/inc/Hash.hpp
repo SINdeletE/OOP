@@ -5,7 +5,8 @@
 #include <initializer_list>
 #include <utility>
 
-#include "Iterator.hpp"
+#include "ListIterator.hpp"
+#include "ConstListIterator.hpp"
 #include "BaseContainer.hpp"
 
 #include "concept.hpp"
@@ -43,8 +44,8 @@ class UnorderedMap : public BaseContainer
 
         ~UnorderedMap();
 
-        explicit UnorderedMap<Type>& operator =(const UnorderedMap<Type>&) // Оператор копирования
-        UnorderedMap<Type>& operator=(UnorderedMap<Type>&) // Оператор переноса
+        explicit UnorderedMap<Type>& operator =(const UnorderedMap<Type>&); // Оператор копирования
+        UnorderedMap<Type>& operator=(UnorderedMap<Type>&); // Оператор переноса
 
 
         // Основные функции
@@ -53,7 +54,7 @@ class UnorderedMap : public BaseContainer
         bool IsEmpty() const noexcept override;
     
     private:
-        std::shared_ptr<List<Type>[]> buckets;
+        List<<List<Type>>> buckets;
         std::ptrdiff_t table_size;
         sid::ptrdiff_t capacity;
         double load_factor;
