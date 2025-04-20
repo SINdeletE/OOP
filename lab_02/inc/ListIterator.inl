@@ -9,7 +9,7 @@ ListIterator<Type>::ListIterator() noexcept : index(0)
 }
 
 template <keyType Type>
-ListIterator<Type>::ListIterator(std::shared_ptr<Node<Type>> &list, const ListIterator<Type>::difference_type &init_index)
+ListIterator<Type>::ListIterator(const std::shared_ptr<Node<Type>> &list, const ListIterator<Type>::difference_type &init_index)
 {
     cur_ptr = list;
     index = init_index;
@@ -23,10 +23,10 @@ ListIterator<Type>::ListIterator(const ListIterator<Type> &iter)
 }
 
 template <keyType Type>
-ListIterator<Type>::ListIterator(ListIterator<Type> &&iter)
+ListIterator<Type>::ListIterator(ListIterator<Type> &&iter) : ListIterator(iter)
 {
-    cur_ptr = iter.cur_ptr;
-    index = iter.index;
+    iter.cur_ptr.reset();
+    index = 0;
 }
 
 
@@ -73,7 +73,7 @@ ListIterator<Type>& ListIterator<Type>::operator +=(const U value)
     }
 
     std::shared_ptr<Node<Type>> ptr = cur_ptr.lock();
-    for (int i = 0; i < value; i++)
+    for (int i = 0; i < value; i++) // ЗАМЕНИТЬ НА Ranges
         ptr = ptr->GetNext();
     
     cur_ptr = ptr;
@@ -118,7 +118,7 @@ ListIterator<Type> ListIterator<Type>::operator ++(int)
 }
 
 template <keyType Type>
-ListIterator<Type>::difference_type ListIterator<Type>::operator -(const ListIterator<Type> &iter)
+ListIterator<Type>::difference_type ListIterator<Type>::operator -(const ListIterator<Type> &iter) const
 {
     return index - iter.index;
 }
@@ -144,7 +144,7 @@ ListIterator<Type>::reference ListIterator<Type>::operator*() const {
     if (auto ptr = cur_ptr.lock())
         return ptr->RefData();
 
-    throw std::runtime_error("Dereferencing invalid iterator");
+    throw;
 }
 
 template <keyType Type>
@@ -152,7 +152,7 @@ ListIterator<Type>::pointer ListIterator<Type>::operator->() const {
     if (auto ptr = cur_ptr.lock())
         return &ptr->Data();
 
-    throw std::runtime_error("Accessing invalid iterator");
+    throw;
 }
 
 
@@ -163,12 +163,9 @@ ListIterator<Type>::pointer ListIterator<Type>::operator->() const {
 template <keyType Type>
 auto ListIterator<Type>::operator <=>(const ListIterator<Type> &iter) const
 {
-    if (this->cur_ptr == iter.cur_ptr)
-        return index - iter.index; 
+    return index - iter.index; 
     // else
     //     ; // Ошибка, если не тот указатель
-
-    return 3838;
 }
 
 template <keyType Type>

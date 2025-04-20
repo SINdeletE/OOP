@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <memory>
-#include <ranges>
+#include <functional>
 
 #include "Node.hpp"
 
@@ -17,8 +17,22 @@ std::ostream& operator <<(std::ostream &os, std::shared_ptr<Node<Type>> &node)
 template <keyType Type>
 std::ostream& operator <<(std::ostream &os, List<Type> &list)
 {
-    for (auto iter = list.begin(); iter != list.end(); ++iter)
-        os << *iter << ' ';
+    for (auto &v : list)
+        os << v << ' ';
+
+    os << std::endl;
+
+    return os;
+}
+
+template <
+        keyType Key, 
+        typename Compare = std::less<Key>
+>
+std::ostream& operator <<(std::ostream &os, Set<Key, Compare> &set)
+{
+    for (const auto &v : set)
+        os << v << ' ';
 
     os << std::endl;
 

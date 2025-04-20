@@ -5,7 +5,8 @@
 
 #include "ListIterator.hpp"
 #include "List.hpp"
-#include "Hash.hpp"
+#include "Set.hpp"
+// #include "Hash.hpp"
 #include "Output.hpp"
 
 int main(void)
@@ -129,10 +130,55 @@ int main(void)
     list_iter_s = list_s.erase(list_iter_s);
     std::cout << "Ожидание: matter fixio retlan. Реальность: " << list_s;
 
+
+    list_iter_s = list_s.begin();
+    list_iter_s = list_s.insert(list_iter_s, "reworder");
+    std::cout << "Ожидание: reworder matter fixio retlan. Реальность: " << list_s;
+    list_iter_s = list_s.insert(list_iter_s, "IO");
+    std::cout << "Ожидание: IO reworder matter fixio retlan. Реальность: " << list_s;
+    list_iter_s++;
+    list_iter_s = list_s.insert(list_iter_s, "MIXTURA");
+
+    std::cout << "Ожидание: IO MIXTURA reworder matter fixio retlan. Реальность: " << list_s;
+
     std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 
 
 
+
+
+    
+    std::cout << "ТЕСТИРОВАНИЕ: class Set" << std::endl;
+
+    Set<int> set {};
+    set.insert(1);
+    set.insert(3);
+    set.insert(3);
+    set.insert(0);
+    set.insert(2);
+
+    std::cout << "Ожидание: 0 1 2 3. Реальность: " << set;
+
+    Set<std::string> set_s {};
+    set_s.insert("aata");
+    set_s.insert("bata");
+    set_s.insert("bata");
+    set_s.insert("cata");
+    set_s.insert("data");
+    std::cout << "Ожидание: aata bata cata data. Реальность: " << set_s;
+
+    Set<std::string> set_s_2 {};
+    set_s_2.insert("aata");
+    set_s_2.insert("bata");
+    set_s_2.insert("rata");
+
+    set_s | set_s_2;
+    set_s | "wqewqeqw";
+    set_s |= set_s_2;
+    set_s |= "zata";
+    std::cout << "Ожидание: aata bata cata data rata zata. Реальность: " << set_s;
+
+    std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 
 
     return 0;

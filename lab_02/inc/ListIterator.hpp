@@ -19,17 +19,16 @@ class ListIterator : public BaseIterator
         std::ptrdiff_t index;
 
     public:
-        using iterator_category = std::bidirectional_iterator_tag;
+        using iterator_category = std::forward_iterator_tag;
         using value_type = Type;
         using difference_type = std::ptrdiff_t;
         using pointer = Type*;
         using reference = Type&;
 
         ListIterator() noexcept;
-        explicit ListIterator(std::shared_ptr<Node<Type>> &list, const difference_type &index);
+        explicit ListIterator(const std::shared_ptr<Node<Type>> &list, const difference_type &index);
         ListIterator(const ListIterator<Type>&);
         ListIterator(ListIterator<Type>&&);
-        ListIterator(int size) = delete;
         ~ListIterator() = default;
 
         ListIterator<Type>& operator =(const ListIterator<Type>&);
@@ -39,7 +38,7 @@ class ListIterator : public BaseIterator
         ListIterator<Type>& next();
         ListIterator<Type>& operator ++();
         ListIterator<Type> operator ++(int);
-        difference_type operator-(const ListIterator<Type>&);
+        difference_type operator-(const ListIterator<Type>&) const;
 
         value_type Current();
         explicit operator bool() const noexcept;
@@ -51,6 +50,7 @@ class ListIterator : public BaseIterator
         bool operator !=(const ListIterator<Type>&) const;
 
         std::shared_ptr<Node<Type>> GetPtr() { return cur_ptr.lock(); };
+        difference_type GetIndex() { return this->index; };
 };
 
 static_assert(std::forward_iterator<ListIterator<int>>);

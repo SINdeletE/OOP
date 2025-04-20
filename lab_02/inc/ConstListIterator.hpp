@@ -19,14 +19,14 @@ class ConstListIterator : public BaseIterator
         std::ptrdiff_t index;
 
     public:
-        using iterator_category = std::bidirectional_iterator_tag;
+        using iterator_category = std::forward_iterator_tag;
         using value_type = const Type;
         using difference_type = std::ptrdiff_t;
         using pointer = const Type*;
         using reference = const Type&;
 
         ConstListIterator() noexcept;
-        explicit ConstListIterator(std::shared_ptr<Node<Type>> &list, const difference_type &index);
+        explicit ConstListIterator(const std::shared_ptr<Node<Type>> &list, const difference_type &index);
         ConstListIterator(const ConstListIterator<Type>&);
         ConstListIterator(ConstListIterator<Type>&&);
         ConstListIterator(int size) = delete;

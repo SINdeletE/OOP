@@ -31,18 +31,18 @@ class List : public BaseContainer
 
         List();
         explicit List(const List<Type>&);
-        List(List<Type>&&);
-        // explicit List(const Node<Type>&);
+        List(List<Type>&&) noexcept;
 
         void push_back(const Type& value);
         void pop_back();
         void push_front(const Type& value);
+        iterator insert(iterator &pos, const Type& value);
 
         // Итераторы
-        iterator begin() noexcept;
-        iterator end() noexcept;
-        const_iterator cbegin() noexcept;
-        const_iterator cend() noexcept;
+        iterator begin() const noexcept;
+        iterator end() const noexcept;
+        const_iterator cbegin() const noexcept;
+        const_iterator cend() const noexcept;
 
         iterator erase(iterator &pos);
 

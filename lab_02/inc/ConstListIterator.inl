@@ -9,7 +9,7 @@ ConstListIterator<Type>::ConstListIterator() noexcept : index(0)
 }
 
 template <keyType Type>
-ConstListIterator<Type>::ConstListIterator(std::shared_ptr<Node<Type>> &list, const ConstListIterator<Type>::difference_type &init_index)
+ConstListIterator<Type>::ConstListIterator(const std::shared_ptr<Node<Type>> &list, const ConstListIterator<Type>::difference_type &init_index)
 {
     cur_ptr = list;
     index = init_index;
