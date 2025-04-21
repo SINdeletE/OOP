@@ -85,18 +85,21 @@ template <
         keyType Key,
         typename Compare 
 >
-void Set<Key, Compare>::insert(const Key &value)
+Set<Key, Compare>::iterator Set<Key, Compare>::insert(const Key &value)
 {
     bool flag = true;
     Compare comp;
-    ListIterator<Key> iter = data.begin();
-    
-    for (; flag && iter != data.end(); iter++)
+    ListIterator<Key> res_list_iter {};
+
+    for (auto iter = data.begin(); flag && iter != data.end(); iter++)
         if (!comp(*iter, value) && !comp(value, *iter))
+        {
+            res_list_iter = iter;
             flag = false;
+        }
         else if (!comp(*iter, value))
         {
-            data.insert(iter, value);
+            res_list_iter = data.insert(iter, value);
             flag = false;
 
             this->size++;
@@ -104,10 +107,17 @@ void Set<Key, Compare>::insert(const Key &value)
     
     if (flag)
     {
-        data.push_back(value); // В конец, если value больше всех значений
+        res_list_iter = data.push_back(value); // В конец, если value больше всех значений
 
         this->size++;
+
+        res_list_iter = data.begin();
+        res_list_iter += this->GetSize() - 1;
     }
+
+    SetIterator<Key> res_iter {res_list_iter};
+
+    return res_iter;
 }
 
 
@@ -115,7 +125,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>::iterator Set<Key, Compare>::find(const Key &value)
+Set<Key, Compare>::iterator Set<Key, Compare>::find(const Key &value) const
 {
     bool flag = true;
     iterator res_iter = this->end();
@@ -157,8 +167,15 @@ Set<Key, Compare>::const_iterator Set<Key, Compare>::cfind(const Key &value) con
 
 
 
-
-
+template <
+        keyType Key,
+        typename Compare 
+>
+void Set<Key, Compare>::clear()
+{
+    for (auto iter = this->begin(); iter != this->end();)
+        iter = this->erase(*iter);
+}
 
 template <
         keyType Key,
@@ -218,7 +235,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare> Set<Key, Compare>::operator |(const Set<Key, Compare> &set)
+Set<Key, Compare> Set<Key, Compare>::operator |(const Set<Key, Compare> &set) const
 {
     Set<Key, Compare> tmp {*this};
 
@@ -232,7 +249,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare> Set<Key, Compare>::operator |(const Key &value)
+Set<Key, Compare> Set<Key, Compare>::operator |(const Key &value) const
 {
     Set<Key, Compare> tmp {*this};
 
@@ -268,7 +285,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare> Set<Key, Compare>::operator +(const Set<Key, Compare> &set)
+Set<Key, Compare> Set<Key, Compare>::operator +(const Set<Key, Compare> &set) const
 {
     return *this | set;
 }
@@ -277,7 +294,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare> Set<Key, Compare>::operator +(const Key &value)
+Set<Key, Compare> Set<Key, Compare>::operator +(const Key &value) const
 {
     return *this | value;
 }
@@ -338,7 +355,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare> Set<Key, Compare>::operator &(const Set<Key, Compare> &set)
+Set<Key, Compare> Set<Key, Compare>::operator &(const Set<Key, Compare> &set) const
 {
     Set<Key, Compare> tmp {*this};
     
@@ -351,7 +368,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare> Set<Key, Compare>::operator &(const Key &value)
+Set<Key, Compare> Set<Key, Compare>::operator &(const Key &value) const
 {
     Set<Key, Compare> tmp {*this};
     
@@ -390,7 +407,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare> Set<Key, Compare>::operator -(const Set<Key, Compare> &set)
+Set<Key, Compare> Set<Key, Compare>::operator -(const Set<Key, Compare> &set) const
 {
     Set<Key, Compare> tmp {*this};
 
@@ -403,7 +420,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare> Set<Key, Compare>::operator -(const Key &value)
+Set<Key, Compare> Set<Key, Compare>::operator -(const Key &value) const
 {
     Set<Key, Compare> tmp {*this};
 
@@ -412,3 +429,72 @@ Set<Key, Compare> Set<Key, Compare>::operator -(const Key &value)
     return tmp;
 }
 
+
+
+
+
+
+
+
+
+// Симметрическая разность (Исключающее ИЛИ)
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare>& Set<Key, Compare>::operator ^=(const Set<Key, Compare> &set)
+{
+    Set<Key, Compare> tmp {*this};
+    tmp &= set;
+
+    *this |= set;
+    *this -= tmp;
+
+    return *this;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare>& Set<Key, Compare>::operator ^=(const Key &value)
+{
+    bool is_contains = false;
+
+    if (this->contains(value))
+        is_contains = true;
+
+    this->clear();
+
+    if (! is_contains)
+        this->insert(value);
+
+    return *this;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare> Set<Key, Compare>::operator ^(const Set<Key, Compare> &set) const
+{
+    Set<Key, Compare> tmp {*this};
+
+    tmp ^= set;
+
+    return tmp;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare> Set<Key, Compare>::operator ^(const Key &value) const
+{
+    Set<Key, Compare> tmp {*this};
+
+    tmp ^= value;
+
+    return tmp;
+}

@@ -1,4 +1,20 @@
 template <keyType Key>
+SetIterator<Key>& SetIterator<Key>::operator =(const SetIterator<Key> &iter)
+{
+    this->list_iter = iter.list_iter;
+    
+    return *this;
+}
+
+template <keyType Key>
+SetIterator<Key>& SetIterator<Key>::operator =(SetIterator<Key> &&iter)
+{
+    this->list_iter = std::move(iter.list_iter);
+    
+    return *this;
+}
+
+template <keyType Key>
 SetIterator<Key>& SetIterator<Key>::next()
 {
     ++list_iter;

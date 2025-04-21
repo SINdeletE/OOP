@@ -29,23 +29,32 @@ List<Type>::List(List<Type> &&list) noexcept
 
 
 template <keyType Type>
-void List<Type>::push_back(const Type& value)
+List<Type>::iterator List<Type>::push_back(const Type& value)
 {
     Node<Type> node {value};
     std::shared_ptr<Node<Type>> node_ptr = std::make_shared<Node<Type>>(node);
+    ListIterator<Type> iter {};
 
     if (head == nullptr)
+    {
         head = node_ptr;
+
+        iter = this->begin();
+    }
     else
     {
-        ListIterator<Type> iter = this->begin();
+        iter = this->begin();
         iter += this->GetSize() - 1;
 
         std::shared_ptr<Node<Type>> last_node_shared_ptr = iter.GetPtr();
         last_node_shared_ptr->SetNext(node_ptr);
+
+        iter++;
     }
 
     size++;
+
+    return iter;
 }
 
 template <keyType Type>
@@ -103,8 +112,7 @@ List<Type>::iterator List<Type>::insert(List<Type>::iterator &pos, const Type& v
     }
     else
     {
-        List<Type>::iterator new_iter = this->begin();
-        
+        new_iter = this->begin();
         new_iter += index - 1;
 
         std::shared_ptr<Node<Type>> parent_node = new_iter.GetPtr();

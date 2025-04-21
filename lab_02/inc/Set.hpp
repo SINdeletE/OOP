@@ -46,9 +46,13 @@ class Set : public BaseContainer
         iterator erase(const Key &value);
         iterator erase(iterator &pos);
         const_iterator erase(const_iterator &pos);
-        iterator find(const Key &value);
+
+        iterator find(const Key &value) const;
         const_iterator cfind(const Key &value) const;
-        void insert(const Key &value);
+        
+        void clear();
+        iterator insert(const Key &value);
+        bool contains(const Key &value) const { return this->find(value) != this->end(); }
 
         // Итераторы
         iterator begin() const noexcept;
@@ -57,31 +61,31 @@ class Set : public BaseContainer
         const_iterator cend() const noexcept;
 
         // ИЛИ
-        Set<Key, Compare> operator |(const Set<Key, Compare> &);
-        Set<Key, Compare> operator |(const Key&);
+        Set<Key, Compare> operator |(const Set<Key, Compare> &) const;
+        Set<Key, Compare> operator |(const Key&) const;
         Set<Key, Compare>& operator |=(const Set<Key, Compare> &);
         Set<Key, Compare>& operator |=(const Key&);
 
-        Set<Key, Compare> operator +(const Set<Key, Compare> &);
-        Set<Key, Compare> operator +(const Key&);
+        Set<Key, Compare> operator +(const Set<Key, Compare> &) const;
+        Set<Key, Compare> operator +(const Key&) const;
         Set<Key, Compare>& operator +=(const Set<Key, Compare> &);
         Set<Key, Compare>& operator +=(const Key&);
 
         // И
-        Set<Key, Compare> operator &(const Set<Key, Compare> &);
-        Set<Key, Compare> operator &(const Key&);
+        Set<Key, Compare> operator &(const Set<Key, Compare> &) const;
+        Set<Key, Compare> operator &(const Key&) const;
         Set<Key, Compare>& operator &=(const Set<Key, Compare> &);
         Set<Key, Compare>& operator &=(const Key&);
 
         // Симметрическая разность (Исключающее ИЛИ)
-        Set<Key, Compare> operator ^(const Set<Key, Compare> &);
-        Set<Key, Compare> operator ^(const Key&);
+        Set<Key, Compare> operator ^(const Set<Key, Compare> &) const;
+        Set<Key, Compare> operator ^(const Key&) const;
         Set<Key, Compare>& operator ^=(const Set<Key, Compare> &);
         Set<Key, Compare>& operator ^=(const Key&);
         
         // Разность
-        Set<Key, Compare> operator -(const Set<Key, Compare> &);
-        Set<Key, Compare> operator -(const Key&);
+        Set<Key, Compare> operator -(const Set<Key, Compare> &) const;
+        Set<Key, Compare> operator -(const Key&) const;
         Set<Key, Compare>& operator -=(const Set<Key, Compare> &);
         Set<Key, Compare>& operator -=(const Key&);
 

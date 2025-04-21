@@ -151,11 +151,18 @@ int main(void)
     std::cout << "ТЕСТИРОВАНИЕ: class Set" << std::endl;
 
     Set<int> set {};
-    set.insert(1);
-    set.insert(3);
-    set.insert(3);
-    set.insert(0);
-    set.insert(2);
+    SetIterator<int> my_iter {};
+
+    my_iter = set.insert(1);
+    std::cout << "Ожидание: 1. Реальность: " << *my_iter << std::endl; 
+    my_iter = set.insert(3);
+    std::cout << "Ожидание: 3. Реальность: " << *my_iter << std::endl;
+    my_iter = set.insert(3);
+    std::cout << "Ожидание: 3. Реальность: " << *my_iter << std::endl;
+    my_iter = set.insert(0);
+    std::cout << "Ожидание: 0. Реальность: " << *my_iter << std::endl;
+    my_iter = set.insert(2);
+    std::cout << "Ожидание: 2. Реальность: " << *my_iter << std::endl;
 
     std::cout << "Ожидание: 0 1 2 3. Реальность: " << set;
 
@@ -222,6 +229,34 @@ int main(void)
 
     std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 
+
+
+
+
+    Set<int> set_xor {};
+    set_xor.insert(1);
+    set_xor.insert(2);
+    set_xor.insert(8);
+    set_xor.insert(4);
+    set_xor.insert(5);
+
+    Set<int> set_xor_2 {};
+    set_xor_2.insert(26);
+    set_xor_2.insert(15);
+    set_xor_2.insert(4);
+    set_xor_2.insert(5);
+
+    set_xor ^= set_xor_2;
+    std::cout << "Ожидание: 1 2 8 15 26. Реальность: " << set_xor;
+
+    set_xor ^= 99;
+    std::cout << "Ожидание: 99. Реальность: " << set_xor;
+
+    set_xor ^= 99;
+    set_xor ^ set_xor_2;
+    set_xor ^ 1;
+    std::cout << "Ожидание: (Пусто). Реальность: " << set_xor;
+    std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 
     return 0;
 }

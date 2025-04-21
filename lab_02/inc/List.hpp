@@ -33,7 +33,7 @@ class List : public BaseContainer
         explicit List(const List<Type>&);
         List(List<Type>&&) noexcept;
 
-        void push_back(const Type& value);
+        iterator push_back(const Type& value);
         void pop_back();
         void push_front(const Type& value);
         iterator insert(iterator &pos, const Type& value);

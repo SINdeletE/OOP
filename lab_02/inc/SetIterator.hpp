@@ -23,8 +23,8 @@ class SetIterator : public BaseIterator
         SetIterator(ListIterator<Key> &&iter) : list_iter(std::move(iter)) {};
         ~SetIterator() override = default;
 
-        SetIterator<Key>& operator =(const SetIterator<Key> &iter) { this->list_iter = iter.list_iter; return *this; };
-        SetIterator<Key>& operator =(SetIterator<Key> &&iter) { this->list_iter = std::move(iter.list_iter); return *this; };
+        SetIterator<Key>& operator =(const SetIterator<Key> &iter);
+        SetIterator<Key>& operator =(SetIterator<Key> &&iter);
         template <sizeType U> SetIterator<Key>& operator +=(const U value) { list_iter += value; }
 
         SetIterator<Key>& next();
