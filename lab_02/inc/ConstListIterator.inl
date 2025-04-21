@@ -118,7 +118,7 @@ ConstListIterator<Type> ConstListIterator<Type>::operator ++(int)
 }
 
 template <keyType Type>
-ConstListIterator<Type>::difference_type ConstListIterator<Type>::operator -(const ConstListIterator<Type> &iter)
+ConstListIterator<Type>::difference_type ConstListIterator<Type>::operator -(const ConstListIterator<Type> &iter) const
 {
     return index - iter.index;
 }
@@ -126,9 +126,9 @@ ConstListIterator<Type>::difference_type ConstListIterator<Type>::operator -(con
 
 
 template <keyType Type>
-ConstListIterator<Type>::value_type ConstListIterator<Type>::Current()
+ConstListIterator<Type>::value_type ConstListIterator<Type>::Current() const
 {
-    std::shared_ptr<Node<Type>> converted = cur_ptr.lock();
+    const std::shared_ptr<Node<Type>> converted = cur_ptr.lock();
 
     return converted->Data();
 }
@@ -140,7 +140,8 @@ ConstListIterator<Type>::operator bool() const noexcept
 }
 
 template <keyType Type>
-ConstListIterator<Type>::reference ConstListIterator<Type>::operator*() const {
+ConstListIterator<Type>::reference ConstListIterator<Type>::operator*() const 
+{
     if (auto ptr = cur_ptr.lock())
         return ptr->RefData();
 
@@ -148,7 +149,8 @@ ConstListIterator<Type>::reference ConstListIterator<Type>::operator*() const {
 }
 
 template <keyType Type>
-ConstListIterator<Type>::pointer ConstListIterator<Type>::operator->() const {
+ConstListIterator<Type>::pointer ConstListIterator<Type>::operator->() const 
+{
     if (auto ptr = cur_ptr.lock())
         return &ptr->Data();
 

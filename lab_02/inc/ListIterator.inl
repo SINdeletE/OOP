@@ -126,7 +126,7 @@ ListIterator<Type>::difference_type ListIterator<Type>::operator -(const ListIte
 
 
 template <keyType Type>
-ListIterator<Type>::value_type ListIterator<Type>::Current()
+ListIterator<Type>::value_type ListIterator<Type>::Current() const
 {
     std::shared_ptr<Node<Type>> converted = cur_ptr.lock();
 

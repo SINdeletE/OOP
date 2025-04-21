@@ -1,4 +1,30 @@
 template <keyType Key>
+ConstSetIterator<Key>& ConstSetIterator<Key>::operator =(const ConstSetIterator<Key> &iter) 
+{
+    this->list_iter = iter.list_iter;
+    
+    return *this;
+}
+
+template <keyType Key>
+ConstSetIterator<Key>& ConstSetIterator<Key>::operator =(ConstSetIterator<Key> &&iter)
+{
+    this->list_iter = std::move(iter.list_iter);
+
+    return *this; 
+}
+
+template <keyType Key>
+template <sizeType U> 
+ConstSetIterator<Key>& ConstSetIterator<Key>::operator +=(const U value)
+{
+    list_iter += value;
+
+    return *this;
+}
+
+
+template <keyType Key>
 ConstSetIterator<Key>& ConstSetIterator<Key>::next()
 {
     ++list_iter;
@@ -29,7 +55,7 @@ ConstSetIterator<Key>::difference_type ConstSetIterator<Key>::operator-(const Co
 }
 
 template <keyType Key>
-ConstSetIterator<Key>::value_type ConstSetIterator<Key>::Current()
+ConstSetIterator<Key>::value_type ConstSetIterator<Key>::Current() const
 {
     return list_iter.Current();
 }

@@ -43,10 +43,11 @@ class Set : public BaseContainer
         ~Set() override = default;
 
         // Функции для работы с элементами множества
-        void erase(const Key &value);
-        void erase(iterator &pos);
-        // void erase(const_iterator pos);
-
+        iterator erase(const Key &value);
+        iterator erase(iterator &pos);
+        const_iterator erase(const_iterator &pos);
+        iterator find(const Key &value);
+        const_iterator cfind(const Key &value) const;
         void insert(const Key &value);
 
         // Итераторы

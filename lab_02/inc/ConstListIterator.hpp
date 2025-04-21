@@ -39,9 +39,9 @@ class ConstListIterator : public BaseIterator
         ConstListIterator<Type>& next();
         ConstListIterator<Type>& operator ++();
         ConstListIterator<Type> operator ++(int);
-        difference_type operator-(const ConstListIterator<Type>&);
+        difference_type operator-(const ConstListIterator<Type>&) const;
 
-        value_type Current();
+        value_type Current() const;
         explicit operator bool() const noexcept;
         reference operator *() const;
         pointer operator ->() const;
@@ -50,7 +50,7 @@ class ConstListIterator : public BaseIterator
         bool operator ==(const ConstListIterator<Type>&) const;
         bool operator !=(const ConstListIterator<Type>&) const;
 
-        const std::shared_ptr<Node<Type>> GetPtr() { return cur_ptr.lock(); };
+        const std::shared_ptr<Node<Type>> GetPtr() const { return cur_ptr.lock(); };
 };
 
 static_assert(std::forward_iterator<ConstListIterator<int>>);

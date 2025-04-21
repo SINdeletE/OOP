@@ -176,7 +176,49 @@ int main(void)
     set_s | "wqewqeqw";
     set_s |= set_s_2;
     set_s |= "zata";
-    std::cout << "Ожидание: aata bata cata data rata zata. Реальность: " << set_s;
+    set_s + set_s_2;
+    set_s + "wqewqeqw";
+    set_s += set_s_2;
+    set_s += "zata";
+    set_s += set_s;
+    set_s.erase("aata");
+    set_s.erase("cata");
+    set_s.erase("zata");
+    std::cout << "Ожидание: bata data rata. Реальность: " << set_s << std::endl;
+
+    Set<std::string> set_s_2_copy {set_s_2};
+    set_s_2 -= set_s_2_copy;
+    std::cout << "Ожидание: (Пусто). Реальность: " << set_s_2;
+
+    set_s_2 -= set_s_2;
+    std::cout << "Ожидание: (Пусто). Реальность: " << set_s_2 << std::endl;
+
+
+
+    Set<int> set_and {};
+    set_and.insert(1);
+    set_and.insert(2);
+    set_and.insert(8);
+    set_and.insert(4);
+    set_and.insert(5);
+
+    Set<int> set_and_2 {};
+    set_and_2.insert(1);
+    set_and_2.insert(2);
+    set_and_2.insert(4);
+    set_and_2.insert(5);
+
+    std::cout << "Ожидание: 1. Реальность: " << (set_and.find(9) == set_and.end()) << std::endl;
+    std::cout << "Ожидание: 1. Реальность: " << (set_and.find(8) != set_and.end()) << std::endl;
+
+    set_and &= set_and_2;
+    std::cout << "Ожидание: 1 2 4 5. Реальность: " << set_and;
+
+    set_and_2 |= 144;
+    set_and_2 &= 144;
+    set_and_2 & set_and;
+    set_and_2 & 128;
+    std::cout << "Ожидание: 144. Реальность: " << set_and_2;
 
     std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 

@@ -67,7 +67,7 @@ void List<Type>::pop_back()
     {
         iter += index;
 
-        std::shared_ptr<Node<Type>> node_ptr {nullptr};
+        std::shared_ptr<Node<Type>> node_ptr = nullptr;
         std::shared_ptr<Node<Type>> last_node_ptr = iter.GetPtr();
         std::shared_ptr<Node<Type>> deleting_node_ptr = last_node_ptr->GetNext();
         deleting_node_ptr.reset();
@@ -170,8 +170,16 @@ template <keyType Type>
 List<Type>::iterator List<Type>::erase(List<Type>::iterator &pos)
 {
     ListIterator<Type> iter {};
+    ListIterator<Type> next_pos {pos};
+    next_pos++;
 
-    if (this->begin() == pos)
+    if (this->end() == next_pos) // Если нода ПОСЛЕДНЯЯ
+    {
+        this->pop_back();
+
+        iter = this->end();
+    }
+    else if (this->begin() == pos) // Если нода ПЕРВАЯ
     {
         std::shared_ptr<Node<Type>> erased_node {head};
 
@@ -179,11 +187,14 @@ List<Type>::iterator List<Type>::erase(List<Type>::iterator &pos)
         erased_node.reset();
 
         iter = this->begin(); // Тут тоже перенос :O
+        size--;
     }
     else
     {
+        std::ptrdiff_t offset = pos - this->begin() - 1;
+
         iter = this->begin();
-        iter += pos - this->begin() - 1;
+        iter += offset;
 
         std::shared_ptr<Node<Type>> pre_deleting_node_ptr = iter.GetPtr();
         std::shared_ptr<Node<Type>> deleting_node_ptr = pre_deleting_node_ptr->GetNext();
@@ -193,9 +204,8 @@ List<Type>::iterator List<Type>::erase(List<Type>::iterator &pos)
         deleting_node_ptr.reset();
 
         iter++;
+        size--;
     }
-
-    size--;
 
     return iter;
 }
