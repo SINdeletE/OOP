@@ -1,9 +1,11 @@
 #pragma once
 
+#include <iostream>
 #include <memory>
 #include <initializer_list> 
 #include <functional>
 #include <stdbool.h>
+#include <cstdarg>
 
 #include "concept.hpp"
 #include "BaseContainer.hpp"
@@ -14,7 +16,7 @@ template <
         keyType Key,
         typename Compare = std::less<Key> // arg1 - arg2
 >
-class Set : public BaseContainer
+class Set final: public BaseContainer
 {
     friend class SetIterator<Key>;
     friend class ConstSetIterator<Key>;
@@ -35,10 +37,14 @@ class Set : public BaseContainer
         Set() : data() { this->size = 0; };
 
         explicit Set(const Set<Key, Compare> &set);
-        Set(Set<Key, Compare> &&set);
-        Set(std::initializer_list<Key> nodes);
+        Set(Set<Key, Compare> &&set) noexcept;
+        Set(std::initializer_list<Key> list);
         // explicit Set(Args&&... args);
-        explicit Set(std::size_t n,...);
+        explicit Set(std::ptrdiff_t n,...);
+        Set(size_type array_len, const Key *array);
+
+        Set<Key, Compare>& operator=(const Set<Key, Compare> &set);
+        Set<Key, Compare>& operator=(Set<Key, Compare> &&set) noexcept;
 
         ~Set() override = default;
 
@@ -93,11 +99,25 @@ class Set : public BaseContainer
         bool operator ==(const Set<Key, Compare> &);
         bool operator !=(const Set<Key, Compare> &);
 
-        [[nodiscard]] std::ptrdiff_t GetSize() const override { return size; };
-        bool IsEmpty() const override { return size == 0; };
+        [[nodiscard]] std::ptrdiff_t GetSize() const noexcept override { return size; }
+        bool IsEmpty() const noexcept override { return size == 0; }
 
     private:
         List<Key> data;
 };
+
+template <
+        keyType Key, 
+        typename Compare = std::less<Key>
+>
+std::ostream& operator <<(std::ostream &os, Set<Key, Compare> &set)
+{
+    for (const auto &v : set)
+        os << v << ' ';
+
+    os << std::endl;
+
+    return os;
+}
 
 #include "Set.inl"

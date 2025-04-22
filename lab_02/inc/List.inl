@@ -2,7 +2,7 @@
 #include <ranges>
 
 template <keyType Type>
-List<Type>::List() : head(nullptr)
+List<Type>::List() noexcept : head(nullptr)
 {
     this->size = 0;
 }
@@ -31,8 +31,20 @@ List<Type>::List(List<Type> &&list) noexcept
 template <keyType Type>
 List<Type>::iterator List<Type>::push_back(const Type& value)
 {
+    time_t cur_time = time(NULL);
+    
     Node<Type> node {value};
-    std::shared_ptr<Node<Type>> node_ptr = std::make_shared<Node<Type>>(node);
+    std::shared_ptr<Node<Type>> node_ptr {};
+
+    try
+    {
+        node_ptr = std::make_shared<Node<Type>>(node);
+    }
+    catch (std::bad_alloc &error)
+    {
+        throw ErrorList_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
+    
     ListIterator<Type> iter {};
 
     if (head == nullptr)
@@ -60,12 +72,14 @@ List<Type>::iterator List<Type>::push_back(const Type& value)
 template <keyType Type>
 void List<Type>::pop_back()
 {
+    time_t cur_time = time(NULL);
+
     ListIterator<Type> iter = this->begin();
     std::ptrdiff_t index = this->GetSize() - 2;
 
-    if (index == -2)
+    if (index == -2) // Нет элементов
     {
-        // throw
+        throw ErrorList_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
     else if (index == -1) // Если 1 элемент
     {
@@ -90,8 +104,19 @@ void List<Type>::pop_back()
 template <keyType Type>
 void List<Type>::push_front(const Type& value)
 {
+    time_t cur_time = time(NULL);
+
     Node<Type> node {value};
-    std::shared_ptr<Node<Type>> node_ptr = std::make_shared<Node<Type>>(node);
+    std::shared_ptr<Node<Type>> node_ptr {};
+    
+    try
+    {
+        node_ptr = std::make_shared<Node<Type>>(node);
+    }
+    catch (std::bad_alloc &error)
+    {
+        throw ErrorList_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
 
     node_ptr->SetNext(this->head);
     this->head = node_ptr;
@@ -226,13 +251,13 @@ List<Type>::iterator List<Type>::erase(List<Type>::iterator &pos)
 
 
 template <keyType Type>
-List<Type>::size_type List<Type>::GetSize() const
+List<Type>::size_type List<Type>::GetSize() const noexcept
 {
     return this->size;
 }
 
 template <keyType Type>
-bool List<Type>::IsEmpty() const
+bool List<Type>::IsEmpty() const noexcept
 {
     return this->size == 0;
 }

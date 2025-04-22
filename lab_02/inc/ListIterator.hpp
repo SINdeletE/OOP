@@ -9,6 +9,7 @@
 
 #include "Node.hpp"
 #include "BaseIterator.hpp"
+#include "ListException.hpp"
 #include "concept.hpp"
 
 template <keyType Type>
@@ -26,9 +27,9 @@ class ListIterator : public BaseIterator
         using reference = Type&;
 
         ListIterator() noexcept;
-        explicit ListIterator(const std::shared_ptr<Node<Type>> &list, const difference_type &index);
-        ListIterator(const ListIterator<Type>&);
-        ListIterator(ListIterator<Type>&&);
+        explicit ListIterator(const std::shared_ptr<Node<Type>> &list, const difference_type &index) noexcept;
+        ListIterator(const ListIterator<Type>&) noexcept;
+        ListIterator(ListIterator<Type>&&) noexcept;
         ~ListIterator() = default;
 
         ListIterator<Type>& operator =(const ListIterator<Type>&);
@@ -45,12 +46,12 @@ class ListIterator : public BaseIterator
         reference operator *() const;
         pointer operator ->() const;
 
-        auto operator <=>(const ListIterator<Type>&) const;
-        bool operator ==(const ListIterator<Type>&) const;
-        bool operator !=(const ListIterator<Type>&) const;
+        auto operator <=>(const ListIterator<Type>&) const noexcept;
+        bool operator ==(const ListIterator<Type>&) const noexcept;
+        bool operator !=(const ListIterator<Type>&) const noexcept;
 
-        std::shared_ptr<Node<Type>> GetPtr() const { return cur_ptr.lock(); };
-        difference_type GetIndex() const { return this->index; };
+        [[nodiscard]] std::shared_ptr<Node<Type>> GetPtr() const noexcept { return cur_ptr.lock(); }
+        [[nodiscard]] difference_type GetIndex() const noexcept { return this->index; }
 };
 
 static_assert(std::forward_iterator<ListIterator<int>>);

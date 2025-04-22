@@ -10,6 +10,7 @@
 #include "ListIterator.hpp"
 #include "ConstListIterator.hpp"
 #include "BaseContainer.hpp"
+#include "ListException.hpp"
 
 template <keyType Type>
 class List : public BaseContainer
@@ -29,7 +30,7 @@ class List : public BaseContainer
         using iterator = ListIterator<Type>;
         using const_iterator = ConstListIterator<Type>;
 
-        List();
+        List() noexcept;
         explicit List(const List<Type>&);
         List(List<Type>&&) noexcept;
 
@@ -46,10 +47,19 @@ class List : public BaseContainer
 
         iterator erase(iterator &pos);
 
-        [[nodiscard]] size_type GetSize() const override;
-        bool IsEmpty() const override;
+        [[nodiscard]] size_type GetSize() const noexcept override;
+        bool IsEmpty() const noexcept override;
 };
 
-// static_assert(ContainerConcept<List<int>>);
+template <keyType Type>
+std::ostream& operator <<(std::ostream &os, List<Type> &list)
+{
+    for (auto &v : list)
+        os << v << ' ';
+
+    os << std::endl;
+
+    return os;
+}
 
 #include "List.inl"

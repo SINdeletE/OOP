@@ -7,12 +7,12 @@
 #include "List.hpp"
 #include "Set.hpp"
 // #include "Hash.hpp"
-#include "Output.hpp"
 
 int main(void)
 {
     std::cout << "ТЕСТИРОВАНИЕ: class NODE" << std::endl;
 
+    Node<int> wq {};
     Node<int> a {3};
     Node<int> b {5};
     Node<int> c {9};

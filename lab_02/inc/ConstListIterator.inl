@@ -2,31 +2,31 @@
 #include <ranges>
 
 template <keyType Type>
-ConstListIterator<Type>::ConstListIterator() noexcept : index(0)
+ConstListIterator<Type>::ConstListIterator() noexcept : index(-1)
 {
     std::shared_ptr<Node<Type>> null_ptr {nullptr};
     cur_ptr = null_ptr;
 }
 
 template <keyType Type>
-ConstListIterator<Type>::ConstListIterator(const std::shared_ptr<Node<Type>> &list, const ConstListIterator<Type>::difference_type &init_index)
+ConstListIterator<Type>::ConstListIterator(const std::shared_ptr<Node<Type>> &list, const ConstListIterator<Type>::difference_type &init_index) noexcept
 {
     cur_ptr = list;
     index = init_index;
 }
 
 template <keyType Type>
-ConstListIterator<Type>::ConstListIterator(const ConstListIterator<Type> &iter)
+ConstListIterator<Type>::ConstListIterator(const ConstListIterator<Type> &iter) noexcept
 {
     cur_ptr = iter.cur_ptr;
     index = iter.index;
 }
 
 template <keyType Type>
-ConstListIterator<Type>::ConstListIterator(ConstListIterator<Type> &&iter)
+ConstListIterator<Type>::ConstListIterator(ConstListIterator<Type> &&iter) noexcept : ConstListIterator(iter)
 {
-    cur_ptr = iter.cur_ptr;
-    index = iter.index;
+    iter.cur_ptr.reset();
+    index = 0;
 }
 
 
@@ -73,7 +73,7 @@ ConstListIterator<Type>& ConstListIterator<Type>::operator +=(const U value)
     }
 
     std::shared_ptr<Node<Type>> ptr = cur_ptr.lock();
-    for (int i = 0; i < value; i++)
+    for (int i = 0; i < value; i++) // ЗАМЕНИТЬ НА Ranges
         ptr = ptr->GetNext();
     
     cur_ptr = ptr;
@@ -128,33 +128,35 @@ ConstListIterator<Type>::difference_type ConstListIterator<Type>::operator -(con
 template <keyType Type>
 ConstListIterator<Type>::value_type ConstListIterator<Type>::Current() const
 {
-    const std::shared_ptr<Node<Type>> converted = cur_ptr.lock();
+    std::shared_ptr<Node<Type>> converted = cur_ptr.lock();
 
-    return converted->Data();
+    return *(*this);
 }
 
 template <keyType Type>
 ConstListIterator<Type>::operator bool() const noexcept
 {
-    return index < 0 || !cur_ptr.expired();
+    return index >= 0 && ! cur_ptr.expired();
 }
 
 template <keyType Type>
 ConstListIterator<Type>::reference ConstListIterator<Type>::operator*() const 
 {
-    if (auto ptr = cur_ptr.lock())
-        return ptr->RefData();
+    time_t cur_time = time(NULL);
 
-    throw std::runtime_error("Dereferencing invalid iterator");
+    if (! bool(*this))
+        throw ErrorConstListIterator_IsInvalid(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    else
+    {
+        auto ptr = cur_ptr.lock();
+        return ptr->RefData();
+    }
 }
 
 template <keyType Type>
 ConstListIterator<Type>::pointer ConstListIterator<Type>::operator->() const 
 {
-    if (auto ptr = cur_ptr.lock())
-        return &ptr->Data();
-
-    throw std::runtime_error("Accessing invalid iterator");
+    return &(*(*this));
 }
 
 
@@ -163,18 +165,13 @@ ConstListIterator<Type>::pointer ConstListIterator<Type>::operator->() const
 
 
 template <keyType Type>
-auto ConstListIterator<Type>::operator <=>(const ConstListIterator<Type> &iter) const
+auto ConstListIterator<Type>::operator <=>(const ConstListIterator<Type> &iter) const noexcept
 {
-    if (this->cur_ptr == iter.cur_ptr)
-        return index - iter.index; 
-    // else
-    //     ; // Ошибка, если не тот указатель
-
-    return 3838;
+    return index - iter.index; 
 }
 
 template <keyType Type>
-bool ConstListIterator<Type>::operator ==(const ConstListIterator<Type> &iter) const
+bool ConstListIterator<Type>::operator ==(const ConstListIterator<Type> &iter) const noexcept
 {
     std::shared_ptr<Node<Type>> iter1 = this->cur_ptr.lock();
     std::shared_ptr<Node<Type>> iter2 = iter.cur_ptr.lock();
@@ -186,7 +183,7 @@ bool ConstListIterator<Type>::operator ==(const ConstListIterator<Type> &iter) c
 }
 
 template <keyType Type>
-bool ConstListIterator<Type>::operator !=(const ConstListIterator<Type> &iter) const
+bool ConstListIterator<Type>::operator !=(const ConstListIterator<Type> &iter) const noexcept
 {
     std::shared_ptr<Node<Type>> iter1 = this->cur_ptr.lock();
     std::shared_ptr<Node<Type>> iter2 = iter.cur_ptr.lock();

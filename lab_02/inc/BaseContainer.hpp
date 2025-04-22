@@ -11,7 +11,7 @@ class BaseContainer
     public:
         virtual ~BaseContainer() = default;
 
-        [[nodiscard]] virtual std::ptrdiff_t GetSize() const = 0;
-        virtual bool IsEmpty() const = 0;
+        [[nodiscard]] virtual std::ptrdiff_t GetSize() const noexcept = 0;
+        virtual bool IsEmpty() const noexcept = 0;
 };
 

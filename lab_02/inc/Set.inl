@@ -1,4 +1,7 @@
-#include <iostream>
+#include <ranges>
+#include <algorithm>
+#include <ctime>
+#include <SetException.hpp>
 
 template <
         keyType Key,
@@ -13,11 +16,101 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>::Set(Set<Key, Compare> &&set) : data(std::move(set.data))
+Set<Key, Compare>::Set(Set<Key, Compare> &&set) noexcept : data(std::move(set.data))
 {
     this->size = set.size;
     set.size = 0;
 }
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare>::Set(std::initializer_list<Key> list)
+{
+    this->clear();
+    std::ranges::for_each(list, [this](const auto &value) { insert(value); });
+}
+
+// template <
+//         keyType Key,
+//         typename Compare 
+// >
+// Set(Args&&... args)
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare>::Set(Set<Key, Compare>::size_type n,...)
+{
+    time_t cur_time = time(NULL);
+    this->clear();
+
+    if (n <= 0)
+    {
+        throw ErrorSet_BadSize(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
+
+    va_list vl; 
+    va_start(vl, n);
+    
+    for (std::ptrdiff_t i = 0; i < n; ++i)
+    {
+        Key arg = va_arg(vl, Key);
+
+        try
+        {
+            this->insert(arg);
+        }
+        catch (ErrorList_BadAlloc &error) // BadAlloc list
+        {
+            throw ErrorSet_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        }
+    }
+
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare>::Set(Set<Key, Compare>::size_type array_len, const Key *array)
+{
+    this->clear();
+    std::ranges::for_each(array, array + array_len, [this](const auto &value) { insert(value); });
+}
+
+
+
+
+
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare>& Set<Key, Compare>::operator=(const Set<Key, Compare> &set)
+{
+    this->clear();
+    std::ranges::for_each(set, [this](const auto &value) { insert(value); });
+
+    return *this;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare>& Set<Key, Compare>::operator=(Set<Key, Compare> &&set) noexcept
+{
+    *this = Set(std::move(set));
+
+    return *this;
+}
+
+
+
 
 
 

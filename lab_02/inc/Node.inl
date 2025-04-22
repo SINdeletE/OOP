@@ -38,7 +38,7 @@ Node<Type>& Node<Type>::operator=(std::shared_ptr<Node<Type>> &node)
 }
 
 template <keyType Type>
-std::shared_ptr<Node<Type>> Node<Type>::GetNext()
+std::shared_ptr<Node<Type>> Node<Type>::GetNext() noexcept
 {
     return next;
 }
@@ -56,13 +56,13 @@ void Node<Type>::SetNext(Node<Type> &node)
 }
 
 template <keyType Type>
-Type& Node<Type>::RefData()
+Type& Node<Type>::RefData() noexcept
 {
     return data;
 }
 
 template <keyType Type>
-Type Node<Type>::Data()
+Type Node<Type>::Data() const noexcept
 {
     return data;
 }

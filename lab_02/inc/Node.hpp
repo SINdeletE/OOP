@@ -13,7 +13,7 @@ class Node
         std::shared_ptr<Node<Type>> next;
     
     public:
-        Node() : data(0), next(nullptr) {};
+        Node() : data(), next(nullptr) {};
 
         explicit Node(const Type &value);
         explicit Node(const Node<Type>& node);
@@ -22,13 +22,21 @@ class Node
         Node<Type>& operator=(const Node<Type>& node);
         Node<Type>& operator=(std::shared_ptr<Node<Type>> &node);
 
-        std::shared_ptr<Node<Type>> GetNext();
+        std::shared_ptr<Node<Type>> GetNext() noexcept;
 
         void SetNext(std::shared_ptr<Node<Type>> &node);
         void SetNext(Node<Type> &node);
 
-        Type& RefData();
-        Type Data();
+        [[nodiscard]] Type& RefData() noexcept;
+        [[nodiscard]] Type Data() const noexcept;
 };
+
+template <keyType Type>
+std::ostream& operator <<(std::ostream &os, std::shared_ptr<Node<Type>> &node)
+{
+    os << node->Data();
+
+    return os;
+}
 
 #include "Node.inl"
