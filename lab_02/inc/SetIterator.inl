@@ -7,12 +7,29 @@ SetIterator<Key>& SetIterator<Key>::operator =(const SetIterator<Key> &iter)
 }
 
 template <keyType Key>
-SetIterator<Key>& SetIterator<Key>::operator =(SetIterator<Key> &&iter)
+SetIterator<Key>& SetIterator<Key>::operator =(SetIterator<Key> &&iter) noexcept
 {
     this->list_iter = std::move(iter.list_iter);
     
     return *this;
 }
+
+template <keyType Key>
+template <sizeType U> SetIterator<Key>& SetIterator<Key>::operator +=(const U &value)
+{
+    try
+    {
+        list_iter += value;
+    }
+    catch (ErrorListIterator_BadOffset &error)
+    {
+        time_t cur_time = time(NULL);
+        throw ErrorSetIterator_BadOffset(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
+
+    return *this;
+}
+
 
 template <keyType Key>
 SetIterator<Key>& SetIterator<Key>::next()
@@ -59,12 +76,15 @@ SetIterator<Key>::operator bool() const noexcept
 template <keyType Key>
 SetIterator<Key>::reference SetIterator<Key>::operator *() const
 {   
-    // try:
-    //     return *iter;
-    // catch 
-    // {
-
-    // }
+    try
+    {
+        return *list_iter;
+    }
+    catch (ErrorListIterator_IsInvalid &error) 
+    {
+        time_t cur_time = time(NULL);
+        throw ErrorSetIterator_IsInvalid(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
 
     return *list_iter;
 }

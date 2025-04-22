@@ -11,8 +11,8 @@ class BaseError: public std::exception
 				const char *classname,
 				long line,
 				const char* time,
-				const char* error_info = "Base Error!"){
-
+				const char* error_info = "Base Error!") noexcept
+		{
 			sprintf(error_text, "FILE: %s LINE: %ld CLASS: %s TIME: %s\n"
                                 "ERROR TEXT: %s",
                             filename, line, classname, time, error_info);

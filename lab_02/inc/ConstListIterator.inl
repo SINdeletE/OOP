@@ -66,10 +66,12 @@ ConstListIterator<Type>& ConstListIterator<Type>::operator =(ConstListIterator<T
 
 template <keyType Type>
 template <sizeType U>
-ConstListIterator<Type>& ConstListIterator<Type>::operator +=(const U value)
+ConstListIterator<Type>& ConstListIterator<Type>::operator +=(const U &value)
 {
-    if (value < 0) {
-        throw std::invalid_argument("Negative offset");
+    if (value < 0)
+    {
+        time_t cur_time = time(NULL);
+        throw ErrorConstListIterator_BadOffset(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 
     std::shared_ptr<Node<Type>> ptr = cur_ptr.lock();
@@ -142,10 +144,11 @@ ConstListIterator<Type>::operator bool() const noexcept
 template <keyType Type>
 ConstListIterator<Type>::reference ConstListIterator<Type>::operator*() const 
 {
-    time_t cur_time = time(NULL);
-
     if (! bool(*this))
+    {
+        time_t cur_time = time(NULL);
         throw ErrorConstListIterator_IsInvalid(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
     else
     {
         auto ptr = cur_ptr.lock();
@@ -165,12 +168,6 @@ ConstListIterator<Type>::pointer ConstListIterator<Type>::operator->() const
 
 
 template <keyType Type>
-auto ConstListIterator<Type>::operator <=>(const ConstListIterator<Type> &iter) const noexcept
-{
-    return index - iter.index; 
-}
-
-template <keyType Type>
 bool ConstListIterator<Type>::operator ==(const ConstListIterator<Type> &iter) const noexcept
 {
     std::shared_ptr<Node<Type>> iter1 = this->cur_ptr.lock();
@@ -185,11 +182,5 @@ bool ConstListIterator<Type>::operator ==(const ConstListIterator<Type> &iter) c
 template <keyType Type>
 bool ConstListIterator<Type>::operator !=(const ConstListIterator<Type> &iter) const noexcept
 {
-    std::shared_ptr<Node<Type>> iter1 = this->cur_ptr.lock();
-    std::shared_ptr<Node<Type>> iter2 = iter.cur_ptr.lock();
-
-    std::size_t index1 = this->index;
-    std::size_t index2 = iter.index;
-
-    return index1 != index2;
+    return ! (*this == iter);
 }

@@ -9,7 +9,7 @@ class ErrorList_BadSize : public BaseError
         const char * classname,
         long line,
         const char* Currenttime,
-        const char * error_info = "Invalid size value") : BaseError(filename, classname, line, Currenttime, error_info) {}
+        const char * error_info = "Invalid size value") noexcept : BaseError(filename, classname, line, Currenttime, error_info) {}
 };
 
 class ErrorList_IsEmpty : public BaseError
@@ -19,7 +19,7 @@ class ErrorList_IsEmpty : public BaseError
         const char * classname,
         long line,
         const char* Currenttime,
-        const char * error_info = "List is empty") : BaseError(filename, classname, line, Currenttime, error_info) {}
+        const char * error_info = "List is empty") noexcept : BaseError(filename, classname, line, Currenttime, error_info) {}
 };
 
 class ErrorList_BadAlloc : public BaseError
@@ -29,7 +29,7 @@ class ErrorList_BadAlloc : public BaseError
         const char * classname,
         long line,
         const char* Currenttime,
-        const char * error_info = "Bad alloc") : BaseError(filename, classname, line, Currenttime, error_info) {}
+        const char * error_info = "Bad alloc") noexcept : BaseError(filename, classname, line, Currenttime, error_info) {}
 };
 
 
@@ -44,7 +44,7 @@ class ErrorListIterator_IsInvalid : public BaseError
         const char * classname,
         long line,
         const char* Currenttime,
-        const char * error_info = "Iterator is invalid") : BaseError(filename, classname, line, Currenttime, error_info) {}
+        const char * error_info = "Iterator is invalid") noexcept : BaseError(filename, classname, line, Currenttime, error_info) {}
 };
 
 class ErrorConstListIterator_IsInvalid : public BaseError
@@ -54,5 +54,27 @@ class ErrorConstListIterator_IsInvalid : public BaseError
         const char * classname,
         long line,
         const char* Currenttime,
-        const char * error_info = "Const Iterator is invalid") : BaseError(filename, classname, line, Currenttime, error_info) {}
+        const char * error_info = "Const Iterator is invalid") noexcept : BaseError(filename, classname, line, Currenttime, error_info) {}
+};
+
+
+
+class ErrorListIterator_BadOffset : public BaseError
+{
+    public:
+    ErrorListIterator_BadOffset(const char * filename,
+        const char * classname,
+        long line,
+        const char* Currenttime,
+        const char * error_info = "Invalid offset value") noexcept : BaseError(filename, classname, line, Currenttime, error_info) {}
+};
+
+class ErrorConstListIterator_BadOffset : public BaseError
+{
+    public:
+    ErrorConstListIterator_BadOffset(const char * filename,
+        const char * classname,
+        long line,
+        const char* Currenttime,
+        const char * error_info = "Invalid offset value") noexcept : BaseError(filename, classname, line, Currenttime, error_info) {}
 };

@@ -34,7 +34,7 @@ class ConstListIterator : public BaseIterator
 
         ConstListIterator<Type>& operator =(const ConstListIterator<Type>&);
         ConstListIterator<Type>& operator =(ConstListIterator<Type>&&);
-        template <sizeType U> ConstListIterator<Type>& operator +=(const U value);
+        template <sizeType U> ConstListIterator<Type>& operator +=(const U &value);
 
         ConstListIterator<Type>& next();
         ConstListIterator<Type>& operator ++();
@@ -46,7 +46,6 @@ class ConstListIterator : public BaseIterator
         reference operator *() const;
         pointer operator ->() const;
 
-        auto operator <=>(const ConstListIterator<Type>&) const noexcept;
         bool operator ==(const ConstListIterator<Type>&) const noexcept;
         bool operator !=(const ConstListIterator<Type>&) const noexcept;
 

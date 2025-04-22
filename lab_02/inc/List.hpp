@@ -34,6 +34,9 @@ class List : public BaseContainer
         explicit List(const List<Type>&);
         List(List<Type>&&) noexcept;
 
+        List<Type>& operator =(const List<Type>&);
+        List<Type>& operator =(List<Type>&&) noexcept;
+
         iterator push_back(const Type& value);
         void pop_back();
         void push_front(const Type& value);
@@ -52,6 +55,7 @@ class List : public BaseContainer
 };
 
 template <keyType Type>
+requires Printable_concept<Type>
 std::ostream& operator <<(std::ostream &os, List<Type> &list)
 {
     for (auto &v : list)

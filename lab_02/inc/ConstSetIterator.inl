@@ -7,7 +7,7 @@ ConstSetIterator<Key>& ConstSetIterator<Key>::operator =(const ConstSetIterator<
 }
 
 template <keyType Key>
-ConstSetIterator<Key>& ConstSetIterator<Key>::operator =(ConstSetIterator<Key> &&iter)
+ConstSetIterator<Key>& ConstSetIterator<Key>::operator =(ConstSetIterator<Key> &&iter) noexcept
 {
     this->list_iter = std::move(iter.list_iter);
 
@@ -15,10 +15,17 @@ ConstSetIterator<Key>& ConstSetIterator<Key>::operator =(ConstSetIterator<Key> &
 }
 
 template <keyType Key>
-template <sizeType U> 
-ConstSetIterator<Key>& ConstSetIterator<Key>::operator +=(const U value)
+template <sizeType U> ConstSetIterator<Key>& ConstSetIterator<Key>::operator +=(const U &value)
 {
-    list_iter += value;
+    try
+    {
+        list_iter += value;
+    }
+    catch (ErrorListIterator_BadOffset &error)
+    {
+        time_t cur_time = time(NULL);
+        throw ErrorConstSetIterator_BadOffset(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
 
     return *this;
 }

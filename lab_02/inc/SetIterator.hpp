@@ -3,6 +3,7 @@
 #include <memory>
 #include "concept.hpp"
 #include "BaseIterator.hpp"
+#include "SetException.hpp"
 #include "ListIterator.hpp"
 #include "Node.hpp"
 
@@ -18,14 +19,14 @@ class SetIterator : public BaseIterator
 
         SetIterator() noexcept : list_iter() {};
         SetIterator(const SetIterator<Key> &iter) : list_iter(iter.list_iter) {};
-        SetIterator(SetIterator<Key> &&iter) : list_iter(std::move(iter.list_iter)) {};
+        SetIterator(SetIterator<Key> &&iter) noexcept : list_iter(std::move(iter.list_iter)) {};
         SetIterator(const ListIterator<Key> &iter) : list_iter(iter) {};
         SetIterator(ListIterator<Key> &&iter) : list_iter(std::move(iter)) {};
         ~SetIterator() override = default;
 
         SetIterator<Key>& operator =(const SetIterator<Key> &iter);
-        SetIterator<Key>& operator =(SetIterator<Key> &&iter);
-        template <sizeType U> SetIterator<Key>& operator +=(const U value) { list_iter += value; }
+        SetIterator<Key>& operator =(SetIterator<Key> &&iter) noexcept;
+        template <sizeType U> SetIterator<Key>& operator +=(const U &value);
 
         SetIterator<Key>& next();
         SetIterator<Key>& operator ++();
@@ -37,7 +38,6 @@ class SetIterator : public BaseIterator
         reference operator *() const;
         pointer operator ->() const;
 
-        auto operator <=>(const SetIterator<Key> &iter) const { return this->list_iter <=> iter.list_iter; };
         bool operator ==(const SetIterator<Key> &iter) const { return this->list_iter == iter.list_iter; };
         bool operator !=(const SetIterator<Key> &iter) const { return this->list_iter != iter.list_iter; };
 

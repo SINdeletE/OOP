@@ -32,6 +32,7 @@ class Node
 };
 
 template <keyType Type>
+requires Printable_concept<Type>
 std::ostream& operator <<(std::ostream &os, std::shared_ptr<Node<Type>> &node)
 {
     os << node->Data();

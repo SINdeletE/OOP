@@ -6,6 +6,7 @@
 #include "ListIterator.hpp"
 #include "List.hpp"
 #include "Set.hpp"
+#include <vector>
 // #include "Hash.hpp"
 
 int main(void)
@@ -221,6 +222,10 @@ int main(void)
     set_and &= set_and_2;
     std::cout << "Ожидание: 1 2 4 5. Реальность: " << set_and;
 
+    std::cout << "Ожидание: 1. Реальность: " << (set_and == set_and) << std::endl;
+    std::cout << "Ожидание: 0. Реальность: " << (set_and != set_and_2) << std::endl;
+    std::cout << "Ожидание: 1. Реальность: " << (set_and == set_and_2) << std::endl;
+
     set_and_2 |= 144;
     set_and_2 &= 144;
     set_and_2 & set_and;
@@ -231,7 +236,7 @@ int main(void)
 
 
 
-
+    
 
     Set<int> set_xor {};
     set_xor.insert(1);
@@ -240,11 +245,7 @@ int main(void)
     set_xor.insert(4);
     set_xor.insert(5);
 
-    Set<int> set_xor_2 {};
-    set_xor_2.insert(26);
-    set_xor_2.insert(15);
-    set_xor_2.insert(4);
-    set_xor_2.insert(5);
+    Set<int> set_xor_2 {26, 15, 4, 5};
 
     set_xor ^= set_xor_2;
     std::cout << "Ожидание: 1 2 8 15 26. Реальность: " << set_xor;
@@ -256,6 +257,35 @@ int main(void)
     set_xor ^ set_xor_2;
     set_xor ^ 1;
     std::cout << "Ожидание: (Пусто). Реальность: " << set_xor;
+    std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
+
+
+
+
+    std::cout << "ТЕСТИРОВАНИЕ: Конструкторы Set" << std::endl;
+
+    Set<int> t1 {4, 2, 3, 1, 5, 7, 6};
+    std::cout << "Ожидание: 1 2 3 4 5 6 7. Реальность: " << t1;
+
+    Set<int> t2 {4.1, 2.2, 3.3, 1.1, 5.213, 7.123, 6.14};
+    std::cout << "Ожидание: 1 2 3 4 5 6 7. Реальность: " << t2;
+
+    int array[7] {1, 2, 3, 4, 5, 6, 7};
+    Set<int> t3 {7, array};
+    std::cout << "Ожидание: 1 2 3 4 5 6 7. Реальность: " << t3;
+
+    double array_2[7] {1.1, 2, 3.352, 4.5, 5.9, 6, 7};
+    Set<int> t4 {7, array_2};
+    std::cout << "Ожидание: 1 2 3 4 5 6 7. Реальность: " << t4;
+
+    std::vector<int> vec = {1, 2, 5, 6, 7, 4, 3};
+    Set<int> t5 {vec.begin(), vec.end()};
+    std::cout << "Ожидание: 1 2 3 4 5 6 7. Реальность: " << t5;
+
+    std::vector<double> vec2 = {1.1, 2.999, 5.24, 6.4, 7.1, 4.2, 3.1};
+    Set<int> t6 {vec2.begin(), vec2.end()};
+    std::cout << "Ожидание: 1 2 3 4 5 6 7. Реальность: " << t6;
+
     std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 
     return 0;

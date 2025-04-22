@@ -9,16 +9,18 @@ template <
 >
 Set<Key, Compare>::Set(const Set<Key, Compare> &set) : data(set.data)
 {
-    this->size = set.size;
+    this->size = set.GetSize();
 }
 
 template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>::Set(Set<Key, Compare> &&set) noexcept : data(std::move(set.data))
+Set<Key, Compare>::Set(Set<Key, Compare> &&set) noexcept
 {
-    this->size = set.size;
+    this->data = std::move(set.data);
+
+    this->size = set.GetSize();
     set.size = 0;
 }
 
@@ -32,43 +34,16 @@ Set<Key, Compare>::Set(std::initializer_list<Key> list)
     std::ranges::for_each(list, [this](const auto &value) { insert(value); });
 }
 
-// template <
-//         keyType Key,
-//         typename Compare 
-// >
-// Set(Args&&... args)
-
 template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>::Set(Set<Key, Compare>::size_type n,...)
+template <keyType U>
+requires Convertible_concept<U, Key>
+Set<Key, Compare>::Set(std::initializer_list<U> list)
 {
-    time_t cur_time = time(NULL);
     this->clear();
-
-    if (n <= 0)
-    {
-        throw ErrorSet_BadSize(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-    }
-
-    va_list vl; 
-    va_start(vl, n);
-    
-    for (std::ptrdiff_t i = 0; i < n; ++i)
-    {
-        Key arg = va_arg(vl, Key);
-
-        try
-        {
-            this->insert(arg);
-        }
-        catch (ErrorList_BadAlloc &error) // BadAlloc list
-        {
-            throw ErrorSet_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-        }
-    }
-
+    std::ranges::for_each(list, [this](const auto &value) { insert(value); });
 }
 
 template <
@@ -82,6 +57,28 @@ Set<Key, Compare>::Set(Set<Key, Compare>::size_type array_len, const Key *array)
 }
 
 
+template <
+        keyType Key,
+        typename Compare 
+>
+template <keyType U>
+requires Convertible_concept<U, Key>
+Set<Key, Compare>::Set(Set<Key, Compare>::size_type array_len, const U *array)
+{
+    this->clear();
+    std::ranges::for_each(array, array + array_len, [this](const auto &value) { insert(value); });
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+template <std::input_iterator Beg, std::sentinel_for<Beg> End>
+requires std::convertible_to<std::iter_value_t<Beg>, Key>
+Set<Key, Compare>::Set(Beg begin, End end)
+{
+    std::ranges::for_each(begin, end, [this] (const auto &value) { this->insert(static_cast<Key>(value)); });
+}
 
 
 
@@ -104,7 +101,10 @@ template <
 >
 Set<Key, Compare>& Set<Key, Compare>::operator=(Set<Key, Compare> &&set) noexcept
 {
-    *this = Set(std::move(set));
+    data = std::move(set.data);
+    
+    size = set.GetSize();
+    set.size = 0;
 
     return *this;
 }
@@ -211,6 +211,17 @@ Set<Key, Compare>::iterator Set<Key, Compare>::insert(const Key &value)
     SetIterator<Key> res_iter {res_list_iter};
 
     return res_iter;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+template <keyType U>
+requires Convertible_concept<U, Key>
+Set<Key, Compare>::iterator Set<Key, Compare>::insert(const U &value)
+{
+    return this->insert(static_cast<Key>(value));
 }
 
 
@@ -332,8 +343,16 @@ Set<Key, Compare> Set<Key, Compare>::operator |(const Set<Key, Compare> &set) co
 {
     Set<Key, Compare> tmp {*this};
 
-    for (const auto &v : set)
-        tmp.insert(v);
+    try
+    {
+        for (const auto &v : set)
+            tmp.insert(v);
+    }
+    catch (ErrorList_BadAlloc &error)
+    {
+        time_t cur_time = time(NULL);
+        throw ErrorSet_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
 
     return tmp;
 }
@@ -346,7 +365,7 @@ Set<Key, Compare> Set<Key, Compare>::operator |(const Key &value) const
 {
     Set<Key, Compare> tmp {*this};
 
-    tmp.insert(value);
+    tmp |= value;
 
     return tmp;
 }
@@ -358,7 +377,7 @@ template <
 Set<Key, Compare>& Set<Key, Compare>::operator |=(const Set<Key, Compare> &set)
 {
     for (const auto &v : set)
-        this->insert(v);
+        *this |= v;
 
     return *this;
 }
@@ -369,7 +388,15 @@ template <
 >
 Set<Key, Compare>& Set<Key, Compare>::operator |=(const Key &value)
 {
-    this->insert(value);
+    try
+    {
+        this->insert(value);
+    }
+    catch (ErrorList_BadAlloc &error)
+    {
+        time_t cur_time = time(NULL);
+        throw ErrorSet_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
 
     return *this;
 }
@@ -410,6 +437,29 @@ Set<Key, Compare>& Set<Key, Compare>::operator +=(const Key &value)
     return *this |= value;
 }
 
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare>& Set<Key, Compare>::Or(std::initializer_list<Key> list)
+{
+    std::ranges::for_each(list, [this](const Key &value){ insert(value); });
+
+    return *this;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+template <keyType U>
+requires Convertible_concept<U, Key>
+Set<Key, Compare>& Set<Key, Compare>::Or(std::initializer_list<U> list)
+{
+    std::ranges::for_each(list, [this](const U &value){ insert(value); });
+
+    return *this;
+}
 
 
 // И
@@ -422,7 +472,15 @@ Set<Key, Compare>& Set<Key, Compare>::operator &=(const Set<Key, Compare> &set)
 {
     for (auto iter = this->begin(); iter != this->end();)
         if (set.cfind(*iter) == set.cend())
-            iter = this->erase(*iter);
+            try
+            {
+                iter = this->erase(*iter);
+            }
+            catch (ErrorList_IsEmpty &error)
+            {
+                time_t cur_time = time(NULL);
+                throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+            }
         else
             iter++;
     
@@ -437,7 +495,15 @@ Set<Key, Compare>& Set<Key, Compare>::operator &=(const Key &value)
 {
     for (auto iter = this->begin(); iter != this->end();) // erase_if
         if (*iter != value)
-            iter = this->erase(*iter);
+            try
+            {
+                iter = this->erase(*iter);
+            }
+            catch (ErrorList_IsEmpty &error)
+            {
+                time_t cur_time = time(NULL);
+                throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+            }
         else
             iter++;
     
@@ -470,6 +536,68 @@ Set<Key, Compare> Set<Key, Compare>::operator &(const Key &value) const
     return tmp;
 }
 
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare> Set<Key, Compare>::operator *(const Set<Key, Compare> &set) const
+{
+    return *this & set;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare> Set<Key, Compare>::operator *(const Key &value) const
+{
+    return *this & value;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare>& Set<Key, Compare>::operator *=(const Set<Key, Compare> &set)
+{
+    return *this &= set;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare>& Set<Key, Compare>::operator *=(const Key &value)
+{
+    return *this &= value;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare>& Set<Key, Compare>::And(std::initializer_list<Key> list)
+{
+    Set<Key, Compare> set {list};
+
+    return *this &= set;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+template <keyType U>
+requires Convertible_concept<U, Key>
+Set<Key, Compare>& Set<Key, Compare>::And(std::initializer_list<U> list)
+{
+    Set<Key, Compare> set {list};
+
+    return *this &= set;
+}
+
+
+
 
 // Разность
 
@@ -480,7 +608,15 @@ template <
 Set<Key, Compare>& Set<Key, Compare>::operator -=(const Set<Key, Compare> &set)
 {
     for (const auto &v : set)
-        this->erase(v);
+        try
+        {
+            this->erase(v);
+        }
+        catch (ErrorList_IsEmpty &error)
+        {
+            time_t cur_time = time(NULL);
+            throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        }
 
     return *this;
 }
@@ -491,7 +627,15 @@ template <
 >
 Set<Key, Compare>& Set<Key, Compare>::operator -=(const Key &value)
 {
-    this->erase(value);
+    try
+    {
+        this->erase(value);
+    }
+    catch (ErrorList_IsEmpty &error)
+    {
+        time_t cur_time = time(NULL);
+        throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
 
     return *this;
 }
@@ -520,6 +664,30 @@ Set<Key, Compare> Set<Key, Compare>::operator -(const Key &value) const
     tmp -= value;
     
     return tmp;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare>& Set<Key, Compare>::Diff(std::initializer_list<Key> list)
+{
+    Set<Key, Compare> set {list};
+
+    return *this -= set;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+template <keyType U>
+requires Convertible_concept<U, Key>
+Set<Key, Compare>& Set<Key, Compare>::Diff(std::initializer_list<U> list)
+{
+    Set<Key, Compare> set {list};
+
+    return *this -= set;
 }
 
 
@@ -561,7 +729,15 @@ Set<Key, Compare>& Set<Key, Compare>::operator ^=(const Key &value)
     this->clear();
 
     if (! is_contains)
-        this->insert(value);
+        try
+        {
+            this->insert(value);
+        }
+        catch (ErrorSet_BadAlloc &error)
+        {
+            time_t cur_time = time(NULL);
+            throw ErrorSet_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        }
 
     return *this;
 }
@@ -591,3 +767,64 @@ Set<Key, Compare> Set<Key, Compare>::operator ^(const Key &value) const
 
     return tmp;
 }
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare>& Set<Key, Compare>::Xor(std::initializer_list<Key> list)
+{
+    Set<Key, Compare> set {list};
+
+    return *this ^= set;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+template <keyType U>
+requires Convertible_concept<U, Key>
+Set<Key, Compare>& Set<Key, Compare>::Xor(std::initializer_list<U> list)
+{
+    Set<Key, Compare> set {list};
+
+    return *this ^= set;
+}
+
+
+
+
+// Равенство
+
+template <
+        keyType Key,
+        typename Compare 
+>
+bool Set<Key, Compare>::operator ==(const Set<Key, Compare> &set) const
+{
+    bool is_equal = true;
+
+    if (this->size != set.size)
+        is_equal = false;
+    else
+    {
+        Set<Key, Compare> tmp {};
+        tmp = *this ^ set;
+
+        if (! tmp.IsEmpty())
+            is_equal = false;
+    }
+
+    return is_equal;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+bool Set<Key, Compare>::operator !=(const Set<Key, Compare> &set) const
+{
+    return ! (*this == set);
+}
+

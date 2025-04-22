@@ -23,16 +23,38 @@ List<Type>::List(List<Type> &&list) noexcept
     head = list.head;
     list.head = nullptr;
 
-    size = list.size;
+    size = list.GetSize();
     list.size = 0;
 }
 
 
 template <keyType Type>
+List<Type>& List<Type>::operator =(const List<Type> &list)
+{
+    head = nullptr;
+    size = 0;
+
+    for (const auto &v : list)
+        this->push_back(v);
+
+    return *this;
+}
+
+template <keyType Type>
+List<Type>& List<Type>::operator =(List<Type> &&list) noexcept
+{
+    head = list.head;
+    list.head = nullptr;
+
+    size = list.GetSize();
+    list.size = 0;
+
+    return *this;
+}
+
+template <keyType Type>
 List<Type>::iterator List<Type>::push_back(const Type& value)
 {
-    time_t cur_time = time(NULL);
-    
     Node<Type> node {value};
     std::shared_ptr<Node<Type>> node_ptr {};
 
@@ -42,6 +64,7 @@ List<Type>::iterator List<Type>::push_back(const Type& value)
     }
     catch (std::bad_alloc &error)
     {
+        time_t cur_time = time(NULL);
         throw ErrorList_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
     
@@ -72,13 +95,12 @@ List<Type>::iterator List<Type>::push_back(const Type& value)
 template <keyType Type>
 void List<Type>::pop_back()
 {
-    time_t cur_time = time(NULL);
-
     ListIterator<Type> iter = this->begin();
     std::ptrdiff_t index = this->GetSize() - 2;
 
     if (index == -2) // Нет элементов
     {
+        time_t cur_time = time(NULL);
         throw ErrorList_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
     else if (index == -1) // Если 1 элемент
@@ -104,8 +126,6 @@ void List<Type>::pop_back()
 template <keyType Type>
 void List<Type>::push_front(const Type& value)
 {
-    time_t cur_time = time(NULL);
-
     Node<Type> node {value};
     std::shared_ptr<Node<Type>> node_ptr {};
     
@@ -115,6 +135,7 @@ void List<Type>::push_front(const Type& value)
     }
     catch (std::bad_alloc &error)
     {
+        time_t cur_time = time(NULL);
         throw ErrorList_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 
@@ -144,7 +165,15 @@ List<Type>::iterator List<Type>::insert(List<Type>::iterator &pos, const Type& v
         std::shared_ptr<Node<Type>> next_node = parent_node->GetNext();
         
         Node<Type> new_node {value};
-        parent_node->SetNext(new_node);
+        try
+        {
+            parent_node->SetNext(new_node);
+        }
+        catch (std::bad_alloc &error)
+        {
+            time_t cur_time = time(NULL);
+            throw ErrorList_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        }
 
         std::shared_ptr<Node<Type>> node = parent_node->GetNext();
         node->SetNext(next_node);
