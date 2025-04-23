@@ -36,7 +36,7 @@ class Set final: public BaseContainer
     using node_type         =Node<Key>;
 
     public:
-        Set() : data() { this->size = 0; };
+        Set() noexcept : data() { this->size = 0; };
 
         explicit Set(const Set<Key, Compare> &set);
         Set(Set<Key, Compare> &&set) noexcept;
@@ -48,15 +48,17 @@ class Set final: public BaseContainer
         template <keyType U>
         requires Convertible_concept<U, Key>
         Set(size_type array_len, const U *array);
-        // template <std::convertible_to<Key>...Args>
-        // explicit Set(Args&&... args) requires (sizeof...(Args) > 2);
         template <std::input_iterator Beg, std::sentinel_for<Beg> End>
         requires std::convertible_to<std::iter_value_t<Beg>, Key>
         Set(Beg begin, End end);
 
-
+        // Операторы =
         Set<Key, Compare>& operator=(const Set<Key, Compare> &set);
         Set<Key, Compare>& operator=(Set<Key, Compare> &&set) noexcept;
+        Set<Key, Compare>& operator=(std::initializer_list<Key> list);
+        template <keyType U>
+        requires Convertible_concept<U, Key>
+        Set<Key, Compare>& operator=(std::initializer_list<U> list);
 
         ~Set() override = default;
 
