@@ -24,20 +24,20 @@ class Set final: public BaseContainer
     friend class SetIterator<Key>;
     friend class ConstSetIterator<Key>;
 
-    using key_type	        =Key;
-    using value_type	    =Key;
-    using size_type	        =std::ptrdiff_t;
-    using difference_type	=std::ptrdiff_t;
-    using key_compare	    =Compare;
-    using value_compare     =Compare;
-    using reference	        =value_type&;
-    using const_reference	=const value_type&;
-    using iterator          =SetIterator<Key>;
-    using const_iterator    =ConstSetIterator<Key>;
-    using node_type         =Node<Key>;
-
     public:
-        Set() noexcept : data() { this->size = 0; };
+        using key_type	        =Key;
+        using value_type	    =Key;
+        using size_type	        =std::ptrdiff_t;
+        using difference_type	=std::ptrdiff_t;
+        using key_compare	    =Compare;
+        using value_compare     =Compare;
+        using reference	        =value_type&;
+        using const_reference	=const value_type&;
+        using iterator          =SetIterator<Key>;
+        using const_iterator    =ConstSetIterator<Key>;
+        using node_type         =Node<Key>;
+
+        Set() noexcept : data() { this->_size = 0; };
         
         explicit Set(const Set<Key, Compare> &set);
         Set(Set<Key, Compare> &&set) noexcept;
@@ -137,12 +137,14 @@ class Set final: public BaseContainer
         bool operator ==(const Set<Key, Compare> &) const;
         bool operator !=(const Set<Key, Compare> &) const;
 
-        [[nodiscard]] size_type GetSize() const noexcept override { return size; }
-        bool IsEmpty() const noexcept override { return size == 0; }
+        [[nodiscard]] size_type size() const noexcept override { return _size; }
+        bool IsEmpty() const noexcept override { return _size == 0; }
 
     private:
         List<Key> data;
 };
+
+static_assert(Container_concept<Set<int>>);
 
 template <
         keyType Key, 

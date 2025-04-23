@@ -9,7 +9,7 @@ template <
 >
 Set<Key, Compare>::Set(const Set<Key, Compare> &set) : data(set.data)
 {
-    this->size = set.GetSize();
+    this->_size = set.size();
 }
 
 template <
@@ -20,8 +20,8 @@ Set<Key, Compare>::Set(Set<Key, Compare> &&set) noexcept
 {
     this->data = std::move(set.data);
 
-    this->size = set.GetSize();
-    set.size = 0;
+    this->_size = set.size();
+    set._size = 0;
 }
 
 template <
@@ -104,8 +104,8 @@ Set<Key, Compare>& Set<Key, Compare>::operator=(Set<Key, Compare> &&set) noexcep
 {
     data = std::move(set.data);
     
-    size = set.GetSize();
-    set.size = 0;
+    _size = set.size();
+    set._size = 0;
 
     return *this;
 }
@@ -142,7 +142,7 @@ Set<Key, Compare>::iterator Set<Key, Compare>::erase(const Key &value)
 
             flag = false;
 
-            this->size--;
+            this->_size--;
         }
         
         if (flag && iter != data.end())
@@ -226,7 +226,7 @@ Set<Key, Compare>::iterator Set<Key, Compare>::insert(const Key &value)
             }
             flag = false;
 
-            this->size++;
+            this->_size++;
         }
     
     if (flag)
@@ -241,10 +241,10 @@ Set<Key, Compare>::iterator Set<Key, Compare>::insert(const Key &value)
             throw ErrorSet_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
         }
 
-        this->size++;
+        this->_size++;
 
         res_list_iter = data.begin();
-        res_list_iter += this->GetSize() - 1;
+        res_list_iter += this->size() - 1;
     }
 
     SetIterator<Key> res_iter {res_list_iter};
@@ -328,7 +328,7 @@ void Set<Key, Compare>::clear()
                 throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
             }
     else
-        this->size = 0;
+        this->_size = 0;
 }
 
 template <
@@ -807,7 +807,7 @@ bool Set<Key, Compare>::operator ==(const Set<Key, Compare> &set) const
 {
     bool is_equal = true;
 
-    if (this->size != set.size)
+    if (this->_size != set._size)
         is_equal = false;
     else
     {

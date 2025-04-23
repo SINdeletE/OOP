@@ -4,14 +4,14 @@
 template <keyType Type>
 List<Type>::List() noexcept : head(nullptr)
 {
-    this->size = 0;
+    this->_size = 0;
 }
 
 template <keyType Type>
 List<Type>::List(const List<Type> &list)
 {
     head = nullptr;
-    size = 0;
+    _size = 0;
 
     for (const auto &v : list)
         this->push_back(v);
@@ -23,8 +23,8 @@ List<Type>::List(List<Type> &&list) noexcept
     head = list.head;
     list.head = nullptr;
 
-    size = list.GetSize();
-    list.size = 0;
+    _size = list.size();
+    list._size = 0;
 }
 
 
@@ -32,7 +32,7 @@ template <keyType Type>
 List<Type>& List<Type>::operator =(const List<Type> &list)
 {
     head = nullptr;
-    size = 0;
+    _size = 0;
 
     for (const auto &v : list)
         this->push_back(v);
@@ -46,8 +46,8 @@ List<Type>& List<Type>::operator =(List<Type> &&list) noexcept
     head = list.head;
     list.head = nullptr;
 
-    size = list.GetSize();
-    list.size = 0;
+    _size = list.size();
+    list._size = 0;
 
     return *this;
 }
@@ -79,7 +79,7 @@ List<Type>::iterator List<Type>::push_back(const Type& value)
     else
     {
         iter = this->begin();
-        iter += this->GetSize() - 1;
+        iter += this->size() - 1;
 
         std::shared_ptr<Node<Type>> last_node_shared_ptr = iter.GetPtr();
         last_node_shared_ptr->SetNext(node_ptr);
@@ -87,7 +87,7 @@ List<Type>::iterator List<Type>::push_back(const Type& value)
         iter++;
     }
 
-    size++;
+    _size++;
 
     return iter;
 }
@@ -96,7 +96,7 @@ template <keyType Type>
 void List<Type>::pop_back()
 {
     ListIterator<Type> iter = this->begin();
-    std::ptrdiff_t index = this->GetSize() - 2;
+    std::ptrdiff_t index = this->size() - 2;
 
     if (index == -2) // Нет элементов
     {
@@ -120,7 +120,7 @@ void List<Type>::pop_back()
         last_node_ptr->SetNext(node_ptr);
     }
 
-    size--;
+    _size--;
 }
 
 template <keyType Type>
@@ -142,7 +142,7 @@ void List<Type>::push_front(const Type& value)
     node_ptr->SetNext(this->head);
     this->head = node_ptr;
 
-    size++;
+    _size++;
 }
 
 template <keyType Type>
@@ -179,7 +179,7 @@ List<Type>::iterator List<Type>::insert(List<Type>::iterator &pos, const Type& v
         node->SetNext(next_node);
 
         new_iter++;
-        size++;
+        _size++;
     }
 
     return new_iter;
@@ -201,7 +201,7 @@ template <keyType Type>
 List<Type>::iterator List<Type>::end() const noexcept
 {
     std::shared_ptr<Node<Type>> null_ptr = nullptr;
-    ListIterator<Type> iter {null_ptr, size};
+    ListIterator<Type> iter {null_ptr, _size};
 
     return iter;
 }
@@ -218,7 +218,7 @@ template <keyType Type>
 List<Type>::const_iterator List<Type>::cend() const noexcept
 {
     std::shared_ptr<Node<Type>> null_ptr {nullptr};
-    ConstListIterator<Type> iter {null_ptr, size};
+    ConstListIterator<Type> iter {null_ptr, _size};
 
     return iter;
 }
@@ -249,7 +249,7 @@ List<Type>::iterator List<Type>::erase(List<Type>::iterator &pos)
         erased_node.reset();
 
         iter = this->begin(); // Тут тоже перенос :O
-        size--;
+        _size--;
     }
     else
     {
@@ -266,7 +266,7 @@ List<Type>::iterator List<Type>::erase(List<Type>::iterator &pos)
         deleting_node_ptr.reset();
 
         iter++;
-        size--;
+        _size--;
     }
 
     return iter;
@@ -280,13 +280,13 @@ List<Type>::iterator List<Type>::erase(List<Type>::iterator &pos)
 
 
 template <keyType Type>
-List<Type>::size_type List<Type>::GetSize() const noexcept
+List<Type>::size_type List<Type>::size() const noexcept
 {
-    return this->size;
+    return this->_size;
 }
 
 template <keyType Type>
 bool List<Type>::IsEmpty() const noexcept
 {
-    return this->size == 0;
+    return this->_size == 0;
 }

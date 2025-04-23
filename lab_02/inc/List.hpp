@@ -50,9 +50,11 @@ class List : public BaseContainer
 
         iterator erase(iterator &pos);
 
-        [[nodiscard]] size_type GetSize() const noexcept override;
+        [[nodiscard]] size_type size() const noexcept override;
         bool IsEmpty() const noexcept override;
 };
+
+static_assert(Container_concept<List<int>>);
 
 template <keyType Type>
 requires Printable_concept<Type>

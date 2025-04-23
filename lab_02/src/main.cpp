@@ -284,7 +284,7 @@ int main(void)
 
     std::vector<double> vec2 = {1.1, 2.999, 5.24, 6.4, 7.1, 4.2, 3.1};
     Set<int> t6 {vec2.begin(), vec2.end()};
-    std::cout << "Ожидание: 1 2 3 4 5 6 7. Реальность: " << t6;
+    std::cout << "vector<int> init. Ожидание: 1 2 3 4 5 6 7. Реальность: " << t6;
 
     t6.And({1, 2, 5, 6, 3, 4, 7});
     std::cout << "AND Ожидание: 1 2 3 4 5 6 7. Реальность: " << t6;
@@ -312,7 +312,7 @@ int main(void)
 
     Set<int> t7 {};
     std::cout << "Set (int) Ожидание: (Пусто). Реальность: " << t7;
-    std::cout << "Размер (int) Ожидание: 0. Реальность: " << t7.GetSize() << std::endl << std::endl;
+    std::cout << "Размер (int) Ожидание: 0. Реальность: " << t7.size() << std::endl << std::endl;
 
     t7 |= {1, 2, 3, 4, 5, 7, 6, 0};
     std::cout << "Присваивание |= (int) Ожидание: 0 1 2 3 4 5 6 7. Реальность: " << t7;
