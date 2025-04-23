@@ -110,32 +110,6 @@ Set<Key, Compare>& Set<Key, Compare>::operator=(Set<Key, Compare> &&set) noexcep
     return *this;
 }
 
-// template <
-//         keyType Key,
-//         typename Compare 
-// >
-// Set<Key, Compare>& Set<Key, Compare>::operator=(std::initializer_list<Key> list)
-// {
-//     this->clear();
-//     std::ranges::for_each(list, [this](const Key &value) { insert(value); });
-
-//     return *this;
-// }
-
-// template <
-//         keyType Key,
-//         typename Compare 
-// >
-// template <keyType U>
-// requires Convertible_concept<U, Key>
-// Set<Key, Compare>& Set<Key, Compare>::operator=(std::initializer_list<U> list)
-// {
-//     this->clear();
-//     std::ranges::for_each(list, [this](const U &value) { insert(value); });
-
-//     return *this;
-// }
-
 
 
 

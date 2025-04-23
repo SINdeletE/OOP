@@ -56,10 +56,6 @@ class Set final: public BaseContainer
         // Операторы =
         Set<Key, Compare>& operator=(const Set<Key, Compare> &set);
         Set<Key, Compare>& operator=(Set<Key, Compare> &&set) noexcept;
-        // Set<Key, Compare>& operator=(std::initializer_list<Key> list);
-        // template <keyType U>
-        // requires Convertible_concept<U, Key>
-        // Set<Key, Compare>& operator=(std::initializer_list<U> list);
 
         ~Set() override = default;
 
