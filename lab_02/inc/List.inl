@@ -200,7 +200,7 @@ List<Type>::iterator List<Type>::begin() const noexcept
 template <keyType Type>
 List<Type>::iterator List<Type>::end() const noexcept
 {
-    std::shared_ptr<Node<Type>> null_ptr {nullptr};
+    std::shared_ptr<Node<Type>> null_ptr = nullptr;
     ListIterator<Type> iter {null_ptr, size};
 
     return iter;

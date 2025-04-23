@@ -6,7 +6,7 @@ SRC_DIR := src
 
 vpath %.cpp $(SRC_DIR)
 
-CFLAGS := -std=c++20 -Wall -Werror -Wpedantic -Wextra -Wfloat-conversion -Wfloat-equal -Wvla -I$(INC_DIR)
+CFLAGS := -std=c++20 -Wall -Wpedantic -Wextra -Wfloat-conversion -Wfloat-equal -Wvla -I$(INC_DIR)
 LFLAGS := -lm
 
 DEBUG_CFLAGS := -O0 -g

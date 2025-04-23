@@ -54,7 +54,7 @@ ListIterator<Type>& ListIterator<Type>::operator =(const ListIterator<Type> &ite
 template <keyType Type>
 ListIterator<Type>& ListIterator<Type>::operator =(ListIterator<Type> &&iter)
 {
-    std::shared_ptr<Node<Type>> null_ptr {nullptr};
+    std::shared_ptr<Node<Type>> null_ptr = nullptr;
     cur_ptr = iter.cur_ptr;
     iter.cur_ptr = null_ptr; // ОШИБКА
 

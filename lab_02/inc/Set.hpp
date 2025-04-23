@@ -18,6 +18,7 @@ template <
         keyType Key,
         typename Compare = std::less<Key> // arg1 - arg2
 >
+requires std::strict_weak_order<Compare, Key, Key>
 class Set final: public BaseContainer
 {
     friend class SetIterator<Key>;
@@ -37,7 +38,7 @@ class Set final: public BaseContainer
 
     public:
         Set() noexcept : data() { this->size = 0; };
-
+        
         explicit Set(const Set<Key, Compare> &set);
         Set(Set<Key, Compare> &&set) noexcept;
         Set(std::initializer_list<Key> list);
@@ -55,10 +56,10 @@ class Set final: public BaseContainer
         // Операторы =
         Set<Key, Compare>& operator=(const Set<Key, Compare> &set);
         Set<Key, Compare>& operator=(Set<Key, Compare> &&set) noexcept;
-        Set<Key, Compare>& operator=(std::initializer_list<Key> list);
-        template <keyType U>
-        requires Convertible_concept<U, Key>
-        Set<Key, Compare>& operator=(std::initializer_list<U> list);
+        // Set<Key, Compare>& operator=(std::initializer_list<Key> list);
+        // template <keyType U>
+        // requires Convertible_concept<U, Key>
+        // Set<Key, Compare>& operator=(std::initializer_list<U> list);
 
         ~Set() override = default;
 

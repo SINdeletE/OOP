@@ -31,7 +31,7 @@ template <
 Set<Key, Compare>::Set(std::initializer_list<Key> list)
 {
     this->clear();
-    std::ranges::for_each(list, [this](const auto &value) { insert(value); });
+    std::ranges::for_each(list, [this](const Key &value) { insert(value); });
 }
 
 template <
@@ -43,7 +43,7 @@ requires Convertible_concept<U, Key>
 Set<Key, Compare>::Set(std::initializer_list<U> list)
 {
     this->clear();
-    std::ranges::for_each(list, [this](const auto &value) { insert(value); });
+    std::ranges::for_each(list, [this](const U &value) { insert(value); });
 }
 
 template <
@@ -77,6 +77,7 @@ template <std::input_iterator Beg, std::sentinel_for<Beg> End>
 requires std::convertible_to<std::iter_value_t<Beg>, Key>
 Set<Key, Compare>::Set(Beg begin, End end)
 {
+    this->clear();
     std::ranges::for_each(begin, end, [this] (const auto &value) { this->insert(static_cast<Key>(value)); });
 }
 
@@ -109,31 +110,31 @@ Set<Key, Compare>& Set<Key, Compare>::operator=(Set<Key, Compare> &&set) noexcep
     return *this;
 }
 
-template <
-        keyType Key,
-        typename Compare 
->
-Set<Key, Compare>& Set<Key, Compare>::operator=(std::initializer_list<Key> list)
-{
-    this->clear();
-    std::ranges::for_each(list, [this](const Key &value) { insert(value); });
+// template <
+//         keyType Key,
+//         typename Compare 
+// >
+// Set<Key, Compare>& Set<Key, Compare>::operator=(std::initializer_list<Key> list)
+// {
+//     this->clear();
+//     std::ranges::for_each(list, [this](const Key &value) { insert(value); });
 
-    return *this;
-}
+//     return *this;
+// }
 
-template <
-        keyType Key,
-        typename Compare 
->
-template <keyType U>
-requires Convertible_concept<U, Key>
-Set<Key, Compare>& Set<Key, Compare>::operator=(std::initializer_list<U> list)
-{
-    this->clear();
-    std::ranges::for_each(list, [this](const U &value) { insert(value); });
+// template <
+//         keyType Key,
+//         typename Compare 
+// >
+// template <keyType U>
+// requires Convertible_concept<U, Key>
+// Set<Key, Compare>& Set<Key, Compare>::operator=(std::initializer_list<U> list)
+// {
+//     this->clear();
+//     std::ranges::for_each(list, [this](const U &value) { insert(value); });
 
-    return *this;
-}
+//     return *this;
+// }
 
 
 
@@ -300,8 +301,11 @@ template <
 >
 void Set<Key, Compare>::clear()
 {
-    for (auto iter = this->begin(); iter != this->end();)
-        iter = this->erase(*iter);
+    if (! data.IsEmpty())
+        for (auto iter = this->begin(); iter != this->end();)
+            iter = this->erase(*iter);
+    else
+        this->size = 0;
 }
 
 template <
