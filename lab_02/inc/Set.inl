@@ -156,7 +156,16 @@ Set<Key, Compare>::iterator Set<Key, Compare>::erase(const Key &value)
     {
         if (!comp(*iter, value) && !comp(value, *iter))
         {
-            iter = data.erase(iter);
+            try
+            {
+                iter = data.erase(iter);
+            }
+            catch (ErrorList_IsEmpty &error)
+            {
+                time_t cur_time = time(NULL);
+                throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+            }
+
             flag = false;
 
             this->size--;
@@ -178,7 +187,15 @@ template <
 >
 Set<Key, Compare>::iterator Set<Key, Compare>::erase(Set<Key, Compare>::iterator &pos)
 {
-    return this->erase(*pos);
+    try
+    {
+        return this->erase(*pos);
+    }
+    catch (ErrorList_IsEmpty &error)
+    {
+        time_t cur_time = time(NULL);
+        throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
 }
 
 template <
@@ -187,7 +204,15 @@ template <
 >
 Set<Key, Compare>::const_iterator Set<Key, Compare>::erase(Set<Key, Compare>::const_iterator &pos)
 {
-    return this->erase(*pos);
+    try
+    {
+        return this->erase(*pos);
+    }
+    catch (ErrorList_IsEmpty &error)
+    {
+        time_t cur_time = time(NULL);
+        throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
 }
 
 
@@ -216,7 +241,15 @@ Set<Key, Compare>::iterator Set<Key, Compare>::insert(const Key &value)
         }
         else if (!comp(*iter, value))
         {
-            res_list_iter = data.insert(iter, value);
+            try
+            {
+                res_list_iter = data.insert(iter, value);
+            }
+            catch (ErrorList_IsEmpty &error)
+            {
+                time_t cur_time = time(NULL);
+                throw ErrorSet_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+            }
             flag = false;
 
             this->size++;
@@ -224,7 +257,15 @@ Set<Key, Compare>::iterator Set<Key, Compare>::insert(const Key &value)
     
     if (flag)
     {
-        res_list_iter = data.push_back(value); // В конец, если value больше всех значений
+        try
+        {
+            res_list_iter = data.push_back(value); // В конец, если value больше всех значений
+        }
+        catch (ErrorList_IsEmpty &error)
+        {
+            time_t cur_time = time(NULL);
+            throw ErrorSet_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        }
 
         this->size++;
 
@@ -303,7 +344,15 @@ void Set<Key, Compare>::clear()
 {
     if (! data.IsEmpty())
         for (auto iter = this->begin(); iter != this->end();)
-            iter = this->erase(*iter);
+            try
+            {
+                iter = this->erase(*iter);
+            }
+            catch (ErrorList_IsEmpty &error)
+            {
+                time_t cur_time = time(NULL);
+                throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+            }
     else
         this->size = 0;
 }
@@ -370,16 +419,8 @@ Set<Key, Compare> Set<Key, Compare>::operator |(const Set<Key, Compare> &set) co
 {
     Set<Key, Compare> tmp {*this};
 
-    try
-    {
-        for (const auto &v : set)
-            tmp.insert(v);
-    }
-    catch (ErrorList_BadAlloc &error)
-    {
-        time_t cur_time = time(NULL);
-        throw ErrorSet_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-    }
+    for (const auto &v : set)
+        tmp.insert(v);
 
     return tmp;
 }
@@ -415,15 +456,7 @@ template <
 >
 Set<Key, Compare>& Set<Key, Compare>::operator |=(const Key &value)
 {
-    try
-    {
-        this->insert(value);
-    }
-    catch (ErrorList_BadAlloc &error)
-    {
-        time_t cur_time = time(NULL);
-        throw ErrorSet_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-    }
+    this->insert(value);
 
     return *this;
 }
@@ -499,15 +532,7 @@ Set<Key, Compare>& Set<Key, Compare>::operator &=(const Set<Key, Compare> &set)
 {
     for (auto iter = this->begin(); iter != this->end();)
         if (set.cfind(*iter) == set.cend())
-            try
-            {
-                iter = this->erase(*iter);
-            }
-            catch (ErrorList_IsEmpty &error)
-            {
-                time_t cur_time = time(NULL);
-                throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-            }
+            iter = this->erase(*iter);
         else
             iter++;
     
@@ -522,15 +547,7 @@ Set<Key, Compare>& Set<Key, Compare>::operator &=(const Key &value)
 {
     for (auto iter = this->begin(); iter != this->end();) // erase_if
         if (*iter != value)
-            try
-            {
-                iter = this->erase(*iter);
-            }
-            catch (ErrorList_IsEmpty &error)
-            {
-                time_t cur_time = time(NULL);
-                throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-            }
+            iter = this->erase(*iter);
         else
             iter++;
     
@@ -635,15 +652,7 @@ template <
 Set<Key, Compare>& Set<Key, Compare>::operator -=(const Set<Key, Compare> &set)
 {
     for (const auto &v : set)
-        try
-        {
-            this->erase(v);
-        }
-        catch (ErrorList_IsEmpty &error)
-        {
-            time_t cur_time = time(NULL);
-            throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-        }
+        this->erase(v);
 
     return *this;
 }
@@ -654,15 +663,7 @@ template <
 >
 Set<Key, Compare>& Set<Key, Compare>::operator -=(const Key &value)
 {
-    try
-    {
-        this->erase(value);
-    }
-    catch (ErrorList_IsEmpty &error)
-    {
-        time_t cur_time = time(NULL);
-        throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-    }
+    this->erase(value);
 
     return *this;
 }
