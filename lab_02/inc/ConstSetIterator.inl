@@ -1,5 +1,5 @@
 template <keyType Key>
-ConstSetIterator<Key>& ConstSetIterator<Key>::operator =(const ConstSetIterator<Key> &iter) 
+ConstSetIterator<Key>& ConstSetIterator<Key>::operator =(const ConstSetIterator<Key> &iter)
 {
     this->list_iter = iter.list_iter;
     
@@ -10,8 +10,8 @@ template <keyType Key>
 ConstSetIterator<Key>& ConstSetIterator<Key>::operator =(ConstSetIterator<Key> &&iter) noexcept
 {
     this->list_iter = std::move(iter.list_iter);
-
-    return *this; 
+    
+    return *this;
 }
 
 template <keyType Key>
@@ -21,7 +21,7 @@ template <sizeType U> ConstSetIterator<Key>& ConstSetIterator<Key>::operator +=(
     {
         list_iter += value;
     }
-    catch (ErrorListIterator_BadOffset &error)
+    catch (ErrorConstListIterator_BadOffset &error)
     {
         time_t cur_time = time(NULL);
         throw ErrorConstSetIterator_BadOffset(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
@@ -76,25 +76,29 @@ ConstSetIterator<Key>::operator bool() const noexcept
 template <keyType Key>
 ConstSetIterator<Key>::reference ConstSetIterator<Key>::operator *() const
 {   
-    // try:
-    //     return *iter;
-    // catch 
-    // {
-
-    // }
-
-    return *list_iter;
+    try
+    {
+        return *list_iter;
+    }
+    catch (ErrorConstListIterator_IsInvalid &error) 
+    {
+        time_t cur_time = time(NULL);
+        throw ErrorConstSetIterator_IsInvalid(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
 }
 
 template <keyType Key>
 ConstSetIterator<Key>::pointer ConstSetIterator<Key>::operator ->() const
 {
-    // try:
-    //     return iter->;
-    // catch 
-    // {
-
-    // }
+    try
+    {
+        return &(*list_iter);
+    }
+    catch (ErrorConstListIterator_IsInvalid &error) 
+    {
+        time_t cur_time = time(NULL);
+        throw ErrorConstSetIterator_IsInvalid(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
 
     return &(*list_iter);
 }

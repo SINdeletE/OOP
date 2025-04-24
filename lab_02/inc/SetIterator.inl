@@ -85,19 +85,20 @@ SetIterator<Key>::reference SetIterator<Key>::operator *() const
         time_t cur_time = time(NULL);
         throw ErrorSetIterator_IsInvalid(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
-
-    return *list_iter;
 }
 
 template <keyType Key>
 SetIterator<Key>::pointer SetIterator<Key>::operator ->() const
 {
-    // try:
-    //     return iter->;
-    // catch 
-    // {
-
-    // }
+    try
+    {
+        return &(*list_iter);
+    }
+    catch (ErrorListIterator_IsInvalid &error) 
+    {
+        time_t cur_time = time(NULL);
+        throw ErrorSetIterator_IsInvalid(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
 
     return &(*list_iter);
 }

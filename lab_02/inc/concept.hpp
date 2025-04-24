@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <cstddef>
 #include <concepts>
+#include <ranges>
 #include <string>
 
 // sizeType concepts
@@ -12,11 +13,14 @@ template <typename T>
 concept sizeType = (std::is_signed<T>::value ||
                     std::is_unsigned<T>::value) && std::is_arithmetic<T>::value;
 
-// keyType concepts
+// Types concepts
 
 template <typename T>
-concept keyType = std::copy_constructible<T> && std::move_constructible<T> && std::default_initializable<T> && 
-                std::is_copy_assignable_v<T> && std::is_move_assignable_v<T>;
+concept copyType = std::copy_constructible<T> && std::is_copy_assignable_v<T>;
+
+template <typename T>
+concept keyType = copyType<T> && std::move_constructible<T> && 
+                std::default_initializable<T> && std::is_move_assignable_v<T>;
 
 // Container concepts
 
@@ -39,6 +43,12 @@ concept base_container_attributes = requires (T t)
 template <typename T>
 concept Container_concept = copy_construct<T> && std::move_constructible<T> && std::default_initializable<T> && 
                             std::is_copy_assignable_v<T> && std::is_move_assignable_v<T> && base_container_attributes<T>;
+
+// range concept
+
+template <typename T>
+concept Range_concept = std::ranges::forward_range<T>;
+
 
 // able/ible concepts
 

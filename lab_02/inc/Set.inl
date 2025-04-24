@@ -38,7 +38,7 @@ template <
         keyType Key,
         typename Compare 
 >
-template <keyType U>
+template <copyType U>
 requires Convertible_concept<U, Key>
 Set<Key, Compare>::Set(std::initializer_list<U> list)
 {
@@ -61,7 +61,7 @@ template <
         keyType Key,
         typename Compare 
 >
-template <keyType U>
+template <copyType U>
 requires Convertible_concept<U, Key>
 Set<Key, Compare>::Set(Set<Key, Compare>::size_type array_len, const U *array)
 {
@@ -79,6 +79,29 @@ Set<Key, Compare>::Set(Beg begin, End end)
 {
     this->clear();
     std::ranges::for_each(begin, end, [this] (const auto &value) { this->insert(static_cast<Key>(value)); });
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+template <Range_concept R>
+Set<Key, Compare>::Set(R&& range)
+{
+    this->clear();
+    std::ranges::for_each(std::forward<R>(range), [this] (const auto &value) { this->insert(static_cast<Key>(value)); });
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+template <Range_concept R>
+explicit Set<Key, Compare>::Set(Set<Key, Compare>::size_type size, R&& range)
+{
+    auto range_size = std::ranges::distance(range);
+
+    if (size)
 }
 
 
@@ -264,31 +287,12 @@ Set<Key, Compare>::iterator Set<Key, Compare>::insert(const U &value)
 }
 
 
-template <
-        keyType Key,
-        typename Compare 
->
-Set<Key, Compare>::iterator Set<Key, Compare>::find(const Key &value) const
-{
-    bool flag = true;
-    iterator res_iter = this->end();
-    Compare comp;
-
-    for (auto iter = this->begin(); flag && iter != this->end(); ++iter)
-        if (!comp(*iter, value) && !comp(value, *iter))
-        {
-            res_iter = iter;
-            flag = false;
-        }
-    
-    return res_iter;
-}
 
 template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>::const_iterator Set<Key, Compare>::cfind(const Key &value) const
+Set<Key, Compare>::const_iterator Set<Key, Compare>::find(const Key &value) const noexcept
 {
     bool flag = true;
     const_iterator res_iter = this->cend();
@@ -314,18 +318,19 @@ template <
         keyType Key,
         typename Compare 
 >
-void Set<Key, Compare>::clear()
+void Set<Key, Compare>::clear() noexcept
 {
+    bool flag = true;
+
     if (! data.IsEmpty())
-        for (auto iter = this->begin(); iter != this->end();)
+        for (auto iter = this->begin(); flag && iter != this->end();)
             try
             {
                 iter = this->erase(*iter);
             }
             catch (ErrorList_IsEmpty &error)
             {
-                time_t cur_time = time(NULL);
-                throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+                flag = false;
             }
     else
         this->_size = 0;
@@ -505,7 +510,7 @@ template <
 Set<Key, Compare>& Set<Key, Compare>::operator &=(const Set<Key, Compare> &set)
 {
     for (auto iter = this->begin(); iter != this->end();)
-        if (set.cfind(*iter) == set.cend())
+        if (set.find(*iter) == set.cend())
             iter = this->erase(*iter);
         else
             iter++;

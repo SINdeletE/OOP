@@ -42,16 +42,20 @@ class Set final: public BaseContainer
         explicit Set(const Set<Key, Compare> &set);
         Set(Set<Key, Compare> &&set) noexcept;
         Set(std::initializer_list<Key> list);
-        template <keyType U>
+        template <copyType U>
         requires Convertible_concept<U, Key>
         Set(std::initializer_list<U> list);
         Set(size_type array_len, const Key *array);
-        template <keyType U>
+        template <copyType U>
         requires Convertible_concept<U, Key>
         Set(size_type array_len, const U *array);
         template <std::input_iterator Beg, std::sentinel_for<Beg> End>
         requires std::convertible_to<std::iter_value_t<Beg>, Key>
         Set(Beg begin, End end);
+        template <Range_concept R>
+        explicit Set(R&& range);
+        template <Range_concept R>
+        explicit Set(size_type size, R&& range);
 
         // Операторы =
         Set<Key, Compare>& operator=(const Set<Key, Compare> &set);
@@ -67,17 +71,16 @@ class Set final: public BaseContainer
         iterator erase(iterator &pos);
         const_iterator erase(const_iterator &pos);
 
-        iterator find(const Key &value) const;
-        const_iterator cfind(const Key &value) const;
+        const_iterator find(const Key &value) const noexcept;
         
-        void clear();
+        void clear() noexcept;
         
         iterator insert(const Key &value);
         template <keyType U>
         requires Convertible_concept<U, Key>
         iterator insert(const U &value);
 
-        bool contains(const Key &value) const { return this->find(value) != this->end(); }
+        bool contains(const Key &value) const { return this->find(value) != this->cend(); }
 
         // Итераторы
         iterator begin() const noexcept;

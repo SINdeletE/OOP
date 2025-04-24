@@ -216,8 +216,8 @@ int main(void)
     set_and_2.insert(4);
     set_and_2.insert(5);
 
-    std::cout << "Ожидание: 1. Реальность: " << (set_and.find(9) == set_and.end()) << std::endl;
-    std::cout << "Ожидание: 1. Реальность: " << (set_and.find(8) != set_and.end()) << std::endl;
+    std::cout << "Ожидание: 1. Реальность: " << (set_and.find(9) == set_and.cend()) << std::endl;
+    std::cout << "Ожидание: 1. Реальность: " << (set_and.find(8) != set_and.cend()) << std::endl;
 
     set_and &= set_and_2;
     std::cout << "Ожидание: 1 2 4 5. Реальность: " << set_and;
@@ -323,6 +323,15 @@ int main(void)
     std::cout << "Присваивание ^= (int) Ожидание: 0 1 2 3 4 5 6 7. Реальность: " << t7;
     t7 -= {11, 16, 5, 6, 12};
     std::cout << "Присваивание -= (int) Ожидание: 0 1 2 3 4 7. Реальность: " << t7;
+
+    std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
+
+
+    std::cout << "ТЕСТИРОВАНИЕ: Правки 23 апреля 2025" << std::endl << std::endl;
+
+    Set<int> range_set {std::ranges::iota_view(1, 6)};
+
+    std::cout << "Ожидание: 1 2 3 4 5. Реальность: " << range_set;
 
     std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 
