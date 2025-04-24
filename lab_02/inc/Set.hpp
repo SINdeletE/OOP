@@ -42,11 +42,11 @@ class Set final: public BaseContainer
         explicit Set(const Set<Key, Compare> &set);
         Set(Set<Key, Compare> &&set) noexcept;
         Set(std::initializer_list<Key> list);
-        template <copyType U>
+        template <typename U>
         requires Convertible_concept<U, Key>
         Set(std::initializer_list<U> list);
         Set(size_type array_len, const Key *array);
-        template <copyType U>
+        template <typename U>
         requires Convertible_concept<U, Key>
         Set(size_type array_len, const U *array);
         template <std::input_iterator Beg, std::sentinel_for<Beg> End>
@@ -73,7 +73,7 @@ class Set final: public BaseContainer
 
         // Функции для работы с элементами множества
         iterator erase(const Key &value);
-        template <keyType U>
+        template <typename U>
         requires Convertible_concept<U, Key>
         iterator erase(const U &value) { return this->erase(static_cast<Key>(value)); }
         iterator erase(iterator &pos);
@@ -84,7 +84,7 @@ class Set final: public BaseContainer
         void clear() noexcept;
         
         iterator insert(const Key &value);
-        template <copyType U>
+        template <typename U>
         requires Convertible_concept<U, Key>
         iterator insert(const U &value);
 
@@ -106,7 +106,7 @@ class Set final: public BaseContainer
         Set<Key, Compare>& operator +=(const Set<Key, Compare> &);
         Set<Key, Compare>& operator +=(const Key&);
         Set<Key, Compare>& Or(std::initializer_list<Key> list);
-        template <keyType U>
+        template <typename U>
         requires Convertible_concept<U, Key>
         Set<Key, Compare>& Or(std::initializer_list<U> list);
 
@@ -120,7 +120,7 @@ class Set final: public BaseContainer
         Set<Key, Compare>& operator *=(const Set<Key, Compare> &);
         Set<Key, Compare>& operator *=(const Key&);
         Set<Key, Compare>& And(std::initializer_list<Key> list);
-        template <keyType U>
+        template <typename U>
         requires Convertible_concept<U, Key>
         Set<Key, Compare>& And(std::initializer_list<U> list);
 
@@ -130,7 +130,7 @@ class Set final: public BaseContainer
         Set<Key, Compare>& operator ^=(const Set<Key, Compare> &);
         Set<Key, Compare>& operator ^=(const Key&);
         Set<Key, Compare>& Xor(std::initializer_list<Key> list);
-        template <keyType U>
+        template <typename U>
         requires Convertible_concept<U, Key>
         Set<Key, Compare>& Xor(std::initializer_list<U> list);
         
@@ -140,7 +140,7 @@ class Set final: public BaseContainer
         Set<Key, Compare>& operator -=(const Set<Key, Compare> &);
         Set<Key, Compare>& operator -=(const Key&);
         Set<Key, Compare>& Diff(std::initializer_list<Key> list);
-        template <keyType U>
+        template <typename U>
         requires Convertible_concept<U, Key>
         Set<Key, Compare>& Diff(std::initializer_list<U> list);
 

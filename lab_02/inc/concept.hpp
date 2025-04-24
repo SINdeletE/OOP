@@ -68,7 +68,7 @@ concept Printable_concept = requires (std::ostream& os, const T& t)
 };
 
 template <typename T, typename U>
-concept Convertible_concept = keyType<U> && (! std::same_as<T, U>) && 
+concept Convertible_concept = copyType<U> && (! std::same_as<T, U>) && 
                         (! std::same_as<T, U&>) && std::convertible_to<T, U>;
 
 

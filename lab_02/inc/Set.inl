@@ -40,7 +40,7 @@ template <
         keyType Key,
         typename Compare 
 >
-template <copyType U>
+template <typename U>
 requires Convertible_concept<U, Key>
 Set<Key, Compare>::Set(std::initializer_list<U> list)
 {
@@ -63,7 +63,7 @@ template <
         keyType Key,
         typename Compare 
 >
-template <copyType U>
+template <typename U>
 requires Convertible_concept<U, Key>
 Set<Key, Compare>::Set(Set<Key, Compare>::size_type array_len, const U *array)
 {
@@ -335,7 +335,7 @@ template <
         keyType Key,
         typename Compare 
 >
-template <copyType U>
+template <typename U>
 requires Convertible_concept<U, Key>
 Set<Key, Compare>::iterator Set<Key, Compare>::insert(const U &value)
 {
@@ -549,7 +549,7 @@ template <
         keyType Key,
         typename Compare 
 >
-template <keyType U>
+template <typename U>
 requires Convertible_concept<U, Key>
 Set<Key, Compare>& Set<Key, Compare>::Or(std::initializer_list<U> list)
 {
@@ -668,7 +668,7 @@ template <
         keyType Key,
         typename Compare 
 >
-template <keyType U>
+template <typename U>
 requires Convertible_concept<U, Key>
 Set<Key, Compare>& Set<Key, Compare>::And(std::initializer_list<U> list)
 {
@@ -746,7 +746,7 @@ template <
         keyType Key,
         typename Compare 
 >
-template <keyType U>
+template <typename U>
 requires Convertible_concept<U, Key>
 Set<Key, Compare>& Set<Key, Compare>::Diff(std::initializer_list<U> list)
 {
@@ -848,7 +848,7 @@ template <
         keyType Key,
         typename Compare 
 >
-template <keyType U>
+template <typename U>
 requires Convertible_concept<U, Key>
 Set<Key, Compare>& Set<Key, Compare>::Xor(std::initializer_list<U> list)
 {
