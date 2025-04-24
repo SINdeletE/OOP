@@ -55,7 +55,7 @@ class Set final: public BaseContainer
         template <Range_concept R>
         explicit Set(R&& range);
         template <Range_concept R>
-        explicit Set(size_type size, R&& range);
+        explicit Set(R&& range, size_type size);
 
         // Операторы =
         Set<Key, Compare>& operator=(const Set<Key, Compare> &set);

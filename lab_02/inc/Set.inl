@@ -1,7 +1,9 @@
 #include <ranges>
 #include <algorithm>
 #include <ctime>
-#include <SetException.hpp>
+#include <cmath>
+
+#include "SetException.hpp"
 
 template <
         keyType Key,
@@ -97,11 +99,35 @@ template <
         typename Compare 
 >
 template <Range_concept R>
-explicit Set<Key, Compare>::Set(Set<Key, Compare>::size_type size, R&& range)
+Set<Key, Compare>::Set(R&& range, Set<Key, Compare>::size_type size)
 {
+    this->clear();
+
     auto range_size = std::ranges::distance(range);
 
-    if (size)
+    if (size <= 1)
+    {
+        time_t cur_time = time(NULL);
+        throw ErrorSet_BadSize(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
+
+    if (std::ranges::empty(range))
+    {
+        return; // Пустое мн-во
+    }
+    else
+    {
+        double range_beg = *std::ranges::begin(range);
+        double range_end = *std::ranges::next(std::ranges::begin(range), range_size - 1);
+
+        auto diapason = std::views::iota(0u, size)
+                        | std::views::transform([=](auto i) 
+                        {
+                            return std::lerp(range_beg, range_end, static_cast<double>(i) / (size - 1));
+                        });
+        
+        std::ranges::for_each(diapason, [this] (const auto &value) { this->insert(static_cast<Key>(value)); });
+    }
 }
 
 

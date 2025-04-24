@@ -330,8 +330,9 @@ int main(void)
     std::cout << "ТЕСТИРОВАНИЕ: Правки 23 апреля 2025" << std::endl << std::endl;
 
     Set<int> range_set {std::ranges::iota_view(1, 6)};
-
     std::cout << "Ожидание: 1 2 3 4 5. Реальность: " << range_set;
+    Set<int> range_set_2 {std::ranges::iota_view(1, 6), 8};
+    std::cout << "Ожидание: 1 2 3 4 5. Реальность: " << range_set_2;
 
     std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 

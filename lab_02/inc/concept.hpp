@@ -28,7 +28,7 @@ template <typename T>
 concept copy_construct = std::constructible_from<T, T&> && std::constructible_from<T, const T&> && std::constructible_from<T, const T>;
 
 template <typename T>
-concept base_container_attributes = requires (T t)
+concept Container_attributes = requires (T t)
 {
     typename T::value_type;
     typename T::size_type;
@@ -42,7 +42,7 @@ concept base_container_attributes = requires (T t)
 
 template <typename T>
 concept Container_concept = copy_construct<T> && std::move_constructible<T> && std::default_initializable<T> && 
-                            std::is_copy_assignable_v<T> && std::is_move_assignable_v<T> && base_container_attributes<T>;
+                            std::is_copy_assignable_v<T> && std::is_move_assignable_v<T> && Container_attributes<T>;
 
 // range concept
 
