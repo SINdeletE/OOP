@@ -33,7 +33,7 @@ template <
 Set<Key, Compare>::Set(std::initializer_list<Key> list)
 {
     this->clear();
-    std::ranges::for_each(list, [this](const Key &value) { insert(value); });
+    std::ranges::for_each(list, [this](const Key &value) { append(value); });
 }
 
 template <
@@ -45,7 +45,7 @@ requires Convertible_concept<U, Key>
 Set<Key, Compare>::Set(std::initializer_list<U> list)
 {
     this->clear();
-    std::ranges::for_each(list, [this](const U &value) { insert(value); });
+    std::ranges::for_each(list, [this](const U &value) { append(value); });
 }
 
 template <
@@ -55,7 +55,7 @@ template <
 Set<Key, Compare>::Set(Set<Key, Compare>::size_type array_len, const Key *array)
 {
     this->clear();
-    std::ranges::for_each(array, array + array_len, [this](const auto &value) { insert(value); });
+    std::ranges::for_each(array, array + array_len, [this](const auto &value) { append(value); });
 }
 
 
@@ -68,7 +68,7 @@ requires Convertible_concept<U, Key>
 Set<Key, Compare>::Set(Set<Key, Compare>::size_type array_len, const U *array)
 {
     this->clear();
-    std::ranges::for_each(array, array + array_len, [this](const auto &value) { insert(value); });
+    std::ranges::for_each(array, array + array_len, [this](const auto &value) { append(value); });
 }
 
 template <
@@ -80,7 +80,7 @@ requires std::convertible_to<std::iter_value_t<Beg>, Key>
 Set<Key, Compare>::Set(Beg begin, End end)
 {
     this->clear();
-    std::ranges::for_each(begin, end, [this] (const auto &value) { this->insert(static_cast<Key>(value)); });
+    std::ranges::for_each(begin, end, [this] (const auto &value) { this->append(static_cast<Key>(value)); });
 }
 
 template <
@@ -92,7 +92,7 @@ requires Range_concept<R, Key>
 Set<Key, Compare>::Set(R&& range)
 {
     this->clear();
-    std::ranges::for_each(std::forward<R>(range), [this] (const auto &value) { this->insert(value); });
+    std::ranges::for_each(std::forward<R>(range), [this] (const auto &value) { this->append(value); });
 }
 
 template <
@@ -128,7 +128,7 @@ Set<Key, Compare>::Set(R&& range, Set<Key, Compare>::size_type size)
                             return std::lerp(range_beg, range_end, static_cast<double>(i) / (size - 1));
                         });
         
-        std::ranges::for_each(diapason, [this] (const auto &value) { this->insert(static_cast<Key>(value)); });
+        std::ranges::for_each(diapason, [this] (const auto &value) { this->append(static_cast<Key>(value)); });
     }
 }
 
@@ -142,7 +142,7 @@ template <
 Set<Key, Compare>& Set<Key, Compare>::operator=(const Set<Key, Compare> &set)
 {
     this->clear();
-    std::ranges::for_each(set, [this](const auto &value) { insert(value); });
+    std::ranges::for_each(set, [this](const auto &value) { append(value); });
 
     return *this;
 }
@@ -170,7 +170,7 @@ requires Container_range_concept<C, Key>
 Set<Key, Compare>& Set<Key, Compare>::operator=(const C& container)
 {
     this->clear();
-    std::ranges::for_each(container, [this] (const auto &value) { this->insert(value); });
+    std::ranges::for_each(container, [this] (const auto &value) { this->append(value); });
 
     return *this;
 }
@@ -184,7 +184,7 @@ requires Range_concept<R, Key>
 Set<Key, Compare>& Set<Key, Compare>::operator=(R&& range)
 {
     this->clear();
-    std::ranges::for_each(std::forward<R>(range), [this] (const auto &value) { this->insert(value); });
+    std::ranges::for_each(std::forward<R>(range), [this] (const auto &value) { this->append(value); });
 
     return *this;
 }
@@ -199,7 +199,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>::iterator Set<Key, Compare>::erase(const Key &value)
+Set<Key, Compare>::iterator Set<Key, Compare>::erase(const Key &value) noexcept
 {
     bool flag = true;
     Compare comp;
@@ -215,8 +215,11 @@ Set<Key, Compare>::iterator Set<Key, Compare>::erase(const Key &value)
             }
             catch (ErrorList_IsEmpty &error)
             {
-                time_t cur_time = time(NULL);
-                throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+                // time_t cur_time = time(NULL);
+                // throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+
+                flag = false;
+                iter = data.end();
             }
 
             flag = false;
@@ -238,34 +241,18 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>::iterator Set<Key, Compare>::erase(Set<Key, Compare>::iterator &pos)
+Set<Key, Compare>::iterator Set<Key, Compare>::erase(Set<Key, Compare>::iterator &pos) noexcept
 {
-    try
-    {
-        return this->erase(*pos);
-    }
-    catch (ErrorList_IsEmpty &error)
-    {
-        time_t cur_time = time(NULL);
-        throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-    }
+    return this->erase(*pos);
 }
 
 template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>::const_iterator Set<Key, Compare>::erase(Set<Key, Compare>::const_iterator &pos)
+Set<Key, Compare>::const_iterator Set<Key, Compare>::erase(Set<Key, Compare>::const_iterator &pos) noexcept
 {
-    try
-    {
-        return this->erase(*pos);
-    }
-    catch (ErrorList_IsEmpty &error)
-    {
-        time_t cur_time = time(NULL);
-        throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-    }
+    return this->erase(*pos);
 }
 
 
@@ -280,7 +267,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>::iterator Set<Key, Compare>::insert(const Key &value)
+Set<Key, Compare>::iterator Set<Key, Compare>::append(const Key &value)
 {
     bool flag = true;
     Compare comp;
@@ -337,9 +324,9 @@ template <
 >
 template <typename U>
 requires Convertible_concept<U, Key>
-Set<Key, Compare>::iterator Set<Key, Compare>::insert(const U &value)
+Set<Key, Compare>::iterator Set<Key, Compare>::append(const U &value)
 {
-    return this->insert(static_cast<Key>(value));
+    return this->append(static_cast<Key>(value));
 }
 
 
@@ -457,7 +444,7 @@ Set<Key, Compare> Set<Key, Compare>::operator |(const Set<Key, Compare> &set) co
     Set<Key, Compare> tmp {*this};
 
     for (const auto &v : set)
-        tmp.insert(v);
+        tmp.append(v);
 
     return tmp;
 }
@@ -493,7 +480,7 @@ template <
 >
 Set<Key, Compare>& Set<Key, Compare>::operator |=(const Key &value)
 {
-    this->insert(value);
+    this->append(value);
 
     return *this;
 }
@@ -540,7 +527,7 @@ template <
 >
 Set<Key, Compare>& Set<Key, Compare>::Or(std::initializer_list<Key> list)
 {
-    std::ranges::for_each(list, [this](const Key &value){ insert(value); });
+    std::ranges::for_each(list, [this](const Key &value){ append(value); });
 
     return *this;
 }
@@ -553,7 +540,7 @@ template <typename U>
 requires Convertible_concept<U, Key>
 Set<Key, Compare>& Set<Key, Compare>::Or(std::initializer_list<U> list)
 {
-    std::ranges::for_each(list, [this](const U &value){ insert(value); });
+    std::ranges::for_each(list, [this](const U &value){ append(value); });
 
     return *this;
 }
@@ -565,9 +552,11 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>& Set<Key, Compare>::operator &=(const Set<Key, Compare> &set)
+Set<Key, Compare>& Set<Key, Compare>::operator &=(const Set<Key, Compare> &set) noexcept
 {
-    for (auto iter = this->begin(); iter != this->end();)
+    bool flag = true;
+
+    for (auto iter = this->begin(); flag && iter != this->end();)
         if (set.find(*iter) == set.cend())
             iter = this->erase(*iter);
         else
@@ -580,7 +569,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>& Set<Key, Compare>::operator &=(const Key &value)
+Set<Key, Compare>& Set<Key, Compare>::operator &=(const Key &value) noexcept
 {
     for (auto iter = this->begin(); iter != this->end();) // erase_if
         if (*iter != value)
@@ -639,7 +628,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>& Set<Key, Compare>::operator *=(const Set<Key, Compare> &set)
+Set<Key, Compare>& Set<Key, Compare>::operator *=(const Set<Key, Compare> &set) noexcept
 {
     return *this &= set;
 }
@@ -648,7 +637,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>& Set<Key, Compare>::operator *=(const Key &value)
+Set<Key, Compare>& Set<Key, Compare>::operator *=(const Key &value) noexcept
 {
     return *this &= value;
 }
@@ -686,7 +675,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>& Set<Key, Compare>::operator -=(const Set<Key, Compare> &set)
+Set<Key, Compare>& Set<Key, Compare>::operator -=(const Set<Key, Compare> &set) noexcept
 {
     for (const auto &v : set)
         this->erase(v);
@@ -698,7 +687,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>& Set<Key, Compare>::operator -=(const Key &value)
+Set<Key, Compare>& Set<Key, Compare>::operator -=(const Key &value) noexcept
 {
     this->erase(value);
 
@@ -796,7 +785,7 @@ Set<Key, Compare>& Set<Key, Compare>::operator ^=(const Key &value)
     if (! is_contains)
         try
         {
-            this->insert(value);
+            this->append(value);
         }
         catch (ErrorSet_BadAlloc &error)
         {

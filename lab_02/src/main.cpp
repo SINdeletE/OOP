@@ -154,31 +154,31 @@ int main(void)
     Set<int> set {};
     SetIterator<int> my_iter {};
 
-    my_iter = set.insert(1);
+    my_iter = set.append(1);
     std::cout << "Ожидание: 1. Реальность: " << *my_iter << std::endl; 
-    my_iter = set.insert(3);
+    my_iter = set.append(3);
     std::cout << "Ожидание: 3. Реальность: " << *my_iter << std::endl;
-    my_iter = set.insert(3);
+    my_iter = set.append(3);
     std::cout << "Ожидание: 3. Реальность: " << *my_iter << std::endl;
-    my_iter = set.insert(0);
+    my_iter = set.append(0);
     std::cout << "Ожидание: 0. Реальность: " << *my_iter << std::endl;
-    my_iter = set.insert(2);
+    my_iter = set.append(2);
     std::cout << "Ожидание: 2. Реальность: " << *my_iter << std::endl;
 
     std::cout << "Ожидание: 0 1 2 3. Реальность: " << set;
 
     Set<std::string> set_s {};
-    set_s.insert("aata");
-    set_s.insert("bata");
-    set_s.insert("bata");
-    set_s.insert("cata");
-    set_s.insert("data");
+    set_s.append("aata");
+    set_s.append("bata");
+    set_s.append("bata");
+    set_s.append("cata");
+    set_s.append("data");
     std::cout << "Ожидание: aata bata cata data. Реальность: " << set_s;
 
     Set<std::string> set_s_2 {};
-    set_s_2.insert("aata");
-    set_s_2.insert("bata");
-    set_s_2.insert("rata");
+    set_s_2.append("aata");
+    set_s_2.append("bata");
+    set_s_2.append("rata");
 
     set_s | set_s_2;
     set_s | "wqewqeqw";
@@ -204,17 +204,17 @@ int main(void)
 
 
     Set<int> set_and {};
-    set_and.insert(1);
-    set_and.insert(2);
-    set_and.insert(8);
-    set_and.insert(4);
-    set_and.insert(5);
+    set_and.append(1);
+    set_and.append(2);
+    set_and.append(8);
+    set_and.append(4);
+    set_and.append(5);
 
     Set<int> set_and_2 {};
-    set_and_2.insert(1);
-    set_and_2.insert(2);
-    set_and_2.insert(4);
-    set_and_2.insert(5);
+    set_and_2.append(1);
+    set_and_2.append(2);
+    set_and_2.append(4);
+    set_and_2.append(5);
 
     std::cout << "Ожидание: 1. Реальность: " << (set_and.find(9) == set_and.cend()) << std::endl;
     std::cout << "Ожидание: 1. Реальность: " << (set_and.find(8) != set_and.cend()) << std::endl;
@@ -239,11 +239,11 @@ int main(void)
     
 
     Set<int> set_xor {};
-    set_xor.insert(1);
-    set_xor.insert(2);
-    set_xor.insert(8);
-    set_xor.insert(4);
-    set_xor.insert(5);
+    set_xor.append(1);
+    set_xor.append(2);
+    set_xor.append(8);
+    set_xor.append(4);
+    set_xor.append(5);
 
     Set<int> set_xor_2 {26, 15, 4, 5};
 
