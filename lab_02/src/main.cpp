@@ -154,16 +154,11 @@ int main(void)
     Set<int> set {};
     SetIterator<int> my_iter {};
 
-    my_iter = set.append(1);
-    std::cout << "Ожидание: 1. Реальность: " << *my_iter << std::endl; 
-    my_iter = set.append(3);
-    std::cout << "Ожидание: 3. Реальность: " << *my_iter << std::endl;
-    my_iter = set.append(3);
-    std::cout << "Ожидание: 3. Реальность: " << *my_iter << std::endl;
-    my_iter = set.append(0);
-    std::cout << "Ожидание: 0. Реальность: " << *my_iter << std::endl;
-    my_iter = set.append(2);
-    std::cout << "Ожидание: 2. Реальность: " << *my_iter << std::endl;
+    set.append(1);
+    set.append(3);
+    set.append(3);
+    set.append(0);
+    set.append(2);
 
     std::cout << "Ожидание: 0 1 2 3. Реальность: " << set;
 

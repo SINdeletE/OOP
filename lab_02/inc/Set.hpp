@@ -72,21 +72,21 @@ class Set final: public BaseContainer
         ~Set() override = default;
 
         // Функции для работы с элементами множества
-        iterator erase(const Key &value) noexcept;
+        bool erase(const Key &value) noexcept;
         template <typename U>
         requires Convertible_concept<U, Key>
-        iterator erase(const U &value) noexcept { return this->erase(static_cast<Key>(value)); }
-        iterator erase(iterator &pos) noexcept;
-        const_iterator erase(const_iterator &pos) noexcept;
+        bool erase(const U &value) noexcept { return this->erase(static_cast<Key>(value)); }
+        bool erase(iterator &pos) noexcept;
+        bool erase(const_iterator &pos) noexcept;
 
         const_iterator find(const Key &value) const noexcept;
         
         void clear() noexcept;
         
-        iterator append(const Key &value);
+        bool append(const Key &value);
         template <typename U>
         requires Convertible_concept<U, Key>
-        iterator append(const U &value);
+        bool append(const U &value);
 
         bool contains(const Key &value) const { return this->find(value) != this->cend(); }
 

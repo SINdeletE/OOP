@@ -199,7 +199,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>::iterator Set<Key, Compare>::erase(const Key &value) noexcept
+bool Set<Key, Compare>::erase(const Key &value) noexcept
 {
     bool flag = true;
     Compare comp;
@@ -220,6 +220,7 @@ Set<Key, Compare>::iterator Set<Key, Compare>::erase(const Key &value) noexcept
 
                 flag = false;
                 iter = data.end();
+                this->_size++;
             }
 
             flag = false;
@@ -232,16 +233,17 @@ Set<Key, Compare>::iterator Set<Key, Compare>::erase(const Key &value) noexcept
             iter++;
         }
     }
-    
-    SetIterator<Key> set_iter {iter};
-    return set_iter;
+
+    flag = ! flag;
+
+    return flag;
 }
 
 template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>::iterator Set<Key, Compare>::erase(Set<Key, Compare>::iterator &pos) noexcept
+bool Set<Key, Compare>::erase(Set<Key, Compare>::iterator &pos) noexcept
 {
     return this->erase(*pos);
 }
@@ -250,7 +252,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>::const_iterator Set<Key, Compare>::erase(Set<Key, Compare>::const_iterator &pos) noexcept
+bool Set<Key, Compare>::erase(Set<Key, Compare>::const_iterator &pos) noexcept
 {
     return this->erase(*pos);
 }
@@ -267,12 +269,13 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>::iterator Set<Key, Compare>::append(const Key &value)
+bool Set<Key, Compare>::append(const Key &value)
 {
     bool flag = true;
     Compare comp;
     ListIterator<Key> res_list_iter {};
 
+    bool result_flag = false;
     for (auto iter = data.begin(); flag && iter != data.end(); iter++)
         if (!comp(*iter, value) && !comp(value, *iter))
         {
@@ -291,6 +294,7 @@ Set<Key, Compare>::iterator Set<Key, Compare>::append(const Key &value)
                 throw ErrorSet_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
             }
             flag = false;
+            result_flag = true;
 
             this->_size++;
         }
@@ -311,11 +315,11 @@ Set<Key, Compare>::iterator Set<Key, Compare>::append(const Key &value)
 
         res_list_iter = data.begin();
         res_list_iter += this->size() - 1;
+
+        result_flag = true;
     }
 
-    SetIterator<Key> res_iter {res_list_iter};
-
-    return res_iter;
+    return result_flag;
 }
 
 template <
@@ -324,7 +328,7 @@ template <
 >
 template <typename U>
 requires Convertible_concept<U, Key>
-Set<Key, Compare>::iterator Set<Key, Compare>::append(const U &value)
+bool Set<Key, Compare>::append(const U &value)
 {
     return this->append(static_cast<Key>(value));
 }
@@ -364,18 +368,24 @@ template <
 void Set<Key, Compare>::clear() noexcept
 {
     bool flag = true;
+    ConstSetIterator<Key> tmp {};
 
     if (! data.IsEmpty())
     {
-        for (auto iter = this->begin(); flag && iter != this->end();)
+        for (auto iter = this->cbegin(); flag && iter != this->cend();)
+        {    
+            tmp = iter;
+            ++iter;
+
             try
             {
-                iter = this->erase(*iter);
+                this->erase(tmp);
             }
             catch (ErrorList_IsEmpty &error)
             {
                 flag = false;
             }
+        }
     }
     
     this->_size = 0;
@@ -555,12 +565,25 @@ template <
 Set<Key, Compare>& Set<Key, Compare>::operator &=(const Set<Key, Compare> &set) noexcept
 {
     bool flag = true;
+    ConstSetIterator<Key> tmp {};
 
-    for (auto iter = this->begin(); flag && iter != this->end();)
+    for (auto iter = this->cbegin(); flag && iter != this->cend();)
         if (set.find(*iter) == set.cend())
-            iter = this->erase(*iter);
+        {
+            tmp = iter;
+            ++iter;
+
+            try
+            {
+                this->erase(tmp);
+            }
+            catch (ErrorList_IsEmpty &error)
+            {
+                flag = false;
+            }
+        }
         else
-            iter++;
+            ++iter;
     
     return *this;
 }
@@ -571,11 +594,26 @@ template <
 >
 Set<Key, Compare>& Set<Key, Compare>::operator &=(const Key &value) noexcept
 {
-    for (auto iter = this->begin(); iter != this->end();) // erase_if
+    bool flag = true;
+    ConstSetIterator<Key> tmp {};
+
+    for (auto iter = this->cbegin(); flag && iter != this->cend();) // erase_if
         if (*iter != value)
-            iter = this->erase(*iter);
+        {
+            tmp = iter;
+            ++iter;
+
+            try
+            {
+                this->erase(tmp);
+            }
+            catch (ErrorList_IsEmpty &error)
+            {
+                flag = false;
+            }
+        }
         else
-            iter++;
+            ++iter;
     
     return *this;
 }
@@ -678,7 +716,12 @@ template <
 Set<Key, Compare>& Set<Key, Compare>::operator -=(const Set<Key, Compare> &set) noexcept
 {
     for (const auto &v : set)
-        this->erase(v);
+        try
+        {
+            this->erase(v);
+        }
+        catch (ErrorList_IsEmpty &error)
+        {}
 
     return *this;
 }
@@ -689,7 +732,12 @@ template <
 >
 Set<Key, Compare>& Set<Key, Compare>::operator -=(const Key &value) noexcept
 {
-    this->erase(value);
+    try
+    {
+        this->erase(value);
+    }
+    catch (ErrorList_IsEmpty &error)
+    {}
 
     return *this;
 }
@@ -783,15 +831,7 @@ Set<Key, Compare>& Set<Key, Compare>::operator ^=(const Key &value)
     this->clear();
 
     if (! is_contains)
-        try
-        {
-            this->append(value);
-        }
-        catch (ErrorSet_BadAlloc &error)
-        {
-            time_t cur_time = time(NULL);
-            throw ErrorSet_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-        }
+        this->append(value);
 
     return *this;
 }

@@ -18,7 +18,7 @@ class ConstSetIterator : public BaseIterator
         using reference =  const Key&;
 
         ConstSetIterator() noexcept : list_iter() {};
-        ConstSetIterator(const ConstSetIterator<Key> &iter) : list_iter(iter.list_iter) {};
+        ConstSetIterator(const ConstSetIterator<Key> &iter) noexcept : list_iter(iter.list_iter) {};
         ConstSetIterator(ConstSetIterator<Key> &&iter) noexcept : list_iter(std::move(iter.list_iter)) {};
         ConstSetIterator(const ConstListIterator<Key> &iter) : list_iter(iter) {};
         ConstSetIterator(ConstListIterator<Key> &&iter) : list_iter(std::move(iter)) {};
