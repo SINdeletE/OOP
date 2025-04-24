@@ -137,13 +137,39 @@ template <
         typename Compare 
 >
 template <typename C>
-requires std::same_as<C, Set<Key, Compare>> && 
-                Container_range_concept<C, Key>
+requires (! std::same_as<C, Set<Key, Compare>>) && Container_range_concept<C, Key>
 Set<Key, Compare>::Set(C& container)
 {
     this->clear();
     std::ranges::for_each(container, [this] (const auto &value) { append(value); });
 }
+
+template <
+        keyType Key,
+        typename Compare 
+>
+template <typename C>
+requires (! std::same_as<C, Set<Key, Compare>>) && Container_range_concept<C, Key>
+Set<Key, Compare>::Set(const C& container)
+{
+    this->clear();
+    std::ranges::for_each(container, [this] (const auto &value) { append(value); });
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+template <typename... Args>
+requires (sizeof...(Args) > 0) && 
+        (std::convertible_to<Args, Key> && ...)
+Set<Key, Compare>::Set(Args&&... args)
+{
+    this->clear();
+    (append(std::forward<Args>(args)), ...);
+}
+
+
 
 
 
@@ -179,9 +205,22 @@ template <
         typename Compare 
 >
 template <Container_concept C>
-requires std::same_as<C, Set<Key, Compare>> && 
-                Container_range_concept<C, Key>
+requires (! std::same_as<C, Set<Key, Compare>>) && Container_range_concept<C, Key>
 Set<Key, Compare>& Set<Key, Compare>::operator=(C& container)
+{
+    this->clear();
+    std::ranges::for_each(container, [this] (const auto &value) { append(value); });
+
+    return *this;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+template <Container_concept C>
+requires (! std::same_as<C, Set<Key, Compare>>) && Container_range_concept<C, Key>
+Set<Key, Compare>& Set<Key, Compare>::operator=(const C& container)
 {
     this->clear();
     std::ranges::for_each(container, [this] (const auto &value) { append(value); });
@@ -579,6 +618,11 @@ Set<Key, Compare>& Set<Key, Compare>::Or(const Set<Key, Compare> &set)
 {
     return *this |= set;
 }
+
+
+
+
+
 
 
 // И

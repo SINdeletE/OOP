@@ -356,6 +356,10 @@ int main(void)
 
     set_range_eq.And(vector_test);
     std::cout << "Ожидание: 8 24 99. Реальность: " << set_range_eq;
+    std::cout << "Ожидание: 0. Реальность: " << (set_range_eq == vector_test) << std::endl;
+
+    set_range_eq.Or({1});
+    std::cout << "Ожидание: 1. Реальность: " << (set_range_eq == vector_test) << std::endl;
 
     std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 

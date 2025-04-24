@@ -44,9 +44,6 @@ template <typename T>
 concept Container_concept = copy_construct<T> && std::move_constructible<T> && std::default_initializable<T> && 
                             std::is_copy_assignable_v<T> && std::is_move_assignable_v<T> && Container_attributes<T>;
 
-template <typename T, typename U>
-concept Other_type_container_concept = ! std::same_as<T, U>;
-
 // range concept
 
 template <typename T, typename U>

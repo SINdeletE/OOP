@@ -57,17 +57,26 @@ class Set final: public BaseContainer
         requires Range_concept<R, Key>
         Set(R&& range, size_type size);
         template <typename C>
-        requires std::same_as<C, Set<Key, Compare>> && 
-                Container_range_concept<C, Key>
+        requires (! std::same_as<C, Set<Key, Compare>>) && Container_range_concept<C, Key>
         Set(C& container);
+        template <typename C>
+        requires (! std::same_as<C, Set<Key, Compare>>) && Container_range_concept<C, Key>
+        Set(const C& container); // Константный отдельно (ну чтобы без неловких моментов)
+        template <typename... Args>
+        requires (sizeof...(Args) > 0) && 
+                (std::convertible_to<Args, Key> && ...)
+        explicit Set(Args&&... args);
+
 
         // Операторы =
         Set<Key, Compare>& operator=(const Set<Key, Compare> &set);
         Set<Key, Compare>& operator=(Set<Key, Compare> &&set) noexcept;
         template <Container_concept C>
-        requires std::same_as<C, Set<Key, Compare>> && 
-                Container_range_concept<C, Key>
+        requires (! std::same_as<C, Set<Key, Compare>>) && Container_range_concept<C, Key>
         Set<Key, Compare>& operator=(C& container);
+        template <Container_concept C>
+        requires (! std::same_as<C, Set<Key, Compare>>) && Container_range_concept<C, Key>
+        Set<Key, Compare>& operator=(const C& container); // Константный отдельно (ну чтобы без неловких моментов)
         template <typename R>
         requires Range_concept<R, Key>
         Set<Key, Compare>& operator=(R&& range);
