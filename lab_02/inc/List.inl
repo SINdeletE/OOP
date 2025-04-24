@@ -53,7 +53,7 @@ List<Type>& List<Type>::operator =(List<Type> &&list) noexcept
 }
 
 template <keyType Type>
-List<Type>::iterator List<Type>::push_back(const Type& value)
+List<Type>::const_iterator List<Type>::push_back(const Type& value)
 {
     Node<Type> node {value};
     std::shared_ptr<Node<Type>> node_ptr {};
@@ -68,17 +68,17 @@ List<Type>::iterator List<Type>::push_back(const Type& value)
         throw ErrorList_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
     
-    ListIterator<Type> iter {};
+    ConstListIterator<Type> iter {};
 
     if (head == nullptr)
     {
         head = node_ptr;
 
-        iter = this->begin();
+        iter = this->cbegin();
     }
     else
     {
-        iter = this->begin();
+        iter = this->cbegin();
         iter += this->size() - 1;
 
         std::shared_ptr<Node<Type>> last_node_shared_ptr = iter.GetPtr();
@@ -95,22 +95,22 @@ List<Type>::iterator List<Type>::push_back(const Type& value)
 template <keyType Type>
 void List<Type>::pop_back()
 {
-    ListIterator<Type> iter = this->begin();
-    std::ptrdiff_t index = this->size() - 2;
+    ConstListIterator<Type> iter = this->cbegin();
+    std::ptrdiff_t offset = this->size() - 2;
 
-    if (index == -2) // Нет элементов
+    if (offset == -2) // Нет элементов
     {
         time_t cur_time = time(NULL);
         throw ErrorList_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
-    else if (index == -1) // Если 1 элемент
+    else if (offset == -1) // Если 1 элемент
     {
         head.reset();
         head = nullptr;
     }
     else
     {
-        iter += index;
+        iter += offset;
 
         std::shared_ptr<Node<Type>> node_ptr = nullptr;
         std::shared_ptr<Node<Type>> last_node_ptr = iter.GetPtr();
@@ -146,40 +146,43 @@ void List<Type>::push_front(const Type& value)
 }
 
 template <keyType Type>
-List<Type>::iterator List<Type>::insert(List<Type>::iterator &pos, const Type& value)
+List<Type>::const_iterator List<Type>::insert(List<Type>::const_iterator &pos, const Type& value)
 {
-    List<Type>::iterator new_iter;
-    std::ptrdiff_t index = pos.GetIndex();
+    List<Type>::const_iterator new_iter;
 
-    if (! index)
+    if (pos == this->cbegin())
     {
         this->push_front(value);
-        new_iter = this->begin();
+        new_iter = this->cbegin();
     }
     else
     {
-        new_iter = this->begin();
-        new_iter += index - 1;
+        new_iter = prev_iter(pos);
 
-        std::shared_ptr<Node<Type>> parent_node = new_iter.GetPtr();
-        std::shared_ptr<Node<Type>> next_node = parent_node->GetNext();
-        
-        Node<Type> new_node {value};
-        try
+        if (new_iter == this->cend())
+            new_iter = this->cend();
+        else
         {
-            parent_node->SetNext(new_node);
-        }
-        catch (std::bad_alloc &error)
-        {
-            time_t cur_time = time(NULL);
-            throw ErrorList_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-        }
+            std::shared_ptr<Node<Type>> parent_node = new_iter.GetPtr();
+            std::shared_ptr<Node<Type>> next_node = parent_node->GetNext();
+            
+            Node<Type> new_node {value};
+            try
+            {
+                parent_node->SetNext(new_node);
+            }
+            catch (std::bad_alloc &error)
+            {
+                time_t cur_time = time(NULL);
+                throw ErrorList_BadAlloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+            }
 
-        std::shared_ptr<Node<Type>> node = parent_node->GetNext();
-        node->SetNext(next_node);
+            std::shared_ptr<Node<Type>> node = parent_node->GetNext();
+            node->SetNext(next_node);
 
-        new_iter++;
-        _size++;
+            new_iter++;
+            _size++;
+        }
     }
 
     return new_iter;
@@ -189,10 +192,11 @@ List<Type>::iterator List<Type>::insert(List<Type>::iterator &pos, const Type& v
 
 
 // Итераторы
+
 template <keyType Type>
 List<Type>::iterator List<Type>::begin() const noexcept
 {
-    ListIterator<Type> iter {this->head, 0};
+    iterator iter {this->head};
 
     return iter;
 }
@@ -200,8 +204,8 @@ List<Type>::iterator List<Type>::begin() const noexcept
 template <keyType Type>
 List<Type>::iterator List<Type>::end() const noexcept
 {
-    std::shared_ptr<Node<Type>> null_ptr = nullptr;
-    ListIterator<Type> iter {null_ptr, _size};
+    std::shared_ptr<Node<Type>> null_ptr {nullptr};
+    iterator iter {null_ptr};
 
     return iter;
 }
@@ -209,7 +213,7 @@ List<Type>::iterator List<Type>::end() const noexcept
 template <keyType Type>
 List<Type>::const_iterator List<Type>::cbegin() const noexcept
 {
-    ConstListIterator<Type> iter {this->head, 0};
+    const_iterator iter {this->head};
 
     return iter;
 }
@@ -218,7 +222,7 @@ template <keyType Type>
 List<Type>::const_iterator List<Type>::cend() const noexcept
 {
     std::shared_ptr<Node<Type>> null_ptr {nullptr};
-    ConstListIterator<Type> iter {null_ptr, _size};
+    const_iterator iter {null_ptr};
 
     return iter;
 }
@@ -229,44 +233,46 @@ List<Type>::const_iterator List<Type>::cend() const noexcept
 
 
 template <keyType Type>
-List<Type>::iterator List<Type>::erase(List<Type>::iterator &pos)
+List<Type>::const_iterator List<Type>::erase(List<Type>::const_iterator &pos)
 {
-    ListIterator<Type> iter {};
-    ListIterator<Type> next_pos {pos};
+    ConstListIterator<Type> iter {};
+    ConstListIterator<Type> next_pos {pos};
     next_pos++;
 
-    if (this->end() == next_pos) // Если нода ПОСЛЕДНЯЯ
+    if (this->cend() == next_pos) // Если нода ПОСЛЕДНЯЯ
     {
         this->pop_back();
 
-        iter = this->end();
+        iter = this->cend();
     }
-    else if (this->begin() == pos) // Если нода ПЕРВАЯ
+    else if (this->cbegin() == pos) // Если нода ПЕРВАЯ
     {
         std::shared_ptr<Node<Type>> erased_node {head};
 
         head = head->GetNext();
         erased_node.reset();
 
-        iter = this->begin(); // Тут тоже перенос :O
+        iter = this->cbegin(); // Тут тоже перенос :O
         _size--;
     }
     else
     {
-        std::ptrdiff_t offset = pos - this->begin() - 1;
+        iter = prev_iter(pos);
 
-        iter = this->begin();
-        iter += offset;
+        if (iter == this->cend())
+            iter = this->cend();
+        else
+        {
+            std::shared_ptr<Node<Type>> pre_deleting_node_ptr = iter.GetPtr();
+            std::shared_ptr<Node<Type>> deleting_node_ptr = pre_deleting_node_ptr->GetNext();
+            std::shared_ptr<Node<Type>> next_node_ptr = deleting_node_ptr->GetNext();
+            
+            pre_deleting_node_ptr->SetNext(next_node_ptr);
+            deleting_node_ptr.reset();
 
-        std::shared_ptr<Node<Type>> pre_deleting_node_ptr = iter.GetPtr();
-        std::shared_ptr<Node<Type>> deleting_node_ptr = pre_deleting_node_ptr->GetNext();
-        std::shared_ptr<Node<Type>> next_node_ptr = deleting_node_ptr->GetNext();
-        
-        pre_deleting_node_ptr->SetNext(next_node_ptr);
-        deleting_node_ptr.reset();
-
-        iter++;
-        _size--;
+            iter++;
+            _size--;
+        }
     }
 
     return iter;
@@ -290,3 +296,28 @@ bool List<Type>::IsEmpty() const noexcept
 {
     return this->_size == 0;
 }
+
+
+
+
+
+
+template <keyType Type>
+List<Type>::const_iterator List<Type>::prev_iter(const List<Type>::const_iterator &pos)
+{
+    const_iterator it = this->cbegin();
+
+    if (it == pos)
+    {
+        it = this->cend();
+    }
+    else
+    {
+        while (it != this->cend() && (it + 1) != pos)
+            it++;
+    }
+
+    return it;
+}
+
+

@@ -11,7 +11,6 @@
 #include "concept.hpp"
 #include "List.hpp"
 #include "BaseContainer.hpp"
-#include "SetIterator.hpp"
 #include "ConstSetIterator.hpp"
 
 template <
@@ -21,7 +20,6 @@ template <
 requires std::strict_weak_order<Compare, Key, Key> && Comparable_concept<Key, Compare>
 class Set final: public BaseContainer
 {
-    friend class SetIterator<Key>;
     friend class ConstSetIterator<Key>;
 
     public:
@@ -33,7 +31,7 @@ class Set final: public BaseContainer
         using value_compare     =Compare;
         using reference	        =value_type&;
         using const_reference	=const value_type&;
-        using iterator          =SetIterator<Key>;
+        using iterator          =ConstSetIterator<Key>;
         using const_iterator    =ConstSetIterator<Key>;
         using node_type         =Node<Key>;
 
@@ -54,17 +52,22 @@ class Set final: public BaseContainer
         Set(Beg begin, End end);
         template <typename R>
         requires Range_concept<R, Key>
-        explicit Set(R&& range);
+        Set(R&& range);
         template <typename R>
         requires Range_concept<R, Key>
-        explicit Set(R&& range, size_type size);
+        Set(R&& range, size_type size);
+        template <typename C>
+        requires std::same_as<C, Set<Key, Compare>> && 
+                Container_range_concept<C, Key>
+        Set(C& container);
 
         // Операторы =
         Set<Key, Compare>& operator=(const Set<Key, Compare> &set);
         Set<Key, Compare>& operator=(Set<Key, Compare> &&set) noexcept;
         template <Container_concept C>
-        requires Container_range_concept<C, Key>
-        Set<Key, Compare>& operator=(const C& container);
+        requires std::same_as<C, Set<Key, Compare>> && 
+                Container_range_concept<C, Key>
+        Set<Key, Compare>& operator=(C& container);
         template <typename R>
         requires Range_concept<R, Key>
         Set<Key, Compare>& operator=(R&& range);
@@ -76,10 +79,9 @@ class Set final: public BaseContainer
         template <typename U>
         requires Convertible_concept<U, Key>
         bool erase(const U &value) noexcept { return this->erase(static_cast<Key>(value)); }
-        bool erase(iterator &pos) noexcept;
         bool erase(const_iterator &pos) noexcept;
 
-        const_iterator find(const Key &value) const noexcept;
+        bool find(const Key &value) const noexcept;
         
         void clear() noexcept;
         
@@ -88,7 +90,7 @@ class Set final: public BaseContainer
         requires Convertible_concept<U, Key>
         bool append(const U &value);
 
-        bool contains(const Key &value) const { return this->find(value) != this->cend(); }
+        bool contains(const Key &value) const { return this->find(value); }
 
         // Итераторы
         iterator begin() const noexcept;
@@ -98,12 +100,18 @@ class Set final: public BaseContainer
 
         // ИЛИ
         Set<Key, Compare> operator |(const Set<Key, Compare> &) const;
-        Set<Key, Compare> operator |(const Key&) const;
-        Set<Key, Compare>& operator |=(const Set<Key, Compare> &);
-        Set<Key, Compare>& operator |=(const Key&);
         Set<Key, Compare> operator +(const Set<Key, Compare> &) const;
+        Set<Key, Compare> Or_const(const Set<Key, Compare> &) const;
+
+        Set<Key, Compare> operator |(const Key&) const;
         Set<Key, Compare> operator +(const Key&) const;
+        Set<Key, Compare> Or_const(const Key&) const;
+
+        Set<Key, Compare>& operator |=(const Set<Key, Compare> &);
         Set<Key, Compare>& operator +=(const Set<Key, Compare> &);
+        Set<Key, Compare>& Or(const Set<Key, Compare> &);
+
+        Set<Key, Compare>& operator |=(const Key&);
         Set<Key, Compare>& operator +=(const Key&);
         Set<Key, Compare>& Or(std::initializer_list<Key> list);
         template <typename U>
@@ -112,12 +120,18 @@ class Set final: public BaseContainer
 
         // И
         Set<Key, Compare> operator &(const Set<Key, Compare> &) const;
-        Set<Key, Compare> operator &(const Key&) const;
-        Set<Key, Compare>& operator &=(const Set<Key, Compare> &) noexcept;
-        Set<Key, Compare>& operator &=(const Key&) noexcept;
         Set<Key, Compare> operator *(const Set<Key, Compare> &) const;
+        Set<Key, Compare> And_const(const Set<Key, Compare> &) const;
+
+        Set<Key, Compare> operator &(const Key&) const;
         Set<Key, Compare> operator *(const Key&) const;
+        Set<Key, Compare> And_const(const Key&) const;
+        
+        Set<Key, Compare>& operator &=(const Set<Key, Compare> &) noexcept;
         Set<Key, Compare>& operator *=(const Set<Key, Compare> &) noexcept;
+        Set<Key, Compare>& And(const Set<Key, Compare> &);
+
+        Set<Key, Compare>& operator &=(const Key&) noexcept;
         Set<Key, Compare>& operator *=(const Key&) noexcept;
         Set<Key, Compare>& And(std::initializer_list<Key> list);
         template <typename U>
@@ -126,8 +140,14 @@ class Set final: public BaseContainer
 
         // Симметрическая разность (Исключающее ИЛИ)
         Set<Key, Compare> operator ^(const Set<Key, Compare> &) const;
+        Set<Key, Compare> Xor_const(const Set<Key, Compare> &) const;
+
         Set<Key, Compare> operator ^(const Key&) const;
+        Set<Key, Compare> Xor_const(const Key&) const;
+
         Set<Key, Compare>& operator ^=(const Set<Key, Compare> &);
+        Set<Key, Compare>& Xor(const Set<Key, Compare> &);
+
         Set<Key, Compare>& operator ^=(const Key&);
         Set<Key, Compare>& Xor(std::initializer_list<Key> list);
         template <typename U>
@@ -136,8 +156,14 @@ class Set final: public BaseContainer
         
         // Разность
         Set<Key, Compare> operator -(const Set<Key, Compare> &) const;
+        Set<Key, Compare> Diff_const(const Set<Key, Compare> &) const;
+
         Set<Key, Compare> operator -(const Key&) const;
+        Set<Key, Compare> Diff_const(const Key&) const;
+
         Set<Key, Compare>& operator -=(const Set<Key, Compare> &) noexcept;
+        Set<Key, Compare>& Diff(const Set<Key, Compare> &) noexcept;
+
         Set<Key, Compare>& operator -=(const Key&) noexcept;
         Set<Key, Compare>& Diff(std::initializer_list<Key> list);
         template <typename U>

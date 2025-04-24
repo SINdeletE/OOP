@@ -4,7 +4,6 @@
 #include "concept.hpp"
 #include "BaseIterator.hpp"
 #include "SetException.hpp"
-#include "ListIterator.hpp"
 #include "Node.hpp"
 
 template <keyType Key>

@@ -128,8 +128,21 @@ Set<Key, Compare>::Set(R&& range, Set<Key, Compare>::size_type size)
                             return std::lerp(range_beg, range_end, static_cast<double>(i) / (size - 1));
                         });
         
-        std::ranges::for_each(diapason, [this] (const auto &value) { this->append(static_cast<Key>(value)); });
+        std::ranges::for_each(diapason, [this] (const auto &value) { append(static_cast<Key>(value)); });
     }
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+template <typename C>
+requires std::same_as<C, Set<Key, Compare>> && 
+                Container_range_concept<C, Key>
+Set<Key, Compare>::Set(C& container)
+{
+    this->clear();
+    std::ranges::for_each(container, [this] (const auto &value) { append(value); });
 }
 
 
@@ -166,11 +179,12 @@ template <
         typename Compare 
 >
 template <Container_concept C>
-requires Container_range_concept<C, Key>
-Set<Key, Compare>& Set<Key, Compare>::operator=(const C& container)
+requires std::same_as<C, Set<Key, Compare>> && 
+                Container_range_concept<C, Key>
+Set<Key, Compare>& Set<Key, Compare>::operator=(C& container)
 {
     this->clear();
-    std::ranges::for_each(container, [this] (const auto &value) { this->append(value); });
+    std::ranges::for_each(container, [this] (const auto &value) { append(value); });
 
     return *this;
 }
@@ -184,7 +198,7 @@ requires Range_concept<R, Key>
 Set<Key, Compare>& Set<Key, Compare>::operator=(R&& range)
 {
     this->clear();
-    std::ranges::for_each(std::forward<R>(range), [this] (const auto &value) { this->append(value); });
+    std::ranges::for_each(std::forward<R>(range), [this] (const auto &value) { append(value); });
 
     return *this;
 }
@@ -203,9 +217,9 @@ bool Set<Key, Compare>::erase(const Key &value) noexcept
 {
     bool flag = true;
     Compare comp;
-    ListIterator<Key> iter = data.begin();
+    ConstListIterator<Key> iter = data.cbegin();
 
-    while (flag && iter != data.end())
+    while (flag && iter != data.cend())
     {
         if (!comp(*iter, value) && !comp(value, *iter))
         {
@@ -215,11 +229,8 @@ bool Set<Key, Compare>::erase(const Key &value) noexcept
             }
             catch (ErrorList_IsEmpty &error)
             {
-                // time_t cur_time = time(NULL);
-                // throw ErrorSet_IsEmpty(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-
                 flag = false;
-                iter = data.end();
+                iter = data.cend();
                 this->_size++;
             }
 
@@ -228,7 +239,7 @@ bool Set<Key, Compare>::erase(const Key &value) noexcept
             this->_size--;
         }
         
-        if (flag && iter != data.end())
+        if (flag && iter != data.cend())
         {
             iter++;
         }
@@ -237,15 +248,6 @@ bool Set<Key, Compare>::erase(const Key &value) noexcept
     flag = ! flag;
 
     return flag;
-}
-
-template <
-        keyType Key,
-        typename Compare 
->
-bool Set<Key, Compare>::erase(Set<Key, Compare>::iterator &pos) noexcept
-{
-    return this->erase(*pos);
 }
 
 template <
@@ -273,10 +275,10 @@ bool Set<Key, Compare>::append(const Key &value)
 {
     bool flag = true;
     Compare comp;
-    ListIterator<Key> res_list_iter {};
+    ConstListIterator<Key> res_list_iter {};
 
     bool result_flag = false;
-    for (auto iter = data.begin(); flag && iter != data.end(); iter++)
+    for (auto iter = data.cbegin(); flag && iter != data.cend(); iter++)
         if (!comp(*iter, value) && !comp(value, *iter))
         {
             res_list_iter = iter;
@@ -313,7 +315,7 @@ bool Set<Key, Compare>::append(const Key &value)
 
         this->_size++;
 
-        res_list_iter = data.begin();
+        res_list_iter = data.cbegin();
         res_list_iter += this->size() - 1;
 
         result_flag = true;
@@ -339,20 +341,16 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>::const_iterator Set<Key, Compare>::find(const Key &value) const noexcept
+bool Set<Key, Compare>::find(const Key &value) const noexcept
 {
     bool flag = true;
-    const_iterator res_iter = this->cend();
     Compare comp;
 
     for (const_iterator iter = this->cbegin(); flag && iter != this->cend(); iter++)
         if (!comp(*iter, value) && !comp(value, *iter))
-        {
-            res_iter = iter;
             flag = false;
-        }
     
-    return res_iter;
+    return ! flag;
 }
 
 
@@ -397,7 +395,7 @@ template <
 >
 Set<Key, Compare>::iterator Set<Key, Compare>::begin() const noexcept
 {
-    SetIterator<Key> iter {data.begin()};
+    iterator iter {data.cbegin()};
 
     return iter;
 }
@@ -408,8 +406,8 @@ template <
 >
 Set<Key, Compare>::iterator Set<Key, Compare>::end() const noexcept
 {
-    ListIterator<Key> list_iter {data.end()};
-    SetIterator<Key> iter {list_iter};
+    ConstListIterator<Key> list_iter {data.cend()};
+    iterator iter {list_iter};
 
     return iter;
 }
@@ -420,7 +418,7 @@ template <
 >
 Set<Key, Compare>::const_iterator Set<Key, Compare>::cbegin() const noexcept
 {
-    ConstSetIterator<Key> iter {data.cbegin()};
+    const_iterator iter {data.cbegin()};
 
     return iter;
 }
@@ -432,7 +430,7 @@ template <
 Set<Key, Compare>::const_iterator Set<Key, Compare>::cend() const noexcept
 {
     ConstListIterator<Key> list_iter {data.cend()};
-    ConstSetIterator<Key> iter {list_iter};
+    const_iterator iter {list_iter};
 
     return iter;
 }
@@ -555,6 +553,33 @@ Set<Key, Compare>& Set<Key, Compare>::Or(std::initializer_list<U> list)
     return *this;
 }
 
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare> Set<Key, Compare>::Or_const(const Set<Key, Compare> &set) const
+{
+    return *this | set;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare> Set<Key, Compare>::Or_const(const Key &value) const
+{
+    return *this | value;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare>& Set<Key, Compare>::Or(const Set<Key, Compare> &set)
+{
+    return *this |= set;
+}
+
 
 // И
 
@@ -568,7 +593,7 @@ Set<Key, Compare>& Set<Key, Compare>::operator &=(const Set<Key, Compare> &set) 
     ConstSetIterator<Key> tmp {};
 
     for (auto iter = this->cbegin(); flag && iter != this->cend();)
-        if (set.find(*iter) == set.cend())
+        if (! set.find(*iter))
         {
             tmp = iter;
             ++iter;
@@ -704,6 +729,33 @@ Set<Key, Compare>& Set<Key, Compare>::And(std::initializer_list<U> list)
     return *this &= set;
 }
 
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare> Set<Key, Compare>::And_const(const Set<Key, Compare> &set) const
+{
+    return *this & set;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare> Set<Key, Compare>::And_const(const Key &value) const
+{
+    return *this & value;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare>& Set<Key, Compare>::And(const Set<Key, Compare> &set)
+{
+    return *this &= set;
+}
+
 
 
 
@@ -792,7 +844,32 @@ Set<Key, Compare>& Set<Key, Compare>::Diff(std::initializer_list<U> list)
     return *this -= set;
 }
 
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare> Set<Key, Compare>::Diff_const(const Set<Key, Compare> &set) const
+{
+    return *this - set;
+}
 
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare> Set<Key, Compare>::Diff_const(const Key &value) const
+{
+    return *this - value;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare>& Set<Key, Compare>::Diff(const Set<Key, Compare> &set) noexcept
+{
+    return *this -= set;
+}
 
 
 
@@ -883,6 +960,33 @@ Set<Key, Compare>& Set<Key, Compare>::Xor(std::initializer_list<U> list)
 {
     Set<Key, Compare> set {list};
 
+    return *this ^= set;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare> Set<Key, Compare>::Xor_const(const Set<Key, Compare> &set) const
+{
+    return *this ^ set;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare> Set<Key, Compare>::Xor_const(const Key &value) const
+{
+    return *this ^ value;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+Set<Key, Compare>& Set<Key, Compare>::Xor(const Set<Key, Compare> &set)
+{
     return *this ^= set;
 }
 

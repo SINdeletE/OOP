@@ -27,7 +27,7 @@ class ConstListIterator : public BaseIterator
         using reference = const Type&;
 
         ConstListIterator() noexcept;
-        explicit ConstListIterator(const std::shared_ptr<Node<Type>> &list, const difference_type &index) noexcept;
+        explicit ConstListIterator(const std::shared_ptr<Node<Type>> &list) noexcept;
         ConstListIterator(const ConstListIterator<Type>&) noexcept;
         ConstListIterator(ConstListIterator<Type>&&) noexcept;
         ~ConstListIterator() = default;
@@ -36,10 +36,10 @@ class ConstListIterator : public BaseIterator
         ConstListIterator<Type>& operator =(ConstListIterator<Type>&&) noexcept;
         template <sizeType U> ConstListIterator<Type>& operator +=(const U &value);
 
-        ConstListIterator<Type>& next();
+        ConstListIterator<Type>& next() noexcept;
         ConstListIterator<Type>& operator ++();
         ConstListIterator<Type> operator ++(int);
-        difference_type operator-(const ConstListIterator<Type>&) const;
+        template <sizeType U> ConstListIterator<Type> operator +(const U &offset) const noexcept;
 
         value_type Current() const;
         explicit operator bool() const noexcept;

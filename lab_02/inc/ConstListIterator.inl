@@ -2,31 +2,28 @@
 #include <ranges>
 
 template <keyType Type>
-ConstListIterator<Type>::ConstListIterator() noexcept : index(-1)
+ConstListIterator<Type>::ConstListIterator() noexcept
 {
     std::shared_ptr<Node<Type>> null_ptr {nullptr};
     cur_ptr = null_ptr;
 }
 
 template <keyType Type>
-ConstListIterator<Type>::ConstListIterator(const std::shared_ptr<Node<Type>> &list, const ConstListIterator<Type>::difference_type &init_index) noexcept
+ConstListIterator<Type>::ConstListIterator(const std::shared_ptr<Node<Type>> &list) noexcept
 {
     cur_ptr = list;
-    index = init_index;
 }
 
 template <keyType Type>
 ConstListIterator<Type>::ConstListIterator(const ConstListIterator<Type> &iter) noexcept
 {
     cur_ptr = iter.cur_ptr;
-    index = iter.index;
 }
 
 template <keyType Type>
 ConstListIterator<Type>::ConstListIterator(ConstListIterator<Type> &&iter) noexcept : ConstListIterator(iter)
 {
     iter.cur_ptr.reset();
-    index = 0;
 }
 
 
@@ -46,7 +43,6 @@ template <keyType Type>
 ConstListIterator<Type>& ConstListIterator<Type>::operator =(const ConstListIterator<Type> &iter) noexcept
 {
     cur_ptr = iter.cur_ptr;
-    index = iter.index;
 
     return *this;
 }
@@ -56,10 +52,7 @@ ConstListIterator<Type>& ConstListIterator<Type>::operator =(ConstListIterator<T
 {
     std::shared_ptr<Node<Type>> null_ptr {nullptr};
     cur_ptr = iter.cur_ptr;
-    iter.cur_ptr = null_ptr; // ОШИБКА
-
-    index = iter.index;
-    iter.index = 0;
+    iter.cur_ptr = null_ptr;
 
     return *this;
 }
@@ -75,12 +68,10 @@ ConstListIterator<Type>& ConstListIterator<Type>::operator +=(const U &value)
     }
 
     std::shared_ptr<Node<Type>> ptr = cur_ptr.lock();
-    for (int i = 0; i < value; i++) // ЗАМЕНИТЬ НА Ranges
+    for (U i = 0; i < value; i++)
         ptr = ptr->GetNext();
     
     cur_ptr = ptr;
-
-    index += value;
 
     return *this;
 }
@@ -93,12 +84,14 @@ ConstListIterator<Type>& ConstListIterator<Type>::operator +=(const U &value)
 
 
 template <keyType Type>
-ConstListIterator<Type>& ConstListIterator<Type>::next()
+ConstListIterator<Type>& ConstListIterator<Type>::next() noexcept
 {
     std::shared_ptr<Node<Type>> converted = cur_ptr.lock();
     
-    cur_ptr = converted->GetNext();
-    ++(this->index);
+    if (bool(*this) && converted != nullptr)
+    {
+        cur_ptr = converted->GetNext();
+    }
 
     return *this;
 }
@@ -120,9 +113,15 @@ ConstListIterator<Type> ConstListIterator<Type>::operator ++(int)
 }
 
 template <keyType Type>
-ConstListIterator<Type>::difference_type ConstListIterator<Type>::operator -(const ConstListIterator<Type> &iter) const
+template <sizeType U>
+ConstListIterator<Type> ConstListIterator<Type>::operator +(const U &offset) const noexcept
 {
-    return index - iter.index;
+    ConstListIterator<Type> tmp {*this};
+    
+    for (U i = 0; i < offset; ++i)
+        tmp.next();
+
+    return tmp;
 }
 
 

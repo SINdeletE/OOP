@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-#include "ListIterator.hpp"
+#include "ConstListIterator.hpp"
 #include "List.hpp"
 #include "Set.hpp"
 #include <vector>
@@ -32,12 +32,12 @@ int main(void)
 
 
 
-    std::cout << "ТЕСТИРОВАНИЕ: class ListIterator" << std::endl;
+    std::cout << "ТЕСТИРОВАНИЕ: class ConstListIterator" << std::endl;
 
     std::shared_ptr<Node<int>> pseudo_list = a_tmp;
-    ListIterator<int> iter {pseudo_list, 0};
+    ConstListIterator<int> iter {pseudo_list};
 
-    ListIterator<int> iter_1 {pseudo_list, 0};
+    ConstListIterator<int> iter_1 {pseudo_list};
 
     std::cout << "Ожидание: 1. Реальность: " << (iter == iter_1) << std::endl;
     std::cout << "Ожидание: 0. Реальность: " << (iter != iter_1) << std::endl;
@@ -69,7 +69,7 @@ int main(void)
     list.pop_back();
     std::cout << "Ожидание: 123 456 789 101112. Реальность: " << list;
 
-    ListIterator<int> list_iter = list.begin();
+    ConstListIterator<int> list_iter = list.begin();
     list_iter += 3;
     list_iter = list.erase(list_iter);
     std::cout << "Ожидание: 123 456 789. Реальность: " << list;
@@ -80,7 +80,7 @@ int main(void)
     list_2.push_back(789);
     list_2.push_back(101112);
     list_2.push_back(131415);
-    ListIterator<int> list_iter_2 = list_2.begin();
+    ConstListIterator<int> list_iter_2 = list_2.begin();
     list_iter_2 += 1;
     list_iter_2 = list_2.erase(list_iter_2); // Вызывает перенос :O
     list_iter_2 = list_2.erase(list_iter_2); // Вызывает перенос :O
@@ -126,7 +126,7 @@ int main(void)
     list_s.pop_back();
     std::cout << "Ожидание: matter fixio retlan bitter. Реальность: " << list_s;
 
-    ListIterator<std::string> list_iter_s = list_s.begin();
+    ConstListIterator<std::string> list_iter_s = list_s.begin();
     list_iter_s += 3;
     list_iter_s = list_s.erase(list_iter_s);
     std::cout << "Ожидание: matter fixio retlan. Реальность: " << list_s;
@@ -152,7 +152,6 @@ int main(void)
     std::cout << "ТЕСТИРОВАНИЕ: class Set" << std::endl;
 
     Set<int> set {};
-    SetIterator<int> my_iter {};
 
     set.append(1);
     set.append(3);
@@ -211,8 +210,8 @@ int main(void)
     set_and_2.append(4);
     set_and_2.append(5);
 
-    std::cout << "Ожидание: 1. Реальность: " << (set_and.find(9) == set_and.cend()) << std::endl;
-    std::cout << "Ожидание: 1. Реальность: " << (set_and.find(8) != set_and.cend()) << std::endl;
+    std::cout << "Ожидание: 0. Реальность: " << (set_and.find(9)) << std::endl;
+    std::cout << "Ожидание: 1. Реальность: " << (set_and.find(8)) << std::endl;
 
     set_and &= set_and_2;
     std::cout << "Ожидание: 1 2 4 5. Реальность: " << set_and;
@@ -351,6 +350,12 @@ int main(void)
     set_range_eq = std::ranges::iota_view(1, 6);
 
     std::cout << "Ожидание: 1 2 3 4 5. Реальность: " << set_range_eq;
+
+    set_range_eq ^= vector_test;
+    std::cout << "Ожидание: 2 3 4 5 8 24 99. Реальность: " << set_range_eq;
+
+    set_range_eq.And(vector_test);
+    std::cout << "Ожидание: 8 24 99. Реальность: " << set_range_eq;
 
     std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 
