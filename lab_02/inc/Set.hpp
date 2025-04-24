@@ -52,14 +52,22 @@ class Set final: public BaseContainer
         template <std::input_iterator Beg, std::sentinel_for<Beg> End>
         requires std::convertible_to<std::iter_value_t<Beg>, Key>
         Set(Beg begin, End end);
-        template <Range_concept R>
+        template <typename R>
+        requires Range_concept<R, Key>
         explicit Set(R&& range);
-        template <Range_concept R>
+        template <typename R>
+        requires Range_concept<R, Key>
         explicit Set(R&& range, size_type size);
 
         // Операторы =
         Set<Key, Compare>& operator=(const Set<Key, Compare> &set);
         Set<Key, Compare>& operator=(Set<Key, Compare> &&set) noexcept;
+        template <Container_concept C>
+        requires Container_range_concept<C, Key>
+        Set<Key, Compare>& operator=(const C& container);
+        template <typename R>
+        requires Range_concept<R, Key>
+        Set<Key, Compare>& operator=(R&& range);
 
         ~Set() override = default;
 
@@ -76,7 +84,7 @@ class Set final: public BaseContainer
         void clear() noexcept;
         
         iterator insert(const Key &value);
-        template <keyType U>
+        template <copyType U>
         requires Convertible_concept<U, Key>
         iterator insert(const U &value);
 

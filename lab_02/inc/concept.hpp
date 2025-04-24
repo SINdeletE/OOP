@@ -46,11 +46,20 @@ concept Container_concept = copy_construct<T> && std::move_constructible<T> && s
 
 // range concept
 
-template <typename T>
-concept Range_concept = std::ranges::forward_range<T>;
+template <typename T, typename U>
+concept Range_concept = std::ranges::forward_range<T> && std::convertible_to<std::ranges::range_value_t<T>, U>;
 
+template <typename T, typename U>
+concept Container_range_concept = std::ranges::forward_range<T> && std::convertible_to<typename T::value_type, U>;
 
 // able/ible concepts
+
+template <typename T, typename Compare>
+concept Comparable_concept = requires(const T& t1, const T& t2, const Compare &comp)
+{
+    { comp(t1, t2) } -> std::convertible_to<bool>;
+    { comp(t2, t1) } -> std::convertible_to<bool>;
+};
 
 template <typename T>
 concept Printable_concept = requires (std::ostream& os, const T& t)
@@ -60,7 +69,7 @@ concept Printable_concept = requires (std::ostream& os, const T& t)
 
 template <typename T, typename U>
 concept Convertible_concept = keyType<U> && (! std::same_as<T, U>) && 
-                        (! std::same_as<T, U&>) && std::is_convertible_v<T, U>;
+                        (! std::same_as<T, U&>) && std::convertible_to<T, U>;
 
 
 

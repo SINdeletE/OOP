@@ -87,18 +87,20 @@ template <
         keyType Key,
         typename Compare 
 >
-template <Range_concept R>
+template <typename R>
+requires Range_concept<R, Key>
 Set<Key, Compare>::Set(R&& range)
 {
     this->clear();
-    std::ranges::for_each(std::forward<R>(range), [this] (const auto &value) { this->insert(static_cast<Key>(value)); });
+    std::ranges::for_each(std::forward<R>(range), [this] (const auto &value) { this->insert(value); });
 }
 
 template <
         keyType Key,
         typename Compare 
 >
-template <Range_concept R>
+template <typename R>
+requires Range_concept<R, Key>
 Set<Key, Compare>::Set(R&& range, Set<Key, Compare>::size_type size)
 {
     this->clear();
@@ -120,7 +122,7 @@ Set<Key, Compare>::Set(R&& range, Set<Key, Compare>::size_type size)
         double range_beg = *std::ranges::begin(range);
         double range_end = *std::ranges::next(std::ranges::begin(range), range_size - 1);
 
-        auto diapason = std::views::iota(0u, size)
+        auto diapason = std::ranges::iota_view(0u, static_cast<unsigned int>(size))
                         | std::views::transform([=](auto i) 
                         {
                             return std::lerp(range_beg, range_end, static_cast<double>(i) / (size - 1));
@@ -155,6 +157,34 @@ Set<Key, Compare>& Set<Key, Compare>::operator=(Set<Key, Compare> &&set) noexcep
     
     _size = set.size();
     set._size = 0;
+
+    return *this;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+template <Container_concept C>
+requires Container_range_concept<C, Key>
+Set<Key, Compare>& Set<Key, Compare>::operator=(const C& container)
+{
+    this->clear();
+    std::ranges::for_each(container, [this] (const auto &value) { this->insert(value); });
+
+    return *this;
+}
+
+template <
+        keyType Key,
+        typename Compare 
+>
+template <typename R>
+requires Range_concept<R, Key>
+Set<Key, Compare>& Set<Key, Compare>::operator=(R&& range)
+{
+    this->clear();
+    std::ranges::for_each(std::forward<R>(range), [this] (const auto &value) { this->insert(value); });
 
     return *this;
 }
@@ -305,7 +335,7 @@ template <
         keyType Key,
         typename Compare 
 >
-template <keyType U>
+template <copyType U>
 requires Convertible_concept<U, Key>
 Set<Key, Compare>::iterator Set<Key, Compare>::insert(const U &value)
 {
@@ -349,6 +379,7 @@ void Set<Key, Compare>::clear() noexcept
     bool flag = true;
 
     if (! data.IsEmpty())
+    {
         for (auto iter = this->begin(); flag && iter != this->end();)
             try
             {
@@ -358,8 +389,9 @@ void Set<Key, Compare>::clear() noexcept
             {
                 flag = false;
             }
-    else
-        this->_size = 0;
+    }
+    
+    this->_size = 0;
 }
 
 template <

@@ -331,8 +331,31 @@ int main(void)
 
     Set<int> range_set {std::ranges::iota_view(1, 6)};
     std::cout << "Ожидание: 1 2 3 4 5. Реальность: " << range_set;
-    Set<int> range_set_2 {std::ranges::iota_view(1, 6), 8};
-    std::cout << "Ожидание: 1 2 3 4 5. Реальность: " << range_set_2;
+    Set<int> range_set_2 {std::ranges::iota_view(1, 6), 3};
+    std::cout << "Ожидание: 1 3 5. Реальность: " << range_set_2;
+
+    Set<int> range_set_3 {std::ranges::iota_view(1, 1), 3};
+    std::cout << "Ожидание: (Пусто). Реальность: " << range_set_3;
+
+    try
+    {
+        Set<int> range_set_err {std::ranges::iota_view(1, 99), 1};
+    }
+    catch (ErrorSet_BadSize &error)
+    {
+        std::cout << "Исключение отловлено" << std::endl;
+    }
+
+    std::vector<double> vector_test = {1.1, 24, 8.1, 99.9};
+    Set<int> set_container_eq {};
+    set_container_eq = vector_test;
+
+    std::cout << "Ожидание: 1 8 24 99. Реальность: " << set_container_eq;
+
+    Set<int> set_range_eq {};
+    set_range_eq = std::ranges::iota_view(1, 6);
+
+    std::cout << "Ожидание: 1 2 3 4 5. Реальность: " << set_range_eq;
 
     std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 
