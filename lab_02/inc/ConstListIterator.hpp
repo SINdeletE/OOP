@@ -17,7 +17,6 @@ class ConstListIterator : public BaseIterator
 {
     private:
         std::weak_ptr<Node<Type>> cur_ptr;
-        std::ptrdiff_t index;
 
     public:
         using iterator_category = std::forward_iterator_tag;
@@ -50,7 +49,6 @@ class ConstListIterator : public BaseIterator
         bool operator !=(const ConstListIterator<Type>&) const noexcept;
 
         [[nodiscard]] const std::shared_ptr<Node<Type>> GetPtr() const noexcept { return cur_ptr.lock(); }
-        [[nodiscard]] difference_type GetIndex() const noexcept { return this->index; }
 };
 
 static_assert(std::forward_iterator<ConstListIterator<int>>);

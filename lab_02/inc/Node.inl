@@ -56,13 +56,9 @@ void Node<Type>::SetNext(Node<Type> &node)
 }
 
 template <keyType Type>
-const Type& Node<Type>::RefData() noexcept
+std::shared_ptr<const Type> Node<Type>::get_value() const
 {
-    return data;
-}
+    std::shared_ptr<const Node<Type>> work = this->shared_from_this();
 
-template <keyType Type>
-const Type Node<Type>::Data() const noexcept
-{
-    return data;
+    return { work, &work->data };
 }

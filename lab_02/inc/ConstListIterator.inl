@@ -129,8 +129,6 @@ ConstListIterator<Type> ConstListIterator<Type>::operator +(const U &offset) con
 template <keyType Type>
 ConstListIterator<Type>::value_type ConstListIterator<Type>::Current() const
 {
-    std::shared_ptr<Node<Type>> converted = cur_ptr.lock();
-
     return *(*this);
 }
 
@@ -151,7 +149,15 @@ ConstListIterator<Type>::reference ConstListIterator<Type>::operator*() const
     else
     {
         auto ptr = cur_ptr.lock();
-        return ptr->RefData();
+        std::shared_ptr<const Type> value = ptr->get_value();
+
+        if (value.use_count() == 0)
+        {
+            time_t cur_time = time(NULL);
+            throw ErrorConstListIterator_IsInvalid(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        }
+
+        return *value;
     }
 }
 

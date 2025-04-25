@@ -84,15 +84,15 @@ class Set final: public BaseContainer
         ~Set() override = default;
 
         // Функции для работы с элементами множества
-        bool erase(const Key &value) noexcept;
+        bool erase(const Key &value);
         template <typename U>
         requires Convertible_concept<U, Key>
-        bool erase(const U &value) noexcept { return this->erase(static_cast<Key>(value)); }
-        bool erase(const_iterator &pos) noexcept;
+        bool erase(const U &value) { return this->erase(static_cast<Key>(value)); }
+        bool erase(const_iterator &pos);
 
-        bool find(const Key &value) const noexcept;
+        bool find(const Key &value) const;
         
-        void clear() noexcept;
+        void clear();
         
         bool append(const Key &value);
         template <typename U>
@@ -136,12 +136,12 @@ class Set final: public BaseContainer
         Set<Key, Compare> operator *(const Key&) const;
         Set<Key, Compare> And_const(const Key&) const;
         
-        Set<Key, Compare>& operator &=(const Set<Key, Compare> &) noexcept;
-        Set<Key, Compare>& operator *=(const Set<Key, Compare> &) noexcept;
+        Set<Key, Compare>& operator &=(const Set<Key, Compare> &);
+        Set<Key, Compare>& operator *=(const Set<Key, Compare> &);
         Set<Key, Compare>& And(const Set<Key, Compare> &);
 
-        Set<Key, Compare>& operator &=(const Key&) noexcept;
-        Set<Key, Compare>& operator *=(const Key&) noexcept;
+        Set<Key, Compare>& operator &=(const Key&);
+        Set<Key, Compare>& operator *=(const Key&);
         Set<Key, Compare>& And(std::initializer_list<Key> list);
         template <typename U>
         requires Convertible_concept<U, Key>
@@ -170,10 +170,10 @@ class Set final: public BaseContainer
         Set<Key, Compare> operator -(const Key&) const;
         Set<Key, Compare> Diff_const(const Key&) const;
 
-        Set<Key, Compare>& operator -=(const Set<Key, Compare> &) noexcept;
-        Set<Key, Compare>& Diff(const Set<Key, Compare> &) noexcept;
+        Set<Key, Compare>& operator -=(const Set<Key, Compare> &);
+        Set<Key, Compare>& Diff(const Set<Key, Compare> &);
 
-        Set<Key, Compare>& operator -=(const Key&) noexcept;
+        Set<Key, Compare>& operator -=(const Key&);
         Set<Key, Compare>& Diff(std::initializer_list<Key> list);
         template <typename U>
         requires Convertible_concept<U, Key>

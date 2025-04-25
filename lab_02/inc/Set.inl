@@ -252,7 +252,7 @@ template <
         keyType Key,
         typename Compare 
 >
-bool Set<Key, Compare>::erase(const Key &value) noexcept
+bool Set<Key, Compare>::erase(const Key &value)
 {
     bool flag = true;
     Compare comp;
@@ -293,7 +293,7 @@ template <
         keyType Key,
         typename Compare 
 >
-bool Set<Key, Compare>::erase(Set<Key, Compare>::const_iterator &pos) noexcept
+bool Set<Key, Compare>::erase(Set<Key, Compare>::const_iterator &pos)
 {
     return this->erase(*pos);
 }
@@ -380,7 +380,7 @@ template <
         keyType Key,
         typename Compare 
 >
-bool Set<Key, Compare>::find(const Key &value) const noexcept
+bool Set<Key, Compare>::find(const Key &value) const
 {
     bool flag = true;
     Compare comp;
@@ -402,7 +402,7 @@ template <
         keyType Key,
         typename Compare 
 >
-void Set<Key, Compare>::clear() noexcept
+void Set<Key, Compare>::clear()
 {
     bool flag = true;
     ConstSetIterator<Key> tmp {};
@@ -631,7 +631,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>& Set<Key, Compare>::operator &=(const Set<Key, Compare> &set) noexcept
+Set<Key, Compare>& Set<Key, Compare>::operator &=(const Set<Key, Compare> &set)
 {
     bool flag = true;
     ConstSetIterator<Key> tmp {};
@@ -661,7 +661,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>& Set<Key, Compare>::operator &=(const Key &value) noexcept
+Set<Key, Compare>& Set<Key, Compare>::operator &=(const Key &value)
 {
     bool flag = true;
     ConstSetIterator<Key> tmp {};
@@ -735,7 +735,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>& Set<Key, Compare>::operator *=(const Set<Key, Compare> &set) noexcept
+Set<Key, Compare>& Set<Key, Compare>::operator *=(const Set<Key, Compare> &set)
 {
     return *this &= set;
 }
@@ -744,7 +744,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>& Set<Key, Compare>::operator *=(const Key &value) noexcept
+Set<Key, Compare>& Set<Key, Compare>::operator *=(const Key &value)
 {
     return *this &= value;
 }
@@ -809,7 +809,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>& Set<Key, Compare>::operator -=(const Set<Key, Compare> &set) noexcept
+Set<Key, Compare>& Set<Key, Compare>::operator -=(const Set<Key, Compare> &set)
 {
     for (const auto &v : set)
         try
@@ -826,7 +826,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>& Set<Key, Compare>::operator -=(const Key &value) noexcept
+Set<Key, Compare>& Set<Key, Compare>::operator -=(const Key &value)
 {
     try
     {
@@ -910,7 +910,7 @@ template <
         keyType Key,
         typename Compare 
 >
-Set<Key, Compare>& Set<Key, Compare>::Diff(const Set<Key, Compare> &set) noexcept
+Set<Key, Compare>& Set<Key, Compare>::Diff(const Set<Key, Compare> &set)
 {
     return *this -= set;
 }

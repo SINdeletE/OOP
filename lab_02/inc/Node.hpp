@@ -5,7 +5,7 @@
 #include "concept.hpp"
 
 template <keyType Type>
-class Node
+class Node : public std::enable_shared_from_this<Node<Type>>
 {
     private:
         Type data;
@@ -27,15 +27,14 @@ class Node
         void SetNext(std::shared_ptr<Node<Type>> &node);
         void SetNext(Node<Type> &node);
 
-        [[nodiscard]] const Type& RefData() noexcept;
-        [[nodiscard]] const Type Data() const noexcept;
+        [[nodiscard]] std::shared_ptr<const Type> get_value() const;
 };
 
 template <keyType Type>
 requires Printable_concept<Type>
 std::ostream& operator <<(std::ostream &os, std::shared_ptr<Node<Type>> &node)
 {
-    os << node->Data();
+    os << *(node->get_value());
 
     return os;
 }
