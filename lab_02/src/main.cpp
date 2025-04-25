@@ -361,6 +361,12 @@ int main(void)
     set_range_eq.Or({1});
     std::cout << "Ожидание: 1. Реальность: " << (set_range_eq == vector_test) << std::endl;
 
+    Set<int> set_q {1u, 2, 3u, 4, 5u};
+    std::cout << "Ожидание: 1 2 3 4 5. Реальность: " << set_q;
+
+    set_q.And({1, 2, 3, 4, 5});
+    std::cout << "Ожидание: 1 2 3 4 5. Реальность: " << set_q << std::endl;
+
     std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 
     return 0;

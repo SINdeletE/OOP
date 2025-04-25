@@ -56,13 +56,13 @@ void Node<Type>::SetNext(Node<Type> &node)
 }
 
 template <keyType Type>
-Type& Node<Type>::RefData() noexcept
+const Type& Node<Type>::RefData() noexcept
 {
     return data;
 }
 
 template <keyType Type>
-Type Node<Type>::Data() const noexcept
+const Type Node<Type>::Data() const noexcept
 {
     return data;
 }

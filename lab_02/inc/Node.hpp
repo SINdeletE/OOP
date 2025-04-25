@@ -27,8 +27,8 @@ class Node
         void SetNext(std::shared_ptr<Node<Type>> &node);
         void SetNext(Node<Type> &node);
 
-        [[nodiscard]] Type& RefData() noexcept;
-        [[nodiscard]] Type Data() const noexcept;
+        [[nodiscard]] const Type& RefData() noexcept;
+        [[nodiscard]] const Type Data() const noexcept;
 };
 
 template <keyType Type>

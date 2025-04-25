@@ -49,6 +49,10 @@ class List : public BaseContainer
         bool IsEmpty() const noexcept override;
     
     private:
+
+
+        // --------------------------------------------------------------------------
+
         std::shared_ptr<Node<Type>> head;
 
         const_iterator prev_iter(const const_iterator &iter);
