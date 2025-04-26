@@ -138,18 +138,6 @@ template <
 >
 template <typename C>
 requires (! std::same_as<C, Set<Key, Compare>>) && Container_range_concept<C, Key>
-Set<Key, Compare>::Set(C& container)
-{
-    this->clear();
-    std::ranges::for_each(container, [this] (const auto &value) { append(value); });
-}
-
-template <
-        keyType Key,
-        typename Compare 
->
-template <typename C>
-requires (! std::same_as<C, Set<Key, Compare>>) && Container_range_concept<C, Key>
 Set<Key, Compare>::Set(const C& container)
 {
     this->clear();
@@ -196,20 +184,6 @@ Set<Key, Compare>& Set<Key, Compare>::operator=(Set<Key, Compare> &&set) noexcep
     
     _size = set.size();
     set._size = 0;
-
-    return *this;
-}
-
-template <
-        keyType Key,
-        typename Compare 
->
-template <Container_concept C>
-requires (! std::same_as<C, Set<Key, Compare>>) && Container_range_concept<C, Key>
-Set<Key, Compare>& Set<Key, Compare>::operator=(C& container)
-{
-    this->clear();
-    std::ranges::for_each(container, [this] (const auto &value) { append(value); });
 
     return *this;
 }

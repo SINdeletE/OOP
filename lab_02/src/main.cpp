@@ -341,8 +341,7 @@ int main(void)
     }
 
     std::vector<double> vector_test = {1.1, 24, 8.1, 99.9};
-    Set<int> set_container_eq {};
-    set_container_eq = vector_test;
+    Set<int> set_container_eq {vector_test};
 
     std::cout << "Ожидание: 1 8 24 99. Реальность: " << set_container_eq;
 
@@ -365,7 +364,8 @@ int main(void)
     std::cout << "Ожидание: 1 2 3 4 5. Реальность: " << set_q;
 
     set_q.And({1, 2, 3, 4, 5});
-    std::cout << "Ожидание: 1 2 3 4 5. Реальность: " << set_q << std::endl;
+    std::cout << "Ожидание: 1 2 3 4 5. Реальность: " << set_q;
+    std::cout << "(Размер) Ожидание: 5. Реальность: " << set_q.power() << std::endl << std::endl;
 
     std::cout << "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО" << std::endl << std::endl;
 

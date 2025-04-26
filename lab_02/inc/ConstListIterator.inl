@@ -146,19 +146,17 @@ ConstListIterator<Type>::reference ConstListIterator<Type>::operator*() const
         time_t cur_time = time(NULL);
         throw ErrorConstListIterator_IsInvalid(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
-    else
+    
+    auto ptr = cur_ptr.lock();
+    std::shared_ptr<const Type> value = ptr->get_value();
+
+    if (value.use_count() == 0)
     {
-        auto ptr = cur_ptr.lock();
-        std::shared_ptr<const Type> value = ptr->get_value();
-
-        if (value.use_count() == 0)
-        {
-            time_t cur_time = time(NULL);
-            throw ErrorConstListIterator_IsInvalid(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-        }
-
-        return *value;
+        time_t cur_time = time(NULL);
+        throw ErrorConstListIterator_IsInvalid(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
+
+    return *value;
 }
 
 template <keyType Type>

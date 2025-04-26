@@ -58,10 +58,7 @@ class Set final: public BaseContainer
         Set(R&& range, size_type size);
         template <typename C>
         requires (! std::same_as<C, Set<Key, Compare>>) && Container_range_concept<C, Key>
-        Set(C& container);
-        template <typename C>
-        requires (! std::same_as<C, Set<Key, Compare>>) && Container_range_concept<C, Key>
-        Set(const C& container); // Константный отдельно (ну чтобы без неловких моментов)
+        explicit Set(const C& container); // Константный отдельно (ну чтобы без неловких моментов)
         template <typename... Args>
         requires (sizeof...(Args) > 0) && 
                 (std::convertible_to<Args, Key> && ...)
@@ -71,9 +68,6 @@ class Set final: public BaseContainer
         // Операторы =
         Set<Key, Compare>& operator=(const Set<Key, Compare> &set);
         Set<Key, Compare>& operator=(Set<Key, Compare> &&set) noexcept;
-        template <Container_concept C>
-        requires (! std::same_as<C, Set<Key, Compare>>) && Container_range_concept<C, Key>
-        Set<Key, Compare>& operator=(C& container);
         template <Container_concept C>
         requires (! std::same_as<C, Set<Key, Compare>>) && Container_range_concept<C, Key>
         Set<Key, Compare>& operator=(const C& container); // Константный отдельно (ну чтобы без неловких моментов)
@@ -182,6 +176,8 @@ class Set final: public BaseContainer
         // Равенство
         bool operator ==(const Set<Key, Compare> &) const;
         bool operator !=(const Set<Key, Compare> &) const;
+
+        [[nodiscard]] size_type power() const noexcept { return _size; }
 
         [[nodiscard]] size_type size() const noexcept override { return _size; }
         bool IsEmpty() const noexcept override { return _size == 0; }
