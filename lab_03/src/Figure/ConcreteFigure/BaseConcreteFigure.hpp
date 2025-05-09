@@ -4,10 +4,17 @@
 
 #ifndef BASECONCRETEFIGURE_HPP
 #define BASECONCRETEFIGURE_HPP
+#include "../Figure.hpp"
+#include "ConcreteFigureLP/Point/Points.hpp"
 
-class BaseConcreteFigure
+class BaseConcreteFigure : public Figure
 {
+protected:
+    ~BaseConcreteFigure() override = default;
+public:
+    [[nodiscard]] virtual const Points &getPoints() const noexcept = 0;
 
+    virtual void setPoints(const Points &points) = 0;
 };
 
 

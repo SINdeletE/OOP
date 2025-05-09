@@ -7,6 +7,7 @@
 
 #include "../Links/Links.hpp"
 #include "../Point/Points.hpp"
+#include "../../../../Transforms/Transforms.hpp"
 
 class FigureLP
 {
@@ -20,6 +21,10 @@ public:
     [[nodiscard]] const Points& getPoints() const noexcept { return points_data; }
     void setLinks(const Links& links) { links_data = links; }
     void setPoints(const Points& points) { points_data = points; }
+
+    void move(const Mover &);
+    void rotate(const Rotater &);
+    void scale(const Scaler &);
 
 private:
     Links links_data;
