@@ -13,20 +13,26 @@ class FigureLP
 {
 public:
     FigureLP() = default;
-    FigureLP(const FigureLP &);
+    explicit FigureLP(const FigureLP &);
     FigureLP(const Links &, const Points &);
     ~FigureLP() = default;
 
-    [[nodiscard]] const Links& getLinks() const noexcept { return links_data; }
-    [[nodiscard]] const Points& getPoints() const noexcept { return points_data; }
+    [[nodiscard]] Links&& getLinks() noexcept { return std::move(links_data); }
+    [[nodiscard]] Points&& getPoints() noexcept { return std::move(points_data); }
+
     void setLinks(const Links& links) { links_data = links; }
+    void setLinks(Links&& links) noexcept { links_data = std::move(links); }
     void setPoints(const Points& points) { points_data = points; }
+    void setPoints(Points&& points) { points_data = std::move(points); }
 
     void move(const Mover &);
     void rotate(const Rotater &);
     void scale(const Scaler &);
 
 private:
+    void rotate_function(const Rotater &);
+    void scale_function(const Scaler &);
+
     Links links_data;
     Points points_data;
 };

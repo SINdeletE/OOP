@@ -33,6 +33,9 @@ class Links
 private:
     std::list<Link> links;
 
+protected:
+    std::list<Link>::iterator end() { return links.end(); }
+
 public:
     using link_type = Link;
     using iterator = LinksIterator<link_type, Links>;
@@ -42,10 +45,12 @@ public:
     friend class LinksIterator<const link_type, Links>;
 
     Links() = default;
-    Links(const Links &links_copy) { links = links_copy.links; }
+    explicit Links(const Links &links_copy) { links = links_copy.links; }
+    Links(Links &&links_copy) noexcept { links = std::move(links_copy.links); }
     ~Links() = default;
 
     Links& operator =(const Links &links_copy);
+    Links& operator =(Links &&links_copy) noexcept { links = std::move(links_copy.links); return *this; }
 
     void AddLink(const std::size_t &beginID, const std::size_t &endID);
 

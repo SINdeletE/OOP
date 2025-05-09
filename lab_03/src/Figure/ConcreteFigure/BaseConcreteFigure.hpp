@@ -12,7 +12,7 @@ class BaseConcreteFigure : public Figure
 protected:
     ~BaseConcreteFigure() override = default;
 public:
-    [[nodiscard]] virtual const Points &getPoints() const noexcept = 0;
+    [[nodiscard]] virtual Points&& getPoints() noexcept = 0;
 
     virtual void setPoints(const Points &points) = 0;
 };

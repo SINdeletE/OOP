@@ -27,9 +27,9 @@ public:
     {
         ++current;
     }
-    void IsDone()
+    bool IsDone()
     {
-        return (current == iter_data.end());
+        return (current == iter_data.points.end());
     }
     iterator_type Current()
     {
