@@ -1,0 +1,58 @@
+//
+// Created by nuelex on 08/05/25.
+//
+
+#ifndef LINKS_HPP
+#define LINKS_HPP
+
+#include <list>
+#include <cstddef>
+#include <utility>
+
+#include "LinksIterator.hpp"
+
+class Link
+{
+private:
+    std::size_t BeginID;
+    std::size_t EndID;
+public:
+    Link() = default;
+    explicit Link(const std::pair<std::size_t, std::size_t> &pseudo) : BeginID(pseudo.first), EndID(pseudo.second) {}
+    Link(const std::size_t &beginID, const std::size_t &endID) : BeginID(beginID), EndID(endID) {}
+
+    std::pair<std::size_t, std::size_t> Get() { return std::make_pair(BeginID, EndID); }
+    [[nodiscard]] std::size_t GetBeginID() const noexcept { return BeginID; }
+    [[nodiscard]] std::size_t GetEndID() const noexcept { return EndID; }
+    void SetBeginID(const std::size_t &beginID) noexcept { BeginID = beginID; }
+    void SetEndID(const std::size_t &endID) noexcept { EndID = endID; }
+};
+
+class Links
+{
+private:
+    std::list<Link> links;
+
+public:
+    using link_type = Link;
+    using iterator = LinksIterator<link_type, Links>;
+    using const_iterator = LinksIterator<const link_type, Links>;
+
+    friend class LinksIterator<link_type, Links>;
+    friend class LinksIterator<const link_type, Links>;
+
+    Links() = default;
+    Links(const Links &links_copy) { links = links_copy.links; }
+    ~Links() = default;
+
+    Links& operator =(const Links &links_copy);
+
+    void AddLink(const std::size_t &beginID, const std::size_t &endID);
+
+    [[nodiscard]] std::size_t size() const noexcept { return links.size(); }
+    [[nodiscard]] bool empty() const noexcept { return links.empty(); }
+
+    iterator CreateIterator() { return iterator(*this); }
+};
+
+#endif //LINKS_HPP
