@@ -3,7 +3,7 @@
 //
 
 #include "Points.hpp"
-#include "../../../../Exceptions/Figure/PointsException.hpp"
+#include "../../../../../Exceptions/Figure/PointsException.hpp"
 
 #include <cmath>
 

@@ -4,7 +4,7 @@
 
 #include "Links.hpp"
 
-#include "../../../../Exceptions/Figure/LinksException.hpp"
+#include "../../../../../Exceptions/Figure/LinksException.hpp"
 
 void Links::AddLink(const std::size_t &beginID, const std::size_t &endID)
 {

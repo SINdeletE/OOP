@@ -9,7 +9,7 @@
 #include "FigureLP/FigureLP.hpp"
 #include "Links/Links.hpp"
 #include "Point/Points.hpp"
-#include "../../../Transforms/Transforms.hpp"
+#include "../../../../Transforms/Transforms.hpp"
 
 class ConcreteFigureLP : public BaseConcreteFigure
 {
@@ -26,10 +26,11 @@ public:
     void setLinks(const Links &links) { figureLP_.setLinks(links); }
     void setPoints(const Points &points) override { figureLP_.setPoints(points); }
 
-    void move(const Mover &mover) { figureLP_.move(mover); }
-    void rotate(const Rotater &rotater) { figureLP_.rotate(rotater); }
-    void scale(const Scaler &scaler) { figureLP_.scale(scaler); }
+    void move(const Mover &mover) override { figureLP_.move(mover); }
+    void rotate(const Rotater &rotater) override { figureLP_.rotate(rotater); }
+    void scale(const Scaler &scaler) override { figureLP_.scale(scaler); }
 
+    void draw() override;
 private:
     FigureLP figureLP_;
 };

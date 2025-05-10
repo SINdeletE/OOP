@@ -5,7 +5,7 @@
 #ifndef TRANSFORMS_HPP
 #define TRANSFORMS_HPP
 
-#include "../Figure/ConcreteFigure/ConcreteFigureLP/Point/Points.hpp"
+#include "../BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/Point/Points.hpp"
 
 class Mover
 {
