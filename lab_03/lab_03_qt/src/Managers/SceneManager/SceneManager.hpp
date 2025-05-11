@@ -15,7 +15,7 @@
 class SceneManager : public BaseManager
 {
 public:
-    SceneManager();
+    SceneManager() = default;
     ~SceneManager() override = default;
 
     void setScene(const std::shared_ptr<BaseScene> &scene) { _scene = scene; }
@@ -23,7 +23,7 @@ public:
 
 private:
     std::shared_ptr<BaseScene> _scene;
-    std::shared_ptr<SceneHistory> _history;
+    SceneHistory _history;
 };
 
 
