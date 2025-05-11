@@ -11,7 +11,9 @@ void Scene::clean()
 
 std::shared_ptr<BaseScene> Scene::clone()
 {
-    return std::make_shared<Scene>(*this);
+    Scene tmp_scene {*this};
+
+    return std::make_shared<Scene>(tmp_scene);
 }
 
 
