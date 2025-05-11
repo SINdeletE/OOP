@@ -6,7 +6,7 @@
 
 #include "../../Exceptions/BaseObject/CompositeException.hpp"
 
-void CompositeObject::addChild(std::shared_ptr<BaseObject>& child)
+void CompositeObject::addChild(const std::shared_ptr<BaseObject>& child)
 {
     try
     {

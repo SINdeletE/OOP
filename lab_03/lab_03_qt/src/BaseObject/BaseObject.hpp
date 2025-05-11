@@ -26,7 +26,7 @@ public:
     virtual bool CompositeCheck() { return false; }
     virtual bool VisibilityCheck() = 0;
 
-    virtual void addChild(std::shared_ptr<BaseObject> &child) {}
+    virtual void addChild(const std::shared_ptr<BaseObject> &child) {}
     virtual void removeChild(std::shared_ptr<BaseObject> &child) {}
 
     virtual iterator begin() = 0;

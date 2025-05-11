@@ -39,13 +39,19 @@ add_executable(lab_03_qt main.cpp
         src/BaseObject/Camera/Camera.cpp
         src/BaseObject/Camera/Camera.hpp
         src/Exceptions/BaseObject/CompositeException.hpp
-        src/Scene/Scene/Scene.cpp
-        src/Scene/Scene/Scene.hpp
-        src/Scene/BaseScene.hpp
+        src/Managers/SceneManager/Scene/Scene/Scene.cpp
+        src/Managers/SceneManager/Scene/Scene/Scene.hpp
+        src/Managers/SceneManager/Scene/BaseScene.hpp
         mainwindow.cpp
         mainwindow.hpp
         mainwindow.ui
         src/Exceptions/Scene/SceneException.hpp
+        src/Managers/SceneManager/SceneManager.cpp
+        src/Managers/SceneManager/SceneManager.hpp
+        src/Managers/BaseManager.hpp
+        src/Managers/SceneManager/History/BaseHistory.hpp
+        src/Managers/SceneManager/History/History.cpp
+        src/Managers/SceneManager/History/History.hpp
 )
 
 target_link_libraries(lab_03_qt

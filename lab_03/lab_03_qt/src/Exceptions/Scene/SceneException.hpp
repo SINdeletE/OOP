@@ -17,4 +17,14 @@ public:
             const char *error_info = "SCENE: scene is invalid") noexcept : BaseException(filename, classname, line, time, error_info) {}
 };
 
+class ErrorScene_bad_alloc : public BaseException
+{
+public:
+    ErrorScene_bad_alloc(const char *filename,
+            const char *classname,
+            const long line,
+            const char *time,
+            const char *error_info = "SCENE: bad alloc") noexcept : BaseException(filename, classname, line, time, error_info) {}
+};
+
 #endif //SCENEEXCEPTION_HPP
