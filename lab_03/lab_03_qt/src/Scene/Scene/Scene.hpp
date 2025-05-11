@@ -5,6 +5,8 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 #include <memory>
+#include <QGraphicsView>
+#include <QGraphicsScene>
 
 #include "../BaseScene.hpp"
 
@@ -16,11 +18,14 @@ public:
     Scene(const Scene& other) = default;
     ~Scene() override = default;
 
+    void addObject(std::shared_ptr<BaseObject> object) override;
+
     void clean() override;
-    [[nodiscard]] std::shared_ptr<BaseScene> clone() override;
+    [[nodiscard]] std::shared_ptr<BaseScene> clone() const override;
 
 private:
     CompositeObject _objects;
+    std::shared_ptr<QGraphicsScene> _scene;
 };
 
 

@@ -13,8 +13,10 @@ public:
     BaseScene();
     virtual ~BaseScene() = default;
 
+    virtual void addObject(std::shared_ptr<BaseObject> object) = 0;
+
     virtual void clean() = 0;
-    [[nodiscard]] virtual std::shared_ptr<BaseScene> clone() = 0;
+    [[nodiscard]] virtual std::shared_ptr<BaseScene> clone() const = 0;
 };
 
 
