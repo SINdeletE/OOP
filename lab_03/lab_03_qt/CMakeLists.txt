@@ -83,8 +83,6 @@ add_executable(lab_03_qt main.cpp
         src/Commands/BaseCommand.hpp
         src/Managers/LoadManager/LoadManager.cpp
         src/Managers/LoadManager/LoadManager.hpp
-        src/Facade/Handler/Handler.cpp
-        src/Facade/Handler/Handler.hpp
         src/Managers/DrawManager/DrawManager.cpp
         src/Managers/DrawManager/DrawManager.hpp
         src/Managers/TransformManager/TransformManager.cpp

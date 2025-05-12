@@ -21,9 +21,9 @@ protected:
     ConcreteFigureLP& operator=(const ConcreteFigureLP &other) { figureLP_ = other.figureLP_; return *this; }
 
 public:
-    [[nodiscard]] Links&& getLinks() noexcept { return figureLP_.getLinks(); }
-    [[nodiscard]] Points&& getPoints() noexcept override { return figureLP_.getPoints(); }
-    void setLinks(const Links &links) { figureLP_.setLinks(links); }
+    [[nodiscard]] const Links& getLinks() noexcept override { return figureLP_.getLinks(); }
+    [[nodiscard]] const Points& getPoints() noexcept override { return figureLP_.getPoints(); }
+    void setLinks(const Links &links) override { figureLP_.setLinks(links); }
     void setPoints(const Points &points) override { figureLP_.setPoints(points); }
 
     void move(const Mover &mover) override { figureLP_.move(mover); }

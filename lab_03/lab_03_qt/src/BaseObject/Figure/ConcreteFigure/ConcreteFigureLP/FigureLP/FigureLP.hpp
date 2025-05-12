@@ -17,13 +17,13 @@ public:
     FigureLP(const Links &, const Points &);
     ~FigureLP() = default;
 
-    [[nodiscard]] Links&& getLinks() noexcept { return std::move(links_data); }
-    [[nodiscard]] Points&& getPoints() noexcept { return std::move(points_data); }
+    [[nodiscard]] const Links& getLinks() noexcept { return links_data; }
+    [[nodiscard]] const Points& getPoints() noexcept { return points_data; }
 
     void setLinks(const Links& links) { links_data = links; }
     void setLinks(Links&& links) noexcept { links_data = std::move(links); }
     void setPoints(const Points& points) { points_data = points; }
-    void setPoints(Points&& points) { points_data = std::move(points); }
+    void setPoints(Points&& points) noexcept { points_data = std::move(points); }
 
     void move(const Mover &);
     void rotate(const Rotater &);

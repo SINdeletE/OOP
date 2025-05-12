@@ -25,7 +25,7 @@ Facade::Facade()
 
 void Facade::execute(BaseCommand& command)
 {
-
+    ;
 }
 
 

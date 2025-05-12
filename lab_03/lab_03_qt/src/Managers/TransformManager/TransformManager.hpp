@@ -7,7 +7,7 @@
 #include "../BaseManager.hpp"
 
 
-class TransformManager : BaseManager
+class TransformManager : public BaseManager
 {
 
 };

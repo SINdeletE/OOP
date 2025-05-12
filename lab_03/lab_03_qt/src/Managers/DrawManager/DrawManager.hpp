@@ -7,7 +7,7 @@
 #include "../BaseManager.hpp"
 
 
-class DrawManager : BaseManager
+class DrawManager : public BaseManager
 {
 
 };
