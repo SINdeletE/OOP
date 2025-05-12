@@ -31,6 +31,7 @@ protected:
 
 private:
     CompositeObject _objects;
+    CompositeObject _cameras;
     std::shared_ptr<QGraphicsScene> _scene;
 };
 

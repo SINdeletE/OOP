@@ -7,6 +7,8 @@
 
 #include <QMainWindow>
 
+#include "src/Facade/Facade.hpp"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class mainwindow; }
@@ -19,8 +21,13 @@ public:
     explicit mainwindow(QWidget *parent = nullptr);
     ~mainwindow() override;
 
+    bool init_check() const noexcept { return initialization_check; }
+
 private:
     Ui::mainwindow *ui;
+
+    bool initialization_check;
+    std::unique_ptr<Facade> _facade;
 };
 
 

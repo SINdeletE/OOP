@@ -71,6 +71,24 @@ add_executable(lab_03_qt main.cpp
         src/Action/CameraAction/Rotate/CameraActionRotate.hpp
         src/Action/CameraAction/Set/CameraActionSet.cpp
         src/Action/CameraAction/Set/CameraActionSet.hpp
+        src/Facade/Facade.cpp
+        src/Facade/Facade.hpp
+        src/Builders/BaseBuilder.hpp
+        src/Factory/BaseFactory.hpp
+        src/Factory/ManagerFactory/ManagerFactory.cpp
+        src/Factory/ManagerFactory/ManagerFactory.hpp
+        src/Factory/ManagerFactory/ManagerFactoryInterface.hpp
+        src/Exceptions/Factory/ManagerFactoryException.hpp
+        src/Exceptions/Facade/FacadeException.hpp
+        src/Commands/BaseCommand.hpp
+        src/Managers/LoadManager/LoadManager.cpp
+        src/Managers/LoadManager/LoadManager.hpp
+        src/Facade/Handler/Handler.cpp
+        src/Facade/Handler/Handler.hpp
+        src/Managers/DrawManager/DrawManager.cpp
+        src/Managers/DrawManager/DrawManager.hpp
+        src/Managers/TransformManager/TransformManager.cpp
+        src/Managers/TransformManager/TransformManager.hpp
 )
 
 target_link_libraries(lab_03_qt

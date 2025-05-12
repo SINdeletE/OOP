@@ -6,8 +6,9 @@
 #define CAMERA_HPP
 #include "../BaseObject.hpp"
 
+class BaseCamera : public BaseObject {};
 
-class Camera : public BaseObject
+class Camera : public BaseCamera
 {
     using value_type = BaseObject;
     using size_type = size_t;
@@ -28,7 +29,6 @@ class Camera : public BaseObject
 
     void move(const Mover &mover) override {}
     void rotate(const Rotater &rotater) override {}
-    void scale(const Scaler &scaler) override {}
 
     void draw() override {}
 };

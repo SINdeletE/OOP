@@ -7,7 +7,9 @@
 
 #include "../BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/Point/Points.hpp"
 
-class Mover
+class BaseTransform {};
+
+class Mover : public BaseTransform
 {
 public:
     Mover() = default;
@@ -35,7 +37,7 @@ private:
     Point center;
 };
 
-class Rotater
+class Rotater : public BaseTransform
 {
 public:
     Rotater() = default;
@@ -63,7 +65,7 @@ private:
     Point center;
 };
 
-class Scaler
+class Scaler : public BaseTransform
 {
 public:
     Scaler() = default;

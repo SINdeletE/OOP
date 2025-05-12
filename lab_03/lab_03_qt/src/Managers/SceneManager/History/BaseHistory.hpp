@@ -4,9 +4,6 @@
 
 #ifndef BASEHISTORY_HPP
 #define BASEHISTORY_HPP
-#include <memory>
-
-#include "../Scene/BaseScene.hpp"
 
 class BaseHistory
 {

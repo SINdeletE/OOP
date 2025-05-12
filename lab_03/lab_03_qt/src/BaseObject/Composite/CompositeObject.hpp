@@ -10,7 +10,7 @@
 class CompositeObject : public BaseObject
 {
 public:
-    CompositeObject() = default;
+    CompositeObject() : children() {}
     CompositeObject(const CompositeObject& other) = default;
     ~CompositeObject() override = default;
 
