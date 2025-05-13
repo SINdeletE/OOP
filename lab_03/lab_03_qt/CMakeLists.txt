@@ -93,6 +93,9 @@ add_executable(lab_03_qt main.cpp
         src/Builders/Readers/LPReaders/txt/TXTLPReader.cpp
         src/Builders/Readers/LPReaders/txt/TXTLPReader.hpp
         src/Exceptions/Reader/ReaderException.hpp
+        src/Builders/Readers/LPReaders/LPReaderFactory.cpp
+        src/Builders/Readers/LPReaders/LPReaderFactory.hpp
+        src/Exceptions/Factory/ReaderFactoryException.hpp
 )
 
 target_link_libraries(lab_03_qt
