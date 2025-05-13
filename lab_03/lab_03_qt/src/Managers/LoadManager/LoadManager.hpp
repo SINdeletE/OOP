@@ -7,8 +7,15 @@
 #include "../BaseManager.hpp"
 
 
-class LoadManager : public BaseManager
+class LoadManager final: public BaseManager
 {
+public:
+    LoadManager() = default;
+    ~LoadManager() override = default;
+
+    void execute();
+
+private:
 
 };
 

@@ -18,7 +18,10 @@ public:
     BaseCommand() = default;
     virtual ~BaseCommand() = default;
 
-    void setManager(const std::shared_ptr<BaseManager> &unusual_manager) {}
+    virtual void setManager(const std::shared_ptr<SceneManager> &manager) {}
+    virtual void setManager(const std::shared_ptr<LoadManager> &manager) {}
+    virtual void setManager(const std::shared_ptr<DrawManager> &manager) {}
+    virtual void setManager(const std::shared_ptr<TransformManager> &manager) {}
 
     virtual void execute() = 0;
 };

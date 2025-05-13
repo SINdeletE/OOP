@@ -18,8 +18,11 @@ private:
     std::size_t EndID;
 public:
     Link() = default;
+    explicit Link(const Link& other) { BeginID = other.BeginID; EndID = other.EndID; }
     explicit Link(const std::pair<std::size_t, std::size_t> &pseudo) : BeginID(pseudo.first), EndID(pseudo.second) {}
     Link(const std::size_t &beginID, const std::size_t &endID) : BeginID(beginID), EndID(endID) {}
+
+    Link &operator=(const Link& other) { BeginID = other.BeginID; EndID = other.EndID; return *this; }
 
     std::pair<std::size_t, std::size_t> Get() { return std::make_pair(BeginID, EndID); }
     [[nodiscard]] std::size_t GetBeginID() const noexcept { return BeginID; }
@@ -53,6 +56,7 @@ public:
     Links& operator =(Links &&links_copy) noexcept { links = std::move(links_copy.links); return *this; }
 
     void AddLink(const std::size_t &beginID, const std::size_t &endID);
+    void AddLink(const Link &link) { this->AddLink(link.GetBeginID(), link.GetEndID()); }
 
     [[nodiscard]] std::size_t size() const noexcept { return links.size(); }
     [[nodiscard]] bool empty() const noexcept { return links.empty(); }

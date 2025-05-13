@@ -87,6 +87,12 @@ add_executable(lab_03_qt main.cpp
         src/Managers/DrawManager/DrawManager.hpp
         src/Managers/TransformManager/TransformManager.cpp
         src/Managers/TransformManager/TransformManager.hpp
+        src/Builders/Directors/BaseDirector.hpp
+        src/Builders/Readers/BaseReader.hpp
+        src/Builders/Readers/LPReaders/BaseLPReader.hpp
+        src/Builders/Readers/LPReaders/txt/TXTLPReader.cpp
+        src/Builders/Readers/LPReaders/txt/TXTLPReader.hpp
+        src/Exceptions/Reader/ReaderException.hpp
 )
 
 target_link_libraries(lab_03_qt
