@@ -1119,8 +1119,23 @@
      <height>23</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuObject">
+    <property name="title">
+     <string>Object</string>
+    </property>
+    <addaction name="actionAdd_from_file"/>
+   </widget>
+   <addaction name="menuObject"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionAdd_from_file">
+   <property name="text">
+    <string>Add from file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

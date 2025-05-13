@@ -5,6 +5,9 @@
 // You may need to build the project (run Qt uic code generator) to get "ui_mainwindow.h" resolved
 
 #include "mainwindow.hpp"
+
+#include <QFile>
+#include <QFileDialog>
 #include "ui_mainwindow.h"
 #include "src/Exceptions/Facade/FacadeException.hpp"
 
@@ -28,3 +31,10 @@ mainwindow::mainwindow(QWidget *parent) :
 mainwindow::~mainwindow() {
     delete ui;
 }
+
+void mainwindow::on_actionAdd_from_file_triggered()
+{
+    QFile objectFile = QFileDialog::getOpenFileName(this, tr("Open File"), \
+                                                    QDir::currentPath(), tr("*.txt (*.txt)"));
+}
+
