@@ -10,10 +10,22 @@ FigureLP::FigureLP(const FigureLP &figure)
     points_data = figure.points_data;
 }
 
+FigureLP::FigureLP(FigureLP &&figure) noexcept
+{
+    links_data = std::move(figure.links_data);
+    points_data = std::move(figure.points_data);
+}
+
 FigureLP::FigureLP(const Links &links, const Points &points)
 {
     this->links_data = links;
     this->points_data = points;
+}
+
+FigureLP::FigureLP(Links &&links, Points &&points) noexcept
+{
+    this->links_data = std::move(links);
+    this->points_data = std::move(points);
 }
 
 void FigureLP::rotate_function(const Rotater &rotater)

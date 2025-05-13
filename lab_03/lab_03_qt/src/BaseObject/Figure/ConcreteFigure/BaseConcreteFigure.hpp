@@ -12,19 +12,20 @@
 
 class BaseConcreteFigure : public Figure
 {
-protected:
-    ~BaseConcreteFigure() override = default;
 public:
+    BaseConcreteFigure() = default;
+    ~BaseConcreteFigure() override = default;
+
     [[nodiscard]] virtual const Links& getLinks() noexcept = 0;
     [[nodiscard]] virtual const Points& getPoints() noexcept = 0;
     virtual void setLinks(const Links &links) = 0;
+    virtual void setLinks(Links &&links) noexcept = 0;
     virtual void setPoints(const Points &points) = 0;
+    virtual void setPoints(Points &&points) noexcept = 0;
 
     void move(const Mover &mover) override {}
     void rotate(const Rotater &rotater) override {}
     void scale(const Scaler &scaler) override {}
-
-    void draw() override;
 };
 
 

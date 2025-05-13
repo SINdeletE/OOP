@@ -14,8 +14,13 @@ class FigureLP
 public:
     FigureLP() = default;
     explicit FigureLP(const FigureLP &);
+    FigureLP(FigureLP &&) noexcept;
     FigureLP(const Links &, const Points &);
+    FigureLP(Links &&links, Points &&points) noexcept;
     ~FigureLP() = default;
+
+    FigureLP &operator=(const FigureLP &other) { links_data = other.links_data; points_data = other.points_data; return *this; }
+    FigureLP &operator=(FigureLP &&other) noexcept { links_data = std::move(other.links_data); points_data = std::move(other.points_data); return *this; }
 
     [[nodiscard]] const Links& getLinks() noexcept { return links_data; }
     [[nodiscard]] const Points& getPoints() noexcept { return points_data; }

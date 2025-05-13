@@ -105,3 +105,28 @@ Links TXTLPReader::readLinks()
 
     return links;
 }
+
+Points TXTLPReader::readPoints()
+{
+    Points points{};
+    Point point{};
+
+    for (std::size_t i = 0; i < size; i++)
+    {
+        point = readPoint();
+        points.AddPoint(point);
+    }
+
+    return points;
+}
+
+std::shared_ptr<ConcreteFigureLP> TXTLPReader::readFigureLP()
+{
+    ConcreteFigureLP figure{};
+
+    figure.setPoints(readPoints());
+    figure.setLinks(readLinks());
+
+    return std::make_shared<ConcreteFigureLP>(figure);
+}
+

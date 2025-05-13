@@ -24,6 +24,8 @@ public:
     Point() = default;
     Point(const double &x_value, const double &y_value, const double &z_value) : x(x_value), y(y_value), z(z_value) {}
 
+    Point& operator =(const Point &other) { x = other.x; y = other.y; z = other.z; return *this; }
+
     [[nodiscard]] double GetX() const noexcept { return x; }
     [[nodiscard]] double GetY() const noexcept { return y; }
     [[nodiscard]] double GetZ() const noexcept { return z; }
@@ -60,6 +62,7 @@ public:
     Points& operator =(Points &&points_arg) noexcept { this->points = std::move(points_arg.points); return *this; }
 
     void AddPoint(const double &x, const double &y, const double &z);
+    void AddPoint(const Point &point) { this->AddPoint(point.GetX(), point.GetY(), point.GetZ()); }
 
     [[nodiscard]] std::size_t size() const noexcept { return points.size(); }
     [[nodiscard]] bool empty() const noexcept { return points.empty(); }

@@ -26,7 +26,7 @@ private:
 
     [[nodiscard]] Point readPoint();
     [[nodiscard]] Link readLink();
-    [[nodiscard]] bool linkIsCorrect(Links &links, const Link &link);
+    [[nodiscard]] static bool linkIsCorrect(Links &links, const Link &link);
 };
 
 
