@@ -17,8 +17,10 @@ public:
     ManagerFactory() = default;
     ~ManagerFactory() override = default;
 
-    std::shared_ptr<SceneManager> createSceneManager() override;
-    std::shared_ptr<LoadManager> createLoadManager() override;
+    [[nodiscard]] std::shared_ptr<SceneManager> createSceneManager() const override;
+    [[nodiscard]] std::shared_ptr<LoadManager> createLoadManager() const override;
+    [[nodiscard]] std::shared_ptr<DrawManager> createDrawManager() const override;
+    [[nodiscard]] std::shared_ptr<TransformManager> createTransformManager() const override;
 };
 
 

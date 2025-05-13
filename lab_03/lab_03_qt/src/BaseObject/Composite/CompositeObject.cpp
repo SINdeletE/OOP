@@ -18,3 +18,15 @@ void CompositeObject::addChild(const std::shared_ptr<BaseObject>& child)
         throw ErrorCompositeObject_bad_alloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 }
+
+CompositeObject::const_reference CompositeObject::operator[](const size_type size)
+{
+    if (size >= children.size())
+    {
+        const time_t cur_time = time(nullptr);
+        throw ErrorCompositeObject_out_of_range(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
+
+    return children[size];
+}
+

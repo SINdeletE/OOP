@@ -9,6 +9,8 @@
 #include "../BaseFactory.hpp"
 #include "../../Managers/LoadManager/LoadManager.hpp"
 #include "../../Managers/SceneManager/SceneManager.hpp"
+#include "../../Managers/DrawManager/DrawManager.hpp"
+#include "../../Managers/TransformManager/TransformManager.hpp"
 
 
 class ManagerFactoryInterface : public BaseFactory
@@ -17,8 +19,10 @@ public:
     ManagerFactoryInterface() = default;
     ~ManagerFactoryInterface() override = default;
 
-    virtual std::shared_ptr<SceneManager> createSceneManager() = 0;
-    virtual std::shared_ptr<LoadManager> createLoadManager() = 0;
+    [[nodiscard]] virtual std::shared_ptr<SceneManager> createSceneManager() const = 0;
+    [[nodiscard]] virtual std::shared_ptr<LoadManager> createLoadManager() const = 0;
+    [[nodiscard]] virtual std::shared_ptr<DrawManager> createDrawManager() const = 0;
+    [[nodiscard]] virtual std::shared_ptr<TransformManager> createTransformManager() const = 0;
 };
 
 

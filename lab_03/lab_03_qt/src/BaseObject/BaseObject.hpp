@@ -5,6 +5,8 @@
 #ifndef BASEOBJECT_HPP
 #define BASEOBJECT_HPP
 #include <memory>
+#include <vector>
+#include <iterator>
 
 #include "../Transforms/Transforms.hpp"
 
@@ -14,8 +16,10 @@ class BaseObject
 public:
     using value_type = BaseObject;
     using size_type = size_t;
-    using iterator = std::list<std::shared_ptr<value_type>>::const_iterator;
-    using const_iterator = std::list<std::shared_ptr<value_type>>::const_iterator;
+    using iterator = std::vector<std::shared_ptr<value_type>>::iterator;
+    using const_iterator = std::vector<std::shared_ptr<value_type>>::const_iterator;
+    using reference = value_type&;
+    using const_reference = const value_type&;
 
     BaseObject() = default;
     BaseObject(const BaseObject&) = default;

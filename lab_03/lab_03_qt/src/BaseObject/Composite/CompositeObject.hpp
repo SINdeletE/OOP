@@ -10,6 +10,8 @@
 class CompositeObject : public BaseObject
 {
 public:
+    using const_reference = const std::shared_ptr<BaseObject>&;
+
     CompositeObject() : children() {}
     CompositeObject(const CompositeObject& other) = default;
     ~CompositeObject() override = default;
@@ -24,9 +26,10 @@ public:
 
     BaseObject::iterator begin() override { return children.begin(); }
     BaseObject::iterator end() override { return children.end(); }
+    const_reference operator[] (size_type size);
 
 private:
-    std::list<std::shared_ptr<BaseObject>> children;
+    std::vector<std::shared_ptr<BaseObject>> children;
 };
 
 
