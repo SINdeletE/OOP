@@ -2,19 +2,21 @@
 // Created by nuelex on 13/05/25.
 //
 
-#include "LPReaderFactory.hpp"
+#include "LPReaderSolution.hpp"
+
+#include <filesystem>
 
 #include "../../../Exceptions/Factory/ManagerFactoryException.hpp"
 #include "../../../Exceptions/Factory/ReaderFactoryException.hpp"
 
 
-LPReaderFactory::LPReaderFactory() : _map()
+LPReaderSolution::LPReaderSolution() : _map()
 {
     _map.max_load_factor(1.0);
 
     try
     {
-        _map.insert({".txt", createTXTLPReader});
+        _map.insert({".txt", std::make_unique<ConcreteLPReaderCreator<TXTLPReader>>()});
     }
     catch (std::bad_alloc &e)
     {
@@ -23,9 +25,10 @@ LPReaderFactory::LPReaderFactory() : _map()
     }
 }
 
-std::shared_ptr<BaseLPReader> LPReaderFactory::createReader(const std::string& filename)
+std::shared_ptr<BaseLPReader> LPReaderSolution::createReader(const std::string& filename)
 {
-    auto iter = _map.find(filename);
+    const std::string ext = getExtension(filename);
+    const auto iter = _map.find(ext);
 
     if (iter == _map.end())
     {
@@ -33,7 +36,14 @@ std::shared_ptr<BaseLPReader> LPReaderFactory::createReader(const std::string& f
         throw ErrorReaderFactory_invalid_file(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 
-    return iter->second(filename);
+    return iter->second->createLPReader(filename);
+}
+
+std::string LPReaderSolution::getExtension(const std::string& filename)
+{
+    const auto ext = std::filesystem::path(filename).extension();
+
+    return ext.string();
 }
 
 

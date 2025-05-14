@@ -4,7 +4,11 @@
 
 #ifndef LOADMANAGER_HPP
 #define LOADMANAGER_HPP
+#include <memory>
+
 #include "../BaseManager.hpp"
+#include "../../BaseObject/BaseObject.hpp"
+#include "../SceneManager/Scene/BaseScene.hpp"
 
 
 class LoadManager final: public BaseManager
@@ -13,7 +17,8 @@ public:
     LoadManager() = default;
     ~LoadManager() override = default;
 
-    void execute();
+    std::shared_ptr<BaseObject> loadObject(std::string &filename);
+    std::shared_ptr<BaseScene> loadScene(std::string &filename);
 
 private:
 

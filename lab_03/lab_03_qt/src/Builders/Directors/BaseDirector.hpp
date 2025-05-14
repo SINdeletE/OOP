@@ -13,7 +13,7 @@ public:
     BaseDirector() = default;
     virtual ~BaseDirector() = default;
 
-    virtual void create();
+    virtual void create() = 0;
 };
 
 

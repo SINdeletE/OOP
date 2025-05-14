@@ -10,20 +10,22 @@
 #include <unordered_map>
 
 #include "BaseLPReader.hpp"
+#include "LPReaderCreator.hpp"
 #include "../../../Factory/BaseFactory.hpp"
 #include "txt/TXTLPReader.hpp"
 
-class LPReaderFactory : public BaseFactory
+class LPReaderSolution : public BaseFactory
 {
 public:
-    LPReaderFactory();
-    ~LPReaderFactory() override = default;
+    LPReaderSolution();
+    ~LPReaderSolution() override = default;
 
     std::shared_ptr<BaseLPReader> createReader(const std::string &filename);
-    static std::shared_ptr<BaseLPReader> createTXTLPReader(const std::string &filename) { return std::make_shared<TXTLPReader>(filename); }
 
 private:
-    std::unordered_map<std::string, std::function<std::shared_ptr<BaseLPReader>(const std::string &)>> _map;
+    std::unordered_map<std::string, std::unique_ptr<LPReaderCreator>> _map;
+
+    static std::string getExtension(const std::string &filename);
 };
 
 
