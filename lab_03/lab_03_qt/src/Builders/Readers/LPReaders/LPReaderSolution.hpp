@@ -14,13 +14,14 @@
 #include "../../../Factory/BaseFactory.hpp"
 #include "txt/TXTLPReader.hpp"
 
-class LPReaderSolution : public BaseFactory
+class LPReaderSolution
 {
 public:
     LPReaderSolution();
-    ~LPReaderSolution() override = default;
+    ~LPReaderSolution() = default;
 
     std::shared_ptr<BaseLPReader> createReader(const std::string &filename);
+    void reg(std::pair<std::string, std::unique_ptr<LPReaderCreator>> &&other);
 
 private:
     std::unordered_map<std::string, std::unique_ptr<LPReaderCreator>> _map;

@@ -19,6 +19,7 @@ public:
     ~DirectorSolution() = default;
 
     std::shared_ptr<BaseDirector> createDirector(const std::string& filename);
+    void reg(std::pair<std::string, std::unique_ptr<DirectorCreator>> &&other);
 
 private:
     std::unordered_map<std::string, std::unique_ptr<DirectorCreator>> _directorCreators;

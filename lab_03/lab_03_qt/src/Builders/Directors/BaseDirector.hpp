@@ -10,7 +10,7 @@
 class BaseDirector
 {
 public:
-    BaseDirector() = default;
+    explicit BaseDirector(const std::string &filename) {}
     virtual ~BaseDirector() = default;
 
     virtual void create() = 0;

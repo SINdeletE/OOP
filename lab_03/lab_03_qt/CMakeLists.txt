@@ -98,11 +98,15 @@ add_executable(lab_03_qt main.cpp
         src/Exceptions/Factory/ReaderFactoryException.hpp
         src/Builders/Directors/DirectorSolution.cpp
         src/Builders/Directors/DirectorSolution.hpp
-        src/Builders/Directors/FigureDirector/FigureDirector.cpp
-        src/Builders/Directors/FigureDirector/FigureDirector.hpp
+        src/Builders/Directors/FigureDirector/FigureLPDirector.cpp
+        src/Builders/Directors/FigureDirector/FigureLPDirector.hpp
         src/Builders/Readers/LPReaders/LPReaderCreator.hpp
         src/Builders/Directors/DirectorCreator.hpp
         src/Exceptions/Directors/DirectorException.hpp
+        src/Builders/Builders/FigureLPBuilder/BaseFigureLPBuilder.hpp
+        src/Builders/Builders/FigureLPBuilder/FigureLPBuilder.cpp
+        src/Builders/Builders/FigureLPBuilder/FigureLPBuilder.hpp
+        src/Exceptions/Builders/BuildersException.hpp
 )
 
 target_link_libraries(lab_03_qt

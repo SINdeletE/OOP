@@ -14,15 +14,7 @@ LPReaderSolution::LPReaderSolution() : _map()
 {
     _map.max_load_factor(1.0);
 
-    try
-    {
-        _map.insert({".txt", std::make_unique<ConcreteLPReaderCreator<TXTLPReader>>()});
-    }
-    catch (std::bad_alloc &e)
-    {
-        const time_t cur_time = time(nullptr);
-        throw ErrorReaderFactory_bad_alloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-    }
+    reg({".txt", std::make_unique<ConcreteLPReaderCreator<TXTLPReader>>()});
 }
 
 std::shared_ptr<BaseLPReader> LPReaderSolution::createReader(const std::string& filename)
@@ -46,4 +38,16 @@ std::string LPReaderSolution::getExtension(const std::string& filename)
     return ext.string();
 }
 
+void LPReaderSolution::reg(std::pair<std::string, std::unique_ptr<LPReaderCreator>> &&other)
+{
+    try
+    {
+        _map.emplace(std::move(other.first), std::move(other.second));
+    }
+    catch (std::bad_alloc &e)
+    {
+        const time_t cur_time = time(nullptr);
+        throw ErrorReaderFactory_bad_alloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
+}
 

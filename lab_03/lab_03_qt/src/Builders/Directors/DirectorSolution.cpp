@@ -7,21 +7,13 @@
 #include <filesystem>
 
 #include "../../Exceptions/Directors/DirectorException.hpp"
-#include "FigureDirector/FigureDirector.hpp"
+#include "FigureDirector/FigureLPDirector.hpp"
 
 DirectorSolution::DirectorSolution() : _directorCreators()
 {
     _directorCreators.max_load_factor(1.0);
 
-    try
-    {
-        _directorCreators.insert({".txt", std::make_unique<ConcreteDirectorCreator<FigureDirector>>()});
-    }
-    catch (std::bad_alloc &e)
-    {
-        const time_t cur_time = time(nullptr);
-        throw ErrorDirector_bad_alloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-    }
+    reg({".txt", std::make_unique<ConcreteDirectorCreator<FigureLPDirector>>()});
 }
 
 std::shared_ptr<BaseDirector> DirectorSolution::createDirector(const std::string& filename)
@@ -44,4 +36,18 @@ std::string DirectorSolution::getExtension(const std::string& filename)
 
     return ext.string();
 }
+
+void DirectorSolution::reg(std::pair<std::string, std::unique_ptr<DirectorCreator>> &&other)
+{
+    try
+    {
+        _directorCreators.emplace(std::move(other.first), std::move(other.second));
+    }
+    catch (std::bad_alloc &e)
+    {
+        const time_t cur_time = time(nullptr);
+        throw ErrorDirector_bad_alloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
+}
+
 

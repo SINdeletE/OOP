@@ -10,7 +10,6 @@
 class BaseBuilder
 {
 protected:
-    BaseBuilder() = default;
     virtual ~BaseBuilder() = default;
 
     virtual bool isBuilded() = 0;
