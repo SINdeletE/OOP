@@ -15,15 +15,17 @@ public:
     explicit CameraPTUBuilder(const std::string &filename);
     ~CameraPTUBuilder() override = default;
 
-    [[nodiscard]] bool buildPosition();
-    [[nodiscard]] bool buildTarget();
-    [[nodiscard]] bool buildUp();
-    [[nodiscard]] std::shared_ptr<BaseCamera> getCameraPTU() const;
+    [[nodiscard]] bool buildPosition() override;
+    [[nodiscard]] bool buildTarget() override;
+    [[nodiscard]] bool buildUp() override;
+    [[nodiscard]] std::shared_ptr<BaseCamera> getCameraPTU() const override { return _camera; }
+
+    bool isBuilded() override { return (_total == 3); }
+    void reset() override { _camera.reset(); };
 
 private:
-    Point _position;
-    Point _target;
-    Point _up;
+    int _total;
+
     std::shared_ptr<CameraPTU> _camera;
     std::shared_ptr<BasePTUReader> _reader;
 };

@@ -10,21 +10,29 @@
 class CameraPTU : public BaseCamera
 {
 public:
-    using value_type = BaseObject;
-    using size_type = size_t;
-    using iterator = std::list<std::shared_ptr<value_type>>::const_iterator;
-    using const_iterator = std::list<std::shared_ptr<value_type>>::const_iterator;
+    CameraPTU() : _position(), _target(), _up() {}
+    ~CameraPTU() override = default;
 
-    CameraPTU();
-    ~CameraPTU() override;
-
+    bool VisibilityCheck() override { return false; }
     bool CompositeCheck() override { return false; }
 
     void addChild(const std::shared_ptr<BaseObject> &child) override {}
     void removeChild(std::shared_ptr<BaseObject> &child) override {}
 
-    BaseObject::iterator begin() override;
-    BaseObject::iterator end() override;
+    BaseObject::iterator begin() override { return BaseObject::iterator(nullptr); }
+    BaseObject::iterator end() override { return BaseObject::iterator(nullptr); }
+
+    [[nodiscard]] const Point &getPosition() const { return _position; }
+    void setPosition(const Point &position) { _position = position; }
+    void setPosition(Point&& position) { _position = position; }
+
+    [[nodiscard]] const Point &getTarget() const { return _target; }
+    void setTarget(const Point &target) { _target = target; }
+    void setTarget(Point &&target) { _target = target; }
+
+    [[nodiscard]] const Point &getUp() const { return _up; }
+    void setUp(const Point &up) { _up = up; }
+    void setUp(Point &&up) { _up = up; }
 
     void move(const Mover &mover) override {}
     void rotate(const Rotater &rotater) override {}

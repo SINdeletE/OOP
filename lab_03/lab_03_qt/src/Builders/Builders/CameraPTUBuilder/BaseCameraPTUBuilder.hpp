@@ -15,7 +15,7 @@ class BaseCameraPTUBuilder : public BaseBuilder
 {
 public:
     BaseCameraPTUBuilder() = delete;
-    explicit BaseCameraPTUBuilder(const std::string &filename);
+    explicit BaseCameraPTUBuilder(const std::string &filename) {}
     ~BaseCameraPTUBuilder() override = default;
 
     bool isBuilded() override { return false; }

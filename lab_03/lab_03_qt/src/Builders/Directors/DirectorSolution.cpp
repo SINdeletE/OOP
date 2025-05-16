@@ -7,6 +7,7 @@
 #include <filesystem>
 
 #include "../../Exceptions/Directors/DirectorException.hpp"
+#include "CameraDirector/CameraPTUDirector.hpp"
 #include "FigureDirector/FigureLPDirector.hpp"
 
 DirectorSolution::DirectorSolution() : _directorCreators()
@@ -14,6 +15,7 @@ DirectorSolution::DirectorSolution() : _directorCreators()
     _directorCreators.max_load_factor(1.0);
 
     reg({".txt", std::make_unique<ConcreteDirectorCreator<FigureLPDirector>>()});
+    reg({".cmr", std::make_unique<ConcreteDirectorCreator<CameraPTUDirector>>()});
 }
 
 std::shared_ptr<BaseObjectDirector> DirectorSolution::createDirector(const std::string& filename)

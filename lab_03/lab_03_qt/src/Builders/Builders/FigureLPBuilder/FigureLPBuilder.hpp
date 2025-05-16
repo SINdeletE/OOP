@@ -16,7 +16,7 @@ public:
     explicit FigureLPBuilder(const std::string &string);
     ~FigureLPBuilder() override = default;
 
-    bool isBuilded() override { return bool(FigureLP_); }
+    bool isBuilded() override { return (_total == 2); }
     void reset() override { FigureLP_.reset(); }
 
     [[nodiscard]] bool buildLinks() override;
@@ -24,8 +24,8 @@ public:
     [[nodiscard]] std::shared_ptr<BaseConcreteFigure> getFigureLP() const override { return FigureLP_; }
 
 private:
-    Links _links;
-    Points _points;
+    int _total;
+
     std::shared_ptr<ConcreteFigureLP> FigureLP_;
     std::shared_ptr<BaseLPReader> reader_;
 };
