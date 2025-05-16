@@ -38,3 +38,8 @@ void mainwindow::on_actionAdd_from_file_triggered()
                                                     QDir::currentPath(), tr("*.txt (*.txt)"));
 }
 
+void mainwindow::on_actionAdd_Scene_triggered()
+{
+    QFile objectFile = QFileDialog::getOpenFileName(this, tr("Open File"), \
+                                                    QDir::currentPath(), tr("*.txt (*.txt)"));
+}

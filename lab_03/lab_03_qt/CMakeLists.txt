@@ -87,7 +87,7 @@ add_executable(lab_03_qt main.cpp
         src/Managers/DrawManager/DrawManager.hpp
         src/Managers/TransformManager/TransformManager.cpp
         src/Managers/TransformManager/TransformManager.hpp
-        src/Builders/Directors/BaseDirector.hpp
+        src/Builders/Directors/BaseObjectDirector.hpp
         src/Builders/Readers/BaseReader.hpp
         src/Builders/Readers/LPReaders/BaseLPReader.hpp
         src/Builders/Readers/LPReaders/txt/TXTLPReader.cpp
@@ -107,6 +107,19 @@ add_executable(lab_03_qt main.cpp
         src/Builders/Builders/FigureLPBuilder/FigureLPBuilder.cpp
         src/Builders/Builders/FigureLPBuilder/FigureLPBuilder.hpp
         src/Exceptions/Builders/BuildersException.hpp
+        src/Builders/Builders/FigureLPBuilder/FigureLPBuilderCreator.hpp
+        src/Builders/Builders/FigureLPBuilder/FigureLPBuilderSolution.cpp
+        src/Builders/Builders/FigureLPBuilder/FigureLPBuilderSolution.hpp
+        src/Exceptions/Builders/BuildersCreatorException.hpp
+        src/Exceptions/Managers/LoadManagerException.hpp
+        src/Builders/Directors/CameraDirector/CameraPDUDirector.cpp
+        src/Builders/Directors/CameraDirector/CameraPDUDirector.hpp
+        src/Builders/Readers/PDUReader/BasePDUReader.hpp
+        src/Builders/Readers/PDUReader/cmr/CMRPDUReader.cpp
+        src/Builders/Readers/PDUReader/cmr/CMRPDUReader.hpp
+        src/Builders/Readers/PDUReader/PDUReaderCreator.hpp
+        src/Builders/Readers/PDUReader/PDUReaderSolution.cpp
+        src/Builders/Readers/PDUReader/PDUReaderSolution.hpp
 )
 
 target_link_libraries(lab_03_qt

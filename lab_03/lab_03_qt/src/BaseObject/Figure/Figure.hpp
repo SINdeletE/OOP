@@ -19,12 +19,15 @@ public:
     bool CompositeCheck() override { return false; }
     bool VisibilityCheck() override { return true; }
 
-    void move(const Mover &mover) override {}
-    void rotate(const Rotater &rotater) override {}
-    void scale(const Scaler &scaler) override {}
+    void addChild(const std::shared_ptr<BaseObject> &child) override {}
+    void removeChild(std::shared_ptr<BaseObject> &child) override {}
 
     BaseObject::iterator begin() override { return BaseObject::iterator(nullptr); }
     BaseObject::iterator end() override { return BaseObject::iterator(nullptr); }
+
+    void move(const Mover &mover) override {}
+    void rotate(const Rotater &rotater) override {}
+    void scale(const Scaler &scaler) override {}
 };
 
 

@@ -17,11 +17,8 @@ public:
     LoadManager() = default;
     ~LoadManager() override = default;
 
-    std::shared_ptr<BaseObject> loadObject(std::string &filename);
-    std::shared_ptr<BaseScene> loadScene(std::string &filename);
-
-private:
-
+    std::shared_ptr<BaseObject> loadObject(const std::string &filename);
+    std::shared_ptr<BaseScene> loadScene(const std::string &filename);
 };
 
 

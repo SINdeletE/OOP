@@ -16,7 +16,7 @@ DirectorSolution::DirectorSolution() : _directorCreators()
     reg({".txt", std::make_unique<ConcreteDirectorCreator<FigureLPDirector>>()});
 }
 
-std::shared_ptr<BaseDirector> DirectorSolution::createDirector(const std::string& filename)
+std::shared_ptr<BaseObjectDirector> DirectorSolution::createDirector(const std::string& filename)
 {
     const std::string ext = getExtension(filename);
     const auto iter = _directorCreators.find(ext);

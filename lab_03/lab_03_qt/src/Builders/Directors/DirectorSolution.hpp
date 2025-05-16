@@ -8,7 +8,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "BaseDirector.hpp"
+#include "BaseObjectDirector.hpp"
 #include "DirectorCreator.hpp"
 
 
@@ -18,7 +18,7 @@ public:
     DirectorSolution();
     ~DirectorSolution() = default;
 
-    std::shared_ptr<BaseDirector> createDirector(const std::string& filename);
+    std::shared_ptr<BaseObjectDirector> createDirector(const std::string& filename);
     void reg(std::pair<std::string, std::unique_ptr<DirectorCreator>> &&other);
 
 private:

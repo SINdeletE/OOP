@@ -25,6 +25,7 @@ public:
 
 private slots:
     void on_actionAdd_from_file_triggered();
+    void on_actionAdd_Scene_triggered();
 
 private:
     Ui::mainwindow *ui;

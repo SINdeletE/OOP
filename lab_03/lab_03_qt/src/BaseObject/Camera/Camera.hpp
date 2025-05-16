@@ -31,6 +31,11 @@ class Camera : public BaseCamera
     void rotate(const Rotater &rotater) override {}
 
     void draw() override {}
+
+private:
+    Point _position;
+    Point _target;
+    Point _up;
 };
 
 

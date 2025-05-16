@@ -10,7 +10,7 @@
 class TXTLPReader : public BaseLPReader
 {
 public:
-    TXTLPReader() = default;
+    TXTLPReader() = delete;
     explicit TXTLPReader(const std::string &filename);
     ~TXTLPReader() override = default;
 
