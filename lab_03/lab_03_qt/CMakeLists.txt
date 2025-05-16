@@ -36,8 +36,8 @@ add_executable(lab_03_qt main.cpp
         src/BaseObject/BaseObject.hpp
         src/BaseObject/Composite/CompositeObject.cpp
         src/BaseObject/Composite/CompositeObject.hpp
-        src/BaseObject/Camera/Camera.cpp
-        src/BaseObject/Camera/Camera.hpp
+        src/BaseObject/Camera/CameraPTU.cpp
+        src/BaseObject/Camera/CameraPTU.hpp
         src/Exceptions/BaseObject/CompositeException.hpp
         src/Managers/SceneManager/Scene/Scene/Scene.cpp
         src/Managers/SceneManager/Scene/Scene/Scene.hpp
@@ -120,6 +120,13 @@ add_executable(lab_03_qt main.cpp
         src/Builders/Readers/PTUReader/PTUReaderCreator.hpp
         src/Builders/Readers/PTUReader/PTUReaderSolution.cpp
         src/Builders/Readers/PTUReader/PTUReaderSolution.hpp
+        src/Builders/Builders/CameraPTUBuilder/BaseCameraPTUBuilder.hpp
+        src/BaseObject/Camera/BaseCamera.hpp
+        src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilder.cpp
+        src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilder.hpp
+        src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilderCreator.hpp
+        src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilderSolution.cpp
+        src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilderSolution.hpp
 )
 
 target_link_libraries(lab_03_qt

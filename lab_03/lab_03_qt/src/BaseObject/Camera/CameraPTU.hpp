@@ -4,22 +4,21 @@
 
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
+#include "BaseCamera.hpp"
 #include "../BaseObject.hpp"
 
-class BaseCamera : public BaseObject {};
-
-class Camera : public BaseCamera
+class CameraPTU : public BaseCamera
 {
+public:
     using value_type = BaseObject;
     using size_type = size_t;
     using iterator = std::list<std::shared_ptr<value_type>>::const_iterator;
     using const_iterator = std::list<std::shared_ptr<value_type>>::const_iterator;
 
-    Camera();
-    ~Camera() override;
+    CameraPTU();
+    ~CameraPTU() override;
 
     bool CompositeCheck() override { return false; }
-    bool VisibilityCheck() override { return false; }
 
     void addChild(const std::shared_ptr<BaseObject> &child) override {}
     void removeChild(std::shared_ptr<BaseObject> &child) override {}

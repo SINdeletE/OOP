@@ -13,7 +13,7 @@ CMRPTUReader::CMRPTUReader(const std::string& filename) : _instream()
     if (! _instream.is_open())
     {
         const time_t cur_time = time(nullptr);
-        throw ReaderException(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        throw ErrorReader_invalid_file(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 }
 
@@ -29,7 +29,7 @@ Point CMRPTUReader::readPoint()
         if (_instream.fail() || _instream.bad())
         {
             const time_t cur_time = time(nullptr);
-            throw ReaderException(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+            throw ErrorReader_invalid_file(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
         }
     }
 

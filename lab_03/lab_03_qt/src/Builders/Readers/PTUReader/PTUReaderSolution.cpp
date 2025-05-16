@@ -18,7 +18,7 @@ void PTUReaderSolution::reg(std::pair<std::string, std::unique_ptr<PTUReaderCrea
     catch (std::bad_alloc &e)
     {
         const time_t cur_time = time(nullptr);
-        throw ReaderException(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        throw ErrorReader_bad_alloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 }
 
@@ -44,7 +44,7 @@ std::shared_ptr<BasePTUReader> PTUReaderSolution::createPDUReader(const std::str
     if (iter == _map.end())
     {
         const time_t cur_time = time(nullptr);
-        throw ReaderException(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        throw ErrorReader_invalid_file(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 
     return iter->second->createPDUReader(filename);

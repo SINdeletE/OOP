@@ -14,14 +14,14 @@ TXTLPReader::TXTLPReader(const std::string& filename) : size(0)
     if (! _instream.is_open())
     {
         const time_t cur_time = time(nullptr);
-        throw ReaderException(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        throw ErrorReader_invalid_file(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 
     _instream >> size;
     if (_instream.fail() || _instream.bad())
     {
         const time_t cur_time = time(nullptr);
-        throw ReaderException(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        throw ErrorReader_invalid_file(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 
     _instream.seekg(0, std::ios::beg);
@@ -39,14 +39,14 @@ Link TXTLPReader::readLink()
         if (_instream.fail() || _instream.bad())
         {
             const time_t cur_time = time(nullptr);
-            throw ReaderException(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+            throw ErrorReader_invalid_file(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
         }
     }
 
     if (BeginID == EndID || BeginID >= size || EndID >= size)
     {
         const time_t cur_time = time(nullptr);
-        throw ReaderException(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        throw ErrorReader_invalid_file(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 
     return {BeginID, EndID};
@@ -64,7 +64,7 @@ Point TXTLPReader::readPoint()
         if (_instream.fail() || _instream.bad())
         {
             const time_t cur_time = time(nullptr);
-            throw ReaderException(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+            throw ErrorReader_invalid_file(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
         }
     }
 
@@ -97,7 +97,7 @@ Links TXTLPReader::readLinks()
         if (! linkIsCorrect(links, link))
         {
             const time_t cur_time = time(nullptr);
-            throw ReaderException(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+            throw ErrorReader_invalid_file(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
         }
 
         links.AddLink(link);

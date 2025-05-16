@@ -7,7 +7,7 @@
 #include <memory>
 
 #include "../BaseManager.hpp"
-#include "../../BaseObject/Camera/Camera.hpp"
+#include "../../BaseObject/Camera/CameraPTU.hpp"
 #include "History/BaseHistory.hpp"
 #include "History/History.hpp"
 #include "Scene/BaseScene.hpp"
