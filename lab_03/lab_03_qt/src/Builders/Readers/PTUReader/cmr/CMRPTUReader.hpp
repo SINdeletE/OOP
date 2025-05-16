@@ -6,15 +6,15 @@
 #define CMRPDUREADER_HPP
 #include <fstream>
 
-#include "../BasePDUReader.hpp"
+#include "../BasePTUReader.hpp"
 
 
-class CMRPDUReader : public BasePDUReader
+class CMRPTUReader : public BasePTUReader
 {
 public:
-    CMRPDUReader() = delete;
-    explicit CMRPDUReader(const std::string &filename);
-    ~CMRPDUReader() override = default;
+    CMRPTUReader() = delete;
+    explicit CMRPTUReader(const std::string &filename);
+    ~CMRPTUReader() override = default;
 
     [[nodiscard]] Point readPosition() override;
     [[nodiscard]] Point readTarget() override;

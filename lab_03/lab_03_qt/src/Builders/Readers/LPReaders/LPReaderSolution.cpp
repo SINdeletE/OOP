@@ -6,7 +6,6 @@
 
 #include <filesystem>
 
-#include "../../../Exceptions/Factory/ManagerFactoryException.hpp"
 #include "../../../Exceptions/Factory/ReaderFactoryException.hpp"
 
 

@@ -112,14 +112,14 @@ add_executable(lab_03_qt main.cpp
         src/Builders/Builders/FigureLPBuilder/FigureLPBuilderSolution.hpp
         src/Exceptions/Builders/BuildersCreatorException.hpp
         src/Exceptions/Managers/LoadManagerException.hpp
-        src/Builders/Directors/CameraDirector/CameraPDUDirector.cpp
-        src/Builders/Directors/CameraDirector/CameraPDUDirector.hpp
-        src/Builders/Readers/PDUReader/BasePDUReader.hpp
-        src/Builders/Readers/PDUReader/cmr/CMRPDUReader.cpp
-        src/Builders/Readers/PDUReader/cmr/CMRPDUReader.hpp
-        src/Builders/Readers/PDUReader/PDUReaderCreator.hpp
-        src/Builders/Readers/PDUReader/PDUReaderSolution.cpp
-        src/Builders/Readers/PDUReader/PDUReaderSolution.hpp
+        src/Builders/Directors/CameraDirector/CameraPTUDirector.cpp
+        src/Builders/Directors/CameraDirector/CameraPTUDirector.hpp
+        src/Builders/Readers/PTUReader/BasePTUReader.hpp
+        src/Builders/Readers/PTUReader/cmr/CMRPTUReader.cpp
+        src/Builders/Readers/PTUReader/cmr/CMRPTUReader.hpp
+        src/Builders/Readers/PTUReader/PTUReaderCreator.hpp
+        src/Builders/Readers/PTUReader/PTUReaderSolution.cpp
+        src/Builders/Readers/PTUReader/PTUReaderSolution.hpp
 )
 
 target_link_libraries(lab_03_qt

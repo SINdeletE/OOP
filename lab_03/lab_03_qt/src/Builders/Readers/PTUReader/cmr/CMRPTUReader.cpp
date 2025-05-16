@@ -2,11 +2,11 @@
 // Created by nuelex on 16/05/25.
 //
 
-#include "CMRPDUReader.hpp"
+#include "CMRPTUReader.hpp"
 
 #include "../../../../Exceptions/Reader/ReaderException.hpp"
 
-CMRPDUReader::CMRPDUReader(const std::string& filename) : _instream()
+CMRPTUReader::CMRPTUReader(const std::string& filename) : _instream()
 {
     _instream.open(filename, std::ios::in);
 
@@ -17,7 +17,7 @@ CMRPDUReader::CMRPDUReader(const std::string& filename) : _instream()
     }
 }
 
-Point CMRPDUReader::readPoint()
+Point CMRPTUReader::readPoint()
 {
     double x, y, z;
 
@@ -36,17 +36,17 @@ Point CMRPDUReader::readPoint()
     return {x, y, z};
 }
 
-Point CMRPDUReader::readPosition()
+Point CMRPTUReader::readPosition()
 {
     return readPoint();
 }
 
-Point CMRPDUReader::readTarget()
+Point CMRPTUReader::readTarget()
 {
     return readPoint();
 }
 
-Point CMRPDUReader::readUp()
+Point CMRPTUReader::readUp()
 {
     return readPoint();
 }

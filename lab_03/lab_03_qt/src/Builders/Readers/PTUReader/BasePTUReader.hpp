@@ -10,12 +10,12 @@
 #include "../../../BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/Point/Points.hpp"
 
 
-class BasePDUReader : public BaseReader
+class BasePTUReader : public BaseReader
 {
 public:
-    BasePDUReader() = default;
-    explicit BasePDUReader(const std::string &filename);
-    ~BasePDUReader() override = default;
+    BasePTUReader() = default;
+    explicit BasePTUReader(const std::string &filename);
+    ~BasePTUReader() override = default;
 
     [[nodiscard]] virtual Point readPosition() = 0;
     [[nodiscard]] virtual Point readTarget() = 0;
