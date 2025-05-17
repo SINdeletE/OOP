@@ -54,23 +54,17 @@ add_executable(lab_03_qt main.cpp
         src/Managers/SceneManager/History/History.hpp
         src/Action/BaseAction.hpp
         src/Action/FigureAction/FigureAction.hpp
-        src/Action/FigureAction/Draw/FigureActionDraw.cpp
-        src/Action/FigureAction/Draw/FigureActionDraw.hpp
         src/Action/FigureAction/Move/FigureActionMove.cpp
         src/Action/FigureAction/Move/FigureActionMove.hpp
         src/Action/FigureAction/Rotate/FigureActionRotate.cpp
         src/Action/FigureAction/Rotate/FigureActionRotate.hpp
         src/Action/FigureAction/Scale/FigureActionScale.cpp
         src/Action/FigureAction/Scale/FigureActionScale.hpp
-        src/Action/FigureAction/ZBuffer/FigureActionZBuffer.cpp
-        src/Action/FigureAction/ZBuffer/FigureActionZBuffer.hpp
         src/Action/CameraAction/CameraAction.hpp
         src/Action/CameraAction/Move/CameraActionMove.cpp
         src/Action/CameraAction/Move/CameraActionMove.hpp
         src/Action/CameraAction/Rotate/CameraActionRotate.cpp
         src/Action/CameraAction/Rotate/CameraActionRotate.hpp
-        src/Action/CameraAction/Set/CameraActionSet.cpp
-        src/Action/CameraAction/Set/CameraActionSet.hpp
         src/Facade/Facade.cpp
         src/Facade/Facade.hpp
         src/Builders/BaseBuilder.hpp
@@ -127,6 +121,9 @@ add_executable(lab_03_qt main.cpp
         src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilderCreator.hpp
         src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilderSolution.cpp
         src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilderSolution.hpp
+        src/Action/TransformAdapterSolution.cpp
+        src/Action/TransformAdapterSolution.hpp
+        src/Action/TransformAdapterSolution.hpp
 )
 
 target_link_libraries(lab_03_qt

@@ -14,6 +14,7 @@
 class TransformManager : public BaseManager
 {
 public:
+    TransformManager() = default;
     explicit TransformManager(const std::shared_ptr<BaseObject> &object, const std::shared_ptr<BaseTransform> &transform);
 
     void request();

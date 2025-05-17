@@ -58,7 +58,7 @@ void FigureLP::transform(const Rotater &rotater)
 
     this->transform(-rotater.centerToMover());
     this->rotate_function(rotater);
-    this->transform(-rotater.centerToMover());
+    this->transform(rotater.centerToMover());
 }
 
 void FigureLP::transform(const Scaler &scaler)
@@ -67,5 +67,5 @@ void FigureLP::transform(const Scaler &scaler)
 
     this->transform(-scaler.centerToMover());
     this->scale_function(scaler);
-    this->transform(-scaler.centerToMover());
+    this->transform(scaler.centerToMover());
 }
