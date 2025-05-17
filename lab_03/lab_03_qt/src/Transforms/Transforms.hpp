@@ -7,7 +7,11 @@
 
 #include "../BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/Point/Points.hpp"
 
-class BaseTransform {};
+class BaseTransform
+{
+public:
+    virtual ~BaseTransform() = default;
+};
 
 class Mover : public BaseTransform
 {
@@ -16,7 +20,7 @@ public:
     Mover(const Mover &) = default;
     explicit Mover(const Point &point) { this->setDx(point.GetX()); this->setDy(point.GetY()); this->setDz(point.GetZ()); }
     Mover(const double dx_, const double dy_, const double dz_, const Point &center_) : dx(dx_), dy(dy_), dz(dz_), center(center_) {}
-    ~Mover() = default;
+    ~Mover() override = default;
 
     Mover &operator=(const Mover &) = default;
     Mover operator -();
@@ -43,7 +47,7 @@ public:
     Rotater() = default;
     explicit Rotater(const Rotater &) = default;
     Rotater(const double ox_, const double oy_, const double oz_, const Point &center_) : ox(ox_), oy(oy_), oz(oz_), center(center_) {}
-    ~Rotater() = default;
+    ~Rotater() override = default;
 
     Rotater &operator=(const Rotater &) = default;
 
@@ -71,7 +75,7 @@ public:
     Scaler() = default;
     explicit Scaler(const Scaler &) = default;
     Scaler(const double kx_, const double ky_, const double kz_, const Point &center_) : kx(kx_), ky(ky_), kz(kz_), center(center_) {}
-    ~Scaler() = default;
+    ~Scaler() override = default;
 
     Scaler &operator=(const Scaler &) = default;
 
