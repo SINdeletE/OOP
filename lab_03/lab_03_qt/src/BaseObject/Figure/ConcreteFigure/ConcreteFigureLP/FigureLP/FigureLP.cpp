@@ -44,7 +44,7 @@ void FigureLP::scale_function(const Scaler &scaler)
         iterator.Current()->scale(scaler.getKx(), scaler.getKy(), scaler.getKz());
 }
 
-void FigureLP::move(const Mover &mover)
+void FigureLP::transform(const Mover &mover)
 {
     PointsIterator<Point, Points> iterator(points_data);
 
@@ -52,20 +52,20 @@ void FigureLP::move(const Mover &mover)
         iterator.Current()->move(mover.getDx(), mover.getDy(), mover.getDz());
 }
 
-void FigureLP::rotate(const Rotater &rotater)
+void FigureLP::transform(const Rotater &rotater)
 {
     PointsIterator<Point, Points> iterator(points_data);
 
-    this->move(-rotater.centerToMover());
+    this->transform(-rotater.centerToMover());
     this->rotate_function(rotater);
-    this->move(-rotater.centerToMover());
+    this->transform(-rotater.centerToMover());
 }
 
-void FigureLP::scale(const Scaler &scaler)
+void FigureLP::transform(const Scaler &scaler)
 {
     PointsIterator<Point, Points> iterator(points_data);
 
-    this->move(-scaler.centerToMover());
+    this->transform(-scaler.centerToMover());
     this->scale_function(scaler);
-    this->move(-scaler.centerToMover());
+    this->transform(-scaler.centerToMover());
 }

@@ -25,9 +25,9 @@ public:
     BaseObject::iterator begin() override { return BaseObject::iterator(nullptr); }
     BaseObject::iterator end() override { return BaseObject::iterator(nullptr); }
 
-    void move(const Mover &mover) override {}
-    void rotate(const Rotater &rotater) override {}
-    void scale(const Scaler &scaler) override {}
+    void transform(const Mover &mover) override {}
+    void transform(const Rotater &rotater) override {}
+    void transform(const Scaler &scaler) override {}
 };
 
 

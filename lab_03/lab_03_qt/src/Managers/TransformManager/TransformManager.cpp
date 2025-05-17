@@ -3,3 +3,9 @@
 //
 
 #include "TransformManager.hpp"
+
+TransformManager::TransformManager(const std::shared_ptr<BaseObject>& object, const std::shared_ptr<BaseTransform>& transform)
+{
+    ;
+}
+

@@ -34,8 +34,8 @@ public:
     void setUp(const Point &up) { _up = up; }
     void setUp(Point &&up) { _up = up; }
 
-    void move(const Mover &mover) override {}
-    void rotate(const Rotater &rotater) override {}
+    void transform(const Mover &mover) override {}
+    void transform(const Rotater &rotater) override {}
 
     void draw() override {}
 

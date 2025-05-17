@@ -27,9 +27,9 @@ public:
     void setPoints(const Points &points) override { figureLP_.setPoints(points); }
     void setPoints(Points &&points) noexcept override { figureLP_.setPoints(std::move(points)); }
 
-    void move(const Mover &mover) override { figureLP_.move(mover); }
-    void rotate(const Rotater &rotater) override { figureLP_.rotate(rotater); }
-    void scale(const Scaler &scaler) override { figureLP_.scale(scaler); }
+    void transform(const Mover &mover) override { figureLP_.transform(mover); }
+    void transform(const Rotater &rotater) override { figureLP_.transform(rotater); }
+    void transform(const Scaler &scaler) override { figureLP_.transform(scaler); }
 
 private:
     FigureLP figureLP_;

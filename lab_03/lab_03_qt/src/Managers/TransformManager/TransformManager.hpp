@@ -4,14 +4,18 @@
 
 #ifndef TRANSFORMMANAGER_HPP
 #define TRANSFORMMANAGER_HPP
+#include <memory>
+
 #include "../BaseManager.hpp"
+#include "../../BaseObject/BaseObject.hpp"
+#include "../../Transforms/Transforms.hpp"
 
 
 class TransformManager : public BaseManager
 {
 public:
-    // explicit TransformManager(const std::shared_ptr<BaseObject> &object, const std::shared_ptr<BaseTransform> &transform);
-    //
+    explicit TransformManager(const std::shared_ptr<BaseObject> &object, const std::shared_ptr<BaseTransform> &transform);
+
     void request();
 };
 

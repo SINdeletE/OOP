@@ -30,9 +30,9 @@ public:
     void setPoints(const Points& points) { points_data = points; }
     void setPoints(Points&& points) noexcept { points_data = std::move(points); }
 
-    void move(const Mover &);
-    void rotate(const Rotater &);
-    void scale(const Scaler &);
+    void transform(const Mover &);
+    void transform(const Rotater &);
+    void transform(const Scaler &);
 
 private:
     void rotate_function(const Rotater &);

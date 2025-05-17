@@ -36,9 +36,9 @@ public:
     virtual iterator begin() = 0;
     virtual iterator end() = 0;
 
-    virtual void move(const Mover &mover) {}
-    virtual void rotate(const Rotater &rotater) {}
-    virtual void scale(const Scaler &scaler) {}
+    virtual void transform(const Mover &mover) {}
+    virtual void transform(const Rotater &rotater) {}
+    virtual void transform(const Scaler &scaler) {}
 
     virtual void draw() {}
 };
