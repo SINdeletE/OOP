@@ -132,6 +132,8 @@ add_executable(lab_03_qt main.cpp
         src/Exceptions/Managers/TransformManager/TransformActionSolutionException.hpp
         src/Action/Solutions/CameraActionSolution.cpp
         src/Action/Solutions/CameraActionSolution.hpp
+        src/Action/Solutions/ActionHash.cpp
+        src/Action/Solutions/ActionHash.hpp
 )
 
 target_link_libraries(lab_03_qt
