@@ -7,6 +7,7 @@
 #include <memory>
 
 #include "../BaseManager.hpp"
+#include "../../Action/BaseAction.hpp"
 #include "../../BaseObject/BaseObject.hpp"
 #include "../../Transforms/Transforms.hpp"
 
@@ -17,7 +18,15 @@ public:
     TransformManager() = default;
     explicit TransformManager(const std::shared_ptr<BaseObject> &object, const std::shared_ptr<BaseTransform> &transform);
 
+    void setParams(const std::shared_ptr<BaseObject> &object, const std::shared_ptr<BaseTransform> &transform);
+
     void request();
+
+private:
+    std::shared_ptr<BaseObject> _object;
+    std::shared_ptr<BaseTransform> _transform;
+
+    std::shared_ptr<BaseAction> _action;
 };
 
 

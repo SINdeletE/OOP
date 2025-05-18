@@ -24,7 +24,7 @@ public:
     [[nodiscard]] virtual bool buildPosition() = 0;
     [[nodiscard]] virtual bool buildTarget() = 0;
     [[nodiscard]] virtual bool buildUp() = 0;
-    [[nodiscard]] virtual std::shared_ptr<BaseCamera> getCameraPTU() const = 0;
+    [[nodiscard]] virtual std::shared_ptr<BaseCameraPTU> getCameraPTU() const = 0;
 };
 
 

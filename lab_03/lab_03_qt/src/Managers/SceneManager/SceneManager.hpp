@@ -30,11 +30,11 @@ public:
     void setScene(const std::shared_ptr<BaseScene> &scene) { _scene = scene; }
     std::shared_ptr<BaseScene>& getScene() { return _scene; }
 
-    void setCamera(const std::shared_ptr<BaseCamera> &camera) { _camera = camera; }
+    void setCamera(const std::shared_ptr<BaseCameraPTU> &camera) { _camera = camera; }
 
 private:
     std::shared_ptr<BaseScene> _scene;
-    std::shared_ptr<BaseCamera> _camera;
+    std::shared_ptr<BaseCameraPTU> _camera;
     SceneHistory _history;
 };
 

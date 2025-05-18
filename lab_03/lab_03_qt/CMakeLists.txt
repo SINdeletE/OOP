@@ -115,15 +115,23 @@ add_executable(lab_03_qt main.cpp
         src/Builders/Readers/PTUReader/PTUReaderSolution.cpp
         src/Builders/Readers/PTUReader/PTUReaderSolution.hpp
         src/Builders/Builders/CameraPTUBuilder/BaseCameraPTUBuilder.hpp
-        src/BaseObject/Camera/BaseCamera.hpp
+        src/BaseObject/Camera/BaseCameraPTU.hpp
         src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilder.cpp
         src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilder.hpp
         src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilderCreator.hpp
         src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilderSolution.cpp
         src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilderSolution.hpp
-        src/Action/TransformAdapterSolution.cpp
-        src/Action/TransformAdapterSolution.hpp
-        src/Action/TransformAdapterSolution.hpp
+        src/Action/Solutions/ObjectActionSolution.cpp
+        src/Action/Solutions/ObjectActionSolution.hpp
+        src/Action/Solutions/ObjectActionSolution.hpp
+        src/Action/Solutions/BaseObjectHash.cpp
+        src/Action/Solutions/BaseObjectHash.hpp
+        src/BaseObject/Camera/Camera.hpp
+        src/Exceptions/Hashes/BaseObjectHashException.hpp
+        src/Exceptions/Managers/TransformManager/TransformManagerException.hpp
+        src/Exceptions/Managers/TransformManager/TransformActionSolutionException.hpp
+        src/Action/Solutions/CameraActionSolution.cpp
+        src/Action/Solutions/CameraActionSolution.hpp
 )
 
 target_link_libraries(lab_03_qt
