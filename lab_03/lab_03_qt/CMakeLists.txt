@@ -137,6 +137,9 @@ add_executable(lab_03_qt main.cpp
         src/Exceptions/Actions/ActionException.hpp
         src/Action/Solutions/FigureActionSolution/FigureActionSolution.cpp
         src/Action/Solutions/FigureActionSolution/FigureActionSolution.hpp
+        src/Drawer/BaseDrawer.hpp
+        src/Drawer/QtDrawer.cpp
+        src/Drawer/QtDrawer.hpp
 )
 
 target_link_libraries(lab_03_qt
