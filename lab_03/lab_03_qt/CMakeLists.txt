@@ -130,10 +130,13 @@ add_executable(lab_03_qt main.cpp
         src/Exceptions/Hashes/BaseObjectHashException.hpp
         src/Exceptions/Managers/TransformManager/TransformManagerException.hpp
         src/Exceptions/Managers/TransformManager/TransformActionSolutionException.hpp
-        src/Action/Solutions/CameraActionSolution.cpp
-        src/Action/Solutions/CameraActionSolution.hpp
+        src/Action/Solutions/CameraActionSolution/CameraActionSolution.cpp
+        src/Action/Solutions/CameraActionSolution/CameraActionSolution.hpp
         src/Action/Solutions/ActionHash.cpp
         src/Action/Solutions/ActionHash.hpp
+        src/Exceptions/Actions/ActionException.hpp
+        src/Action/Solutions/FigureActionSolution/FigureActionSolution.cpp
+        src/Action/Solutions/FigureActionSolution/FigureActionSolution.hpp
 )
 
 target_link_libraries(lab_03_qt

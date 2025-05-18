@@ -6,10 +6,12 @@
 
 #include <iostream>
 
+#include "CameraActionSolution/CameraActionSolution.hpp"
 #include "../../BaseObject/Camera/Camera.hpp"
 #include "../../BaseObject/Figure/Figure.hpp"
 #include "../../Exceptions/Hashes/BaseObjectHashException.hpp"
 #include "../../Exceptions/Managers/TransformManager/TransformManagerException.hpp"
+#include "FigureActionSolution/FigureActionSolution.hpp"
 
 void ObjectActionSolution::reg(const std::shared_ptr<BaseObject> &object, const_reference lambda_ref)
 {
@@ -31,15 +33,17 @@ void ObjectActionSolution::reg(const std::shared_ptr<BaseObject> &object, const_
 
 ObjectActionSolution::ObjectActionSolution()
 {
-    auto lambda_Figure = [](const std::shared_ptr<BaseObject>&, \
-                            const std::shared_ptr<BaseTransform>&) -> std::shared_ptr<BaseAction>
+    auto lambda_Figure = [](const std::shared_ptr<BaseObject> &object, \
+                            const std::shared_ptr<BaseTransform> &transform) -> std::shared_ptr<BaseAction>
     {
-        return nullptr;
+        FigureActionSolution solution{};
+        return solution.createAction(object, transform);
     };
-    auto lambda_Camera = [](const std::shared_ptr<BaseObject>&, \
-                            const std::shared_ptr<BaseTransform>&) -> std::shared_ptr<BaseAction>
+    auto lambda_Camera = [](const std::shared_ptr<BaseObject> &object, \
+                            const std::shared_ptr<BaseTransform> &transform) -> std::shared_ptr<BaseAction>
     {
-        return nullptr;
+        CameraActionSolution solution{};
+        return solution.createAction(object, transform);
     };
 
     try

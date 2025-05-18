@@ -11,9 +11,16 @@ class CameraActionMove : public CameraAction
 {
 public:
     CameraActionMove() = default;
+    CameraActionMove(const CameraActionMove& other) : _camera(other._camera), _transform(other._transform) {}
     ~CameraActionMove() override = default;
 
-    void request() const override {}
+    void setParams(const std::shared_ptr<BaseObject>&, const std::shared_ptr<BaseTransform>&) override;
+
+    void request() const override;
+
+private:
+    std::shared_ptr<Camera> _camera;
+    std::shared_ptr<Mover> _transform;
 };
 
 

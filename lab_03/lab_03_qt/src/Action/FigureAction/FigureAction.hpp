@@ -14,14 +14,12 @@ class FigureAction : public BaseAction
 {
 public:
     FigureAction() = default;
-    FigureAction(const std::shared_ptr<Figure> &figure, const std::shared_ptr<BaseTransform> &transform) { _figure = figure; _transform = transform; }
+    FigureAction(const std::shared_ptr<Figure> &figure, const std::shared_ptr<BaseTransform> &transform) {}
     ~FigureAction() override = default;
 
-    void request() const override {}
+    void setParams(const std::shared_ptr<BaseObject>&, const std::shared_ptr<BaseTransform>&) override {}
 
-private:
-    std::shared_ptr<Figure> _figure;
-    std::shared_ptr<BaseTransform> _transform;
+    void request() const override {}
 };
 
 

@@ -19,6 +19,16 @@ public:
             const char *error_info = "Transform Manager: Invalid object") noexcept : BaseException(filename, classname, line, time, error_info) {}
 };
 
+class ErrorTransformManager_invalid_transform : public BaseException
+{
+public:
+    ErrorTransformManager_invalid_transform(const char *filename,
+            const char *classname,
+            const long line,
+            const char *time,
+            const char *error_info = "Transform Manager: Invalid transform") noexcept : BaseException(filename, classname, line, time, error_info) {}
+};
+
 class ErrorTransformManager_invalid_params : public BaseException
 {
 public:

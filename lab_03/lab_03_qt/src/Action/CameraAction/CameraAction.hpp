@@ -14,14 +14,13 @@ class CameraAction : public BaseAction
 {
 public:
     CameraAction() = default;
-    CameraAction(const std::shared_ptr<Camera> &camera, const std::shared_ptr<BaseTransform> &transform) : _camera(camera), _transform(transform) {}
+    CameraAction(const CameraAction& copy) = default;
+    CameraAction(const std::shared_ptr<Camera> &camera, const std::shared_ptr<BaseTransform> &transform) {}
     ~CameraAction() override = default;
 
-    void request() const override {}
+    void setParams(const std::shared_ptr<BaseObject>&, const std::shared_ptr<BaseTransform>&) override {}
 
-private:
-    std::shared_ptr<Camera> _camera;
-    std::shared_ptr<BaseTransform> _transform;
+    void request() const override {}
 };
 
 

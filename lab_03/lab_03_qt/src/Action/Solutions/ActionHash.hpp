@@ -15,7 +15,7 @@ public:
     ActionHash() = default;
     ~ActionHash() = default;
 
-    std::size_t operator()(std::shared_ptr<BaseTransform> &transform) const { return typeid(*transform).hash_code(); }
+    std::size_t operator()(const std::shared_ptr<BaseTransform> &transform) const { return typeid(*transform).hash_code(); }
 };
 
 #endif //ACTIONHASH_HPP
