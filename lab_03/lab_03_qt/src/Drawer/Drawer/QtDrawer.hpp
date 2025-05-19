@@ -12,7 +12,7 @@
 class QtDrawer : public BaseDrawer
 {
 public:
-    QtDrawer() : scene(nullptr) {}
+    QtDrawer() = default;
     ~QtDrawer() override = default;
 
     void drawLine(const Point& start, const Point& end) override { scene->addLine(start.GetX(), start.GetY(), end.GetX(), end.GetY()); }

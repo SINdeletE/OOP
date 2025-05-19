@@ -19,12 +19,19 @@ mainwindow::mainwindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    auto scene = std::make_shared<QGraphicsScene>(this);
+
     try
     {
         _facade = std::make_unique<Facade>(Facade());
+
         this->initialization_check = true;
     }
     catch (ErrorFacade_bad_alloc &e)
+    {
+        this->initialization_check = false;
+    }
+    catch (...)
     {
         this->initialization_check = false;
     }

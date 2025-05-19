@@ -136,9 +136,9 @@ add_executable(lab_03_qt main.cpp
         src/Exceptions/Actions/ActionException.hpp
         src/Action/Solutions/FigureActionSolution/FigureActionSolution.cpp
         src/Action/Solutions/FigureActionSolution/FigureActionSolution.hpp
-        src/Drawer/BaseDrawer.hpp
-        src/Drawer/QtDrawer.cpp
-        src/Drawer/QtDrawer.hpp
+        src/Drawer/Drawer/BaseDrawer.hpp
+        src/Drawer/Drawer/QtDrawer.cpp
+        src/Drawer/Drawer/QtDrawer.hpp
         src/Visitors/BaseVisitor.hpp
         src/Visitors/Visitor.hpp
         src/BaseObject/Camera/Camera.cpp
@@ -147,6 +147,26 @@ add_executable(lab_03_qt main.cpp
         src/Commands/FigureCommand/Add/FigureCommandAdd.cpp
         src/Commands/FigureCommand/Add/FigureCommandAdd.hpp
         src/Exceptions/Commands/CommandsException.hpp
+        src/Drawer/Creator/Factory/DrawerFactory/QtGraphicsViewFactory.hpp
+        src/Drawer/Creator/Factory/AbstractDrawerFactory.hpp
+        src/Drawer/Creator/Factory/Pen/BasePen.hpp
+        src/Drawer/Creator/Factory/Color/BaseColor.hpp
+        src/Drawer/ColorParameters/BaseColorParameters.cpp
+        src/Drawer/ColorParameters/BaseColorParameters.hpp
+        src/Drawer/ColorParameters/RGBColor.cpp
+        src/Drawer/ColorParameters/RGBColor.hpp
+        src/Drawer/Creator/BaseDrawerDirector.hpp
+        src/Drawer/Creator/Factory/DrawerFactory/QtGraphicsViewFactory.cpp
+        src/Exceptions/Drawer/DrawerException.hpp
+        src/Drawer/Graphics/BaseGraphics.hpp
+        src/Drawer/Graphics/Qt/QtGraphicsScene.cpp
+        src/Drawer/Graphics/Qt/QtGraphicsScene.hpp
+        src/Drawer/Directors/DrawerDirectorSolution.cpp
+        src/Drawer/Directors/DrawerDirectorSolution.hpp
+        src/Drawer/Directors/DrawerDirectorCreator.hpp
+        src/Drawer/Directors/DrawerDirectorHash.hpp
+        src/Drawer/Directors/QtDrawer/QtDrawerDirector.cpp
+        src/Drawer/Directors/QtDrawer/QtDrawerDirector.hpp
 )
 
 target_link_libraries(lab_03_qt

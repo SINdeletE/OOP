@@ -5,7 +5,7 @@
 #ifndef DRAWFIGURELPVISITOR_HPP
 #define DRAWFIGURELPVISITOR_HPP
 #include "../Visitor.hpp"
-#include "../../Drawer/BaseDrawer.hpp"
+#include "../../Drawer/Drawer/BaseDrawer.hpp"
 
 class BaseConcreteFigureLP;
 

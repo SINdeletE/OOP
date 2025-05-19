@@ -7,6 +7,7 @@
 
 #include <QMainWindow>
 
+#include "src/Drawer/Drawer/BaseDrawer.hpp"
 #include "src/Facade/Facade.hpp"
 
 
@@ -32,6 +33,7 @@ private:
 
     bool initialization_check;
     std::unique_ptr<Facade> _facade;
+    std::shared_ptr<BaseDrawer> _drawer;
 };
 
 #endif //MAINWINDOW_HPP
