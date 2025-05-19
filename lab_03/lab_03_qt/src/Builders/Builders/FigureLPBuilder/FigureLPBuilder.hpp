@@ -21,7 +21,7 @@ public:
 
     [[nodiscard]] bool buildLinks() override;
     [[nodiscard]] bool buildPoints() override;
-    [[nodiscard]] std::shared_ptr<BaseConcreteFigure> getFigureLP() const override { return FigureLP_; }
+    [[nodiscard]] std::shared_ptr<BaseConcreteFigureLP> getFigureLP() const override { return FigureLP_; }
 
 private:
     int _total;

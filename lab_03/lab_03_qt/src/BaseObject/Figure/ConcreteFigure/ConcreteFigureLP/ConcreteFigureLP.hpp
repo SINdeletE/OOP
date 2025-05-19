@@ -5,14 +5,18 @@
 #ifndef CONCRETEFIGURELP_HPP
 #define CONCRETEFIGURELP_HPP
 
-#include "../BaseConcreteFigure.hpp"
+#include "../BaseConcreteFigureLP.hpp"
 #include "FigureLP/FigureLP.hpp"
 #include "Links/Links.hpp"
 #include "Point/Points.hpp"
 #include "../../../../Transforms/Transforms.hpp"
 
-class ConcreteFigureLP : public BaseConcreteFigure
+class ConcreteFigureLP : public BaseConcreteFigureLP
 {
+protected:
+    [[nodiscard]] const Links& getLinks() const noexcept override { return figureLP_.getLinks(); }
+    [[nodiscard]] const Points& getPoints() const noexcept override { return figureLP_.getPoints(); }
+
 public:
     ConcreteFigureLP() : figureLP_() {}
     explicit ConcreteFigureLP(const ConcreteFigureLP &other) { figureLP_ = other.figureLP_; }
@@ -20,8 +24,6 @@ public:
 
     ConcreteFigureLP& operator=(const ConcreteFigureLP &other) { figureLP_ = other.figureLP_; return *this; }
 
-    [[nodiscard]] const Links& getLinks() noexcept override { return figureLP_.getLinks(); }
-    [[nodiscard]] const Points& getPoints() noexcept override { return figureLP_.getPoints(); }
     void setLinks(const Links &links) override { figureLP_.setLinks(links); }
     void setLinks(Links &&links) noexcept override { figureLP_.setLinks(std::move(links)); }
     void setPoints(const Points &points) override { figureLP_.setPoints(points); }
@@ -31,7 +33,7 @@ public:
     void transform(const Rotater &rotater) override { figureLP_.transform(rotater); }
     void transform(const Scaler &scaler) override { figureLP_.transform(scaler); }
 
-    void accept(BaseVisitor& visitor) override { visitor.visitFigure(*this); }
+    void accept(const BaseVisitor& visitor) override;
 
 private:
     FigureLP figureLP_;

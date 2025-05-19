@@ -10,13 +10,13 @@
 #include "../../BaseObject/Camera/CameraPTU.hpp"
 #include "History/BaseHistory.hpp"
 #include "History/History.hpp"
-#include "Scene/BaseScene.hpp"
+#include "Scene/Scene/Scene.hpp"
 
 
 class SceneManager : public BaseManager
 {
 public:
-    SceneManager() = default;
+    SceneManager() : _scene(std::make_shared<Scene>()) {}
     SceneManager(const SceneManager &);
     SceneManager(SceneManager &&) noexcept;
     ~SceneManager() override = default;
@@ -27,13 +27,15 @@ public:
 public:
     friend class ManagerFactory;
 
-    void setScene(const std::shared_ptr<BaseScene> &scene) { _scene = scene; }
-    std::shared_ptr<BaseScene>& getScene() { return _scene; }
+    void setScene(const std::shared_ptr<Scene> &scene) { _scene = scene; }
+    std::shared_ptr<Scene>& getScene() { return _scene; }
+
+    void addObject(const std::shared_ptr<BaseObject> &object) const;
 
     void setCamera(const std::shared_ptr<BaseCameraPTU> &camera) { _camera = camera; }
 
 private:
-    std::shared_ptr<BaseScene> _scene;
+    std::shared_ptr<Scene> _scene;
     std::shared_ptr<BaseCameraPTU> _camera;
     SceneHistory _history;
 };

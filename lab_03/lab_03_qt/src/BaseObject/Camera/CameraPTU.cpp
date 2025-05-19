@@ -4,6 +4,8 @@
 
 #include "CameraPTU.hpp"
 
+#include "../../Visitors/Visitor.hpp"
+
 void CameraPTU::transform(const Rotater& rotater)
 {
     const Mover backMover = -rotater.centerToMover();
@@ -19,5 +21,12 @@ void CameraPTU::transform(const Mover& mover)
     _position.move(mover.getDx(), mover.getDy(), mover.getDz());
     _target.move(mover.getDx(), mover.getDy(), mover.getDz());
 }
+
+void CameraPTU::accept(const BaseVisitor& visitor)
+{
+    if (const auto cv = dynamic_cast<const Visitor<BaseCameraPTU>*>(&visitor))
+        cv->visit(*this);
+}
+
 
 

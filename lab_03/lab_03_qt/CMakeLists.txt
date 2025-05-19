@@ -25,7 +25,7 @@ add_executable(lab_03_qt main.cpp
         src/BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/Point/PointsIterator.hpp
         src/BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/FigureLP/FigureLP.cpp
         src/BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/FigureLP/FigureLP.hpp
-        src/BaseObject/Figure/ConcreteFigure/BaseConcreteFigure.hpp
+        src/BaseObject/Figure/ConcreteFigure/BaseConcreteFigureLP.hpp
         src/BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/ConcreteFigureLP.cpp
         src/BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/ConcreteFigureLP.hpp
         src/BaseObject/Figure/Figure.cpp
@@ -41,7 +41,6 @@ add_executable(lab_03_qt main.cpp
         src/Exceptions/BaseObject/CompositeException.hpp
         src/Managers/SceneManager/Scene/Scene/Scene.cpp
         src/Managers/SceneManager/Scene/Scene/Scene.hpp
-        src/Managers/SceneManager/Scene/BaseScene.hpp
         mainwindow.cpp
         mainwindow.hpp
         mainwindow.ui
@@ -141,6 +140,13 @@ add_executable(lab_03_qt main.cpp
         src/Drawer/QtDrawer.cpp
         src/Drawer/QtDrawer.hpp
         src/Visitors/BaseVisitor.hpp
+        src/Visitors/Visitor.hpp
+        src/BaseObject/Camera/Camera.cpp
+        src/Visitors/Draw/DrawFigureLPVisitor.cpp
+        src/Visitors/Draw/DrawFigureLPVisitor.hpp
+        src/Commands/FigureCommand/Add/FigureCommandAdd.cpp
+        src/Commands/FigureCommand/Add/FigureCommandAdd.hpp
+        src/Exceptions/Commands/CommandsException.hpp
 )
 
 target_link_libraries(lab_03_qt

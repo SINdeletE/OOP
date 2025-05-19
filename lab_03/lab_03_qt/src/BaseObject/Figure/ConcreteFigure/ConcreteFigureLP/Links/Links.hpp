@@ -5,7 +5,7 @@
 #ifndef LINKS_HPP
 #define LINKS_HPP
 
-#include <list>
+#include <vector>
 #include <cstddef>
 #include <utility>
 
@@ -34,18 +34,18 @@ public:
 class Links
 {
 private:
-    std::list<Link> links;
+    std::vector<Link> links;
 
 protected:
-    std::list<Link>::iterator end() { return links.end(); }
+    std::vector<Link>::iterator end() { return links.end(); }
 
 public:
     using link_type = Link;
     using iterator = LinksIterator<link_type, Links>;
-    using const_iterator = LinksIterator<const link_type, Links>;
+    using const_iterator = ConstLinksIterator<link_type, Links>;
 
     friend class LinksIterator<link_type, Links>;
-    friend class LinksIterator<const link_type, Links>;
+    friend class ConstLinksIterator<link_type, Links>;
 
     Links() = default;
     explicit Links(const Links &links_copy) { links = links_copy.links; }
@@ -61,7 +61,8 @@ public:
     [[nodiscard]] std::size_t size() const noexcept { return links.size(); }
     [[nodiscard]] bool empty() const noexcept { return links.empty(); }
 
-    iterator CreateIterator() { return iterator(*this); }
+    [[nodiscard]] iterator CreateIterator() { return iterator(*this); }
+    [[nodiscard]] const_iterator CreateConstIterator() const { return const_iterator(*this); }
 };
 
 #endif //LINKS_HPP

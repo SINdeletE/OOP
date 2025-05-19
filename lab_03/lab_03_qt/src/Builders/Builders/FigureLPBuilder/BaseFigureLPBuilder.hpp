@@ -7,7 +7,7 @@
 #include <string>
 
 #include "../../BaseBuilder.hpp"
-#include "../../../BaseObject/Figure/ConcreteFigure/BaseConcreteFigure.hpp"
+#include "../../../BaseObject/Figure/ConcreteFigure/BaseConcreteFigureLP.hpp"
 
 
 class BaseFigureLPBuilder : public BaseBuilder
@@ -22,7 +22,7 @@ public:
 
     [[nodiscard]] virtual bool buildLinks() = 0;
     [[nodiscard]] virtual bool buildPoints() = 0;
-    [[nodiscard]] virtual std::shared_ptr<BaseConcreteFigure> getFigureLP() const = 0;
+    [[nodiscard]] virtual std::shared_ptr<BaseConcreteFigureLP> getFigureLP() const = 0;
 };
 
 

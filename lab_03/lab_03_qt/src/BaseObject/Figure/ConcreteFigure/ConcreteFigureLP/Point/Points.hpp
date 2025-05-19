@@ -5,7 +5,7 @@
 #ifndef POINTS_HPP
 #define POINTS_HPP
 
-#include <list>
+#include <vector>
 
 #include "PointsIterator.hpp"
 
@@ -43,15 +43,15 @@ public:
 class Points
 {
 private:
-    std::list<Point> points;
+    std::vector<Point> points;
 
 public:
     using point_type = Point;
     using iterator = PointsIterator<point_type, Points>;
-    using const_iterator = PointsIterator<const point_type, Points>;
+    using const_iterator = ConstPointsIterator<point_type, Points>;
 
     friend class PointsIterator<point_type, Points>;
-    friend class PointsIterator<const point_type, Points>;
+    friend class ConstPointsIterator<point_type, Points>;
 
     Points() = default;
     explicit Points(const Points &points_arg) { points = points_arg.points; }
@@ -61,13 +61,16 @@ public:
     Points& operator =(const Points &points_arg);
     Points& operator =(Points &&points_arg) noexcept { this->points = std::move(points_arg.points); return *this; }
 
+    const Point& operator[](const std::size_t i) const noexcept { return points[i]; }
+
     void AddPoint(const double &x, const double &y, const double &z);
     void AddPoint(const Point &point) { this->AddPoint(point.GetX(), point.GetY(), point.GetZ()); }
 
     [[nodiscard]] std::size_t size() const noexcept { return points.size(); }
     [[nodiscard]] bool empty() const noexcept { return points.empty(); }
 
-    iterator CreateIterator() { return iterator(*this); }
+    [[nodiscard]] iterator CreateIterator() { return iterator(*this); }
+    [[nodiscard]] const_iterator CreateConstIterator() const { return const_iterator(*this); }
 };
 
 #endif //POINTS_HPP

@@ -6,9 +6,11 @@
 
 #include "mainwindow.hpp"
 
+#include <iostream>
 #include <QFile>
 #include <QFileDialog>
 #include "ui_mainwindow.h"
+#include "src/Commands/FigureCommand/Add/FigureCommandAdd.hpp"
 #include "src/Exceptions/Facade/FacadeException.hpp"
 
 
@@ -34,8 +36,18 @@ mainwindow::~mainwindow() {
 
 void mainwindow::on_actionAdd_from_file_triggered()
 {
-    QFile objectFile = QFileDialog::getOpenFileName(this, tr("Open File"), \
-                                                    QDir::currentPath(), tr("*.txt (*.txt)"));
+    const QString fileName = QFileDialog::getOpenFileName(this,
+                                                tr("Open File"),
+                                                QDir::currentPath(),
+                                                tr("Text Files (*.txt)"));
+    const QString relativePath = QDir().relativeFilePath(fileName.toUtf8().constData());
+    if (! fileName.isEmpty())
+    {
+        FigureCommandAdd command{relativePath.toStdString()};
+
+        _facade->execute(command);
+        // std::cout << "0_0" << std::endl;
+    }
 }
 
 void mainwindow::on_actionAdd_Scene_triggered()

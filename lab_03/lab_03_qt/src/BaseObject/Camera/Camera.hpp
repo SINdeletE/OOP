@@ -26,7 +26,7 @@ public:
     void transform(const Mover &mover) override {}
     void transform(const Rotater& rotater) override {}
 
-    void accept(BaseVisitor& visitor) override { visitor.visitCamera(*this); }
+    void accept(const BaseVisitor& visitor) override;
 };
 
 

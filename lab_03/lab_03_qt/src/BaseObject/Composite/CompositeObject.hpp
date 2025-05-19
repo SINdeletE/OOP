@@ -28,7 +28,7 @@ public:
     BaseObject::iterator end() override { return children.end(); }
     const_reference operator[] (size_type size);
 
-    void accept(BaseVisitor& visitor) override {}
+    void accept(const BaseVisitor& visitor) override;
 
 private:
     std::vector<std::shared_ptr<BaseObject>> children;

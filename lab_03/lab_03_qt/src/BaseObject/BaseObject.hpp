@@ -43,7 +43,7 @@ public:
     virtual void transform(const Rotater &rotater) {}
     virtual void transform(const Scaler &scaler) {}
 
-    virtual void accept(BaseVisitor &visitor) = 0;
+    virtual void accept(const BaseVisitor &visitor) = 0;
 };
 
 

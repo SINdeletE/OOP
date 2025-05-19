@@ -7,17 +7,22 @@
 
 #include "../Figure.hpp"
 #include "../../../Transforms/Transforms.hpp"
+#include "../../../Visitors/Draw/DrawFigureLPVisitor.hpp"
 #include "ConcreteFigureLP/Links/Links.hpp"
 #include "ConcreteFigureLP/Point/Points.hpp"
 
-class BaseConcreteFigure : public Figure
+class BaseConcreteFigureLP : public Figure
 {
-public:
-    BaseConcreteFigure() = default;
-    ~BaseConcreteFigure() override = default;
+    friend class DrawFigureLPVisitor;
 
-    [[nodiscard]] virtual const Links& getLinks() noexcept = 0;
-    [[nodiscard]] virtual const Points& getPoints() noexcept = 0;
+protected:
+    [[nodiscard]] virtual const Links& getLinks() const noexcept = 0;
+    [[nodiscard]] virtual const Points& getPoints() const noexcept = 0;
+
+public:
+    BaseConcreteFigureLP() = default;
+    ~BaseConcreteFigureLP() override = default;
+
     virtual void setLinks(const Links &links) = 0;
     virtual void setLinks(Links &&links) noexcept = 0;
     virtual void setPoints(const Points &points) = 0;
@@ -27,7 +32,7 @@ public:
     void transform(const Rotater &rotater) override {}
     void transform(const Scaler &scaler) override {}
 
-    void accept(BaseVisitor &visitor) override { visitor.visitFigure(*this); }
+    void accept(const BaseVisitor &visitor) override {}
 };
 
 

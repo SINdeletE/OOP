@@ -61,7 +61,7 @@ void Facade::createTransformManager(const ManagerFactory& managerFactory)
 }
 
 
-Facade::Facade()
+Facade::Facade(QGraphicsView *gV) : _gV(gV)
 {
     const ManagerFactory managerFactory{};
 
@@ -69,6 +69,8 @@ Facade::Facade()
     createLoadManager(managerFactory);
     createDrawManager(managerFactory);
     createTransformManager(managerFactory);
+
+    _gV = nullptr;
 }
 
 void Facade::execute(BaseCommand& command) const

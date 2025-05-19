@@ -13,12 +13,8 @@ class Scene;
 class BaseVisitor
 {
 public:
-    BaseVisitor();
+    BaseVisitor() = default;
     virtual ~BaseVisitor() = default;
-
-    virtual void visitFigure(Figure &figure) = 0;
-    virtual void visitCamera(Camera &camera) = 0;
-    virtual void visitScene(Scene &scene) = 0;
 };
 
 

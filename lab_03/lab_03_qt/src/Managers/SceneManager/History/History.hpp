@@ -8,7 +8,7 @@
 #include <memory>
 
 #include "BaseHistory.hpp"
-#include "../Scene/BaseScene.hpp"
+#include "../Scene/Scene/Scene.hpp"
 
 class SceneHistory : public BaseHistory
 {
@@ -21,12 +21,12 @@ public:
     SceneHistory &operator=(const SceneHistory &scene) { snaps = scene.snaps; return *this; }
     SceneHistory &operator=(SceneHistory &&scene) noexcept { snaps = std::move(scene.snaps); return *this; }
 
-    virtual void addSnap(const std::shared_ptr<BaseScene> &snap) { snaps.push(snap); }
-    virtual std::shared_ptr<BaseScene>& topSnap() { return snaps.top(); }
-    virtual void popSnap(const std::shared_ptr<BaseScene> &snap) { snaps.pop(); }
+    virtual void addSnap(const std::shared_ptr<Scene> &snap) { snaps.push(snap); }
+    virtual std::shared_ptr<Scene>& topSnap() { return snaps.top(); }
+    virtual void popSnap(const std::shared_ptr<Scene> &snap) { snaps.pop(); }
 
 private:
-    std::stack<std::shared_ptr<BaseScene>> snaps;
+    std::stack<std::shared_ptr<Scene>> snaps;
 };
 
 

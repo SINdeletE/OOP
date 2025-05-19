@@ -7,27 +7,26 @@
 #include <memory>
 #include <QGraphicsScene>
 
-#include "../BaseScene.hpp"
 #include "../../../../BaseObject/BaseObject.hpp"
 #include "../../../../BaseObject/Composite/CompositeObject.hpp"
 
 
-class Scene final: public BaseScene
+class Scene final
 {
 public:
     Scene() = default;
     Scene(const Scene& other) = default;
-    ~Scene() override = default;
+    ~Scene() = default;
 
     Scene& operator=(const Scene& other) = default;
 
-    void addObject(const std::shared_ptr<BaseObject> &object) override;
+    void addObject(const std::shared_ptr<BaseObject> &object);
 
-    void clean() override;
-    [[nodiscard]] std::shared_ptr<BaseScene> clone() const override;
+    void clean();
+    [[nodiscard]] std::shared_ptr<Scene> clone() const;
 
 protected:
-    CompositeObject& getCompositeObject() override { return _objects; }
+    CompositeObject& getCompositeObject() { return _objects; }
 
 private:
     CompositeObject _objects;

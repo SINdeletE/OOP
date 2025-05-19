@@ -22,8 +22,8 @@ public:
     FigureLP &operator=(const FigureLP &other) { links_data = other.links_data; points_data = other.points_data; return *this; }
     FigureLP &operator=(FigureLP &&other) noexcept { links_data = std::move(other.links_data); points_data = std::move(other.points_data); return *this; }
 
-    [[nodiscard]] const Links& getLinks() noexcept { return links_data; }
-    [[nodiscard]] const Points& getPoints() noexcept { return points_data; }
+    [[nodiscard]] const Links& getLinks() const noexcept { return links_data; }
+    [[nodiscard]] const Points& getPoints() const noexcept { return points_data; }
 
     void setLinks(const Links& links) { links_data = links; }
     void setLinks(Links&& links) noexcept { links_data = std::move(links); }

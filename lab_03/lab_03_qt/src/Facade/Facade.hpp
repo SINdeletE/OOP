@@ -14,12 +14,13 @@
 class Facade final
 {
 public:
-    Facade();
+    Facade(QGraphicsView *gV);
     ~Facade() = default;
 
     void execute(BaseCommand &command) const;
 
 private:
+    std::shared_ptr<QGraphicsView> _gV;
     std::shared_ptr<SceneManager> _sceneManager;
     std::shared_ptr<LoadManager> _loadManager;
     std::shared_ptr<DrawManager> _drawManager;

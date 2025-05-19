@@ -39,3 +39,8 @@ SceneManager& SceneManager::operator=(SceneManager &&scene) noexcept
     return *this;
 }
 
+void SceneManager::addObject(const std::shared_ptr<BaseObject>& object) const
+{
+    _scene->addObject(object);
+}
+
