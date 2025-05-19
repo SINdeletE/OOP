@@ -37,7 +37,7 @@ public:
     void transform(const Mover &mover) override;
     void transform(const Rotater &rotater) override;
 
-    void draw() override {}
+    void accept(BaseVisitor& visitor) override { visitor.visitCamera(*this); }
 
 private:
     Point _position;

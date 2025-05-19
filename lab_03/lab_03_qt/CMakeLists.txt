@@ -140,6 +140,7 @@ add_executable(lab_03_qt main.cpp
         src/Drawer/BaseDrawer.hpp
         src/Drawer/QtDrawer.cpp
         src/Drawer/QtDrawer.hpp
+        src/Visitors/BaseVisitor.hpp
 )
 
 target_link_libraries(lab_03_qt

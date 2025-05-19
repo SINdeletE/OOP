@@ -28,6 +28,8 @@ public:
     void transform(const Mover &mover) override {}
     void transform(const Rotater &rotater) override {}
     void transform(const Scaler &scaler) override {}
+
+    void accept(BaseVisitor &visitor) override { visitor.visitFigure(*this); }
 };
 
 

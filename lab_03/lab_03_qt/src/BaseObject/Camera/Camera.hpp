@@ -5,6 +5,7 @@
 #ifndef CAMERA_TRANSFORM_HPP
 #define CAMERA_TRANSFORM_HPP
 #include "../BaseObject.hpp"
+#include "../../Visitors/BaseVisitor.hpp"
 
 
 class Camera : public BaseObject
@@ -24,6 +25,8 @@ public:
 
     void transform(const Mover &mover) override {}
     void transform(const Rotater& rotater) override {}
+
+    void accept(BaseVisitor& visitor) override { visitor.visitCamera(*this); }
 };
 
 

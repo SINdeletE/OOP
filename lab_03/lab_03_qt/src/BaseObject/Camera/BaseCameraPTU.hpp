@@ -16,7 +16,6 @@ public:
 
     bool VisibilityCheck() override { return false; }
 
-
     [[nodiscard]] virtual const Point &getPosition() const = 0;
     virtual void setPosition(const Point &position) = 0;
     virtual void setPosition(Point&& position) = 0;
@@ -31,6 +30,8 @@ public:
 
     void transform(const Mover &mover) override {}
     void transform(const Rotater &rotater) override {}
+
+    void accept(BaseVisitor& visitor) override { visitor.visitCamera(*this); }
 };
 
 
