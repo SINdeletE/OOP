@@ -33,6 +33,7 @@ public:
     void transform(const Scaler &scaler) override {}
 
     void accept(const BaseVisitor &visitor) override {}
+    void accept(BaseTransformVisitor &visitor) override { visitor.visitFigure(*this); }
 };
 
 

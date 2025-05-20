@@ -9,6 +9,7 @@
 
 #include "../BaseObject.hpp"
 #include "../../Transforms/Transforms.hpp"
+#include "../../Visitors/Transform/BaseTransformVisitor.hpp"
 
 class Figure : public BaseObject
 {
@@ -30,6 +31,7 @@ public:
     void transform(const Scaler &scaler) override {}
 
     void accept(const BaseVisitor &visitor) override;
+    void accept(BaseTransformVisitor &visitor) override { visitor.visitFigure(*this); }
 };
 
 

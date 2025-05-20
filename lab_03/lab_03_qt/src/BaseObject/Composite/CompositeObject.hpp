@@ -29,6 +29,7 @@ public:
     const_reference operator[] (size_type size);
 
     void accept(const BaseVisitor& visitor) override;
+    void accept(BaseTransformVisitor& visitor) override;
 
 private:
     std::vector<std::shared_ptr<BaseObject>> children;

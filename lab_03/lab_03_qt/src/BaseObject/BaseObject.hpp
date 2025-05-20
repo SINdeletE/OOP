@@ -10,6 +10,7 @@
 
 #include "../Transforms/Transforms.hpp"
 #include "../Visitors/BaseVisitor.hpp"
+#include "../Visitors/Transform/BaseTransformVisitor.hpp"
 
 
 class BaseObject
@@ -44,6 +45,7 @@ public:
     virtual void transform(const Scaler &scaler) {}
 
     virtual void accept(const BaseVisitor &visitor) = 0;
+    virtual void accept(BaseTransformVisitor &visitor) = 0;
 };
 
 

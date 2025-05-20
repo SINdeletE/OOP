@@ -175,6 +175,14 @@ add_executable(lab_03_qt main.cpp
         src/Drawer/Factory/Factory/Color/QtColor/QtColor.hpp
         src/Drawer/Factory/Factory/Pen/QtPen/QtPen.cpp
         src/Drawer/Factory/Factory/Pen/QtPen/QtPen.hpp
+        src/Visitors/Transform/Move/MoveObjectVisitor.cpp
+        src/Visitors/Transform/Move/MoveObjectVisitor.hpp
+        src/Visitors/Transform/BaseTransformVisitor.hpp
+        src/Visitors/Transform/Rotate/RotateObjectVisitor.cpp
+        src/Visitors/Transform/Rotate/RotateObjectVisitor.hpp
+        src/Visitors/Transform/Scale/ScaleObjectVisitor.cpp
+        src/Visitors/Transform/Scale/ScaleObjectVisitor.hpp
+        src/Exceptions/Visitors/VisitorException.hpp
 )
 
 target_link_libraries(lab_03_qt

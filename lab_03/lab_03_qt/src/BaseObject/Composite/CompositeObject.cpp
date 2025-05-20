@@ -38,3 +38,12 @@ void CompositeObject::accept(const BaseVisitor& visitor)
     }
 }
 
+void CompositeObject::accept(BaseTransformVisitor& visitor)
+{
+    for (const std::shared_ptr<BaseObject>& child : children)
+    {
+        child->accept(visitor);
+    }
+}
+
+
