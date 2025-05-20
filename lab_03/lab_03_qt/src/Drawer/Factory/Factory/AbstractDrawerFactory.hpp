@@ -17,7 +17,7 @@ public:
     virtual ~AbstractDrawerFactory() = default;
 
     virtual std::shared_ptr<BasePen> createPen(const std::shared_ptr<BaseColor>& color) = 0;
-    virtual std::shared_ptr<BaseColor> createColor(const BaseColorParameters& color_param) = 0;
+    virtual std::shared_ptr<BaseColor> createColor(const std::shared_ptr<BaseColorParameters>& color_param) = 0;
 };
 
 

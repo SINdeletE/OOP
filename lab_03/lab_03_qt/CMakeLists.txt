@@ -171,6 +171,10 @@ add_executable(lab_03_qt main.cpp
         src/Drawer/Builders/BaseDrawerBuilder.hpp
         src/Drawer/Builders/QtDrawer/QtDrawerBuilder.cpp
         src/Drawer/Builders/QtDrawer/QtDrawerBuilder.hpp
+        src/Drawer/Factory/Factory/Color/QtColor/QtColor.cpp
+        src/Drawer/Factory/Factory/Color/QtColor/QtColor.hpp
+        src/Drawer/Factory/Factory/Pen/QtPen/QtPen.cpp
+        src/Drawer/Factory/Factory/Pen/QtPen/QtPen.hpp
 )
 
 target_link_libraries(lab_03_qt

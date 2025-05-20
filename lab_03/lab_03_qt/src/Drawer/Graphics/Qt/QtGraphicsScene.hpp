@@ -8,18 +8,25 @@
 
 #include "../BaseGraphics.hpp"
 
+class QtDrawer;
 
 class QtGraphicsScene : public BaseGraphics
 {
+    friend class QtDrawer;
+
 public:
     QtGraphicsScene() = delete;
-    explicit QtGraphicsScene(const std::shared_ptr<QGraphicsScene> &scene, QGraphicsView *gV) : _view(gV), _scene(scene) {}
+    QtGraphicsScene(QGraphicsScene *scene, QGraphicsView *gV);
 
     ~QtGraphicsScene() override = default;
 
+protected:
+    QGraphicsView *getView() const { return _view; }
+    QGraphicsScene *getScene() const { return _scene; }
+
 private:
     QGraphicsView *_view;
-    std::shared_ptr<QGraphicsScene> _scene;
+    QGraphicsScene *_scene;
 };
 
 

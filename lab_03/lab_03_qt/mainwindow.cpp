@@ -11,6 +11,9 @@
 #include <QFileDialog>
 #include "ui_mainwindow.h"
 #include "src/Commands/FigureCommand/Add/FigureCommandAdd.hpp"
+#include "src/Drawer/ColorParameters/RGBColor.hpp"
+#include "src/Drawer/Directors/DrawerDirectorSolution.hpp"
+#include "src/Drawer/Graphics/Qt/QtGraphicsScene.hpp"
 #include "src/Exceptions/Facade/FacadeException.hpp"
 
 
@@ -19,17 +22,22 @@ mainwindow::mainwindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    auto scene = std::make_shared<QGraphicsScene>(this);
-
     try
     {
+        auto new_scene = new QGraphicsScene(ui->graphicsView);
+        ui->graphicsView->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+        ui->graphicsView->setScene(new_scene);
+
+        const auto color = std::make_shared<RGBColor>(255, 255, 255);
+
+        const auto gs = std::make_shared<QtGraphicsScene>(new_scene, ui->graphicsView);
+        DrawerDirectorSolution solution{};
+        const auto director = solution.createDrawerDirector(gs);
+        _drawer = director->createDrawer(gs, color);
+
         _facade = std::make_unique<Facade>(Facade());
 
         this->initialization_check = true;
-    }
-    catch (ErrorFacade_bad_alloc &e)
-    {
-        this->initialization_check = false;
     }
     catch (...)
     {

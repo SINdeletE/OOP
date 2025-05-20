@@ -14,7 +14,7 @@ class BaseDrawerBuilder : public BaseBuilder
 {
 public:
     BaseDrawerBuilder() = delete;
-    explicit BaseDrawerBuilder(const std::shared_ptr<BaseColorParameters>& colorParameters) {}
+    explicit BaseDrawerBuilder(const std::shared_ptr<BaseGraphics> &graphics, const std::shared_ptr<BaseColorParameters>& colorParameters) {}
     ~BaseDrawerBuilder() override = default;
 
     bool isBuilded() override { return false; }

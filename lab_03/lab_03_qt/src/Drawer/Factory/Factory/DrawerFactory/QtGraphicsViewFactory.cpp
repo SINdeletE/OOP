@@ -7,12 +7,14 @@
 #include <qvariant.h>
 
 #include "../../../../Exceptions/Drawer/DrawerException.hpp"
+#include "../Color/QtColor/QtColor.hpp"
+#include "../Pen/QtPen/QtPen.hpp"
 
-std::shared_ptr<BaseColor> QtGraphicsViewFactory::createColor(const BaseColorParameters& color_param)
+std::shared_ptr<BaseColor> QtGraphicsViewFactory::createColor(const std::shared_ptr<BaseColorParameters>& color_param)
 {
     try
     {
-        return std::make_shared<BaseColor>(color_param);
+        return std::make_shared<QtColor>(color_param);
     }
     catch (std::bad_alloc &e)
     {
@@ -25,7 +27,7 @@ std::shared_ptr<BasePen> QtGraphicsViewFactory::createPen(const std::shared_ptr<
 {
     try
     {
-        return std::make_shared<BasePen>(color);
+        return std::make_shared<QtPen>(color);
     }
     catch (std::bad_alloc &e)
     {

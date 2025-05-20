@@ -15,14 +15,15 @@ class BaseQtDrawerBuilder : public BaseDrawerBuilder
 {
 public:
     BaseQtDrawerBuilder() = delete;
-    explicit BaseQtDrawerBuilder(const std::shared_ptr<BaseColorParameters> &color_parameters) : BaseDrawerBuilder(color_parameters) {}
+    explicit BaseQtDrawerBuilder(const std::shared_ptr<BaseGraphics> &graphics, const std::shared_ptr<BaseColorParameters> &color_parameters) : BaseDrawerBuilder(graphics, color_parameters) {}
     ~BaseQtDrawerBuilder() override = default;
 
     bool isBuilded() override { return false; }
     void reset() override {}
 
-    virtual void buildColor() = 0;
-    virtual void buildPen() = 0;
+    virtual bool buildColor() = 0;
+    virtual bool buildPen() = 0;
+    virtual bool buildDrawer() = 0;
 
     std::shared_ptr<BaseDrawer> getDrawer() override { return nullptr; }
 };

@@ -4,6 +4,8 @@
 
 #include "DrawerDirectorSolution.hpp"
 
+#include <iostream>
+
 #include "../Graphics/Qt/QtGraphicsScene.hpp"
 #include "QtDrawer/QtDrawerDirector.hpp"
 
@@ -11,8 +13,7 @@ DrawerDirectorSolution::DrawerDirectorSolution()
 {
     try
     {
-        std::shared_ptr<QGraphicsScene> tmp_scene = nullptr;
-        reg({std::make_shared<QtGraphicsScene>(tmp_scene, nullptr), std::make_unique<ConcreteDrawerDirectorCreator<QtDrawerDirector>>()});
+        reg({std::make_shared<QtGraphicsScene>(nullptr, nullptr), std::make_unique<ConcreteDrawerDirectorCreator<QtDrawerDirector>>()});
     }
     catch (std::bad_alloc &e)
     {
@@ -31,7 +32,6 @@ void DrawerDirectorSolution::reg(std::pair<std::shared_ptr<BaseGraphics>, std::u
 std::shared_ptr<BaseDrawerDirector> DrawerDirectorSolution::createDrawerDirector(const std::shared_ptr<BaseGraphics> &graphics)
 {
     const auto iter = _creators.find(graphics);
-
     if (iter == _creators.end())
     {
         const time_t cur_time = time(nullptr);

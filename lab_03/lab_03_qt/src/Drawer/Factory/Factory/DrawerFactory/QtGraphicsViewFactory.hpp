@@ -16,7 +16,7 @@ public:
     ~QtGraphicsViewFactory() override = default;
 
     std::shared_ptr<BasePen> createPen(const std::shared_ptr<BaseColor>& color) override;
-    std::shared_ptr<BaseColor> createColor(const BaseColorParameters& color_param) override;
+    std::shared_ptr<BaseColor> createColor(const std::shared_ptr<BaseColorParameters>& color_param) override;
 };
 
 

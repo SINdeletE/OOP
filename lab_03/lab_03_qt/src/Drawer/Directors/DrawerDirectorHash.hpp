@@ -18,6 +18,15 @@ public:
     std::size_t operator()(const std::shared_ptr<BaseGraphics> &graphics) const noexcept { return typeid(*graphics).hash_code(); }
 };
 
+class DrawerDirectorEqual {
+public:
+    bool operator()(
+        const std::shared_ptr<BaseGraphics>& a,
+        const std::shared_ptr<BaseGraphics>& b
+    ) const {
+        return typeid(*a) == typeid(*b);
+    }
+};
 
 
 #endif //DRAWERDIRECTORHASH_HPP

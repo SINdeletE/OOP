@@ -4,3 +4,11 @@
 
 #include "QtGraphicsScene.hpp"
 
+#include <QGraphicsView>
+
+QtGraphicsScene::QtGraphicsScene(QGraphicsScene *scene, QGraphicsView* gV) : _view(gV), _scene(scene)
+{
+
+}
+
+

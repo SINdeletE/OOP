@@ -7,6 +7,10 @@
 #include <QGraphicsScene>
 
 #include "BaseDrawer.hpp"
+#include "../Factory/Factory/Pen/BasePen.hpp"
+#include "../Factory/Factory/Pen/QtPen/QtPen.hpp"
+#include "../Graphics/BaseGraphics.hpp"
+#include "../Graphics/Qt/QtGraphicsScene.hpp"
 
 
 class QtDrawer : public BaseDrawer
@@ -15,11 +19,16 @@ public:
     QtDrawer() = default;
     ~QtDrawer() override = default;
 
-    void drawLine(const Point& start, const Point& end) override { scene->addLine(start.GetX(), start.GetY(), end.GetX(), end.GetY()); }
-    void clear() override { scene->clear(); }
+    void setScene(const std::shared_ptr<BaseGraphics> &graphics) override;
+    void setPen(const std::shared_ptr<BasePen> &pen) override;
+    [[nodiscard]] QGraphicsScene *getScene() const { return _scene->getScene(); }
+
+    void drawLine(const Point& start, const Point& end) override { _scene->getScene()->addLine(start.GetX(), start.GetY(), end.GetX(), end.GetY(), *_pen->getPen()); }
+    void clear() override { _scene->getScene()->clear(); }
 
 private:
-    QGraphicsScene *scene;
+    std::shared_ptr<QtGraphicsScene> _scene;
+    std::shared_ptr<QtPen> _pen;
 };
 
 

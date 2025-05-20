@@ -22,7 +22,7 @@ public:
     void reg(std::pair<std::shared_ptr<BaseGraphics>, std::unique_ptr<DrawerDirectorCreator>> &&other);
 
 private:
-    std::unordered_map<std::shared_ptr<BaseGraphics>, std::unique_ptr<DrawerDirectorCreator>, DrawerDirectorHash> _creators;
+    std::unordered_map<std::shared_ptr<BaseGraphics>, std::unique_ptr<DrawerDirectorCreator>, DrawerDirectorHash, DrawerDirectorEqual> _creators;
 };
 
 

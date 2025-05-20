@@ -11,8 +11,8 @@ class BaseColor
 {
 public:
     BaseColor() = delete;
-    explicit BaseColor(const BaseColorParameters& color_param) {}
-    ~BaseColor() = default;
+    explicit BaseColor(const std::shared_ptr<BaseColorParameters> &color_parameters) {}
+    virtual ~BaseColor() = default;
 };
 
 

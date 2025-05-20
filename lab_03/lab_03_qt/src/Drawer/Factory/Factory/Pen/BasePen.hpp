@@ -5,14 +5,14 @@
 #ifndef BASEPEN_HPP
 #define BASEPEN_HPP
 #include <memory>
-
+#include "../Color/BaseColor.hpp"
 
 class BasePen
 {
 public:
     BasePen() = delete;
-    explicit BasePen(const std::shared_ptr<BaseColor> &color);
-    ~BasePen() = default;
+    explicit BasePen(const std::shared_ptr<BaseColor> &color) {}
+    virtual ~BasePen() = default;
 };
 
 

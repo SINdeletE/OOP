@@ -11,7 +11,7 @@ class BaseColorParameters
 {
 public:
     BaseColorParameters() = delete;
-    BaseColorParameters(int r, int g, int b);
+    BaseColorParameters(int r, int g, int b) {}
     BaseColorParameters(const BaseColorParameters&) = default;
 
     BaseColorParameters& operator=(const BaseColorParameters&) = default;
