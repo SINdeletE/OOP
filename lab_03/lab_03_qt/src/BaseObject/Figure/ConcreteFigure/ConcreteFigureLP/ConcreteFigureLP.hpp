@@ -33,7 +33,7 @@ public:
     void transform(const Rotater &rotater) override { figureLP_.transform(rotater); }
     void transform(const Scaler &scaler) override { figureLP_.transform(scaler); }
 
-    void accept(const BaseVisitor& visitor) override;
+    void accept(const BaseDrawTemplateVisitor& visitor) override;
     void accept(BaseTransformVisitor &visitor) override { visitor.visitFigure(*this); }
 
 private:

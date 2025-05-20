@@ -51,19 +51,6 @@ add_executable(lab_03_qt main.cpp
         src/Managers/SceneManager/History/BaseHistory.hpp
         src/Managers/SceneManager/History/History.cpp
         src/Managers/SceneManager/History/History.hpp
-        src/Action/BaseAction.hpp
-        src/Action/FigureAction/FigureAction.hpp
-        src/Action/FigureAction/Move/FigureActionMove.cpp
-        src/Action/FigureAction/Move/FigureActionMove.hpp
-        src/Action/FigureAction/Rotate/FigureActionRotate.cpp
-        src/Action/FigureAction/Rotate/FigureActionRotate.hpp
-        src/Action/FigureAction/Scale/FigureActionScale.cpp
-        src/Action/FigureAction/Scale/FigureActionScale.hpp
-        src/Action/CameraAction/CameraAction.hpp
-        src/Action/CameraAction/Move/CameraActionMove.cpp
-        src/Action/CameraAction/Move/CameraActionMove.hpp
-        src/Action/CameraAction/Rotate/CameraActionRotate.cpp
-        src/Action/CameraAction/Rotate/CameraActionRotate.hpp
         src/Facade/Facade.cpp
         src/Facade/Facade.hpp
         src/Builders/BaseBuilder.hpp
@@ -120,26 +107,15 @@ add_executable(lab_03_qt main.cpp
         src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilderCreator.hpp
         src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilderSolution.cpp
         src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilderSolution.hpp
-        src/Action/Solutions/ObjectActionSolution.cpp
-        src/Action/Solutions/ObjectActionSolution.hpp
-        src/Action/Solutions/ObjectActionSolution.hpp
-        src/Action/Solutions/BaseObjectHash.cpp
-        src/Action/Solutions/BaseObjectHash.hpp
         src/BaseObject/Camera/Camera.hpp
         src/Exceptions/Hashes/BaseObjectHashException.hpp
         src/Exceptions/Managers/TransformManager/TransformManagerException.hpp
         src/Exceptions/Managers/TransformManager/TransformActionSolutionException.hpp
-        src/Action/Solutions/CameraActionSolution/CameraActionSolution.cpp
-        src/Action/Solutions/CameraActionSolution/CameraActionSolution.hpp
-        src/Action/Solutions/ActionHash.cpp
-        src/Action/Solutions/ActionHash.hpp
         src/Exceptions/Actions/ActionException.hpp
-        src/Action/Solutions/FigureActionSolution/FigureActionSolution.cpp
-        src/Action/Solutions/FigureActionSolution/FigureActionSolution.hpp
         src/Drawer/Drawer/BaseDrawer.hpp
         src/Drawer/Drawer/QtDrawer.cpp
         src/Drawer/Drawer/QtDrawer.hpp
-        src/Visitors/BaseVisitor.hpp
+        src/Visitors/BaseDrawTemplateVisitor.hpp
         src/Visitors/Visitor.hpp
         src/BaseObject/Camera/Camera.cpp
         src/Visitors/Draw/DrawFigureLPVisitor.cpp
@@ -185,6 +161,18 @@ add_executable(lab_03_qt main.cpp
         src/Exceptions/Visitors/VisitorException.hpp
         src/Drawer/Factory/Factory/Pen/QtPen/BaseQtPen.hpp
         src/Drawer/Factory/Factory/Color/QtColor/BaseQtColor.hpp
+        src/Visitors/Transform/TransformVisitorSolution.cpp
+        src/Visitors/Transform/TransformVisitorSolution.hpp
+        src/Visitors/Transform/TransformVisitorHash.hpp
+        src/Visitors/Transform/TransformVisitorCreator.hpp
+        src/Exceptions/Managers/DrawManagerException.hpp
+        src/Visitors/Draw/DrawVisitor.cpp
+        src/Visitors/Draw/DrawVisitor.hpp
+        src/Visitors/Draw/BaseDrawVisitor.hpp
+        src/Visitors/Draw/Solution/DrawVisitorSolution.cpp
+        src/Visitors/Draw/Solution/DrawVisitorSolution.hpp
+        src/Visitors/Draw/Solution/DrawVisitorHash.hpp
+        src/Visitors/Draw/Solution/DrawVisitorCreator.hpp
 )
 
 target_link_libraries(lab_03_qt

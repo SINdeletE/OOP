@@ -16,4 +16,14 @@ public:
             const char *error_info = "VISITOR: Invalid data") noexcept : BaseException(filename, classname, line, time, error_info) {}
 };
 
+class ErrorVisitor_bad_alloc: public BaseException
+{
+public:
+    ErrorVisitor_bad_alloc(const char *filename,
+            const char *classname,
+            const long line,
+            const char *time,
+            const char *error_info = "VISITOR: Bad alloc") noexcept : BaseException(filename, classname, line, time, error_info) {}
+};
+
 #endif //VISITOREXCEPTION_HPP

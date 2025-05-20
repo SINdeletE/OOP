@@ -9,13 +9,13 @@
 #include <iterator>
 
 #include "../Transforms/Transforms.hpp"
-#include "../Visitors/BaseVisitor.hpp"
+#include "../Visitors/BaseDrawTemplateVisitor.hpp"
 #include "../Visitors/Transform/BaseTransformVisitor.hpp"
 
 
 class BaseObject
 {
-    friend class BaseVisitor;
+    friend class BaseDrawTemplateVisitor;
 
 public:
     using value_type = BaseObject;
@@ -44,7 +44,7 @@ public:
     virtual void transform(const Rotater &rotater) {}
     virtual void transform(const Scaler &scaler) {}
 
-    virtual void accept(const BaseVisitor &visitor) = 0;
+    virtual void accept(const BaseDrawTemplateVisitor &visitor) = 0;
     virtual void accept(BaseTransformVisitor &visitor) = 0;
 };
 

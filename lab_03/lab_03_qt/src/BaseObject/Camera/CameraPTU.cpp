@@ -22,7 +22,7 @@ void CameraPTU::transform(const Mover& mover)
     _target.move(mover.getDx(), mover.getDy(), mover.getDz());
 }
 
-void CameraPTU::accept(const BaseVisitor& visitor)
+void CameraPTU::accept(const BaseDrawTemplateVisitor& visitor)
 {
     if (const auto cv = dynamic_cast<const Visitor<BaseCameraPTU>*>(&visitor))
         cv->visit(*this);

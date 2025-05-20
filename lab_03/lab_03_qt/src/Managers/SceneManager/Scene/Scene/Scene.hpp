@@ -10,9 +10,10 @@
 #include "../../../../BaseObject/BaseObject.hpp"
 #include "../../../../BaseObject/Composite/CompositeObject.hpp"
 
-
 class Scene final
 {
+    friend class DrawVisitor;
+
 public:
     Scene() = default;
     Scene(const Scene& other) = default;
@@ -26,7 +27,7 @@ public:
     [[nodiscard]] std::shared_ptr<Scene> clone() const;
 
 protected:
-    CompositeObject& getCompositeObject() { return _objects; }
+    const CompositeObject& getCompositeObject() const { return _objects; }
 
 private:
     CompositeObject _objects;

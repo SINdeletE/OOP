@@ -12,9 +12,9 @@
 class Point
 {
 private:
-    double x;
-    double y;
-    double z;
+    double x{0};
+    double y{0};
+    double z{0};
 
     void rotateX(double angle); // так-то const, но в определении (clang воспринимает const только в определении)
     void rotateY(double angle);

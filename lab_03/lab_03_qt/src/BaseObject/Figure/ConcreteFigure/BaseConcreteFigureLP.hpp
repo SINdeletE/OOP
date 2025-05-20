@@ -32,7 +32,7 @@ public:
     void transform(const Rotater &rotater) override {}
     void transform(const Scaler &scaler) override {}
 
-    void accept(const BaseVisitor &visitor) override {}
+    void accept(const BaseDrawTemplateVisitor &visitor) override {}
     void accept(BaseTransformVisitor &visitor) override { visitor.visitFigure(*this); }
 };
 

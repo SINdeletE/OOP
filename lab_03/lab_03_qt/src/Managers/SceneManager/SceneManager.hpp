@@ -12,9 +12,12 @@
 #include "History/History.hpp"
 #include "Scene/Scene/Scene.hpp"
 
+class DrawManager;
 
 class SceneManager : public BaseManager
 {
+    friend class DrawManager;
+
 public:
     SceneManager() : _scene(std::make_shared<Scene>()) {}
     SceneManager(const SceneManager &);
@@ -24,15 +27,13 @@ public:
     SceneManager &operator=(const SceneManager &);
     SceneManager &operator=(SceneManager &&) noexcept;
 
-public:
-    friend class ManagerFactory;
-
     void setScene(const std::shared_ptr<Scene> &scene) { _scene = scene; }
-    std::shared_ptr<Scene>& getScene() { return _scene; }
+    void setCamera(const std::shared_ptr<BaseCameraPTU> &camera) { _camera = camera; }
 
     void addObject(const std::shared_ptr<BaseObject> &object) const;
 
-    void setCamera(const std::shared_ptr<BaseCameraPTU> &camera) { _camera = camera; }
+protected:
+    std::shared_ptr<Scene>& getScene() { return _scene; }
 
 private:
     std::shared_ptr<Scene> _scene;

@@ -10,11 +10,11 @@ class Figure;
 class Camera;
 class Scene;
 
-class BaseVisitor
+class BaseDrawTemplateVisitor
 {
 public:
-    BaseVisitor() = default;
-    virtual ~BaseVisitor() = default;
+    BaseDrawTemplateVisitor() = default;
+    virtual ~BaseDrawTemplateVisitor() = default;
 };
 
 

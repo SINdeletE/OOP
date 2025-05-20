@@ -4,11 +4,11 @@
 
 #ifndef VISITOR_HPP
 #define VISITOR_HPP
-#include "BaseVisitor.hpp"
+#include "BaseDrawTemplateVisitor.hpp"
 
 
 template <typename Type>
-class Visitor : public BaseVisitor
+class Visitor : public BaseDrawTemplateVisitor
 {
 public:
     Visitor() = default;

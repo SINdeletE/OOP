@@ -31,7 +31,7 @@ public:
     void transform(const Mover &mover) override {}
     void transform(const Rotater &rotater) override {}
 
-    void accept(const BaseVisitor& visitor) override {}
+    void accept(const BaseDrawTemplateVisitor& visitor) override {}
     void accept(BaseTransformVisitor &visitor) override { visitor.visitCamera(*this); }
 };
 

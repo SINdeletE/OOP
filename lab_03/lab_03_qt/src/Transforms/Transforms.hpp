@@ -35,10 +35,10 @@ public:
     void setCenter(const Point &center_) { center = center_; }
 
 private:
-    double dx;
-    double dy;
-    double dz;
-    Point center;
+    double dx{0};
+    double dy{0};
+    double dz{0};
+    Point center{};
 };
 
 class Rotater : public BaseTransform
@@ -63,10 +63,10 @@ public:
     [[nodiscard]] Mover centerToMover() const;
 
 private:
-    double ox;
-    double oy;
-    double oz;
-    Point center;
+    double ox{0};
+    double oy{0};
+    double oz{0};
+    Point center{};
 };
 
 class Scaler : public BaseTransform
@@ -91,10 +91,10 @@ public:
     [[nodiscard]] Mover centerToMover() const;
 
 private:
-    double kx;
-    double ky;
-    double kz;
-    Point center;
+    double kx{0};
+    double ky{0};
+    double kz{0};
+    Point center{};
 };
 
 #endif //TRANSFORMS_HPP

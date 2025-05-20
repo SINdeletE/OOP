@@ -30,7 +30,7 @@ CompositeObject::const_reference CompositeObject::operator[](const size_type siz
     return children[size];
 }
 
-void CompositeObject::accept(const BaseVisitor& visitor)
+void CompositeObject::accept(const BaseDrawTemplateVisitor& visitor)
 {
     for (const std::shared_ptr<BaseObject>& child : children)
     {

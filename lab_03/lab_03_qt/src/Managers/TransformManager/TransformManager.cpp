@@ -4,39 +4,45 @@
 
 #include "TransformManager.hpp"
 
-#include "../../Action/Solutions/ObjectActionSolution.hpp"
 #include "../../Exceptions/Managers/TransformManager/TransformManagerException.hpp"
+#include "../../Exceptions/Visitors/VisitorException.hpp"
+#include "../../Visitors/Transform/TransformVisitorSolution.hpp"
 
 TransformManager::TransformManager(const std::shared_ptr<BaseObject>& object, const std::shared_ptr<BaseTransform>& transform)
 {
-   this->setParams(object, transform);
+    this->setParams(object, transform);
 }
 
 void TransformManager::request()
 {
-    if (! _action)
+    if (_object == nullptr)
     {
         const time_t cur_time = time(nullptr);
-        throw ErrorTransformManager_invalid_params(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        throw ErrorTransformManager_invalid_object(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 
-    _action->request();
+    try
+    {
+        TransformVisitorSolution solution{};
+        auto vis = solution.createVisitor(_transform);
+        _object->accept(*vis);
+    }
+    catch (ErrorVisitor_bad_alloc &e)
+    {
+        const time_t cur_time = time(nullptr);
+        throw ErrorTransformManager_bad_alloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
+    catch (ErrorVisitor_invalid_data &e)
+    {
+        const time_t cur_time = time(nullptr);
+        throw ErrorTransformManager_invalid_transform(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
 }
 
 void TransformManager::setParams(const std::shared_ptr<BaseObject>& object, const std::shared_ptr<BaseTransform>& transform)
 {
     _object = object;
     _transform = transform;
-
-    ObjectActionSolution object_solution{};
-    const auto transform_solution = object_solution.create(_object);
-    _action = transform_solution(_object, _transform);
-
-    if (! _action)
-    {
-        const time_t cur_time = time(nullptr);
-        throw ErrorTransformManager_invalid_params(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-    }
 }
 
 

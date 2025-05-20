@@ -966,12 +966,25 @@
     <property name="geometry">
      <rect>
       <x>690</x>
-      <y>630</y>
+      <y>590</y>
       <width>381</width>
-      <height>151</height>
+      <height>191</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_9">
+       <item>
+        <widget class="QLineEdit" name="LineEditX"/>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="LineEditY"/>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_2"/>
+       </item>
+      </layout>
+     </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
@@ -1112,8 +1125,8 @@
    <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>689</x>
-      <y>470</y>
+      <x>690</x>
+      <y>400</y>
       <width>381</width>
       <height>161</height>
      </rect>
@@ -1208,9 +1221,9 @@
     <property name="geometry">
      <rect>
       <x>690</x>
-      <y>240</y>
+      <y>220</y>
       <width>381</width>
-      <height>221</height>
+      <height>171</height>
      </rect>
     </property>
    </widget>
@@ -1220,7 +1233,7 @@
       <x>690</x>
       <y>10</y>
       <width>381</width>
-      <height>221</height>
+      <height>191</height>
      </rect>
     </property>
    </widget>
