@@ -18,7 +18,7 @@ public:
     DrawerDirectorSolution();
     ~DrawerDirectorSolution() = default;
 
-    std::shared_ptr<BaseDrawerDirector> createDrawer(const std::shared_ptr<BaseGraphics> &graphics, const BaseColorParameters& params);
+    std::shared_ptr<BaseDrawerDirector> createDrawerDirector(const std::shared_ptr<BaseGraphics> &graphics);
     void reg(std::pair<std::shared_ptr<BaseGraphics>, std::unique_ptr<DrawerDirectorCreator>> &&other);
 
 private:

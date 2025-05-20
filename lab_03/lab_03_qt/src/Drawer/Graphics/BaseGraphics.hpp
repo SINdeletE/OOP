@@ -9,6 +9,7 @@
 
 class BaseGraphics
 {
+public:
     virtual ~BaseGraphics() = default;
 };
 

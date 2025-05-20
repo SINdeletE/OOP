@@ -15,6 +15,8 @@ public:
     QtGraphicsScene() = delete;
     explicit QtGraphicsScene(const std::shared_ptr<QGraphicsScene> &scene, QGraphicsView *gV) : _view(gV), _scene(scene) {}
 
+    ~QtGraphicsScene() override = default;
+
 private:
     QGraphicsView *_view;
     std::shared_ptr<QGraphicsScene> _scene;

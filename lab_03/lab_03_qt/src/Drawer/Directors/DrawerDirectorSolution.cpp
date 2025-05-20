@@ -12,7 +12,7 @@ DrawerDirectorSolution::DrawerDirectorSolution()
     try
     {
         std::shared_ptr<QGraphicsScene> tmp_scene = nullptr;
-        reg({std::make_shared<QtGraphicsScene>{tmp_scene, nullptr}, std::make_unique<ConcreteDrawerDirectorCreator<QtDrawerDirector>>});
+        reg({std::make_shared<QtGraphicsScene>(tmp_scene, nullptr), std::make_unique<ConcreteDrawerDirectorCreator<QtDrawerDirector>>()});
     }
     catch (std::bad_alloc &e)
     {
@@ -28,7 +28,7 @@ void DrawerDirectorSolution::reg(std::pair<std::shared_ptr<BaseGraphics>, std::u
     _creators[fst] = std::move(snd);
 }
 
-std::shared_ptr<BaseDrawerDirector> DrawerDirectorSolution::createDrawer(const std::shared_ptr<BaseGraphics> &graphics, const BaseColorParameters& params)
+std::shared_ptr<BaseDrawerDirector> DrawerDirectorSolution::createDrawerDirector(const std::shared_ptr<BaseGraphics> &graphics)
 {
     const auto iter = _creators.find(graphics);
 
@@ -38,7 +38,7 @@ std::shared_ptr<BaseDrawerDirector> DrawerDirectorSolution::createDrawer(const s
         throw ErrorDrawer_invalid_data(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 
-    return iter->second->createDirector(params);
+    return iter->second->createDirector();
 }
 
 

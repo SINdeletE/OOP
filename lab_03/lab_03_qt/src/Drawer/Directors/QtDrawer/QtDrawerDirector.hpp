@@ -4,7 +4,8 @@
 
 #ifndef QTDRAWERDIRECTOR_HPP
 #define QTDRAWERDIRECTOR_HPP
-#include "../../Creator/BaseDrawerDirector.hpp"
+#include "../../Builders/QtDrawer/BaseQtDrawerBuilder.hpp"
+#include "../../Factory/BaseDrawerDirector.hpp"
 #include "../../Drawer/QtDrawer.hpp"
 
 
@@ -14,7 +15,11 @@ public:
     QtDrawerDirector() = default;
     ~QtDrawerDirector() override = default;
 
-    std::shared_ptr<BaseDrawer> createDrawer(const BaseColorParameters& color) override;
+    std::shared_ptr<BaseDrawer> createDrawer(const std::shared_ptr<BaseColorParameters> &color) override;
+
+private:
+    std::shared_ptr<QtDrawer> _drawer;
+    std::shared_ptr<BaseQtDrawerBuilder> _builder;
 };
 
 
