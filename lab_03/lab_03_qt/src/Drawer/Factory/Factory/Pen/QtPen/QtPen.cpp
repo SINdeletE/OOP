@@ -6,7 +6,7 @@
 
 #include "../../../../../Exceptions/Drawer/DrawerException.hpp"
 
-QtPen::QtPen(const std::shared_ptr<BaseColor>& color) : BasePen(color)
+QtPen::QtPen(const std::shared_ptr<BaseColor>& color) : BaseQtPen(color)
 {
     const auto qtColor = std::dynamic_pointer_cast<QtColor>(color);
 

@@ -183,6 +183,8 @@ add_executable(lab_03_qt main.cpp
         src/Visitors/Transform/Scale/ScaleObjectVisitor.cpp
         src/Visitors/Transform/Scale/ScaleObjectVisitor.hpp
         src/Exceptions/Visitors/VisitorException.hpp
+        src/Drawer/Factory/Factory/Pen/QtPen/BaseQtPen.hpp
+        src/Drawer/Factory/Factory/Color/QtColor/BaseQtColor.hpp
 )
 
 target_link_libraries(lab_03_qt

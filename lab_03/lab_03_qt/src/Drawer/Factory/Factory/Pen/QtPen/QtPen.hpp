@@ -7,17 +7,18 @@
 #include <qpen.h>
 
 
+#include "BaseQtPen.hpp"
 #include "../BasePen.hpp"
 #include "../../Color/QtColor/QtColor.hpp"
 
-class QtPen : public BasePen
+class QtPen : public BaseQtPen
 {
 public:
     QtPen() = delete;
     explicit QtPen(const std::shared_ptr<BaseColor> &color);
     ~QtPen() override = default;
 
-    [[nodiscard]] std::shared_ptr<QPen> getPen() const { return _pen; }
+    [[nodiscard]] std::shared_ptr<QPen> getPen() const override { return _pen; }
 private:
     std::shared_ptr<QPen> _pen;
 };
