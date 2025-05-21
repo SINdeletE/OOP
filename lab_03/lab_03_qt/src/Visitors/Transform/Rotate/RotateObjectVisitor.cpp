@@ -11,7 +11,7 @@
 
 RotateObjectVisitor::RotateObjectVisitor(const std::shared_ptr<BaseTransform>& transform) : BaseTransformVisitor(transform)
 {
-    auto tfm = dynamic_pointer_cast<Rotater>(transform);
+    const auto tfm = dynamic_pointer_cast<Rotater>(transform);
 
     if (tfm == nullptr)
     {

@@ -22,6 +22,7 @@ public:
 
     BaseObject::iterator begin() override { return BaseObject::iterator(nullptr); }
     BaseObject::iterator end() override { return BaseObject::iterator(nullptr); }
+    BaseObject::shared_ptr_type getObjectByID(size_type index) override { return nullptr; }
 
     void transform(const Mover &mover) override {}
     void transform(const Rotater& rotater) override {}

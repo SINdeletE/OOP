@@ -12,7 +12,7 @@
 
 MoveObjectVisitor::MoveObjectVisitor(const std::shared_ptr<BaseTransform>& transform) : BaseTransformVisitor(transform)
 {
-    auto tfm = dynamic_pointer_cast<Mover>(transform);
+    const auto tfm = dynamic_pointer_cast<Mover>(transform);
 
     if (tfm == nullptr)
     {

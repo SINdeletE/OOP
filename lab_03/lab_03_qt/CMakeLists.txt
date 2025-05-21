@@ -118,8 +118,8 @@ add_executable(lab_03_qt main.cpp
         src/Visitors/BaseDrawTemplateVisitor.hpp
         src/Visitors/Visitor.hpp
         src/BaseObject/Camera/Camera.cpp
-        src/Visitors/Draw/DrawFigureLPVisitor.cpp
-        src/Visitors/Draw/DrawFigureLPVisitor.hpp
+        src/Visitors/Draw/FigureLP/DrawFigureLPVisitor.cpp
+        src/Visitors/Draw/FigureLP/DrawFigureLPVisitor.hpp
         src/Commands/FigureCommand/Add/FigureCommandAdd.cpp
         src/Commands/FigureCommand/Add/FigureCommandAdd.hpp
         src/Exceptions/Commands/CommandsException.hpp
@@ -166,13 +166,29 @@ add_executable(lab_03_qt main.cpp
         src/Visitors/Transform/TransformVisitorHash.hpp
         src/Visitors/Transform/TransformVisitorCreator.hpp
         src/Exceptions/Managers/DrawManagerException.hpp
-        src/Visitors/Draw/DrawVisitor.cpp
-        src/Visitors/Draw/DrawVisitor.hpp
-        src/Visitors/Draw/BaseDrawVisitor.hpp
         src/Visitors/Draw/Solution/DrawVisitorSolution.cpp
         src/Visitors/Draw/Solution/DrawVisitorSolution.hpp
         src/Visitors/Draw/Solution/DrawVisitorHash.hpp
         src/Visitors/Draw/Solution/DrawVisitorCreator.hpp
+        src/Commands/FigureCommand/Move/FigureCommandMove.cpp
+        src/Commands/FigureCommand/Move/FigureCommandMove.hpp
+        src/Commands/FigureCommand/Rotate/FigureCommandRotate.cpp
+        src/Commands/FigureCommand/Rotate/FigureCommandRotate.hpp
+        src/Commands/FigureCommand/Scale/FigureCommandScale.cpp
+        src/Commands/FigureCommand/Scale/FigureCommandScale.hpp
+        src/Commands/FigureCommand/Remove/FigureRemoveCommand.cpp
+        src/Commands/FigureCommand/Remove/FigureRemoveCommand.hpp
+        src/Transforms/Vec.cpp
+        src/Transforms/Vec.hpp
+        src/Transforms/CameraTransformer/CameraPTU/CameraPTUTransformer.cpp
+        src/Transforms/CameraTransformer/CameraPTU/CameraPTUTransformer.hpp
+        src/Transforms/CameraTransformer/BaseCameraTransformer.hpp
+        src/Exceptions/transform/TransformerException.hpp
+        src/Exceptions/transform/VecException.hpp
+        src/Transforms/CameraTransformer/Solution/CameraTransformerSolution.cpp
+        src/Transforms/CameraTransformer/Solution/CameraTransformerSolution.hpp
+        src/Transforms/CameraTransformer/Solution/CameraTransformerHash.hpp
+        src/Transforms/CameraTransformer/Solution/CameraTransformerCreator.hpp
 )
 
 target_link_libraries(lab_03_qt

@@ -17,7 +17,7 @@ public:
     DrawVisitorCreator() = default;
     virtual ~DrawVisitorCreator() = default;
 
-    [[nodiscard]] virtual std::shared_ptr<BaseDrawTemplateVisitor> createDrawVisitor(const std::shared_ptr<BaseDrawer> &drawer) const = 0;
+    [[nodiscard]] virtual std::shared_ptr<BaseDrawTemplateVisitor> createDrawVisitor(const std::shared_ptr<Camera> &camera, const std::shared_ptr<BaseDrawer> &drawer) const = 0;
 };
 
 template <typename T>
@@ -28,9 +28,9 @@ public:
     ConcreteDrawVisitorCreator() = default;
     ~ConcreteDrawVisitorCreator() override = default;
 
-    [[nodiscard]] std::shared_ptr<BaseDrawTemplateVisitor> createDrawVisitor(const std::shared_ptr<BaseDrawer> &drawer) const override
+    [[nodiscard]] std::shared_ptr<BaseDrawTemplateVisitor> createDrawVisitor(const std::shared_ptr<Camera> &camera, const std::shared_ptr<BaseDrawer> &drawer) const override
     {
-        return std::make_shared<T>(drawer);
+        return std::make_shared<T>(camera, drawer);
     }
 };
 

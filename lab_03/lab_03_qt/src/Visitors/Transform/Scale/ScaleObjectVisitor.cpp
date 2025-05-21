@@ -9,7 +9,7 @@
 
 ScaleObjectVisitor::ScaleObjectVisitor(const std::shared_ptr<BaseTransform>& transform) : BaseTransformVisitor(transform)
 {
-    auto tfm = dynamic_pointer_cast<Scaler>(transform);
+    const auto tfm = dynamic_pointer_cast<Scaler>(transform);
 
     if (tfm == nullptr)
     {

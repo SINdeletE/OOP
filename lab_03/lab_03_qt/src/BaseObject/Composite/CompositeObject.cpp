@@ -19,15 +19,15 @@ void CompositeObject::addChild(const std::shared_ptr<BaseObject>& child)
     }
 }
 
-CompositeObject::const_reference CompositeObject::operator[](const size_type size)
+BaseObject::shared_ptr_type CompositeObject::getObjectByID(BaseObject::size_type index)
 {
-    if (size >= children.size())
+    if (index >= children.size())
     {
         const time_t cur_time = time(nullptr);
         throw ErrorCompositeObject_out_of_range(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 
-    return children[size];
+    return children[index];
 }
 
 void CompositeObject::accept(const BaseDrawTemplateVisitor& visitor)

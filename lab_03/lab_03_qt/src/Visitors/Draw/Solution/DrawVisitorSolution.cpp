@@ -25,7 +25,8 @@ void DrawVisitorSolution::reg(const std::shared_ptr<BaseObject>& object, const s
     _creators[object] = creator;
 }
 
-std::shared_ptr<BaseDrawTemplateVisitor> DrawVisitorSolution::createDrawTemplateVisitor(const std::shared_ptr<BaseObject>& object, const std::shared_ptr<BaseDrawer> &drawer)
+std::shared_ptr<BaseDrawTemplateVisitor> DrawVisitorSolution::createDrawTemplateVisitor(const std::shared_ptr<BaseObject>& object, const std::shared_ptr<Camera> &camera, \
+                                                                                        const std::shared_ptr<BaseDrawer> &drawer)
 {
     const auto iter = _creators.find(object);
 
@@ -37,7 +38,7 @@ std::shared_ptr<BaseDrawTemplateVisitor> DrawVisitorSolution::createDrawTemplate
 
     try
     {
-        return iter->second->createDrawVisitor(drawer);
+        return iter->second->createDrawVisitor(camera, drawer);
     }
     catch (std::bad_alloc &e)
     {

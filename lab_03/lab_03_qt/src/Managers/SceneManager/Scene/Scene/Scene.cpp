@@ -6,20 +6,8 @@
 
 #include "../../../../Exceptions/BaseObject/CompositeException.hpp"
 #include "../../../../Exceptions/Scene/SceneException.hpp"
+#include "../../../../Visitors/Draw/Solution/DrawVisitorSolution.hpp"
 
-
-void Scene::clean()
-{
-    try
-    {
-        _scene->clear();
-    }
-    catch (...)
-    {
-        const time_t cur_time = time(nullptr);
-        throw ErrorScene_invalid_scene(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-    }
-}
 
 std::shared_ptr<Scene> Scene::clone() const
 {
@@ -40,3 +28,39 @@ void Scene::addObject(const std::shared_ptr<BaseObject>& object)
         throw ErrorScene_bad_alloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 }
+
+std::shared_ptr<BaseObject> Scene::getFigureByID(const size_t index)
+{
+    try
+    {
+        return _objects.getObjectByID(index);
+    }
+    catch (ErrorCompositeObject_out_of_range &e)
+    {
+        const time_t cur_time = time(nullptr);
+        throw ErrorScene_out_of_range(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
+}
+
+std::shared_ptr<BaseObject> Scene::getCameraByID(const size_t index)
+{
+    try
+    {
+        return _cameras.getObjectByID(index);
+    }
+    catch (ErrorCompositeObject_out_of_range &e)
+    {
+        const time_t cur_time = time(nullptr);
+        throw ErrorScene_out_of_range(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
+}
+
+// void Scene::accept(const DrawVisitor &visitor) const
+// {
+//     // for (const auto& iter : _objects)
+//     // {
+//     //     iter->accept(visitor);
+//     // }
+// }
+
+

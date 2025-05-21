@@ -4,7 +4,7 @@
 
 #include "DrawFigureLPVisitor.hpp"
 
-#include "../../BaseObject/Figure/ConcreteFigure/BaseConcreteFigureLP.hpp"
+#include "../../../BaseObject/Figure/ConcreteFigure/BaseConcreteFigureLP.hpp"
 
 void DrawFigureLPVisitor::visit(const BaseConcreteFigureLP& figure) const
 {

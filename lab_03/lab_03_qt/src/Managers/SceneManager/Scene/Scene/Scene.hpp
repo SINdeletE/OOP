@@ -5,14 +5,15 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 #include <memory>
-#include <QGraphicsScene>
 
 #include "../../../../BaseObject/BaseObject.hpp"
 #include "../../../../BaseObject/Composite/CompositeObject.hpp"
 
+class DrawManager;
+
 class Scene final
 {
-    friend class DrawVisitor;
+    friend class DrawManager;
 
 public:
     Scene() = default;
@@ -23,16 +24,17 @@ public:
 
     void addObject(const std::shared_ptr<BaseObject> &object);
 
-    void clean();
+    [[nodiscard]] std::shared_ptr<BaseObject> getFigureByID(size_t index);
+    [[nodiscard]] std::shared_ptr<BaseObject> getCameraByID(size_t index);
+
     [[nodiscard]] std::shared_ptr<Scene> clone() const;
 
 protected:
-    const CompositeObject& getCompositeObject() const { return _objects; }
+    [[nodiscard]] const CompositeObject& getCompositeObject() { return _objects; }
 
 private:
     CompositeObject _objects;
     CompositeObject _cameras;
-    std::shared_ptr<QGraphicsScene> _scene;
 };
 
 

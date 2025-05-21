@@ -7,7 +7,7 @@
 
 #include "../Figure.hpp"
 #include "../../../Transforms/Transforms.hpp"
-#include "../../../Visitors/Draw/DrawFigureLPVisitor.hpp"
+#include "../../../Visitors/Draw/FigureLP/DrawFigureLPVisitor.hpp"
 #include "ConcreteFigureLP/Links/Links.hpp"
 #include "ConcreteFigureLP/Point/Points.hpp"
 

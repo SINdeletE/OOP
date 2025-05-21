@@ -6,6 +6,7 @@
 #define CAMERA_HPP
 #include "BaseCameraPTU.hpp"
 #include "../BaseObject.hpp"
+#include "../../Transforms/Vec.hpp"
 
 class CameraPTU : public BaseCameraPTU
 {
@@ -30,9 +31,11 @@ public:
     void setTarget(const Point &target) override { _target = target; }
     void setTarget(Point &&target) override { _target = target; }
 
-    [[nodiscard]] const Point &getUp() const override { return _up; }
+    [[nodiscard]] const Vec &getUp() const override { return _up; }
     void setUp(const Point &up) override { _up = up; }
     void setUp(Point &&up) override { _up = up; }
+    void setUp(const Vec &up) override { _up = up; }
+    void setUp(Vec &&up) override { _up = up; }
 
     void transform(const Mover &mover) override;
     void transform(const Rotater &rotater) override;
@@ -43,7 +46,7 @@ public:
 private:
     Point _position;
     Point _target;
-    Point _up;
+    Vec _up;
 };
 
 

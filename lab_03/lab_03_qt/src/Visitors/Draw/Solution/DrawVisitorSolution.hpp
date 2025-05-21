@@ -18,7 +18,8 @@ public:
     DrawVisitorSolution();
     ~DrawVisitorSolution() = default;
 
-    std::shared_ptr<BaseDrawTemplateVisitor> createDrawTemplateVisitor(const std::shared_ptr<BaseObject> &object, const std::shared_ptr<BaseDrawer> &drawer);
+    std::shared_ptr<BaseDrawTemplateVisitor> createDrawTemplateVisitor(const std::shared_ptr<BaseObject> &object, const std::shared_ptr<Camera> &camera, \
+                                                                       const std::shared_ptr<BaseDrawer> &drawer);
     void reg(const std::shared_ptr<BaseObject> &object, const std::shared_ptr<DrawVisitorCreator> &creator);
 
 private:

@@ -24,6 +24,7 @@ public:
     using const_iterator = std::vector<std::shared_ptr<value_type>>::const_iterator;
     using reference = value_type&;
     using const_reference = const value_type&;
+    using shared_ptr_type = std::shared_ptr<value_type>;
 
     BaseObject() = default;
     BaseObject(const BaseObject&) = default;
@@ -39,6 +40,7 @@ public:
 
     virtual iterator begin() = 0;
     virtual iterator end() = 0;
+    virtual shared_ptr_type getObjectByID(size_type index) = 0;
 
     virtual void transform(const Mover &mover) {}
     virtual void transform(const Rotater &rotater) {}

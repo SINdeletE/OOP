@@ -26,4 +26,14 @@ public:
             const char *error_info = "Draw Manager: bad alloc") noexcept : BaseException(filename, classname, line, time, error_info) {}
 };
 
+class ErrorDrawManager_no_camera : public BaseException
+{
+public:
+    ErrorDrawManager_no_camera(const char *filename,
+            const char *classname,
+            const long line,
+            const char *time,
+            const char *error_info = "Draw Manager: no camera") noexcept : BaseException(filename, classname, line, time, error_info) {}
+};
+
 #endif //DRAWMANAGEREXCEPTION_HPP
