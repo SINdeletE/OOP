@@ -9,6 +9,7 @@
 #include "../BaseManager.hpp"
 #include "../../BaseObject/Camera/Camera.hpp"
 #include "../../Drawer/Drawer/BaseDrawer.hpp"
+#include "../SceneManager/Scene/Scene/Scene.hpp"
 
 
 class DrawManager : public BaseManager

@@ -12,6 +12,7 @@ class Visitor : public BaseDrawTemplateVisitor
 {
 public:
     Visitor() = default;
+    explicit Visitor(const std::shared_ptr<BaseCameraTransformer> &transformer, const std::shared_ptr<BaseDrawer> &drawer) : BaseDrawTemplateVisitor(transformer, drawer) {}
     ~Visitor() override = default;
 
     virtual void visit(const Type &) const = 0;

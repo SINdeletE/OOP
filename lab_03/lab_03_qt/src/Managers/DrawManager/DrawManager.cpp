@@ -6,8 +6,8 @@
 
 #include "../../Exceptions/Drawer/DrawerException.hpp"
 #include "../../Exceptions/Managers/DrawManagerException.hpp"
+#include "../../Transforms/CameraTransformer/Solution/CameraTransformerSolution.hpp"
 #include "../../Visitors/Draw/Solution/DrawVisitorSolution.hpp"
-#include "../SceneManager/Scene/Scene/Scene.hpp"
 
 void DrawManager::clear() const
 {
@@ -35,12 +35,21 @@ void DrawManager::drawScene(const std::shared_ptr<Scene> &scene) const
     }
 
     DrawVisitorSolution solutionDraw{};
-
+    CameraTransformerSolution solutionCameraTransformer{};
 
     auto objects = scene->getCompositeObject();
-    for (const auto &object : objects)
+    try
     {
-        object->accept(*solution.createDrawTemplateVisitor(object, _camera, _drawer)); // Выбор посетителя для определённой фигуры
+        for (const auto &object : objects)
+        {
+            object->accept(*solutionDraw.createDrawTemplateVisitor(object, \
+                        nullptr, _drawer)); // Выбор посетителя для определённой фигуры
+        }
+    }
+    catch (...)
+    {
+        const time_t cur_time = time(nullptr);
+        throw ErrorDrawManager_invalid_draw(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 }
 

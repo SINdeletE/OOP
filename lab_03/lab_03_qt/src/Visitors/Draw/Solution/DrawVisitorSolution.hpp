@@ -10,6 +10,7 @@
 #include "DrawVisitorCreator.hpp"
 #include "DrawVisitorHash.hpp"
 #include "../../../BaseObject/BaseObject.hpp"
+#include "../../../Transforms/CameraTransformer/BaseCameraTransformer.hpp"
 
 
 class DrawVisitorSolution
@@ -18,7 +19,7 @@ public:
     DrawVisitorSolution();
     ~DrawVisitorSolution() = default;
 
-    std::shared_ptr<BaseDrawTemplateVisitor> createDrawTemplateVisitor(const std::shared_ptr<BaseObject> &object, const std::shared_ptr<Camera> &camera, \
+    std::shared_ptr<BaseDrawTemplateVisitor> createDrawTemplateVisitor(const std::shared_ptr<BaseObject> &object, const std::shared_ptr<BaseCameraTransformer> &transformer, \
                                                                        const std::shared_ptr<BaseDrawer> &drawer);
     void reg(const std::shared_ptr<BaseObject> &object, const std::shared_ptr<DrawVisitorCreator> &creator);
 
