@@ -14,7 +14,7 @@ void CameraCommandAdd::execute()
     try
     {
         const auto object = _loadManager->loadObject(_filename);
-        _sceneManager->addObject(object);
+        _sceneManager->addCamera(object);
 
         if (_drawManager->IsEmpty())
             _drawManager->setCamera(std::dynamic_pointer_cast<Camera>(object));

@@ -7,7 +7,7 @@
 #include "../../../../Exceptions/Reader/ReaderException.hpp"
 
 
-TXTLPReader::TXTLPReader(const std::string& filename) : size(0)
+TXTLPReader::TXTLPReader(const std::string& filename) : _sizePoints(0), _sizeLinks(0)
 {
     _instream.open(filename, std::ios::in);
 
@@ -16,15 +16,6 @@ TXTLPReader::TXTLPReader(const std::string& filename) : size(0)
         const time_t cur_time = time(nullptr);
         throw ErrorReader_invalid_file(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
-
-    _instream >> size;
-    if (_instream.fail() || _instream.bad())
-    {
-        const time_t cur_time = time(nullptr);
-        throw ErrorReader_invalid_file(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-    }
-
-    _instream.seekg(0, std::ios::beg);
 }
 
 Link TXTLPReader::readLink()
@@ -43,7 +34,7 @@ Link TXTLPReader::readLink()
         }
     }
 
-    if (BeginID == EndID || BeginID >= size || EndID >= size)
+    if (BeginID == EndID || BeginID >= _sizePoints || EndID >= _sizePoints)
     {
         const time_t cur_time = time(nullptr);
         throw ErrorReader_invalid_file(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
@@ -91,7 +82,8 @@ Links TXTLPReader::readLinks()
     Links links{};
     Link link{};
 
-    for (std::size_t i = 0; i < size; i++)
+    readSizeLinks();
+    for (std::size_t i = 0; i < _sizeLinks; i++)
     {
         link = readLink();
         if (! linkIsCorrect(links, link))
@@ -111,7 +103,8 @@ Points TXTLPReader::readPoints()
     Points points{};
     Point point{};
 
-    for (std::size_t i = 0; i < size; i++)
+    readSizePoints();
+    for (std::size_t i = 0; i < _sizePoints; i++)
     {
         point = readPoint();
         points.AddPoint(point);
@@ -129,4 +122,25 @@ std::shared_ptr<ConcreteFigureLP> TXTLPReader::readFigureLP()
 
     return std::make_shared<ConcreteFigureLP>(figure);
 }
+
+void TXTLPReader::readSizePoints()
+{
+    _instream >> _sizePoints;
+    if (_instream.fail() || _instream.bad())
+    {
+        const time_t cur_time = time(nullptr);
+        throw ErrorReader_invalid_file(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
+}
+
+void TXTLPReader::readSizeLinks()
+{
+    _instream >> _sizeLinks;
+    if (_instream.fail() || _instream.bad())
+    {
+        const time_t cur_time = time(nullptr);
+        throw ErrorReader_invalid_file(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
+}
+
 

@@ -15,7 +15,7 @@ public:
     DrawVisitorHash() = default;
     ~DrawVisitorHash() = default;
 
-    std::size_t operator()(const std::shared_ptr<BaseObject> object) const
+    std::size_t operator()(const std::shared_ptr<BaseObject> &object) const
     {
         return typeid(*object).hash_code();
     }

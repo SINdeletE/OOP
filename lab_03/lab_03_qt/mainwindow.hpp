@@ -28,6 +28,10 @@ private slots:
     void on_actionAdd_Object_triggered();
     void on_actionAdd_Camera_triggered();
 
+    // void on_MoveButton_clicked();
+    // void on_RotateButton_clicked();
+    // void on_ScaleButton_clicked();
+
 private:
     Ui::mainwindow *ui;
 
@@ -35,9 +39,9 @@ private:
     std::unique_ptr<Facade> _facade;
     std::shared_ptr<BaseDrawer> _drawer;
 
-    void redraw();
-    void draw();
-    void clean();
+    void redraw() const;
+    void draw() const;
+    void clean() const;
 };
 
 #endif //MAINWINDOW_HPP

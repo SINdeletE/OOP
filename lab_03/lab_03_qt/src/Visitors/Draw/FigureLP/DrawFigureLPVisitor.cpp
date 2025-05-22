@@ -4,6 +4,8 @@
 
 #include "DrawFigureLPVisitor.hpp"
 
+#include <iostream>
+
 #include "../../../BaseObject/Figure/ConcreteFigure/BaseConcreteFigureLP.hpp"
 
 void DrawFigureLPVisitor::visit(const BaseConcreteFigureLP& figure) const
@@ -11,7 +13,10 @@ void DrawFigureLPVisitor::visit(const BaseConcreteFigureLP& figure) const
     auto iterator = figure.getLinks().CreateConstIterator();
 
     for (iterator.First(); ! iterator.IsDone(); iterator.Next())
+    {
         _drawer->drawLine(_transformer->transform(figure.getPoints()[iterator.Current()->GetBeginID()]), \
                             _transformer->transform(figure.getPoints()[iterator.Current()->GetEndID()]));
+    }
+
 }
 

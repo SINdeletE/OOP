@@ -15,7 +15,14 @@ std::shared_ptr<BaseObject> LoadManager::loadObject(const std::string& filename)
         DirectorSolution solution;
         const std::shared_ptr<BaseObjectDirector> object_director = solution.createDirector(filename);
 
-        return object_director->create();
+        auto object = object_director->create();
+        if (object == nullptr)
+        {
+            const time_t cur_time = time(nullptr);
+            throw ErrorLoadManager_invalid_file(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        }
+
+        return object;
     }
     catch (ErrorDirector_bad_alloc &e)
     {

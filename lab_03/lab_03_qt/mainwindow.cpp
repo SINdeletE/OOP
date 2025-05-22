@@ -24,14 +24,15 @@ mainwindow::mainwindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::mainwindow)
 {
     ui->setupUi(this);
+    // ui->tableWidget->set
 
     try
     {
         auto new_scene = new QGraphicsScene(ui->graphicsView);
-        ui->graphicsView->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+        new_scene->setSceneRect(100, 100, 100, 100);
         ui->graphicsView->setScene(new_scene);
 
-        const auto color = std::make_shared<RGBColor>(255, 255, 255);
+        const auto color = std::make_shared<RGBColor>(0, 0, 0);
 
         const auto gs = std::make_shared<QtGraphicsScene>(new_scene, ui->graphicsView);
         DrawerDirectorSolution solution{};
@@ -64,26 +65,25 @@ void mainwindow::on_actionAdd_Object_triggered()
         FigureCommandAdd command{relativePath.toStdString()};
 
         _facade->execute(command);
-        std::cout << "0_0" << std::endl;
     }
 
     this->redraw();
 }
 
-void mainwindow::redraw()
+void mainwindow::redraw() const
 {
     this->clean();
     this->draw();
 }
 
-void mainwindow::draw()
+void mainwindow::draw() const
 {
     DrawCommand drawCommand{_drawer};
 
     _facade->execute(drawCommand);
 }
 
-void mainwindow::clean()
+void mainwindow::clean() const
 {
     CleanCommand cleanCommand{_drawer};
 
@@ -102,8 +102,8 @@ void mainwindow::on_actionAdd_Camera_triggered()
         CameraCommandAdd command{relativePath.toStdString()};
 
         _facade->execute(command);
-        std::cout << "0_0" << std::endl;
     }
 
     this->redraw();
 }
+

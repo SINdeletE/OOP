@@ -23,7 +23,8 @@ public:
     void setPen(const std::shared_ptr<BasePen> &pen) override;
     [[nodiscard]] QGraphicsScene *getScene() const { return _scene->getScene(); }
 
-    void drawLine(const Point& start, const Point& end) override { _scene->getScene()->addLine(start.GetX(), start.GetY(), end.GetX(), end.GetY(), *_pen->getPen()); }
+    void drawLine(const Point& start, const Point& end) override { _scene->getScene()->addLine(start.GetX(), \
+                                                                                                start.GetY(), end.GetX(), end.GetY(), *_pen->getPen()); }
     void clear() override { _scene->getScene()->clear(); }
 
 private:

@@ -22,11 +22,15 @@ public:
 
 private:
     std::ifstream _instream;
-    std::size_t size;
+    std::size_t _sizePoints;
+    std::size_t _sizeLinks;
 
     [[nodiscard]] Point readPoint();
     [[nodiscard]] Link readLink();
     [[nodiscard]] static bool linkIsCorrect(Links &links, const Link &link);
+
+    void readSizePoints();
+    void readSizeLinks();
 };
 
 
