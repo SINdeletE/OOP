@@ -28,7 +28,7 @@ public:
 
     [[nodiscard]] std::shared_ptr<BaseCameraTransformer> createCameraTransformer(const std::shared_ptr<Camera> &camera) const override
     {
-        return std::shared_ptr<T>(camera);
+        return std::make_shared<T>(camera);
     }
 };
 
