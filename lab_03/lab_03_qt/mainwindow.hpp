@@ -5,7 +5,9 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
+#include <QGraphicsScene>
 #include <QMainWindow>
+#include <QTableWidget>
 
 #include "src/Drawer/Drawer/BaseDrawer.hpp"
 #include "src/Facade/Facade.hpp"
@@ -34,6 +36,10 @@ private slots:
 
 private:
     Ui::mainwindow *ui;
+    QGraphicsScene *scene;
+
+    QTableWidget* _objectTable{nullptr};
+    QTableWidget* _cameraTable{nullptr};
 
     bool initialization_check;
     std::unique_ptr<Facade> _facade;
@@ -42,6 +48,9 @@ private:
     void redraw() const;
     void draw() const;
     void clean() const;
+
+    void objectTableInit();
+    void cameraTableInit();
 };
 
 #endif //MAINWINDOW_HPP

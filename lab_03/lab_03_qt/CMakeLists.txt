@@ -195,6 +195,9 @@ add_executable(lab_03_qt main.cpp
         src/Commands/DrawCommand/CleanCommand.hpp
         src/Commands/CameraCommand/Add/CameraCommandAdd.cpp
         src/Commands/CameraCommand/Add/CameraCommandAdd.hpp
+        src/GUI/Table.cpp
+        src/GUI/Table.hpp
+        src/Exceptions/GUI/TableException.hpp
 )
 
 target_link_libraries(lab_03_qt

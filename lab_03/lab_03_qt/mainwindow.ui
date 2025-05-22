@@ -970,6 +970,9 @@
       </disabled>
      </palette>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::FocusPolicy::WheelFocus</enum>
+    </property>
     <property name="interactive">
      <bool>true</bool>
     </property>
@@ -1237,25 +1240,23 @@
      </item>
     </layout>
    </widget>
-   <widget class="QTableWidget" name="tableWidget">
+   <widget class="QWidget" name="verticalLayoutWidget_3">
     <property name="geometry">
      <rect>
       <x>730</x>
-      <y>221</y>
+      <y>19</y>
       <width>381</width>
-      <height>171</height>
+      <height>371</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QTableView" name="tableView">
-    <property name="geometry">
-     <rect>
-      <x>730</x>
-      <y>10</y>
-      <width>381</width>
-      <height>192</height>
-     </rect>
-    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QWidget" name="CameraContainer" native="true"/>
+     </item>
+     <item>
+      <widget class="QWidget" name="ObjectContainer" native="true"/>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
