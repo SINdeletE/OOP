@@ -27,6 +27,7 @@ public:
     std::shared_ptr<Scene>& getScene() { return _scene; }
 
     void addObject(const std::shared_ptr<BaseObject> &object) const;
+    void addCamera(const std::shared_ptr<BaseObject> &camera) const;
 
     [[nodiscard]] BaseObject::shared_ptr_type getFigureByID(const size_t index) const { return _scene->getFigureByID(index); }
 

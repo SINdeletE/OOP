@@ -7,7 +7,6 @@
 #include "../BaseCameraTransformer.hpp"
 #include "../../../BaseObject/Camera/BaseCameraPTU.hpp"
 
-
 class CameraPTUTransformer : public BaseCameraTransformer
 {
 public:

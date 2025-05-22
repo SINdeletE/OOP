@@ -9,20 +9,20 @@
 #include "../../Transforms/CameraTransformer/Solution/CameraTransformerSolution.hpp"
 #include "../../Visitors/Draw/Solution/DrawVisitorSolution.hpp"
 
-void DrawManager::clear() const
+void DrawManager::clear(const std::shared_ptr<BaseDrawer> &drawer) const
 {
-    if (_drawer == nullptr)
+    if (drawer == nullptr)
     {
         const time_t cur_time = time(nullptr);
         throw ErrorDrawManager_invalid_drawer(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 
-    _drawer->clear();
+    drawer->clear();
 }
 
-void DrawManager::drawScene(const std::shared_ptr<Scene> &scene) const
+void DrawManager::drawScene(const std::shared_ptr<Scene> &scene, const std::shared_ptr<BaseDrawer> &drawer) const
 {
-    if (_drawer == nullptr)
+    if (drawer == nullptr)
     {
         const time_t cur_time = time(nullptr);
         throw ErrorDrawManager_invalid_drawer(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
@@ -31,7 +31,7 @@ void DrawManager::drawScene(const std::shared_ptr<Scene> &scene) const
     if (_camera == nullptr)
     {
         const time_t cur_time = time(nullptr);
-        throw ErrorDrawManager_invalid_drawer(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        throw ErrorDrawManager_no_camera(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 
     DrawVisitorSolution solutionDraw{};
@@ -43,7 +43,7 @@ void DrawManager::drawScene(const std::shared_ptr<Scene> &scene) const
         for (const auto &object : objects)
         {
             object->accept(*solutionDraw.createDrawTemplateVisitor(object, \
-                        nullptr, _drawer)); // Выбор посетителя для определённой фигуры
+                        solutionCameraTransformer.createCameraTransformer(_camera), drawer)); // Выбор посетителя для определённой фигуры
         }
     }
     catch (...)

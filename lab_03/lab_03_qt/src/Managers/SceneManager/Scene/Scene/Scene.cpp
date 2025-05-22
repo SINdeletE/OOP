@@ -29,6 +29,19 @@ void Scene::addObject(const std::shared_ptr<BaseObject>& object)
     }
 }
 
+void Scene::addCamera(const std::shared_ptr<BaseObject>& object)
+{
+    try
+    {
+        _cameras.addChild(object);
+    }
+    catch (ErrorCompositeObject_bad_alloc &e)
+    {
+        const time_t cur_time = time(nullptr);
+        throw ErrorScene_bad_alloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
+}
+
 std::shared_ptr<BaseObject> Scene::getFigureByID(const size_t index)
 {
     try

@@ -8,6 +8,7 @@
 
 #include "../BaseManager.hpp"
 #include "../../BaseObject/BaseObject.hpp"
+#include "../SceneManager/Scene/Scene/Scene.hpp"
 
 
 class LoadManager final: public BaseManager
@@ -17,7 +18,7 @@ public:
     ~LoadManager() override = default;
 
     std::shared_ptr<BaseObject> loadObject(const std::string &filename);
-    std::shared_ptr<Scene> loadScene(const std::string &filename);
+    std::shared_ptr<Scene> loadScene(const std::string &filename) { return nullptr; }
 };
 
 

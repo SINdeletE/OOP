@@ -1251,13 +1251,13 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionAdd_from_file"/>
-    <addaction name="actionAdd_Scene"/>
+    <addaction name="actionAdd_Object"/>
+    <addaction name="actionAdd_Camera"/>
    </widget>
    <addaction name="menuObject"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionAdd_from_file">
+  <action name="actionAdd_Object">
    <property name="text">
     <string>Add from file</string>
    </property>
@@ -1265,12 +1265,9 @@
     <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="actionAdd_Scene">
+  <action name="actionAdd_Camera">
    <property name="text">
-    <string>Add Scene</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+N</string>
+    <string>Add Camera</string>
    </property>
   </action>
  </widget>

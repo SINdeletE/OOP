@@ -189,6 +189,12 @@ add_executable(lab_03_qt main.cpp
         src/Transforms/CameraTransformer/Solution/CameraTransformerSolution.hpp
         src/Transforms/CameraTransformer/Solution/CameraTransformerHash.hpp
         src/Transforms/CameraTransformer/Solution/CameraTransformerCreator.hpp
+        src/Commands/DrawCommand/DrawCommand.cpp
+        src/Commands/DrawCommand/DrawCommand.hpp
+        src/Commands/DrawCommand/CleanCommand.cpp
+        src/Commands/DrawCommand/CleanCommand.hpp
+        src/Commands/CameraCommand/Add/CameraCommandAdd.cpp
+        src/Commands/CameraCommand/Add/CameraCommandAdd.hpp
 )
 
 target_link_libraries(lab_03_qt

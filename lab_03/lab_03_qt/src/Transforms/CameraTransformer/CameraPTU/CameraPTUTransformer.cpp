@@ -7,7 +7,7 @@
 #include "../../../Exceptions/transform/TransformerException.hpp"
 #include "../../../Exceptions/transform/VecException.hpp"
 
-CameraPTUTransformer::CameraPTUTransformer(const std::shared_ptr<Camera>& camera) : BaseCameraTransformer(camera)
+CameraPTUTransformer::CameraPTUTransformer(const std::shared_ptr<Camera> &camera) : BaseCameraTransformer(camera)
 {
     auto cameraPtr = std::dynamic_pointer_cast<BaseCameraPTU>(camera);
     if (cameraPtr == nullptr)

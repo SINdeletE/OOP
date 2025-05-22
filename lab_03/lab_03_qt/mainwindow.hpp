@@ -25,8 +25,8 @@ public:
     [[nodiscard]] bool init_check() const noexcept { return initialization_check; }
 
 private slots:
-    void on_actionAdd_from_file_triggered();
-    void on_actionAdd_Scene_triggered();
+    void on_actionAdd_Object_triggered();
+    void on_actionAdd_Camera_triggered();
 
 private:
     Ui::mainwindow *ui;
@@ -34,6 +34,10 @@ private:
     bool initialization_check;
     std::unique_ptr<Facade> _facade;
     std::shared_ptr<BaseDrawer> _drawer;
+
+    void redraw();
+    void draw();
+    void clean();
 };
 
 #endif //MAINWINDOW_HPP

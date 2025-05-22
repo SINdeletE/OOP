@@ -44,3 +44,8 @@ void SceneManager::addObject(const std::shared_ptr<BaseObject>& object) const
     _scene->addObject(object);
 }
 
+void SceneManager::addCamera(const std::shared_ptr<BaseObject>& object) const
+{
+    _scene->addCamera(object);
+}
+
