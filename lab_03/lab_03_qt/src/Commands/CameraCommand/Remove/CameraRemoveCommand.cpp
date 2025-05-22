@@ -1,17 +1,22 @@
 //
-// Created by nuelex on 21/05/25.
+// Created by nuelex on 22/05/25.
 //
 
-#include "FigureRemoveCommand.hpp"
+#include "CameraRemoveCommand.hpp"
 
 #include "../../../Exceptions/Commands/CommandsException.hpp"
 #include "../../../Exceptions/Scene/SceneException.hpp"
 
-void FigureRemoveCommand::execute()
+void CameraRemoveCommand::execute()
 {
     try
     {
-        _sceneManager->removeObject(_id);
+        if (_drawManager->getCamera() == _sceneManager->getCameraByID(_id))
+        {
+            _drawManager->setCamera(nullptr);
+        }
+
+        _sceneManager->removeCamera(_id);
     }
     catch (ErrorScene_out_of_range &e)
     {

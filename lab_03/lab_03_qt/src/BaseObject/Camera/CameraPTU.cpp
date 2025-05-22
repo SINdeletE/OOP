@@ -9,10 +9,11 @@
 void CameraPTU::transform(const Rotater& rotater)
 {
     const Mover backMover = -rotater.centerToMover();
+    auto radRotater = radFromDegree(rotater);
     const Mover fwdMover = rotater.centerToMover();
 
     this->transform(backMover);
-    _target.rotate(rotater.getOx(), rotater.getOy(), rotater.getOz());
+    _target.rotate(radRotater.getOx(), radRotater.getOy(), radRotater.getOz());
     this->transform(fwdMover);
 }
 
@@ -28,5 +29,12 @@ void CameraPTU::accept(const BaseDrawTemplateVisitor& visitor)
         cv->visit(*this);
 }
 
+Rotater CameraPTU::radFromDegree(const Rotater& rotater)
+{
+    return {rotater.getOx() * M_PI / 180,
+            rotater.getOy() * M_PI / 180,
+            rotater.getOz() * M_PI / 180,
+            rotater.getCenter()};
+}
 
 

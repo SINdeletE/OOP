@@ -1004,7 +1004,7 @@
         <widget class="QLineEdit" name="LineEditY"/>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_2"/>
+        <widget class="QLineEdit" name="LineEditZ"/>
        </item>
       </layout>
      </item>
@@ -1149,9 +1149,9 @@
     <property name="geometry">
      <rect>
       <x>730</x>
-      <y>400</y>
+      <y>450</y>
       <width>381</width>
-      <height>161</height>
+      <height>131</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="CameraWidgets">
@@ -1251,10 +1251,36 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <widget class="QWidget" name="CameraContainer" native="true"/>
+      <widget class="QWidget" name="ObjectContainer" native="true"/>
      </item>
      <item>
-      <widget class="QWidget" name="ObjectContainer" native="true"/>
+      <widget class="QWidget" name="CameraContainer" native="true"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>400</y>
+      <width>381</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <item>
+      <widget class="QPushButton" name="DeleteObjectButton">
+       <property name="text">
+        <string>Delete Object</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="DeleteCameraButton">
+       <property name="text">
+        <string>Delete Camera</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -1289,6 +1315,9 @@
   <action name="actionAdd_Camera">
    <property name="text">
     <string>Add Camera</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
    </property>
   </action>
  </widget>

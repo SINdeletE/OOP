@@ -4,17 +4,23 @@
 
 #ifndef TABLE_HPP
 #define TABLE_HPP
+#include <QGraphicsScene>
 #include <QTableWidget>
 
 
 class Table
 {
 public:
-    explicit Table(QTableWidget *table);
+    Table() = default;
+    explicit Table(QTableWidget *table) { this->setTable(table); }
     ~Table() = default;
 
-    void setTable(QTableWidget *table) : _table(table) {}
-    void addItem(size_t id, const QString& object_name);
+    void setTable(QTableWidget *table);
+
+    void pushItem(const QString& object_name);
+    void removeItem(const size_t id);
+
+    int selectedItem() const { return _table->currentRow(); }
 
 private:
     QTableWidget *_table{nullptr};

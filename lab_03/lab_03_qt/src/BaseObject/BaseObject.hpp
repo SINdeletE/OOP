@@ -36,7 +36,7 @@ public:
     virtual bool VisibilityCheck() = 0;
 
     virtual void addChild(const std::shared_ptr<BaseObject> &child) {}
-    virtual void removeChild(std::shared_ptr<BaseObject> &child) {}
+    virtual void removeChild(const size_t id) {}
 
     virtual iterator begin() = 0;
     virtual iterator end() = 0;

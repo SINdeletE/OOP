@@ -4,6 +4,8 @@
 
 #include "FigureLP.hpp"
 
+#include <math.h>
+
 FigureLP::FigureLP(const FigureLP &figure)
 {
     links_data = figure.links_data;
@@ -54,18 +56,29 @@ void FigureLP::transform(const Mover &mover)
 
 void FigureLP::transform(const Rotater &rotater)
 {
-    PointsIterator<Point, Points> iterator(points_data);
+    const Mover backMover = -rotater.centerToMover();
+    auto radRotater = radFromDegree(rotater);
+    const Mover fwdMover = rotater.centerToMover();
 
-    this->transform(-rotater.centerToMover());
-    this->rotate_function(rotater);
-    this->transform(rotater.centerToMover());
+    this->transform(backMover);
+    this->rotate_function(radRotater);
+    this->transform(fwdMover);
 }
 
 void FigureLP::transform(const Scaler &scaler)
 {
-    PointsIterator<Point, Points> iterator(points_data);
+    const Mover backMover = -scaler.centerToMover();
+    const Mover fwdMover = scaler.centerToMover();
 
-    this->transform(-scaler.centerToMover());
+    this->transform(backMover);
     this->scale_function(scaler);
-    this->transform(scaler.centerToMover());
+    this->transform(fwdMover);
+}
+
+Rotater FigureLP::radFromDegree(const Rotater &rotater)
+{
+    return {rotater.getOx() * M_PI / 180,
+            rotater.getOy() * M_PI / 180,
+            rotater.getOz() * M_PI / 180,
+            rotater.getCenter()};
 }

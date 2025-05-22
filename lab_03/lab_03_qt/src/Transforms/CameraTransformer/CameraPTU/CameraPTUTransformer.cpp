@@ -23,7 +23,8 @@ Point CameraPTUTransformer::transform(const Point &other) const
 {
     const Vec pos{_camera->getPosition()};
     const Vec target{_camera->getTarget()};
-    const Vec up{_camera->getUp()};
+    Vec up{_camera->getUp()};
+    up.normalize();
     const Vec other_vec{other};
 
     Vec F = target - pos;

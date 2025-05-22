@@ -46,4 +46,16 @@ void CompositeObject::accept(BaseTransformVisitor& visitor)
     }
 }
 
+void CompositeObject::removeChild(const size_t id)
+{
+    if (id >= children.size())
+    {
+        const time_t cur_time = time(nullptr);
+        throw ErrorCompositeObject_out_of_range(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
+
+    children.erase(children.begin() + id);
+}
+
+
 

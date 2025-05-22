@@ -40,6 +40,8 @@ private:
 
     Links links_data;
     Points points_data;
+
+    static Rotater radFromDegree(const Rotater &rotater);
 };
 
 

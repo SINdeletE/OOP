@@ -11,16 +11,18 @@
 
 #include "src/Drawer/Drawer/BaseDrawer.hpp"
 #include "src/Facade/Facade.hpp"
+#include "src/GUI/Table.hpp"
 
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class mainwindow; }
 QT_END_NAMESPACE
 
-class mainwindow : public QMainWindow {
-Q_OBJECT
+class mainwindow : public QMainWindow
+{
+    Q_OBJECT
 
-public:
+    public:
     explicit mainwindow(QWidget *parent = nullptr);
     ~mainwindow() override;
 
@@ -30,16 +32,19 @@ private slots:
     void on_actionAdd_Object_triggered();
     void on_actionAdd_Camera_triggered();
 
-    // void on_MoveButton_clicked();
-    // void on_RotateButton_clicked();
-    // void on_ScaleButton_clicked();
+    void on_DeleteObjectButton_clicked() const;
+    void on_DeleteCameraButton_clicked() const;
+
+    void on_MoveButton_clicked() const;
+    void on_RotateButton_clicked() const;
+    void on_ScaleButton_clicked() const;
 
 private:
     Ui::mainwindow *ui;
     QGraphicsScene *scene;
 
-    QTableWidget* _objectTable{nullptr};
-    QTableWidget* _cameraTable{nullptr};
+    std::unique_ptr<Table> _objectTable;
+    std::unique_ptr<Table> _cameraTable;
 
     bool initialization_check;
     std::unique_ptr<Facade> _facade;
@@ -51,6 +56,11 @@ private:
 
     void objectTableInit();
     void cameraTableInit();
+
+    std::shared_ptr<Point> centerFromGUI() const;
+    std::shared_ptr<Mover> moverFromGUI() const;
+    std::shared_ptr<Rotater> rotaterFromGUI() const;
+    std::shared_ptr<Scaler> scalerFromGUI() const;
 };
 
 #endif //MAINWINDOW_HPP

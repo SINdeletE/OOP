@@ -30,6 +30,10 @@ public:
     void addCamera(const std::shared_ptr<BaseObject> &camera) const;
 
     [[nodiscard]] BaseObject::shared_ptr_type getFigureByID(const size_t index) const { return _scene->getFigureByID(index); }
+    [[nodiscard]] BaseObject::shared_ptr_type getCameraByID(const size_t index) const { return _scene->getCameraByID(index); }
+
+    void removeObject(const size_t id) const { _scene->removeObject(id); }
+    void removeCamera(const size_t id) const { _scene->removeCamera(id); }
 
 private:
     std::shared_ptr<Scene> _scene;

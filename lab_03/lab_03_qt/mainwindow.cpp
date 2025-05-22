@@ -17,11 +17,18 @@
 #include "src/Drawer/Graphics/Qt/QtGraphicsScene.hpp"
 #include <QWidget>
 
+#include "src/Commands/CameraCommand/Remove/CameraRemoveCommand.hpp"
+#include "src/Commands/FigureCommand/Move/FigureCommandMove.hpp"
+#include "src/Commands/FigureCommand/Remove/FigureRemoveCommand.hpp"
+#include "src/Commands/FigureCommand/Rotate/FigureCommandRotate.hpp"
+#include "src/Commands/FigureCommand/Scale/FigureCommandScale.hpp"
+
 
 mainwindow::mainwindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::mainwindow), scene(nullptr)
 {
     ui->setupUi(this);
+    ui->graphicsView->setRenderHint(QPainter::Antialiasing);
 
     try
     {
@@ -30,6 +37,7 @@ mainwindow::mainwindow(QWidget *parent) :
 
         auto scene = new QGraphicsScene(ui->graphicsView);
         scene->setSceneRect(100, 100, 100, 100);
+        scene->setSceneRect(0, 0, 711, 771);
         ui->graphicsView->setScene(scene);
 
         const auto color = std::make_shared<RGBColor>(0, 0, 0);
@@ -51,9 +59,6 @@ mainwindow::mainwindow(QWidget *parent) :
 
 mainwindow::~mainwindow() {
     delete ui;
-
-    delete _objectTable;
-    delete _cameraTable;
 }
 
 void mainwindow::on_actionAdd_Object_triggered()
@@ -68,9 +73,11 @@ void mainwindow::on_actionAdd_Object_triggered()
         FigureCommandAdd command{relativePath.toStdString()};
 
         _facade->execute(command);
-    }
 
-    this->redraw();
+        this->redraw();
+
+        _objectTable->pushItem(QFileInfo(fileName).baseName());
+    }
 }
 
 void mainwindow::redraw() const
@@ -105,40 +112,229 @@ void mainwindow::on_actionAdd_Camera_triggered()
         CameraCommandAdd command{relativePath.toStdString()};
 
         _facade->execute(command);
-    }
 
-    this->redraw();
+        this->redraw();
+
+        _cameraTable->pushItem(QFileInfo(fileName).baseName());
+    }
 }
 
 void mainwindow::objectTableInit()
 {
-    _objectTable = new QTableWidget();
-    _objectTable->setColumnCount(2);
-    _objectTable->setColumnWidth(0, 189);
-    _objectTable->setColumnWidth(1, 189);
+    auto table = new QTableWidget();
+    table->setColumnCount(1);
+    table->setColumnWidth(0, 379);
 
-    _objectTable->setUpdatesEnabled(true);
-    QStringList columnNames = {"ID", "Object name"};
-    _objectTable->setHorizontalHeaderLabels(columnNames);
+    table->setUpdatesEnabled(true);
+    QStringList columnNames = {"Object name"};
+    table->setHorizontalHeaderLabels(columnNames);
 
     QVBoxLayout* layout = new QVBoxLayout(ui->ObjectContainer);
-    layout->addWidget(_objectTable);
+    layout->addWidget(table);
     ui->ObjectContainer->setLayout(layout);
+
+    _objectTable = std::make_unique<Table>(table);
 }
 
 void mainwindow::cameraTableInit()
 {
-    _cameraTable = new QTableWidget();
-    _cameraTable->setColumnCount(2);
-    _cameraTable->setColumnWidth(0, 189);
-    _cameraTable->setColumnWidth(1, 189);
+    auto table = new QTableWidget();
+    table->setColumnCount(1);
+    table->setColumnWidth(0, 379);
 
-    _cameraTable->setUpdatesEnabled(true);
-    QStringList columnNames = {"ID", "Camera name"};
-    _cameraTable->setHorizontalHeaderLabels(columnNames);
+    table->setUpdatesEnabled(true);
+    QStringList columnNames = {"Camera name"};
+    table->setHorizontalHeaderLabels(columnNames);
 
     QVBoxLayout* layout = new QVBoxLayout(ui->CameraContainer);
-    layout->addWidget(_cameraTable);
+    layout->addWidget(table);
     ui->CameraContainer->setLayout(layout);
+
+    _cameraTable = std::make_unique<Table>(table);
 }
+
+void mainwindow::on_DeleteObjectButton_clicked() const
+{
+    const auto id = _objectTable->selectedItem();
+
+    if (id != -1)
+    {
+        FigureRemoveCommand command{static_cast<size_t>(id)};
+
+        _facade->execute(command);
+
+        _objectTable->removeItem(id);
+
+        this->redraw();
+    }
+}
+
+void mainwindow::on_DeleteCameraButton_clicked() const
+{
+    const auto id = _cameraTable->selectedItem();
+
+    if (id != -1)
+    {
+        CameraRemoveCommand command{static_cast<size_t>(id)};
+
+        _facade->execute(command);
+
+        _cameraTable->removeItem(id);
+
+        this->redraw();
+    }
+}
+
+std::shared_ptr<Mover> mainwindow::moverFromGUI() const
+{
+    Point center{};
+    std::shared_ptr<Mover> result = nullptr;
+    bool flag = true;
+
+    double dy, dz;
+
+    double dx = ui->LineEditDx->text().toDouble(&flag);
+    if (flag)
+    {
+        dy = ui->LineEditDy->text().toDouble(&flag);
+
+        if (flag)
+        {
+            dz = ui->LineEditDz->text().toDouble(&flag);
+        }
+    }
+
+    if (flag)
+    {
+        result = std::make_shared<Mover>(dx, dy, dz, center);
+    }
+
+    return result;
+}
+
+void mainwindow::on_MoveButton_clicked() const
+{
+    const auto id = _objectTable->selectedItem();
+    auto mover = this->moverFromGUI();
+
+    if (mover != nullptr && id != -1)
+    {
+        FigureCommandMove transform{static_cast<size_t>(id), mover};
+
+        _facade->execute(transform);
+
+        this->redraw();
+    }
+}
+
+std::shared_ptr<Point> mainwindow::centerFromGUI() const
+{
+    std::shared_ptr<Point> result = nullptr;
+    bool flag = true;
+
+    double y, z;
+
+    double x = ui->LineEditX->text().toDouble(&flag);
+    if (flag)
+    {
+        y = ui->LineEditY->text().toDouble(&flag);
+
+        if (flag)
+        {
+            z = ui->LineEditZ->text().toDouble(&flag);
+        }
+    }
+
+    if (flag)
+    {
+        result = std::make_shared<Point>(x, y, z);
+    }
+
+    return result;
+}
+
+std::shared_ptr<Rotater> mainwindow::rotaterFromGUI() const
+{
+    std::shared_ptr<Point> center = this->centerFromGUI();
+    std::shared_ptr<Rotater> result = nullptr;
+    bool flag = true;
+
+    double oy, oz;
+
+    double ox = ui->LineEditOx->text().toDouble(&flag);
+    if (flag)
+    {
+        oy = ui->LineEditOy->text().toDouble(&flag);
+
+        if (flag)
+        {
+            oz = ui->LineEditOz->text().toDouble(&flag);
+        }
+    }
+
+    if (flag)
+    {
+        result = std::make_shared<Rotater>(ox, oy, oz, *center);
+    }
+
+    return result;
+}
+
+std::shared_ptr<Scaler> mainwindow::scalerFromGUI() const
+{
+    const std::shared_ptr<Point> center = this->centerFromGUI();
+    std::shared_ptr<Scaler> result = nullptr;
+    bool flag = true;
+
+    double ky, kz;
+
+    double kx = ui->LineEditKx->text().toDouble(&flag);
+    if (flag)
+    {
+        ky = ui->LineEditKy->text().toDouble(&flag);
+
+        if (flag)
+        {
+            kz = ui->LineEditKz->text().toDouble(&flag);
+        }
+    }
+
+    if (flag)
+    {
+        result = std::make_shared<Scaler>(kx, ky, kz, *center);
+    }
+
+    return result;
+}
+
+void mainwindow::on_RotateButton_clicked() const
+{
+    const auto id = _objectTable->selectedItem();
+    auto rotater = this->rotaterFromGUI();
+
+    if (rotater != nullptr && id != -1)
+    {
+        FigureCommandRotate transform{static_cast<size_t>(id), rotater};
+
+        _facade->execute(transform);
+
+        this->redraw();
+    }
+}
+
+void mainwindow::on_ScaleButton_clicked() const
+{
+    const auto id = _objectTable->selectedItem();
+    auto scaler = this->scalerFromGUI();
+
+    if (scaler != nullptr && id != -1)
+    {
+        FigureCommandScale transform{static_cast<size_t>(id), scaler};
+
+        _facade->execute(transform);
+
+        this->redraw();
+    }
+}
+
 

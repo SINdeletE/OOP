@@ -54,6 +54,7 @@ public:
     [[nodiscard]] double getOx() const noexcept { return ox; }
     [[nodiscard]] double getOy() const noexcept { return oy; }
     [[nodiscard]] double getOz() const noexcept { return oz; }
+    [[nodiscard]] const Point &getCenter() const noexcept { return center; }
 
     void setOx(const double ox_) { ox = ox_; }
     void setOy(const double oy_) { oy = oy_; }
@@ -82,6 +83,7 @@ public:
     [[nodiscard]] double getKx() const noexcept { return kx; }
     [[nodiscard]] double getKy() const noexcept { return ky; }
     [[nodiscard]] double getKz() const noexcept { return kz; }
+    [[nodiscard]] const Point &getCenter() const noexcept { return center; }
 
     void setKx(const double kx_) { kx = kx_; }
     void setKy(const double ky_) { ky = ky_; }

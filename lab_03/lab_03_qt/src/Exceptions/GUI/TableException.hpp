@@ -37,6 +37,16 @@ public:
             const char *error_info = "TABLE: bad alloc") noexcept : BaseException(filename, classname, line, time, error_info) {}
 };
 
+class ErrorTable_invalid_data : public BaseException
+{
+public:
+    ErrorTable_invalid_data(const char *filename,
+            const char *classname,
+            const long line,
+            const char *time,
+            const char *error_info = "TABLE: Invalid data") noexcept : BaseException(filename, classname, line, time, error_info) {}
+};
+
 
 
 #endif //TABLEEXCEPTION_HPP

@@ -24,6 +24,8 @@ public:
 
     void addObject(const std::shared_ptr<BaseObject> &object);
     void addCamera(const std::shared_ptr<BaseObject> &camera);
+    void removeObject(size_t id);
+    void removeCamera(size_t id);
 
     [[nodiscard]] std::shared_ptr<BaseObject> getFigureByID(size_t index);
     [[nodiscard]] std::shared_ptr<BaseObject> getCameraByID(size_t index);

@@ -21,7 +21,7 @@ public:
     bool VisibilityCheck() override { return true; }
 
     void addChild(const std::shared_ptr<BaseObject> &child) override {}
-    void removeChild(std::shared_ptr<BaseObject> &child) override {}
+    void removeChild(const size_t id) override {}
 
     BaseObject::iterator begin() override { return BaseObject::iterator(nullptr); }
     BaseObject::iterator end() override { return BaseObject::iterator(nullptr); }

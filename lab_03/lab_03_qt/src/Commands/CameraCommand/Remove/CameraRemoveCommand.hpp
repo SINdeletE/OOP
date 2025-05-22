@@ -1,16 +1,16 @@
 //
-// Created by nuelex on 21/05/25.
+// Created by nuelex on 22/05/25.
 //
 
-#ifndef FIGUREREMOVECOMMAND_HPP
-#define FIGUREREMOVECOMMAND_HPP
+#ifndef CAMERAREMOVECOMMAND_HPP
+#define CAMERAREMOVECOMMAND_HPP
 #include "../../BaseCommand.hpp"
 
 
-class FigureRemoveCommand : public BaseCommand
+class CameraRemoveCommand : public BaseCommand
 {
 public:
-    explicit FigureRemoveCommand(const size_t id) { _id = id; }
+    explicit CameraRemoveCommand(const size_t id) { _id = id; }
 
     void setManager(const std::shared_ptr<SceneManager> &manager) override { _sceneManager = manager; }
     void setManager(const std::shared_ptr<LoadManager> &manager) override {}
@@ -28,4 +28,4 @@ private:
 
 
 
-#endif //FIGUREREMOVECOMMAND_HPP
+#endif //CAMERAREMOVECOMMAND_HPP

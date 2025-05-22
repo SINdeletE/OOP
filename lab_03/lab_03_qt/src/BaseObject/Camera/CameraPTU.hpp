@@ -18,7 +18,7 @@ public:
     bool CompositeCheck() override { return false; }
 
     void addChild(const std::shared_ptr<BaseObject> &child) override {}
-    void removeChild(std::shared_ptr<BaseObject> &child) override {}
+    void removeChild(const size_t id) override {}
 
     BaseObject::iterator begin() override { return BaseObject::iterator(nullptr); }
     BaseObject::iterator end() override { return BaseObject::iterator(nullptr); }
@@ -47,6 +47,8 @@ private:
     Point _position;
     Point _target;
     Vec _up;
+
+    static Rotater radFromDegree(const Rotater &rotater);
 };
 
 

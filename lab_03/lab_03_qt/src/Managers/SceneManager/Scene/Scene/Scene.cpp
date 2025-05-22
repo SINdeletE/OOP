@@ -68,12 +68,31 @@ std::shared_ptr<BaseObject> Scene::getCameraByID(const size_t index)
     }
 }
 
-// void Scene::accept(const DrawVisitor &visitor) const
-// {
-//     // for (const auto& iter : _objects)
-//     // {
-//     //     iter->accept(visitor);
-//     // }
-// }
+void Scene::removeObject(const size_t id)
+{
+    try
+    {
+        _objects.removeChild(id);
+    }
+    catch (ErrorCompositeObject_out_of_range &e)
+    {
+        const time_t cur_time = time(nullptr);
+        throw ErrorScene_out_of_range(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
+}
+
+void Scene::removeCamera(const size_t id)
+{
+    try
+    {
+        _cameras.removeChild(id);
+    }
+    catch (ErrorCompositeObject_out_of_range &e)
+    {
+        const time_t cur_time = time(nullptr);
+        throw ErrorScene_out_of_range(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
+}
+
 
 
