@@ -8,13 +8,16 @@
 
 void CameraPTU::transform(const Rotater& rotater)
 {
-    const Mover backMover = -rotater.centerToMover();
-    const auto radRotater = radFromDegree(rotater);
-    const Mover fwdMover = rotater.centerToMover();
 
-    this->transform(backMover);
+    auto radRotater = radFromDegree(rotater);
+    radRotater.setCenter(this->getPosition());
+
+    const Mover backMover = -radRotater.centerToMover();
+    const Mover fwdMover = radRotater.centerToMover();
+
+    _target.move(backMover.getDx(), backMover.getDy(), backMover.getDz());
     _target.rotate(radRotater.getOx(), radRotater.getOy(), radRotater.getOz());
-    this->transform(fwdMover);
+    _target.move(fwdMover.getDx(), fwdMover.getDy(), fwdMover.getDz());
 }
 
 void CameraPTU::transform(const Mover& mover)
