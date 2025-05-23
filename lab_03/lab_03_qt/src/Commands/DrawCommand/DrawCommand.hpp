@@ -6,10 +6,11 @@
 #define DRAWCOMMAND_HPP
 #include <memory>
 
+#include "BaseDrawCommand.hpp"
 #include "../BaseCommand.hpp"
 
 
-class DrawCommand : public BaseCommand
+class DrawCommand : public BaseDrawCommand
 {
 public:
     explicit DrawCommand(const std::shared_ptr<BaseDrawer> &drawer) : _drawer(drawer), _sceneManager(), _drawManager() {}

@@ -200,6 +200,11 @@ add_executable(lab_03_qt main.cpp
         src/Exceptions/GUI/TableException.hpp
         src/Commands/CameraCommand/Remove/CameraRemoveCommand.cpp
         src/Commands/CameraCommand/Remove/CameraRemoveCommand.hpp
+        src/Commands/CameraCommand/Set/CameraSetCommand.cpp
+        src/Commands/CameraCommand/Set/CameraSetCommand.hpp
+        src/Commands/DrawCommand/BaseDrawCommand.hpp
+        src/Commands/CameraCommand/BaseCameraCommand.hpp
+        src/Commands/FigureCommand/BaseFigureCommand.hpp
 )
 
 target_link_libraries(lab_03_qt

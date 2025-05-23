@@ -4,10 +4,11 @@
 
 #ifndef FIGURECOMMANDADD_HPP
 #define FIGURECOMMANDADD_HPP
+#include "../BaseFigureCommand.hpp"
 #include "../../BaseCommand.hpp"
 
 
-class FigureCommandAdd : public BaseCommand
+class FigureCommandAdd : public BaseFigureCommand
 {
 public:
     explicit FigureCommandAdd(const std::string &filename) : _filename(filename) {}

@@ -4,10 +4,11 @@
 
 #ifndef CLEANCOMMAND_HPP
 #define CLEANCOMMAND_HPP
+#include "BaseDrawCommand.hpp"
 #include "../BaseCommand.hpp"
 
 
-class CleanCommand : public BaseCommand
+class CleanCommand : public BaseDrawCommand
 {
 public:
     explicit CleanCommand(const std::shared_ptr<BaseDrawer> &drawer) : _drawer(drawer), _drawManager() {}

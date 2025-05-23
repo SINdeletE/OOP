@@ -37,7 +37,6 @@ public:
 
 private:
     std::shared_ptr<Scene> _scene;
-    SceneHistory _history;
 };
 
 

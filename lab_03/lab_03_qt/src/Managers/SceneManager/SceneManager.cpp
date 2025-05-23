@@ -7,15 +7,12 @@
 SceneManager::SceneManager(const SceneManager &scene)
 {
     _scene = scene._scene;
-    _history = scene._history;
 }
 
 SceneManager::SceneManager(SceneManager &&scene) noexcept
 {
     _scene = scene._scene;
     scene._scene = nullptr;
-
-    _history = std::move(scene._history);
 }
 
 SceneManager& SceneManager::operator=(const SceneManager &scene)
@@ -23,7 +20,6 @@ SceneManager& SceneManager::operator=(const SceneManager &scene)
     if (this != &scene)
     {
         _scene = scene._scene;
-        _history = scene._history;
     }
 
     return *this;
@@ -34,8 +30,6 @@ SceneManager& SceneManager::operator=(SceneManager &&scene) noexcept
     _scene = scene._scene;
     scene._scene = nullptr;
 
-    _history = std::move(scene._history);
-
     return *this;
 }
 
@@ -44,8 +38,8 @@ void SceneManager::addObject(const std::shared_ptr<BaseObject>& object) const
     _scene->addObject(object);
 }
 
-void SceneManager::addCamera(const std::shared_ptr<BaseObject>& object) const
+void SceneManager::addCamera(const std::shared_ptr<BaseObject>& camera) const
 {
-    _scene->addCamera(object);
+    _scene->addCamera(camera);
 }
 

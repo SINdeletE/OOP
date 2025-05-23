@@ -46,4 +46,14 @@ public:
             const char *error_info = "Draw Manager: invalid draw") noexcept : BaseException(filename, classname, line, time, error_info) {}
 };
 
+class ErrorDrawManager_invalid_camera : public BaseException
+{
+public:
+    ErrorDrawManager_invalid_camera(const char *filename,
+            const char *classname,
+            const long line,
+            const char *time,
+            const char *error_info = "Draw Manager: invalid camera") noexcept : BaseException(filename, classname, line, time, error_info) {}
+};
+
 #endif //DRAWMANAGEREXCEPTION_HPP

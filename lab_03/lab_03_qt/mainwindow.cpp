@@ -6,6 +6,7 @@
 
 #include "mainwindow.hpp"
 
+#include <iostream>
 #include <QFileDialog>
 #include "ui_mainwindow.h"
 #include "src/Commands/CameraCommand/Add/CameraCommandAdd.hpp"
@@ -18,6 +19,7 @@
 #include <QWidget>
 
 #include "src/Commands/CameraCommand/Remove/CameraRemoveCommand.hpp"
+#include "src/Commands/CameraCommand/Set/CameraSetCommand.hpp"
 #include "src/Commands/FigureCommand/Move/FigureCommandMove.hpp"
 #include "src/Commands/FigureCommand/Remove/FigureRemoveCommand.hpp"
 #include "src/Commands/FigureCommand/Rotate/FigureCommandRotate.hpp"
@@ -29,6 +31,7 @@ mainwindow::mainwindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->graphicsView->setRenderHint(QPainter::Antialiasing);
+    ui->graphicsView->setFrameShape(QFrame::NoFrame);
 
     try
     {
@@ -36,8 +39,7 @@ mainwindow::mainwindow(QWidget *parent) :
         this->cameraTableInit();
 
         auto scene = new QGraphicsScene(ui->graphicsView);
-        scene->setSceneRect(100, 100, 100, 100);
-        scene->setSceneRect(0, 0, 711, 771);
+        scene->setSceneRect(-300, -300, 600, 600);
         ui->graphicsView->setScene(scene);
 
         const auto color = std::make_shared<RGBColor>(0, 0, 0);
@@ -84,6 +86,7 @@ void mainwindow::redraw() const
 {
     this->clean();
     this->draw();
+
 }
 
 void mainwindow::draw() const
@@ -233,7 +236,6 @@ std::shared_ptr<Point> mainwindow::centerFromGUI() const
     bool flag = true;
 
     double y, z;
-
     double x = ui->LineEditX->text().toDouble(&flag);
     if (flag)
     {
@@ -255,23 +257,31 @@ std::shared_ptr<Point> mainwindow::centerFromGUI() const
 
 std::shared_ptr<Rotater> mainwindow::rotaterFromGUI() const
 {
-    std::shared_ptr<Point> center = this->centerFromGUI();
-    std::shared_ptr<Rotater> result = nullptr;
     bool flag = true;
+    const std::shared_ptr<Point> center = this->centerFromGUI();
 
-    double oy, oz;
+    if (center == nullptr)
+        flag = false;
 
-    double ox = ui->LineEditOx->text().toDouble(&flag);
+    double ox, oy, oz;
+
     if (flag)
     {
-        oy = ui->LineEditOy->text().toDouble(&flag);
+        ox = ui->LineEditOx->text().toDouble(&flag);
 
         if (flag)
         {
-            oz = ui->LineEditOz->text().toDouble(&flag);
+            oy = ui->LineEditOy->text().toDouble(&flag);
+
+            if (flag)
+            {
+                oz = ui->LineEditOz->text().toDouble(&flag);
+            }
         }
     }
 
+
+    std::shared_ptr<Rotater> result = nullptr;
     if (flag)
     {
         result = std::make_shared<Rotater>(ox, oy, oz, *center);
@@ -282,23 +292,31 @@ std::shared_ptr<Rotater> mainwindow::rotaterFromGUI() const
 
 std::shared_ptr<Scaler> mainwindow::scalerFromGUI() const
 {
-    const std::shared_ptr<Point> center = this->centerFromGUI();
-    std::shared_ptr<Scaler> result = nullptr;
     bool flag = true;
+    const std::shared_ptr<Point> center = this->centerFromGUI();
 
-    double ky, kz;
+    if (center == nullptr)
+        flag = false;
 
-    double kx = ui->LineEditKx->text().toDouble(&flag);
+    double kx, ky, kz;
+
     if (flag)
     {
-        ky = ui->LineEditKy->text().toDouble(&flag);
+        kx = ui->LineEditKx->text().toDouble(&flag);
 
         if (flag)
         {
-            kz = ui->LineEditKz->text().toDouble(&flag);
+            ky = ui->LineEditKy->text().toDouble(&flag);
+
+            if (flag)
+            {
+                kz = ui->LineEditKz->text().toDouble(&flag);
+            }
         }
     }
 
+
+    std::shared_ptr<Scaler> result = nullptr;
     if (flag)
     {
         result = std::make_shared<Scaler>(kx, ky, kz, *center);
@@ -336,5 +354,20 @@ void mainwindow::on_ScaleButton_clicked() const
         this->redraw();
     }
 }
+
+void mainwindow::on_SetCameraButton_clicked() const
+{
+    const auto id = _cameraTable->selectedItem();
+
+    if (id != -1)
+    {
+        CameraSetCommand command{static_cast<size_t>(id)};
+
+        _facade->execute(command);
+
+        this->redraw();
+    }
+}
+
 
 

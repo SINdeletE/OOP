@@ -4,10 +4,11 @@
 
 #ifndef CAMERAREMOVECOMMAND_HPP
 #define CAMERAREMOVECOMMAND_HPP
+#include "../BaseCameraCommand.hpp"
 #include "../../BaseCommand.hpp"
 
 
-class CameraRemoveCommand : public BaseCommand
+class CameraRemoveCommand : public BaseCameraCommand
 {
 public:
     explicit CameraRemoveCommand(const size_t id) { _id = id; }

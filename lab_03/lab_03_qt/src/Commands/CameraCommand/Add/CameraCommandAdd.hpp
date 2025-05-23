@@ -4,10 +4,11 @@
 
 #ifndef CAMERACOMMANDADD_HPP
 #define CAMERACOMMANDADD_HPP
+#include "../BaseCameraCommand.hpp"
 #include "../../BaseCommand.hpp"
 
 
-class CameraCommandAdd : public BaseCommand
+class CameraCommandAdd : public BaseCameraCommand
 {
 public:
     explicit CameraCommandAdd(const std::string &filename) : _filename(filename) {}

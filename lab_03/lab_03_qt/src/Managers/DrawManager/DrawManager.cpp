@@ -53,8 +53,23 @@ void DrawManager::drawScene(const std::shared_ptr<Scene> &scene, const std::shar
     }
 }
 
-void DrawManager::setCamera(const std::shared_ptr<Camera>& camera)
+void DrawManager::setCamera(const std::shared_ptr<BaseObject>& camera)
 {
-    _camera = camera;
+    if (camera == nullptr)
+    {
+        _camera = nullptr;
+    }
+    else
+    {
+        const auto object = std::dynamic_pointer_cast<Camera>(camera);
+
+        if (object == nullptr)
+        {
+            const time_t cur_time = time(nullptr);
+            throw ErrorDrawManager_invalid_camera(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        }
+
+        _camera = object;
+    }
 }
 

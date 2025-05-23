@@ -1,17 +1,18 @@
 //
-// Created by nuelex on 21/05/25.
+// Created by nuelex on 23/05/25.
 //
 
-#ifndef FIGUREREMOVECOMMAND_HPP
-#define FIGUREREMOVECOMMAND_HPP
-#include "../BaseFigureCommand.hpp"
+#ifndef CAMERASETCOMMAND_HPP
+#define CAMERASETCOMMAND_HPP
+#include "../BaseCameraCommand.hpp"
 #include "../../BaseCommand.hpp"
 
 
-class FigureRemoveCommand : public BaseFigureCommand
+class CameraSetCommand : public BaseCameraCommand
 {
 public:
-    explicit FigureRemoveCommand(const size_t id) { _id = id; }
+    explicit CameraSetCommand(size_t id) : _id(id) {}
+    ~CameraSetCommand() override = default;
 
     void setManager(const std::shared_ptr<SceneManager> &manager) override { _sceneManager = manager; }
     void setManager(const std::shared_ptr<LoadManager> &manager) override {}
@@ -24,9 +25,10 @@ private:
     size_t _id;
 
     std::shared_ptr<SceneManager> _sceneManager;
+    std::shared_ptr<LoadManager> _loadManager;
     std::shared_ptr<DrawManager> _drawManager;
 };
 
 
 
-#endif //FIGUREREMOVECOMMAND_HPP
+#endif //CAMERASETCOMMAND_HPP

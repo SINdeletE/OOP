@@ -4,10 +4,11 @@
 
 #ifndef FIGURECOMMANDSCALE_HPP
 #define FIGURECOMMANDSCALE_HPP
+#include "../BaseFigureCommand.hpp"
 #include "../../BaseCommand.hpp"
 
 
-class FigureCommandScale : public BaseCommand
+class FigureCommandScale : public BaseFigureCommand
 {
 public:
     explicit FigureCommandScale(const size_t id, const std::shared_ptr<Scaler> &transform) : _id(id), _transform(transform) {}

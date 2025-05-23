@@ -39,6 +39,8 @@ private slots:
     void on_RotateButton_clicked() const;
     void on_ScaleButton_clicked() const;
 
+    void on_SetCameraButton_clicked() const;
+
 private:
     Ui::mainwindow *ui;
     QGraphicsScene *scene;

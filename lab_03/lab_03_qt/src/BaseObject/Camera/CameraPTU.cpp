@@ -9,7 +9,7 @@
 void CameraPTU::transform(const Rotater& rotater)
 {
     const Mover backMover = -rotater.centerToMover();
-    auto radRotater = radFromDegree(rotater);
+    const auto radRotater = radFromDegree(rotater);
     const Mover fwdMover = rotater.centerToMover();
 
     this->transform(backMover);

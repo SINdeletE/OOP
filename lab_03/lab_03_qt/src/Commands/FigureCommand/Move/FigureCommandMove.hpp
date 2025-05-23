@@ -6,6 +6,7 @@
 #define FIGURECOMMANDMOVE_HPP
 #include <memory>
 
+#include "../BaseFigureCommand.hpp"
 #include "../../BaseCommand.hpp"
 #include "../../../Managers/LoadManager/LoadManager.hpp"
 #include "../../../Managers/SceneManager/SceneManager.hpp"
@@ -13,7 +14,7 @@
 #include "../../../Transforms/Transforms.hpp"
 
 
-class FigureCommandMove : public BaseCommand
+class FigureCommandMove : public BaseFigureCommand
 {
 public:
     explicit FigureCommandMove(const size_t id, const std::shared_ptr<Mover> &transform) : _id(id), _transform(transform) {}

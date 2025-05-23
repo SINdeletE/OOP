@@ -4,10 +4,11 @@
 
 #ifndef FIGURECOMMANDROTATE_HPP
 #define FIGURECOMMANDROTATE_HPP
+#include "../BaseFigureCommand.hpp"
 #include "../../BaseCommand.hpp"
 
 
-class FigureCommandRotate : public BaseCommand
+class FigureCommandRotate : public BaseFigureCommand
 {
 public:
     explicit FigureCommandRotate(const size_t id, const std::shared_ptr<Rotater> &transform) : _id(id), _transform(transform) {}

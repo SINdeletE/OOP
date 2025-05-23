@@ -24,13 +24,14 @@ Point CameraPTUTransformer::transform(const Point &other) const
     const Vec pos{_camera->getPosition()};
     const Vec target{_camera->getTarget()};
     Vec up{_camera->getUp()};
-    up.normalize();
     const Vec other_vec{other};
 
-    Vec F = target - pos;
+    up.normalize();
+
+    Vec Forward = pos - target;
     try
     {
-        F.normalize();
+        Forward.normalize();
     }
     catch (ErrorVec_invalid_vec &e)
     {
@@ -38,10 +39,10 @@ Point CameraPTUTransformer::transform(const Point &other) const
         throw ErrorTransformer_invalid_camera_parameters(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 
-    Vec R{F.vecMulConst(up)};
+    Vec Right{up.vecMulConst(Forward)};
     try
     {
-        R.normalize();
+        Right.normalize();
     }
     catch (ErrorVec_invalid_vec &e)
     {
@@ -49,10 +50,12 @@ Point CameraPTUTransformer::transform(const Point &other) const
         throw ErrorTransformer_invalid_camera_parameters(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 
-    const Vec q{R.vecMulConst(F)}; // уже normalize
-    const Vec p{other_vec - pos};
+    const Vec Up{Forward.vecMulConst(Right)}; // уже normalize
+    const double x_camera = (other_vec * Right) - (Right * pos);
+    const double y_camera = (other_vec * Up) - (Up * pos);
+    const double z_camera = (other_vec * Forward) - (Forward * pos);
 
-    return toPerspective({p * R, p * q, p * (-F)});
+    return {x_camera, y_camera, z_camera};
 }
 
 Point CameraPTUTransformer::toPerspective(const Point& point)

@@ -17,6 +17,7 @@ public:
     Vec(Vec &&) = default;
     explicit Vec(const Point &point) { _x = point.GetX(); _y = point.GetY(); _z = point.GetZ(); }
     Vec(const double& x, const double& y, const double& z) { _x = x, _y = y, _z = z; }
+    Vec(const Point& p1, const Point& p2) { _x = p1.GetX() - p2.GetX(); _y = p1.GetY() - p2.GetY(); _z = p1.GetZ() - p2.GetZ(); }
 
     ~Vec() = default;
 

@@ -5,6 +5,7 @@
 #include "CameraCommandAdd.hpp"
 
 #include "../../../Exceptions/Commands/CommandsException.hpp"
+#include "../../../Exceptions/Managers/DrawManagerException.hpp"
 #include "../../../Exceptions/Managers/LoadManagerException.hpp"
 #include "../../../Exceptions/Scene/SceneException.hpp"
 
@@ -17,7 +18,7 @@ void CameraCommandAdd::execute()
         _sceneManager->addCamera(object);
 
         if (_drawManager->IsEmpty())
-            _drawManager->setCamera(std::dynamic_pointer_cast<Camera>(object));
+            _drawManager->setCamera(object);
     }
     catch (std::bad_cast &e)
     {
@@ -43,6 +44,11 @@ void CameraCommandAdd::execute()
     {
         const time_t cur_time = time(nullptr);
         throw ErrorCommand_invalid_file(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
+    catch (ErrorDrawManager_invalid_camera &e)
+    {
+        const time_t cur_time = time(nullptr);
+        throw ErrorCommand_invalid_data(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 }
 
