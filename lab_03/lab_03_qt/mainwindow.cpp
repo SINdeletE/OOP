@@ -19,12 +19,15 @@
 #include <QWidget>
 
 #include "consts.hpp"
+#include "src/Commands/CameraCommand/Move/CameraCommandMove.hpp"
 #include "src/Commands/CameraCommand/Remove/CameraRemoveCommand.hpp"
+#include "src/Commands/CameraCommand/Rotate/CameraCommandRotate.hpp"
 #include "src/Commands/CameraCommand/Set/CameraSetCommand.hpp"
 #include "src/Commands/FigureCommand/Move/FigureCommandMove.hpp"
 #include "src/Commands/FigureCommand/Remove/FigureRemoveCommand.hpp"
 #include "src/Commands/FigureCommand/Rotate/FigureCommandRotate.hpp"
 #include "src/Commands/FigureCommand/Scale/FigureCommandScale.hpp"
+#include "src/Exceptions/Managers/DrawManagerException.hpp"
 
 
 mainwindow::mainwindow(QWidget *parent) :
@@ -86,8 +89,15 @@ void mainwindow::on_actionAdd_Object_triggered()
 void mainwindow::redraw() const
 {
     this->clean();
-    this->draw();
 
+    try
+    {
+        this->draw();
+    }
+    catch (ErrorDrawManager_invalid_draw &e)
+    {
+        ;
+    }
 }
 
 void mainwindow::draw() const
@@ -370,5 +380,87 @@ void mainwindow::on_SetCameraButton_clicked() const
     }
 }
 
+std::shared_ptr<Mover> mainwindow::moverCamFromGUI() const
+{
+    Point center{};
+    std::shared_ptr<Mover> result = nullptr;
+    bool flag = true;
 
+    double dy, dz;
+
+    double dx = ui->LineEditDx_Cam->text().toDouble(&flag);
+    if (flag)
+    {
+        dy = ui->LineEditDy_Cam->text().toDouble(&flag);
+
+        if (flag)
+        {
+            dz = ui->LineEditDz_Cam->text().toDouble(&flag);
+        }
+    }
+
+    if (flag)
+    {
+        result = std::make_shared<Mover>(dx, dy, dz, center);
+    }
+
+    return result;
+}
+
+std::shared_ptr<Rotater> mainwindow::rotaterCamFromGUI() const
+{
+    Point center{};
+    std::shared_ptr<Rotater> result = nullptr;
+    bool flag = true;
+
+    double oy, oz;
+
+    double ox = ui->LineEditOx_Cam->text().toDouble(&flag);
+    if (flag)
+    {
+        oy = ui->LineEditOy_Cam->text().toDouble(&flag);
+
+        if (flag)
+        {
+            oz = ui->LineEditOz_Cam->text().toDouble(&flag);
+        }
+    }
+
+    if (flag)
+    {
+        result = std::make_shared<Rotater>(ox, oy, oz, center);
+    }
+
+    return result;
+}
+
+void mainwindow::on_MoveButton_Cam_clicked() const
+{
+    const auto id = _cameraTable->selectedItem();
+    auto mover = this->moverCamFromGUI();
+
+    if (mover != nullptr && id != -1)
+    {
+        CameraCommandMove transform{static_cast<size_t>(id), mover};
+
+        _facade->execute(transform);
+
+        this->redraw();
+    }
+}
+
+void mainwindow::on_RotateButton_Cam_clicked() const
+{
+    const auto id = _cameraTable->selectedItem();
+    auto rotater = this->rotaterCamFromGUI();
+
+    if (rotater != nullptr && id != -1)
+    {
+        CameraCommandRotate transform{static_cast<size_t>(id), rotater};
+
+        _facade->execute(transform);
+
+        this->redraw();
+    }
+}
 

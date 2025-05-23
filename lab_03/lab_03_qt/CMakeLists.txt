@@ -206,6 +206,10 @@ add_executable(lab_03_qt main.cpp
         src/Commands/CameraCommand/BaseCameraCommand.hpp
         src/Commands/FigureCommand/BaseFigureCommand.hpp
         consts.hpp
+        src/Commands/CameraCommand/Move/CameraCommandMove.cpp
+        src/Commands/CameraCommand/Move/CameraCommandMove.hpp
+        src/Commands/CameraCommand/Rotate/CameraCommandRotate.cpp
+        src/Commands/CameraCommand/Rotate/CameraCommandRotate.hpp
 )
 
 target_link_libraries(lab_03_qt
