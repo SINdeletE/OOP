@@ -205,6 +205,7 @@ add_executable(lab_03_qt main.cpp
         src/Commands/DrawCommand/BaseDrawCommand.hpp
         src/Commands/CameraCommand/BaseCameraCommand.hpp
         src/Commands/FigureCommand/BaseFigureCommand.hpp
+        consts.hpp
 )
 
 target_link_libraries(lab_03_qt

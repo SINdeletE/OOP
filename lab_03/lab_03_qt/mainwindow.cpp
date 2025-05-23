@@ -18,6 +18,7 @@
 #include "src/Drawer/Graphics/Qt/QtGraphicsScene.hpp"
 #include <QWidget>
 
+#include "consts.hpp"
 #include "src/Commands/CameraCommand/Remove/CameraRemoveCommand.hpp"
 #include "src/Commands/CameraCommand/Set/CameraSetCommand.hpp"
 #include "src/Commands/FigureCommand/Move/FigureCommandMove.hpp"
@@ -39,7 +40,7 @@ mainwindow::mainwindow(QWidget *parent) :
         this->cameraTableInit();
 
         auto scene = new QGraphicsScene(ui->graphicsView);
-        scene->setSceneRect(-300, -300, 600, 600);
+        scene->setSceneRect(-HALF_SCENE_WIDTH, -HALF_SCENE_HEIGHT, HALF_SCENE_WIDTH, HALF_SCENE_HEIGHT);
         ui->graphicsView->setScene(scene);
 
         const auto color = std::make_shared<RGBColor>(0, 0, 0);

@@ -4,6 +4,7 @@
 
 #include "CameraPTUTransformer.hpp"
 
+#include "../../../../consts.hpp"
 #include "../../../Exceptions/transform/TransformerException.hpp"
 #include "../../../Exceptions/transform/VecException.hpp"
 
@@ -55,12 +56,13 @@ Point CameraPTUTransformer::transform(const Point &other) const
     const double y_camera = (other_vec * Up) - (Up * pos);
     const double z_camera = (other_vec * Forward) - (Forward * pos);
 
-    return {x_camera, y_camera, z_camera};
+    return toPerspective({x_camera, y_camera, z_camera});
 }
 
 Point CameraPTUTransformer::toPerspective(const Point& point)
 {
-    return {point.GetX() / point.GetZ(), point.GetY() / point.GetZ(), point.GetZ()};
+    return {point.GetX() / fabs(point.GetZ()) * HALF_SCENE_WIDTH, \
+               point.GetY() / fabs(point.GetZ()) * HALF_SCENE_HEIGHT, point.GetZ()};
 }
 
 
