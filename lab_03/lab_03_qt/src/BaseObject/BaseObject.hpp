@@ -33,8 +33,8 @@ public:
     virtual bool CompositeCheck() { return false; }
     virtual bool VisibilityCheck() = 0;
 
-    virtual void addChild(const std::shared_ptr<BaseObject::value_type> &child) {}
-    virtual void removeChild(const size_t id) {}
+    virtual bool addChild(const std::shared_ptr<BaseObject::value_type> &child) { return false; }
+    virtual bool removeChild(const size_t id) { return false; }
 
     virtual iterator begin() { return iterator(nullptr); }
     virtual iterator end() { return iterator(nullptr); }

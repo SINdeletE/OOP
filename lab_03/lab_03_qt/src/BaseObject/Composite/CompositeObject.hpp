@@ -17,8 +17,8 @@ public:
     bool CompositeCheck() override { return true; }
     bool VisibilityCheck() override { return false; }
 
-    void addChild(const std::shared_ptr<BaseObject::value_type> &child) override;
-    void removeChild(const size_t id) override;
+    bool addChild(const std::shared_ptr<BaseObject::value_type> &child) override;
+    bool removeChild(const size_t id) override;
 
     BaseObject::iterator begin() override { return children.begin(); }
     BaseObject::iterator end() override { return children.end(); }

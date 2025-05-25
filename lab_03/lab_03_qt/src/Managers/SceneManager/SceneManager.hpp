@@ -26,14 +26,14 @@ public:
     void setScene(const std::shared_ptr<Scene> &scene) { _scene = scene; }
     std::shared_ptr<Scene> getScene() { return _scene; }
 
-    void addObject(const std::shared_ptr<BaseObject> &object) const;
-    void addCamera(const std::shared_ptr<BaseObject> &camera) const;
+    bool addObject(const std::shared_ptr<BaseObject> &object) const;
+    bool addCamera(const std::shared_ptr<BaseObject> &camera) const;
 
     [[nodiscard]] BaseObject::shared_ptr_type getFigureByID(const size_t index) const { return _scene->getFigureByID(index); }
     [[nodiscard]] BaseObject::shared_ptr_type getCameraByID(const size_t index) const { return _scene->getCameraByID(index); }
 
-    void removeObject(const size_t id) const { _scene->removeObject(id); }
-    void removeCamera(const size_t id) const { _scene->removeCamera(id); }
+    bool removeObject(const size_t id) const { return _scene->removeObject(id); }
+    bool removeCamera(const size_t id) const { return _scene->removeCamera(id); }
 
 private:
     std::shared_ptr<Scene> _scene;

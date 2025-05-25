@@ -33,13 +33,13 @@ SceneManager& SceneManager::operator=(SceneManager &&scene) noexcept
     return *this;
 }
 
-void SceneManager::addObject(const std::shared_ptr<BaseObject>& object) const
+bool SceneManager::addObject(const std::shared_ptr<BaseObject>& object) const
 {
-    _scene->addObject(object);
+    return _scene->addObject(object);
 }
 
-void SceneManager::addCamera(const std::shared_ptr<BaseObject>& camera) const
+bool SceneManager::addCamera(const std::shared_ptr<BaseObject>& camera) const
 {
-    _scene->addCamera(camera);
+    return _scene->addCamera(camera);
 }
 

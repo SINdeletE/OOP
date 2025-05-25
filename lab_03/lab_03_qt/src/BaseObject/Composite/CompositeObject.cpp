@@ -6,17 +6,20 @@
 
 #include "../../Exceptions/BaseObject/CompositeException.hpp"
 
-void CompositeObject::addChild(const std::shared_ptr<BaseObject::value_type>& child)
+bool CompositeObject::addChild(const std::shared_ptr<BaseObject::value_type>& child)
 {
+    bool flag = true;
+
     try
     {
         children.push_back(child);
     }
     catch (std::bad_alloc& e)
     {
-        const time_t cur_time = time(nullptr);
-        throw ErrorCompositeObject_bad_alloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        flag = false;
     }
+
+    return flag;
 }
 
 BaseObject::shared_ptr_type CompositeObject::getObjectByID(BaseObject::size_type index)
@@ -46,15 +49,19 @@ void CompositeObject::accept(BaseTransformVisitor& visitor)
     }
 }
 
-void CompositeObject::removeChild(const size_t id)
+bool CompositeObject::removeChild(const size_t id)
 {
+    bool flag = true;
+
     if (id >= children.size())
     {
-        const time_t cur_time = time(nullptr);
-        throw ErrorCompositeObject_out_of_range(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        flag = false;
     }
 
-    children.erase(children.begin() + id);
+    if (flag)
+        children.erase(children.begin() + id);
+
+    return flag;
 }
 
 

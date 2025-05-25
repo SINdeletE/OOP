@@ -216,6 +216,8 @@ add_executable(lab_03_qt main.cpp
         src/Builders/Moderators/Moderators/CameraPTU/CameraPTUModerator.hpp
         src/Builders/Directors/FigureDirector/BaseFigureLPDirector.hpp
         src/Builders/Directors/CameraDirector/BaseCameraPTUDirector.hpp
+        src/BaseObject/Camera/CameraPTUImpl.cpp
+        src/BaseObject/Camera/CameraPTUImpl.hpp
 )
 
 target_link_libraries(lab_03_qt

@@ -16,30 +16,14 @@ std::shared_ptr<Scene> Scene::clone() const
     return std::make_shared<Scene>(tmp_scene);
 }
 
-void Scene::addObject(const std::shared_ptr<BaseObject>& object)
+bool Scene::addObject(const std::shared_ptr<BaseObject>& object)
 {
-    try
-    {
-        _objects.addChild(object);
-    }
-    catch (ErrorCompositeObject_bad_alloc &e)
-    {
-        const time_t cur_time = time(nullptr);
-        throw ErrorScene_bad_alloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-    }
+    return _objects.addChild(object);
 }
 
-void Scene::addCamera(const std::shared_ptr<BaseObject>& object)
+bool Scene::addCamera(const std::shared_ptr<BaseObject>& object)
 {
-    try
-    {
-        _cameras.addChild(object);
-    }
-    catch (ErrorCompositeObject_bad_alloc &e)
-    {
-        const time_t cur_time = time(nullptr);
-        throw ErrorScene_bad_alloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-    }
+    return _cameras.addChild(object);
 }
 
 std::shared_ptr<BaseObject> Scene::getFigureByID(const size_t index)
@@ -68,30 +52,14 @@ std::shared_ptr<BaseObject> Scene::getCameraByID(const size_t index)
     }
 }
 
-void Scene::removeObject(const size_t id)
+bool Scene::removeObject(const size_t id)
 {
-    try
-    {
-        _objects.removeChild(id);
-    }
-    catch (ErrorCompositeObject_out_of_range &e)
-    {
-        const time_t cur_time = time(nullptr);
-        throw ErrorScene_out_of_range(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-    }
+    return _objects.removeChild(id);
 }
 
-void Scene::removeCamera(const size_t id)
+bool Scene::removeCamera(const size_t id)
 {
-    try
-    {
-        _cameras.removeChild(id);
-    }
-    catch (ErrorCompositeObject_out_of_range &e)
-    {
-        const time_t cur_time = time(nullptr);
-        throw ErrorScene_out_of_range(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
-    }
+    return _cameras.removeChild(id);
 }
 
 

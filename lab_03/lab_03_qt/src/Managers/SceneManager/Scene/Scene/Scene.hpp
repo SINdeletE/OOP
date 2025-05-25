@@ -22,10 +22,10 @@ public:
 
     Scene& operator=(const Scene& other) = default;
 
-    void addObject(const std::shared_ptr<BaseObject> &object);
-    void addCamera(const std::shared_ptr<BaseObject> &camera);
-    void removeObject(size_t id);
-    void removeCamera(size_t id);
+    bool addObject(const std::shared_ptr<BaseObject> &object);
+    bool addCamera(const std::shared_ptr<BaseObject> &camera);
+    bool removeObject(size_t id);
+    bool removeCamera(size_t id);
 
     [[nodiscard]] std::shared_ptr<BaseObject> getFigureByID(size_t index);
     [[nodiscard]] std::shared_ptr<BaseObject> getCameraByID(size_t index);
