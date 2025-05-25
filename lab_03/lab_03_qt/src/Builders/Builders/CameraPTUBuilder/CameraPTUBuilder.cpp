@@ -13,7 +13,7 @@ CameraPTUBuilder::CameraPTUBuilder(const std::shared_ptr<BasePTUReader> &reader)
 {
     try
     {
-        _camera = std::make_shared<CameraPTU>();
+        _camera = std::make_shared<CameraPTU>(std::make_shared<CameraPTUImpl>());
     }
     catch (std::bad_alloc &e)
     {
@@ -26,7 +26,7 @@ bool CameraPTUBuilder::buildPosition()
 {
     try
     {
-        _camera->_cameraPTU.setPosition(_reader->readPosition());
+        _camera->_cameraPTU->setPosition(_reader->readPosition());
     }
     catch (ErrorReader_invalid_file &e)
     {
@@ -42,7 +42,7 @@ bool CameraPTUBuilder::buildTarget()
 {
     try
     {
-        _camera->_cameraPTU.setTarget(_reader->readTarget());
+        _camera->_cameraPTU->setTarget(_reader->readTarget());
     }
     catch (ErrorReader_invalid_file &e)
     {
@@ -58,7 +58,7 @@ bool CameraPTUBuilder::buildUp()
 {
     try
     {
-        _camera->_cameraPTU.setUp(_reader->readUp());
+        _camera->_cameraPTU->setUp(_reader->readUp());
     }
     catch (ErrorReader_invalid_file &e)
     {

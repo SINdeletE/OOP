@@ -11,12 +11,12 @@
 
 void DrawFigureLPVisitor::visit(const ConcreteFigureLP& figure) const
 {
-    auto iterator = figure.figureLP_.getLinks().CreateConstIterator();
+    auto iterator = figure.figureLP_->getLinks().CreateConstIterator();
 
     for (iterator.First(); ! iterator.IsDone(); iterator.Next())
     {
-        _drawer->drawLine(_transformer->transform(figure.figureLP_.getPoints()[iterator.Current()->GetBeginID()]), \
-                            _transformer->transform(figure.figureLP_.getPoints()[iterator.Current()->GetEndID()]));
+        _drawer->drawLine(_transformer->transform(figure.figureLP_->getPoints()[iterator.Current()->GetBeginID()]), \
+                            _transformer->transform(figure.figureLP_->getPoints()[iterator.Current()->GetEndID()]));
     }
 
 }

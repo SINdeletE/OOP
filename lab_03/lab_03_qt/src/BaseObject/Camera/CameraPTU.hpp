@@ -18,17 +18,18 @@ class CameraPTU : public BaseCameraPTU
     friend class CameraPTUBuilder;
 
 protected:
-    CameraPTUImpl _cameraPTU;
+    std::shared_ptr<BaseCameraPTUImpl> _cameraPTU;
 
 public:
     CameraPTU() : _cameraPTU() {}
+    explicit CameraPTU(const std::shared_ptr<BaseCameraPTUImpl> &cameraPTU) { _cameraPTU = cameraPTU; }
     ~CameraPTU() override = default;
 
     bool VisibilityCheck() override { return false; }
     bool CompositeCheck() override { return false; }
 
-    void transform(const Mover &mover) override { _cameraPTU.transform(mover); }
-    void transform(const Rotater &rotater) override { _cameraPTU.transform(rotater); }
+    void transform(const Mover &mover) override { _cameraPTU->transform(mover); }
+    void transform(const Rotater &rotater) override { _cameraPTU->transform(rotater); }
 
     void accept(const BaseDrawTemplateVisitor& visitor) override;
     void accept(BaseTransformVisitor &visitor) override { visitor.visitCamera(*this); }

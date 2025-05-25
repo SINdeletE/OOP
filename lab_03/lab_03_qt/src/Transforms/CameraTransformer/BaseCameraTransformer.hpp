@@ -6,8 +6,6 @@
 #define BASECAMERATRANSFORMER_HPP
 #include <memory>
 
-// #include "../../BaseObject/Camera/Camera.hpp"
-
 class Point;
 class Camera;
 

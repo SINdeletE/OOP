@@ -22,9 +22,9 @@ CameraPTUTransformer::CameraPTUTransformer(const std::shared_ptr<Camera> &camera
 
 Point CameraPTUTransformer::transform(const Point &other) const
 {
-    const Vec pos{_camera->_cameraPTU.getPosition()};
-    const Vec target{_camera->_cameraPTU.getTarget()};
-    Vec up{_camera->_cameraPTU.getUp()};
+    const Vec pos{_camera->_cameraPTU->getPosition()};
+    const Vec target{_camera->_cameraPTU->getTarget()};
+    Vec up{_camera->_cameraPTU->getUp()};
     const Vec other_vec{other};
 
     up.normalize();

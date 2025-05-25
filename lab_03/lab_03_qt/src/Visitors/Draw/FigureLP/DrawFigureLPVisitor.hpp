@@ -4,17 +4,15 @@
 
 #ifndef DRAWFIGURELPVISITOR_HPP
 #define DRAWFIGURELPVISITOR_HPP
-#include "../../Visitor.hpp"
-#include "../../../Drawer/Drawer/BaseDrawer.hpp"
-#include "../../../Transforms/CameraTransformer/BaseCameraTransformer.hpp"
+#include "../../BaseDrawTemplateVisitor.hpp"
 
 class ConcreteFigureLP;
 
-class DrawFigureLPVisitor : public Visitor<ConcreteFigureLP>
+class DrawFigureLPVisitor : public BaseDrawTemplateVisitor
 {
 public:
     DrawFigureLPVisitor() = delete;
-    explicit DrawFigureLPVisitor(const std::shared_ptr<BaseCameraTransformer> &transformer, const std::shared_ptr<BaseDrawer> &drawer) : Visitor(transformer, drawer), _drawer(drawer), _transformer(transformer) {}
+    explicit DrawFigureLPVisitor(const std::shared_ptr<BaseCameraTransformer> &transformer, const std::shared_ptr<BaseDrawer> &drawer) : _drawer(drawer), _transformer(transformer) {}
     ~DrawFigureLPVisitor() override = default;
 
     void visit(const ConcreteFigureLP &figure) const override;

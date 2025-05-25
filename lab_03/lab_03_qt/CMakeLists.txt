@@ -104,7 +104,6 @@ add_executable(lab_03_qt main.cpp
         src/Drawer/Drawer/QtDrawer.cpp
         src/Drawer/Drawer/QtDrawer.hpp
         src/Visitors/BaseDrawTemplateVisitor.hpp
-        src/Visitors/Visitor.hpp
         src/BaseObject/Camera/Camera.cpp
         src/Visitors/Draw/FigureLP/DrawFigureLPVisitor.cpp
         src/Visitors/Draw/FigureLP/DrawFigureLPVisitor.hpp
@@ -218,6 +217,8 @@ add_executable(lab_03_qt main.cpp
         src/Builders/Directors/CameraDirector/BaseCameraPTUDirector.hpp
         src/BaseObject/Camera/CameraPTUImpl.cpp
         src/BaseObject/Camera/CameraPTUImpl.hpp
+        src/BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/FigureLP/AbstractFigureLP.hpp
+        src/BaseObject/Camera/BaseCameraPTUImpl.hpp
 )
 
 target_link_libraries(lab_03_qt

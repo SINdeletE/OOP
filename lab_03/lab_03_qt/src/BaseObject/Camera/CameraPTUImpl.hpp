@@ -4,35 +4,34 @@
 
 #ifndef CAMERAPTUIMPL_HPP
 #define CAMERAPTUIMPL_HPP
+#include "BaseCameraPTUImpl.hpp"
+#include "Camera.hpp"
 #include "../../Transforms/Transforms.hpp"
 #include "../../Transforms/Vec.hpp"
 
 
-class CameraPTUImpl
+class CameraPTUImpl : public BaseCameraPTUImpl
 {
 public:
     CameraPTUImpl() = default;
-    ~CameraPTUImpl() = default;
+    ~CameraPTUImpl() override = default;
 
-    bool VisibilityCheck()  { return false; }
-    bool CompositeCheck()  { return false; }
+    [[nodiscard]] const Point &getPosition() const override { return _position; }
+    void setPosition(const Point &position) override  { _position = position; }
+    void setPosition(Point&& position) override  { _position = position; }
 
-    [[nodiscard]] const Point &getPosition() const  { return _position; }
-    void setPosition(const Point &position)  { _position = position; }
-    void setPosition(Point&& position)  { _position = position; }
+    [[nodiscard]] const Point &getTarget() const override  { return _target; }
+    void setTarget(const Point &target) override  { _target = target; }
+    void setTarget(Point &&target) override  { _target = target; }
 
-    [[nodiscard]] const Point &getTarget() const  { return _target; }
-    void setTarget(const Point &target)  { _target = target; }
-    void setTarget(Point &&target)  { _target = target; }
+    [[nodiscard]] const Vec &getUp() const override  { return _up; }
+    void setUp(const Point &up) override  { _up = up; }
+    void setUp(Point &&up) override  { _up = up; }
+    void setUp(const Vec &up) override  { _up = up; }
+    void setUp(Vec &&up) override  { _up = up; }
 
-    [[nodiscard]] const Vec &getUp() const  { return _up; }
-    void setUp(const Point &up)  { _up = up; }
-    void setUp(Point &&up)  { _up = up; }
-    void setUp(const Vec &up)  { _up = up; }
-    void setUp(Vec &&up)  { _up = up; }
-
-    void transform(const Mover &mover);
-    void transform(const Rotater &rotater);
+    void transform(const Mover &mover) override;
+    void transform(const Rotater &rotater) override;
 
 private:
     Point _position;

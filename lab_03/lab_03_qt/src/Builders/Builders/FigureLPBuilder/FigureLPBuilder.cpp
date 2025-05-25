@@ -12,7 +12,7 @@ FigureLPBuilder::FigureLPBuilder(const std::shared_ptr<BaseLPReader> &reader) : 
 {
     try
     {
-        FigureLP_ = std::make_shared<ConcreteFigureLP>();
+        FigureLP_ = std::make_shared<ConcreteFigureLP>(std::make_shared<FigureLP>());
     }
     catch (std::bad_alloc &e)
     {
@@ -25,7 +25,7 @@ bool FigureLPBuilder::buildLinks()
 {
     try
     {
-        FigureLP_->figureLP_.setLinks(reader_->readLinks());
+        FigureLP_->figureLP_->setLinks(reader_->readLinks());
     }
     catch (...)
     {
@@ -41,7 +41,7 @@ bool FigureLPBuilder::buildPoints()
 {
     try
     {
-        FigureLP_->figureLP_.setPoints(reader_->readPoints());
+        FigureLP_->figureLP_->setPoints(reader_->readPoints());
     }
     catch (...)
     {

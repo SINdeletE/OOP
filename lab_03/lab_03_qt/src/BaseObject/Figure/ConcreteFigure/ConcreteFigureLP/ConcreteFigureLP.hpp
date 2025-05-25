@@ -17,22 +17,24 @@ class ConcreteFigureLP : public BaseConcreteFigureLP
     friend class TXTLPReader;
     friend class FigureLPBuilder;
 
+protected:
+    std::shared_ptr<AbstractFigureLP> figureLP_;
+
 public:
     ConcreteFigureLP() : figureLP_() {}
     explicit ConcreteFigureLP(const ConcreteFigureLP &other) { figureLP_ = other.figureLP_; }
+    ConcreteFigureLP(const std::shared_ptr<AbstractFigureLP> &figure) {figureLP_ = figure;}
     ~ConcreteFigureLP() override = default;
 
     ConcreteFigureLP& operator=(const ConcreteFigureLP &other) { figureLP_ = other.figureLP_; return *this; }
+    ConcreteFigureLP& operator=(const std::shared_ptr<AbstractFigureLP> &figure) {figureLP_ = figure; return *this; }
 
-    void transform(const Mover &mover) override { figureLP_.transform(mover); }
-    void transform(const Rotater &rotater) override { figureLP_.transform(rotater); }
-    void transform(const Scaler &scaler) override { figureLP_.transform(scaler); }
+    void transform(const Mover &mover) override { figureLP_->transform(mover); }
+    void transform(const Rotater &rotater) override { figureLP_->transform(rotater); }
+    void transform(const Scaler &scaler) override { figureLP_->transform(scaler); }
 
     void accept(const BaseDrawTemplateVisitor& visitor) override;
     void accept(BaseTransformVisitor &visitor) override { visitor.visitFigure(*this); }
-
-protected:
-    FigureLP figureLP_;
 };
 
 

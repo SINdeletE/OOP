@@ -117,8 +117,8 @@ std::shared_ptr<ConcreteFigureLP> TXTLPReader::readFigureLP()
 {
     ConcreteFigureLP figure{};
 
-    figure.figureLP_.setPoints(readPoints());
-    figure.figureLP_.setLinks(readLinks());
+    figure.figureLP_->setPoints(readPoints());
+    figure.figureLP_->setLinks(readLinks());
 
     return std::make_shared<ConcreteFigureLP>(figure);
 }
