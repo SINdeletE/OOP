@@ -12,13 +12,7 @@ void CameraSetCommand::execute()
 {
     try
     {
-        const auto object = _sceneManager->getCameraByID(_id);
-        _drawManager->setCamera(object);
-    }
-    catch(ErrorScene_out_of_range &e)
-    {
-        const time_t cur_time = time(nullptr);
-        throw ErrorCommand_out_of_range(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+        _action(_camera);
     }
     catch(ErrorDrawManager_invalid_camera &e)
     {

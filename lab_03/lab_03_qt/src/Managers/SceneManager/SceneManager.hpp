@@ -24,7 +24,7 @@ public:
     SceneManager &operator=(SceneManager &&) noexcept;
 
     void setScene(const std::shared_ptr<Scene> &scene) { _scene = scene; }
-    std::shared_ptr<Scene>& getScene() { return _scene; }
+    std::shared_ptr<Scene> getScene() { return _scene; }
 
     void addObject(const std::shared_ptr<BaseObject> &object) const;
     void addCamera(const std::shared_ptr<BaseObject> &camera) const;

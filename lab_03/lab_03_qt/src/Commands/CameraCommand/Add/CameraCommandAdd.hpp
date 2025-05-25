@@ -14,10 +14,10 @@ public:
     explicit CameraCommandAdd(const std::string &filename) : _filename(filename) {}
     ~CameraCommandAdd() override = default;
 
-    void setManager(const std::shared_ptr<SceneManager> &manager) override { _sceneManager = manager; }
-    void setManager(const std::shared_ptr<LoadManager> &manager) override { _loadManager = manager; }
-    void setManager(const std::shared_ptr<DrawManager> &manager) override { _drawManager = manager; }
-    void setManager(const std::shared_ptr<TransformManager> &manager) override {}
+    void setManagerAction(const std::shared_ptr<SceneManager> &manager) override { _sceneManager = manager; }
+    void setManagerAction(const std::shared_ptr<LoadManager> &manager) override { _loadManager = manager; }
+    void setManagerAction(const std::shared_ptr<DrawManager> &manager) override { _drawManager = manager; }
+    void setManagerAction(const std::shared_ptr<TransformManager> &manager) override {}
 
     void execute() override;
 

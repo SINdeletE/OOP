@@ -38,7 +38,7 @@ bool FigureLPBuilder::buildLinks()
 {
     try
     {
-        FigureLP_->setLinks(reader_->readLinks());
+        FigureLP_->figureLP_.setLinks(reader_->readLinks());
     }
     catch (...)
     {
@@ -54,7 +54,7 @@ bool FigureLPBuilder::buildPoints()
 {
     try
     {
-        FigureLP_->setPoints(reader_->readPoints());
+        FigureLP_->figureLP_.setPoints(reader_->readPoints());
     }
     catch (...)
     {

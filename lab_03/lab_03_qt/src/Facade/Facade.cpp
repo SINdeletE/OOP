@@ -73,10 +73,10 @@ Facade::Facade()
 
 void Facade::execute(BaseCommand& command) const
 {
-    command.setManager(_sceneManager);
-    command.setManager(_loadManager);
-    command.setManager(_drawManager);
-    command.setManager(_transformManager);
+    command.setManagerAction(_sceneManager);
+    command.setManagerAction(_loadManager);
+    command.setManagerAction(_drawManager);
+    command.setManagerAction(_transformManager);
 
     command.execute();
 }

@@ -4,6 +4,7 @@
 
 #ifndef DRAWCOMMAND_HPP
 #define DRAWCOMMAND_HPP
+#include <functional>
 #include <memory>
 
 #include "BaseDrawCommand.hpp"
@@ -13,21 +14,27 @@
 class DrawCommand : public BaseDrawCommand
 {
 public:
-    explicit DrawCommand(const std::shared_ptr<BaseDrawer> &drawer) : _drawer(drawer), _sceneManager(), _drawManager() {}
+    explicit DrawCommand(const std::shared_ptr<Scene>& scene, const std::shared_ptr<BaseDrawer> &drawer) : _scene(scene), _drawer(drawer) {}
     ~DrawCommand() override = default;
 
-    void setManager(const std::shared_ptr<SceneManager> &manager) override { _sceneManager = manager; }
-    void setManager(const std::shared_ptr<LoadManager> &manager) override {}
-    void setManager(const std::shared_ptr<DrawManager> &manager) override { _drawManager = manager; }
-    void setManager(const std::shared_ptr<TransformManager> &manager) override {}
+    void setManagerAction(const std::shared_ptr<SceneManager> &manager) override {}
+    void setManagerAction(const std::shared_ptr<LoadManager> &manager) override {}
+    void setManagerAction(const std::shared_ptr<DrawManager> &manager) override
+    {
+        _action = [manager](const std::shared_ptr<Scene> &scene, const std::shared_ptr<BaseDrawer> &drawer)
+        {
+            manager->drawScene(scene, drawer);
+        };
+    }
+    void setManagerAction(const std::shared_ptr<TransformManager> &manager) override {}
 
     void execute() override;
 
 private:
+    std::shared_ptr<Scene> _scene;
     std::shared_ptr<BaseDrawer> _drawer;
 
-    std::shared_ptr<SceneManager> _sceneManager;
-    std::shared_ptr<DrawManager> _drawManager;
+    std::function<void(const std::shared_ptr<Scene>&, const std::shared_ptr<BaseDrawer> &)> _action;
 };
 
 

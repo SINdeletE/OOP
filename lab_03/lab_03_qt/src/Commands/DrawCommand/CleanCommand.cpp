@@ -8,7 +8,7 @@ void CleanCommand::execute()
 {
     try
     {
-        _drawManager->clear(_drawer);
+        _action(_drawer);
     }
     catch (...)
     {

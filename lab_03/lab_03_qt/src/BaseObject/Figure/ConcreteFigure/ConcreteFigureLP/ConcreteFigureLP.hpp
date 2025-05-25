@@ -13,9 +13,9 @@
 
 class ConcreteFigureLP : public BaseConcreteFigureLP
 {
-protected:
-    [[nodiscard]] const Links& getLinks() const noexcept override { return figureLP_.getLinks(); }
-    [[nodiscard]] const Points& getPoints() const noexcept override { return figureLP_.getPoints(); }
+    friend class DrawFigureLPVisitor;
+    friend class TXTLPReader;
+    friend class FigureLPBuilder;
 
 public:
     ConcreteFigureLP() : figureLP_() {}
@@ -24,11 +24,6 @@ public:
 
     ConcreteFigureLP& operator=(const ConcreteFigureLP &other) { figureLP_ = other.figureLP_; return *this; }
 
-    void setLinks(const Links &links) override { figureLP_.setLinks(links); }
-    void setLinks(Links &&links) noexcept override { figureLP_.setLinks(std::move(links)); }
-    void setPoints(const Points &points) override { figureLP_.setPoints(points); }
-    void setPoints(Points &&points) noexcept override { figureLP_.setPoints(std::move(points)); }
-
     void transform(const Mover &mover) override { figureLP_.transform(mover); }
     void transform(const Rotater &rotater) override { figureLP_.transform(rotater); }
     void transform(const Scaler &scaler) override { figureLP_.transform(scaler); }
@@ -36,7 +31,7 @@ public:
     void accept(const BaseDrawTemplateVisitor& visitor) override;
     void accept(BaseTransformVisitor &visitor) override { visitor.visitFigure(*this); }
 
-private:
+protected:
     FigureLP figureLP_;
 };
 

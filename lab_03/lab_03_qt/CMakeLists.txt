@@ -169,12 +169,8 @@ add_executable(lab_03_qt main.cpp
         src/Visitors/Draw/Solution/DrawVisitorSolution.hpp
         src/Visitors/Draw/Solution/DrawVisitorHash.hpp
         src/Visitors/Draw/Solution/DrawVisitorCreator.hpp
-        src/Commands/FigureCommand/Move/FigureCommandMove.cpp
-        src/Commands/FigureCommand/Move/FigureCommandMove.hpp
-        src/Commands/FigureCommand/Rotate/FigureCommandRotate.cpp
-        src/Commands/FigureCommand/Rotate/FigureCommandRotate.hpp
-        src/Commands/FigureCommand/Scale/FigureCommandScale.cpp
-        src/Commands/FigureCommand/Scale/FigureCommandScale.hpp
+        "src/Commands/ManagerCommand/Transform manager/TransformManagerCommandRequest/TransformManagerCommandRequest.cpp"
+        "src/Commands/ManagerCommand/Transform manager/TransformManagerCommandRequest/TransformManagerCommandRequest.hpp"
         src/Commands/FigureCommand/Remove/FigureRemoveCommand.cpp
         src/Commands/FigureCommand/Remove/FigureRemoveCommand.hpp
         src/Transforms/Vec.cpp
@@ -205,10 +201,21 @@ add_executable(lab_03_qt main.cpp
         src/Commands/CameraCommand/BaseCameraCommand.hpp
         src/Commands/FigureCommand/BaseFigureCommand.hpp
         consts.hpp
-        src/Commands/CameraCommand/Move/CameraCommandMove.cpp
-        src/Commands/CameraCommand/Move/CameraCommandMove.hpp
-        src/Commands/CameraCommand/Rotate/CameraCommandRotate.cpp
-        src/Commands/CameraCommand/Rotate/CameraCommandRotate.hpp
+        src/Commands/FigureCommand/GetByID/FigureCommandGetById.cpp
+        src/Commands/FigureCommand/GetByID/FigureCommandGetById.hpp
+        src/Commands/CameraCommand/GetById/CameraCommandGetById.cpp
+        src/Commands/CameraCommand/GetById/CameraCommandGetById.hpp
+        src/Commands/CameraCommand/GetActive/CameraCommandGetActive.cpp
+        src/Commands/CameraCommand/GetActive/CameraCommandGetActive.hpp
+        src/Commands/FigureCommand/Load/FigureCommandLoad.cpp
+        src/Commands/FigureCommand/Load/FigureCommandLoad.hpp
+        src/Commands/ManagerCommand/BaseManagerCommand.hpp
+        "src/Commands/ManagerCommand/Transform manager/BaseTransformManagerCommand.hpp"
+        "src/Commands/ManagerCommand/Transform manager/TransformManagerCommandSetParams/TransformManagerCommandSetParams.cpp"
+        "src/Commands/ManagerCommand/Transform manager/TransformManagerCommandSetParams/TransformManagerCommandSetParams.hpp"
+        "src/Commands/ManagerCommand/Scene Manager/BaseSceneManagerCommand.hpp"
+        "src/Commands/ManagerCommand/Scene Manager/GetScene/SceneManagerCommandGetScene.cpp"
+        "src/Commands/ManagerCommand/Scene Manager/GetScene/SceneManagerCommandGetScene.hpp"
 )
 
 target_link_libraries(lab_03_qt

@@ -19,14 +19,16 @@
 #include <QWidget>
 
 #include "consts.hpp"
-#include "src/Commands/CameraCommand/Move/CameraCommandMove.hpp"
+#include "src/Commands/CameraCommand/GetActive/CameraCommandGetActive.hpp"
+#include "src/Commands/CameraCommand/GetById/CameraCommandGetById.hpp"
 #include "src/Commands/CameraCommand/Remove/CameraRemoveCommand.hpp"
-#include "src/Commands/CameraCommand/Rotate/CameraCommandRotate.hpp"
 #include "src/Commands/CameraCommand/Set/CameraSetCommand.hpp"
-#include "src/Commands/FigureCommand/Move/FigureCommandMove.hpp"
+#include "src/Commands/FigureCommand/GetByID/FigureCommandGetById.hpp"
+#include "src/Commands/FigureCommand/Load/FigureCommandLoad.hpp"
+#include "src/Commands/ManagerCommand/Transform manager/TransformManagerCommandRequest/TransformManagerCommandRequest.hpp"
 #include "src/Commands/FigureCommand/Remove/FigureRemoveCommand.hpp"
-#include "src/Commands/FigureCommand/Rotate/FigureCommandRotate.hpp"
-#include "src/Commands/FigureCommand/Scale/FigureCommandScale.hpp"
+#include "src/Commands/ManagerCommand/Scene Manager/GetScene/SceneManagerCommandGetScene.hpp"
+#include "src/Commands/ManagerCommand/Transform manager/TransformManagerCommandSetParams/TransformManagerCommandSetParams.hpp"
 #include "src/Exceptions/Managers/DrawManagerException.hpp"
 
 
@@ -76,9 +78,12 @@ void mainwindow::on_actionAdd_Object_triggered()
     const QString relativePath = QDir().relativeFilePath(fileName.toUtf8().constData());
     if (! fileName.isEmpty())
     {
-        FigureCommandAdd command{relativePath.toStdString()};
+        std::shared_ptr<BaseObject> loaded_object{nullptr};
+        FigureCommandLoad command1{loaded_object, relativePath.toStdString()};
+        _facade->execute(command1);
 
-        _facade->execute(command);
+        FigureCommandAdd command2{loaded_object};
+        _facade->execute(command2);
 
         this->redraw();
 
@@ -102,15 +107,17 @@ void mainwindow::redraw() const
 
 void mainwindow::draw() const
 {
-    DrawCommand drawCommand{_drawer};
+    std::shared_ptr<Scene> scene{nullptr};
+    SceneManagerCommandGetScene command1{scene};
+    _facade->execute(command1);
 
+    DrawCommand drawCommand{scene, _drawer};
     _facade->execute(drawCommand);
 }
 
 void mainwindow::clean() const
 {
     CleanCommand cleanCommand{_drawer};
-
     _facade->execute(cleanCommand);
 }
 
@@ -189,8 +196,21 @@ void mainwindow::on_DeleteCameraButton_clicked() const
 
     if (id != -1)
     {
-        CameraRemoveCommand command{static_cast<size_t>(id)};
+        std::shared_ptr<BaseObject> actual_camera{nullptr};
+        CameraCommandGetActive command1{actual_camera};
+        _facade->execute(command1);
 
+        std::shared_ptr<BaseObject> id_camera{nullptr};
+        CameraCommandGetActive command2{id_camera};
+        _facade->execute(command2);
+
+        if (id_camera == actual_camera)
+        {
+            CameraSetCommand command3{nullptr};
+            _facade->execute(command3);
+        }
+
+        CameraRemoveCommand command{static_cast<size_t>(id)};
         _facade->execute(command);
 
         _cameraTable->removeItem(id);
@@ -233,9 +253,15 @@ void mainwindow::on_MoveButton_clicked() const
 
     if (mover != nullptr && id != -1)
     {
-        FigureCommandMove transform{static_cast<size_t>(id), mover};
+        std::shared_ptr<BaseObject> object{nullptr};
+        FigureCommandGetById command1{object, static_cast<size_t>(id)};
+        _facade->execute(command1);
 
-        _facade->execute(transform);
+        TransformManagerCommandSetParams command2{object, mover};
+        _facade->execute(command2);
+
+        TransformManagerCommandRequest command3{};
+        _facade->execute(command3);
 
         this->redraw();
     }
@@ -343,9 +369,15 @@ void mainwindow::on_RotateButton_clicked() const
 
     if (rotater != nullptr && id != -1)
     {
-        FigureCommandRotate transform{static_cast<size_t>(id), rotater};
+        std::shared_ptr<BaseObject> object{nullptr};
+        FigureCommandGetById command1{object, static_cast<size_t>(id)};
+        _facade->execute(command1);
 
-        _facade->execute(transform);
+        TransformManagerCommandSetParams command2{object, rotater};
+        _facade->execute(command2);
+
+        TransformManagerCommandRequest command3{};
+        _facade->execute(command3);
 
         this->redraw();
     }
@@ -358,9 +390,15 @@ void mainwindow::on_ScaleButton_clicked() const
 
     if (scaler != nullptr && id != -1)
     {
-        FigureCommandScale transform{static_cast<size_t>(id), scaler};
+        std::shared_ptr<BaseObject> object{nullptr};
+        FigureCommandGetById command1{object, static_cast<size_t>(id)};
+        _facade->execute(command1);
 
-        _facade->execute(transform);
+        TransformManagerCommandSetParams command2{object, scaler};
+        _facade->execute(command2);
+
+        TransformManagerCommandRequest command3{};
+        _facade->execute(command3);
 
         this->redraw();
     }
@@ -372,9 +410,12 @@ void mainwindow::on_SetCameraButton_clicked() const
 
     if (id != -1)
     {
-        CameraSetCommand command{static_cast<size_t>(id)};
+        std::shared_ptr<BaseObject> camera{nullptr};
+        CameraCommandGetById command1{camera, static_cast<size_t>(id)};
+        _facade->execute(command1);
 
-        _facade->execute(command);
+        CameraSetCommand command2{camera};
+        _facade->execute(command2);
 
         this->redraw();
     }
@@ -441,9 +482,15 @@ void mainwindow::on_MoveButton_Cam_clicked() const
 
     if (mover != nullptr && id != -1)
     {
-        CameraCommandMove transform{static_cast<size_t>(id), mover};
+        std::shared_ptr<BaseObject> object{nullptr};
+        CameraCommandGetById command1{object, static_cast<size_t>(id)};
+        _facade->execute(command1);
 
-        _facade->execute(transform);
+        TransformManagerCommandSetParams command2{object, mover};
+        _facade->execute(command2);
+
+        TransformManagerCommandRequest command3{};
+        _facade->execute(command3);
 
         this->redraw();
     }
@@ -456,9 +503,15 @@ void mainwindow::on_RotateButton_Cam_clicked() const
 
     if (rotater != nullptr && id != -1)
     {
-        CameraCommandRotate transform{static_cast<size_t>(id), rotater};
+        std::shared_ptr<BaseObject> object{nullptr};
+        CameraCommandGetById command1{object, static_cast<size_t>(id)};
+        _facade->execute(command1);
 
-        _facade->execute(transform);
+        TransformManagerCommandSetParams command2{object, rotater};
+        _facade->execute(command2);
+
+        TransformManagerCommandRequest command3{};
+        _facade->execute(command3);
 
         this->redraw();
     }

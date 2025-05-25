@@ -10,7 +10,7 @@ void DrawCommand::execute()
 {
     try
     {
-        _drawManager->drawScene(_sceneManager->getScene(), _drawer);
+        _action(_scene, _drawer);
     }
     catch (ErrorDrawManager_no_camera &e)
     {

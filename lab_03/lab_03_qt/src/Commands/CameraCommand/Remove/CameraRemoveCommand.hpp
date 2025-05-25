@@ -4,6 +4,8 @@
 
 #ifndef CAMERAREMOVECOMMAND_HPP
 #define CAMERAREMOVECOMMAND_HPP
+#include <functional>
+
 #include "../BaseCameraCommand.hpp"
 #include "../../BaseCommand.hpp"
 
@@ -13,18 +15,19 @@ class CameraRemoveCommand : public BaseCameraCommand
 public:
     explicit CameraRemoveCommand(const size_t id) { _id = id; }
 
-    void setManager(const std::shared_ptr<SceneManager> &manager) override { _sceneManager = manager; }
-    void setManager(const std::shared_ptr<LoadManager> &manager) override {}
-    void setManager(const std::shared_ptr<DrawManager> &manager) override { _drawManager = manager; }
-    void setManager(const std::shared_ptr<TransformManager> &manager) override {}
+    void setManagerAction(const std::shared_ptr<SceneManager> &manager) override
+    {
+        _action = [manager](size_t id) { manager->removeCamera(id); };
+    }
+    void setManagerAction(const std::shared_ptr<LoadManager> &manager) override {}
+    void setManagerAction(const std::shared_ptr<DrawManager> &manager) override {}
+    void setManagerAction(const std::shared_ptr<TransformManager> &manager) override {}
 
     void execute() override;
 
 private:
     size_t _id;
-
-    std::shared_ptr<SceneManager> _sceneManager;
-    std::shared_ptr<DrawManager> _drawManager;
+    std::function<void(size_t)> _action;
 };
 
 

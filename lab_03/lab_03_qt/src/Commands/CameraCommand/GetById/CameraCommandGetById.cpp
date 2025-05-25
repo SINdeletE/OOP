@@ -1,17 +1,17 @@
 //
-// Created by nuelex on 22/05/25.
+// Created by nuelex on 25/05/25.
 //
 
-#include "CameraRemoveCommand.hpp"
+#include "CameraCommandGetById.hpp"
 
 #include "../../../Exceptions/Commands/CommandsException.hpp"
 #include "../../../Exceptions/Scene/SceneException.hpp"
 
-void CameraRemoveCommand::execute()
+void CameraCommandGetById::execute()
 {
     try
     {
-        _action(_id);
+        _object = _action(_id);
     }
     catch (ErrorScene_out_of_range &e)
     {
@@ -19,4 +19,3 @@ void CameraRemoveCommand::execute()
         throw ErrorCommand_out_of_range(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
 }
-

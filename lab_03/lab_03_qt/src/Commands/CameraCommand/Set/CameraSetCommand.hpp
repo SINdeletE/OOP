@@ -4,6 +4,8 @@
 
 #ifndef CAMERASETCOMMAND_HPP
 #define CAMERASETCOMMAND_HPP
+#include <functional>
+
 #include "../BaseCameraCommand.hpp"
 #include "../../BaseCommand.hpp"
 
@@ -11,22 +13,22 @@
 class CameraSetCommand : public BaseCameraCommand
 {
 public:
-    explicit CameraSetCommand(size_t id) : _id(id) {}
+    explicit CameraSetCommand(const std::shared_ptr<BaseObject>& object) : _camera(object) {}
     ~CameraSetCommand() override = default;
 
-    void setManager(const std::shared_ptr<SceneManager> &manager) override { _sceneManager = manager; }
-    void setManager(const std::shared_ptr<LoadManager> &manager) override {}
-    void setManager(const std::shared_ptr<DrawManager> &manager) override { _drawManager = manager; }
-    void setManager(const std::shared_ptr<TransformManager> &manager) override {}
+    void setManagerAction(const std::shared_ptr<SceneManager> &manager) override {}
+    void setManagerAction(const std::shared_ptr<LoadManager> &manager) override {}
+    void setManagerAction(const std::shared_ptr<DrawManager> &manager) override
+    {
+        _action = [manager](const std::shared_ptr<BaseObject>& object) { manager->setCamera(object); };
+    }
+    void setManagerAction(const std::shared_ptr<TransformManager> &manager) override {}
 
     void execute() override;
 
 private:
-    size_t _id;
-
-    std::shared_ptr<SceneManager> _sceneManager;
-    std::shared_ptr<LoadManager> _loadManager;
-    std::shared_ptr<DrawManager> _drawManager;
+    std::function<void(const std::shared_ptr<BaseObject>&)> _action;
+    std::shared_ptr<BaseObject> _camera;
 };
 
 

@@ -13,10 +13,10 @@ class FigureRemoveCommand : public BaseFigureCommand
 public:
     explicit FigureRemoveCommand(const size_t id) { _id = id; }
 
-    void setManager(const std::shared_ptr<SceneManager> &manager) override { _sceneManager = manager; }
-    void setManager(const std::shared_ptr<LoadManager> &manager) override {}
-    void setManager(const std::shared_ptr<DrawManager> &manager) override { _drawManager = manager; }
-    void setManager(const std::shared_ptr<TransformManager> &manager) override {}
+    void setManagerAction(const std::shared_ptr<SceneManager> &manager) override { _sceneManager = manager; }
+    void setManagerAction(const std::shared_ptr<LoadManager> &manager) override {}
+    void setManagerAction(const std::shared_ptr<DrawManager> &manager) override { _drawManager = manager; }
+    void setManagerAction(const std::shared_ptr<TransformManager> &manager) override {}
 
     void execute() override;
 
