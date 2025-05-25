@@ -10,6 +10,8 @@
 
 class Figure;
 class Camera;
+class ConcreteFigureLP;
+class CameraPTU;
 
 class BaseTransformVisitor
 {
@@ -17,8 +19,8 @@ public:
     explicit BaseTransformVisitor(const std::shared_ptr<BaseTransform> &transform) {}
     virtual ~BaseTransformVisitor() = default;
 
-    virtual void visitFigure(Figure &figure) = 0;
-    virtual void visitCamera(Camera &camera) = 0;
+    virtual void visit(ConcreteFigureLP &figure) {}
+    virtual void visit(CameraPTU &camera) {}
 };
 
 

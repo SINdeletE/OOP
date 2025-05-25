@@ -5,7 +5,9 @@
 #include "RotateObjectVisitor.hpp"
 
 #include "../../../BaseObject/Camera/Camera.hpp"
+#include "../../../BaseObject/Camera/CameraPTU.hpp"
 #include "../../../BaseObject/Figure/Figure.hpp"
+#include "../../../BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/ConcreteFigureLP.hpp"
 #include "../../../Exceptions/Visitors/VisitorException.hpp"
 
 
@@ -22,15 +24,17 @@ RotateObjectVisitor::RotateObjectVisitor(const std::shared_ptr<BaseTransform>& t
     _transform = tfm;
 }
 
-void RotateObjectVisitor::visitFigure(Figure& figure)
+void RotateObjectVisitor::visit(ConcreteFigureLP& figure)
 {
-    figure.transform(*_transform);
+    figure.figureLP_->transform(*_transform);
 }
 
-void RotateObjectVisitor::visitCamera(Camera& camera)
+void RotateObjectVisitor::visit(CameraPTU& camera)
 {
-    camera.transform(*_transform);
+    camera._cameraPTU->transform(*_transform);
 }
+
+
 
 
 

@@ -27,7 +27,7 @@ public:
     void transform(const Scaler &scaler) override {}
 
     void accept(const BaseDrawTemplateVisitor &visitor) override;
-    void accept(BaseTransformVisitor &visitor) override { visitor.visitFigure(*this); }
+    void accept(BaseTransformVisitor &visitor) override {}
 };
 
 

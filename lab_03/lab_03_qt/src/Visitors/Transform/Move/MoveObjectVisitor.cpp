@@ -6,8 +6,9 @@
 
 #include <qvariant.h>
 
-#include "../../../BaseObject/Camera/Camera.hpp"
+#include "../../../BaseObject/Camera/CameraPTU.hpp"
 #include "../../../BaseObject/Figure/Figure.hpp"
+#include "../../../BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/ConcreteFigureLP.hpp"
 #include "../../../Exceptions/Visitors/VisitorException.hpp"
 
 MoveObjectVisitor::MoveObjectVisitor(const std::shared_ptr<BaseTransform>& transform) : BaseTransformVisitor(transform)
@@ -23,14 +24,14 @@ MoveObjectVisitor::MoveObjectVisitor(const std::shared_ptr<BaseTransform>& trans
     _transform = tfm;
 }
 
-void MoveObjectVisitor::visitFigure(Figure& figure)
+void MoveObjectVisitor::visit(ConcreteFigureLP& figure)
 {
-    figure.transform(*_transform);
+    figure.figureLP_->transform(*_transform);
 }
 
-void MoveObjectVisitor::visitCamera(Camera& camera)
+void MoveObjectVisitor::visit(CameraPTU& camera)
 {
-    camera.transform(*_transform);
+    camera._cameraPTU->transform(*_transform);
 }
 
 

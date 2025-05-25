@@ -6,6 +6,7 @@
 
 #include "../../../BaseObject/Figure/Figure.hpp"
 #include "../../../Exceptions/Visitors/VisitorException.hpp"
+#include "../../../BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/ConcreteFigureLP.hpp"
 
 ScaleObjectVisitor::ScaleObjectVisitor(const std::shared_ptr<BaseTransform>& transform) : BaseTransformVisitor(transform)
 {
@@ -20,9 +21,9 @@ ScaleObjectVisitor::ScaleObjectVisitor(const std::shared_ptr<BaseTransform>& tra
     _transform = tfm;
 }
 
-void ScaleObjectVisitor::visitFigure(Figure& figure)
+void ScaleObjectVisitor::visit(ConcreteFigureLP& figure)
 {
-    figure.transform(*_transform);
+    figure.figureLP_->transform(*_transform);
 }
 
 

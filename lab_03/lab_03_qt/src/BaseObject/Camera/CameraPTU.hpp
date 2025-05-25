@@ -14,6 +14,10 @@ class CameraPTUBuilder;
 
 class CameraPTU : public BaseCameraPTU
 {
+    friend class MoveObjectVisitor;
+    friend class RotateObjectVisitor;
+    friend class ScaleObjectVisitor;
+
     friend class CameraPTUTransformer;
     friend class CameraPTUBuilder;
 
@@ -29,7 +33,7 @@ public:
     void transform(const Rotater &rotater) override { _cameraPTU->transform(rotater); }
 
     void accept(const BaseDrawTemplateVisitor& visitor) override;
-    void accept(BaseTransformVisitor &visitor) override { visitor.visitCamera(*this); }
+    void accept(BaseTransformVisitor &visitor) override { visitor.visit(*this); }
 };
 
 

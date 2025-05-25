@@ -15,9 +15,9 @@ TransformVisitorSolution::TransformVisitorSolution()
 {
     try
     {
-        this->reg(std::make_shared<Mover>(), std::make_shared<ConcreteTransformVisitor<MoveObjectVisitor>>());
-        this->reg(std::make_shared<Rotater>(), std::make_shared<ConcreteTransformVisitor<RotateObjectVisitor>>());
-        this->reg(std::make_shared<Scaler>(), std::make_shared<ConcreteTransformVisitor<ScaleObjectVisitor>>());
+        this->reg(std::make_shared<Mover>(), std::make_shared<ConcreteTransformVisitorCreator<MoveObjectVisitor>>());
+        this->reg(std::make_shared<Rotater>(), std::make_shared<ConcreteTransformVisitorCreator<RotateObjectVisitor>>());
+        this->reg(std::make_shared<Scaler>(), std::make_shared<ConcreteTransformVisitorCreator<ScaleObjectVisitor>>());
     }
     catch (std::bad_alloc &e)
     {

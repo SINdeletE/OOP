@@ -14,6 +14,10 @@
 class ConcreteFigureLP : public BaseConcreteFigureLP
 {
     friend class DrawFigureLPVisitor;
+    friend class MoveObjectVisitor;
+    friend class RotateObjectVisitor;
+    friend class ScaleObjectVisitor;
+
     friend class TXTLPReader;
     friend class FigureLPBuilder;
 
@@ -31,7 +35,7 @@ public:
     void transform(const Scaler &scaler) override { figureLP_->transform(scaler); }
 
     void accept(const BaseDrawTemplateVisitor& visitor) override;
-    void accept(BaseTransformVisitor &visitor) override { visitor.visitFigure(*this); }
+    void accept(BaseTransformVisitor &visitor) override { visitor.visit(*this); }
 };
 
 
