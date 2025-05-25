@@ -4,18 +4,19 @@
 
 #include "LoadManager.hpp"
 
-#include "../../Builders/Directors/DirectorSolution.hpp"
+#include "../../Builders/Moderators/Solution/LoadModeratorSolution.hpp"
 #include "../../Exceptions/Directors/DirectorException.hpp"
 #include "../../Exceptions/Managers/LoadManagerException.hpp"
+#include "../../Exceptions/Moderator/ModeratorException.hpp"
 
 std::shared_ptr<BaseObject> LoadManager::loadObject(const std::string& filename)
 {
     try
     {
-        DirectorSolution solution;
-        const std::shared_ptr<BaseObjectDirector> object_director = solution.createDirector(filename);
+        LoadModeratorSolution solution{};
+        auto moderator = solution.createLoadModerator(filename);
 
-        auto object = object_director->create();
+        auto object = moderator->load(filename);
         if (object == nullptr)
         {
             const time_t cur_time = time(nullptr);
@@ -24,12 +25,12 @@ std::shared_ptr<BaseObject> LoadManager::loadObject(const std::string& filename)
 
         return object;
     }
-    catch (ErrorDirector_bad_alloc &e)
+    catch (ErrorModerator_bad_alloc &e)
     {
         const time_t cur_time = time(nullptr);
         throw ErrorLoadManager_bad_alloc(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
     }
-    catch (ErrorDirector_invalid_file &e)
+    catch (ErrorModerator_invalid_filename &e)
     {
         const time_t cur_time = time(nullptr);
         throw ErrorLoadManager_invalid_file(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));

@@ -66,8 +66,6 @@ add_executable(lab_03_qt main.cpp
         src/Managers/DrawManager/DrawManager.hpp
         src/Managers/TransformManager/TransformManager.cpp
         src/Managers/TransformManager/TransformManager.hpp
-        src/Builders/Directors/BaseObjectDirector.hpp
-        src/Builders/Readers/BaseReader.hpp
         src/Builders/Readers/LPReaders/BaseLPReader.hpp
         src/Builders/Readers/LPReaders/txt/TXTLPReader.cpp
         src/Builders/Readers/LPReaders/txt/TXTLPReader.hpp
@@ -75,20 +73,14 @@ add_executable(lab_03_qt main.cpp
         src/Builders/Readers/LPReaders/LPReaderSolution.cpp
         src/Builders/Readers/LPReaders/LPReaderSolution.hpp
         src/Exceptions/Factory/ReaderFactoryException.hpp
-        src/Builders/Directors/DirectorSolution.cpp
-        src/Builders/Directors/DirectorSolution.hpp
         src/Builders/Directors/FigureDirector/FigureLPDirector.cpp
         src/Builders/Directors/FigureDirector/FigureLPDirector.hpp
         src/Builders/Readers/LPReaders/LPReaderCreator.hpp
-        src/Builders/Directors/DirectorCreator.hpp
         src/Exceptions/Directors/DirectorException.hpp
         src/Builders/Builders/FigureLPBuilder/BaseFigureLPBuilder.hpp
         src/Builders/Builders/FigureLPBuilder/FigureLPBuilder.cpp
         src/Builders/Builders/FigureLPBuilder/FigureLPBuilder.hpp
         src/Exceptions/Builders/BuildersException.hpp
-        src/Builders/Builders/FigureLPBuilder/FigureLPBuilderCreator.hpp
-        src/Builders/Builders/FigureLPBuilder/FigureLPBuilderSolution.cpp
-        src/Builders/Builders/FigureLPBuilder/FigureLPBuilderSolution.hpp
         src/Exceptions/Builders/BuildersCreatorException.hpp
         src/Exceptions/Managers/LoadManagerException.hpp
         src/Builders/Directors/CameraDirector/CameraPTUDirector.cpp
@@ -103,9 +95,6 @@ add_executable(lab_03_qt main.cpp
         src/BaseObject/Camera/BaseCameraPTU.hpp
         src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilder.cpp
         src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilder.hpp
-        src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilderCreator.hpp
-        src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilderSolution.cpp
-        src/Builders/Builders/CameraPTUBuilder/CameraPTUBuilderSolution.hpp
         src/BaseObject/Camera/Camera.hpp
         src/Exceptions/Hashes/BaseObjectHashException.hpp
         src/Exceptions/Managers/TransformManager/TransformManagerException.hpp
@@ -216,6 +205,17 @@ add_executable(lab_03_qt main.cpp
         "src/Commands/ManagerCommand/Scene Manager/BaseSceneManagerCommand.hpp"
         "src/Commands/ManagerCommand/Scene Manager/GetScene/SceneManagerCommandGetScene.cpp"
         "src/Commands/ManagerCommand/Scene Manager/GetScene/SceneManagerCommandGetScene.hpp"
+        src/Builders/Moderators/BaseLoadModerator.hpp
+        src/Builders/Moderators/Solution/LoadModeratorSolution.cpp
+        src/Builders/Moderators/Solution/LoadModeratorSolution.hpp
+        src/Builders/Moderators/Solution/LoadModeratorCreator.hpp
+        src/Exceptions/Moderator/ModeratorException.hpp
+        src/Builders/Moderators/Moderators/FigureLP/FigureLPModerator.cpp
+        src/Builders/Moderators/Moderators/FigureLP/FigureLPModerator.hpp
+        src/Builders/Moderators/Moderators/CameraPTU/CameraPTUModerator.cpp
+        src/Builders/Moderators/Moderators/CameraPTU/CameraPTUModerator.hpp
+        src/Builders/Directors/FigureDirector/BaseFigureLPDirector.hpp
+        src/Builders/Directors/CameraDirector/BaseCameraPTUDirector.hpp
 )
 
 target_link_libraries(lab_03_qt

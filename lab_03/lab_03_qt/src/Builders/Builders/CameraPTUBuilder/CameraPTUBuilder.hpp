@@ -12,7 +12,7 @@ class CameraPTUBuilder : public BaseCameraPTUBuilder
 {
 public:
     CameraPTUBuilder() = delete;
-    explicit CameraPTUBuilder(const std::string &filename);
+    explicit CameraPTUBuilder(const std::shared_ptr<BasePTUReader> &reader);
     ~CameraPTUBuilder() override = default;
 
     [[nodiscard]] bool buildPosition() override;
@@ -24,7 +24,7 @@ public:
     void reset() override { _camera.reset(); };
 
 private:
-    int _total;
+    int _total{0};
 
     std::shared_ptr<CameraPTU> _camera;
     std::shared_ptr<BasePTUReader> _reader;

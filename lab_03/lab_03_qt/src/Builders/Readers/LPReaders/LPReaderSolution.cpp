@@ -7,6 +7,7 @@
 #include <filesystem>
 
 #include "../../../Exceptions/Factory/ReaderFactoryException.hpp"
+#include "../LPReaders/txt/TXTLPReader.hpp"
 
 
 LPReaderSolution::LPReaderSolution() : _map()

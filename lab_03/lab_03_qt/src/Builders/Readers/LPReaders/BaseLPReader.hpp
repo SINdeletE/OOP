@@ -7,18 +7,17 @@
 #include <fstream>
 #include <string>
 
-#include "../BaseReader.hpp"
 #include "../../../BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/ConcreteFigureLP.hpp"
 #include "../../../BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/Links/Links.hpp"
 #include "../../../BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/Point/Points.hpp"
 
 
-class BaseLPReader : public BaseReader
+class BaseLPReader
 {
 public:
     BaseLPReader() = default;
     explicit BaseLPReader(const std::string &filename);
-    ~BaseLPReader() override = default;
+    virtual ~BaseLPReader() = default;
 
     [[nodiscard]] virtual Links readLinks() = 0;
     [[nodiscard]] virtual Points readPoints() = 0;

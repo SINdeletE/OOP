@@ -13,7 +13,7 @@ class FigureLPBuilder : public BaseFigureLPBuilder
 {
 public:
     FigureLPBuilder() = delete;
-    explicit FigureLPBuilder(const std::string &string);
+    explicit FigureLPBuilder(const std::shared_ptr<BaseLPReader> &reader);
     ~FigureLPBuilder() override = default;
 
     bool isBuilded() override { return (_total == 2); }
@@ -24,7 +24,7 @@ public:
     [[nodiscard]] std::shared_ptr<BaseConcreteFigureLP> getFigureLP() const override { return FigureLP_; }
 
 private:
-    int _total;
+    int _total{0};
 
     std::shared_ptr<ConcreteFigureLP> FigureLP_;
     std::shared_ptr<BaseLPReader> reader_;

@@ -4,14 +4,14 @@
 
 #ifndef CAMERAPDUDIRECTOR_HPP
 #define CAMERAPDUDIRECTOR_HPP
-#include "../BaseObjectDirector.hpp"
 #include "../../Builders/CameraPTUBuilder/BaseCameraPTUBuilder.hpp"
+#include "BaseCameraPTUDirector.hpp"
 
 
-class CameraPTUDirector : public BaseObjectDirector
+class CameraPTUDirector : public BaseCameraPTUDirector
 {
 public:
-    explicit CameraPTUDirector(const std::string &filename);
+    explicit CameraPTUDirector(const std::shared_ptr<BaseCameraPTUBuilder> &builder) : _builder(builder) {}
     ~CameraPTUDirector() override = default;
 
     [[nodiscard]] std::shared_ptr<BaseObject> create() override;

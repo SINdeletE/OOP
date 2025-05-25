@@ -6,16 +6,15 @@
 #define BASEPDUREADER_HPP
 #include <string>
 
-#include "../BaseReader.hpp"
 #include "../../../BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/Point/Points.hpp"
 
 
-class BasePTUReader : public BaseReader
+class BasePTUReader
 {
 public:
     BasePTUReader() = default;
     explicit BasePTUReader(const std::string &filename);
-    ~BasePTUReader() override = default;
+    virtual ~BasePTUReader() = default;
 
     [[nodiscard]] virtual Point readPosition() = 0;
     [[nodiscard]] virtual Point readTarget() = 0;

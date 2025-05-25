@@ -4,15 +4,12 @@
 
 #ifndef LPREADERFACTORY_HPP
 #define LPREADERFACTORY_HPP
-#include <functional>
 #include <memory>
 #include <string>
 #include <unordered_map>
 
 #include "BaseLPReader.hpp"
 #include "LPReaderCreator.hpp"
-#include "../../../Factory/BaseFactory.hpp"
-#include "txt/TXTLPReader.hpp"
 
 class LPReaderSolution
 {

@@ -8,13 +8,14 @@
 #include <string>
 
 #include "../../../BaseObject/Camera/CameraPTU.hpp"
+#include "../../Readers/PTUReader/BasePTUReader.hpp"
 
 
 class BaseCameraPTUBuilder
 {
 public:
     BaseCameraPTUBuilder() = delete;
-    explicit BaseCameraPTUBuilder(const std::string &filename) {}
+    explicit BaseCameraPTUBuilder(const std::shared_ptr<BasePTUReader> &reader) {}
     virtual ~BaseCameraPTUBuilder() = default;
 
     virtual bool isBuilded() { return false; }
