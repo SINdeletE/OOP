@@ -26,7 +26,7 @@ bool CameraPTUBuilder::buildPosition()
 {
     try
     {
-        _camera->setPosition(_reader->readPosition());
+        _camera->_cameraPTU.setPosition(_reader->readPosition());
     }
     catch (ErrorReader_invalid_file &e)
     {
@@ -42,7 +42,7 @@ bool CameraPTUBuilder::buildTarget()
 {
     try
     {
-        _camera->setTarget(_reader->readTarget());
+        _camera->_cameraPTU.setTarget(_reader->readTarget());
     }
     catch (ErrorReader_invalid_file &e)
     {
@@ -58,7 +58,7 @@ bool CameraPTUBuilder::buildUp()
 {
     try
     {
-        _camera->setUp(_reader->readUp());
+        _camera->_cameraPTU.setUp(_reader->readUp());
     }
     catch (ErrorReader_invalid_file &e)
     {

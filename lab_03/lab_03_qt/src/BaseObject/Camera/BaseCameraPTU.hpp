@@ -17,20 +17,6 @@ public:
 
     bool VisibilityCheck() override { return false; }
 
-    [[nodiscard]] virtual const Point &getPosition() const = 0;
-    virtual void setPosition(const Point &position) = 0;
-    virtual void setPosition(Point&& position) = 0;
-
-    [[nodiscard]] virtual const Point &getTarget() const = 0;
-    virtual void setTarget(const Point &target) = 0;
-    virtual void setTarget(Point &&target) = 0;
-
-    [[nodiscard]] virtual const Vec &getUp() const = 0;
-    virtual void setUp(const Point &up) = 0;
-    virtual void setUp(Point &&up) = 0;
-    virtual void setUp(const Vec &up) = 0;
-    virtual void setUp(Vec &&up) = 0;
-
     void transform(const Mover &mover) override {}
     void transform(const Rotater &rotater) override {}
 

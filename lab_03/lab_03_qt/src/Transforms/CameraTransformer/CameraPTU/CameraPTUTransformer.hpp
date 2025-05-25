@@ -5,7 +5,7 @@
 #ifndef CAMERAPTUTRANSFORMER_HPP
 #define CAMERAPTUTRANSFORMER_HPP
 #include "../BaseCameraTransformer.hpp"
-#include "../../../BaseObject/Camera/BaseCameraPTU.hpp"
+#include "../../../BaseObject/Camera/CameraPTU.hpp"
 
 class CameraPTUTransformer : public BaseCameraTransformer
 {
@@ -17,7 +17,7 @@ public:
     [[nodiscard]] Point transform(const Point &other) const override;
 
 private:
-    std::shared_ptr<BaseCameraPTU> _camera;
+    std::shared_ptr<CameraPTU> _camera;
 
     [[nodiscard]] static Point toPerspective(const Point &point);
 };
