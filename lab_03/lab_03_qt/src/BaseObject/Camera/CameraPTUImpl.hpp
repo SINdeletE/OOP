@@ -11,7 +11,7 @@
 class CameraPTUImpl
 {
 public:
-    CameraPTUImpl() {}
+    CameraPTUImpl() = default;
     ~CameraPTUImpl() = default;
 
     bool VisibilityCheck()  { return false; }
