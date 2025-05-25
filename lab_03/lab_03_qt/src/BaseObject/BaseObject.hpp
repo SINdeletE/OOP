@@ -30,16 +30,14 @@ public:
     BaseObject(const BaseObject&) = default;
     virtual ~BaseObject() = default;
 
-    BaseObject& operator=(const BaseObject&) = default;
-
     virtual bool CompositeCheck() { return false; }
     virtual bool VisibilityCheck() = 0;
 
-    virtual void addChild(const std::shared_ptr<BaseObject> &child) {}
+    virtual void addChild(const std::shared_ptr<BaseObject::value_type> &child) {}
     virtual void removeChild(const size_t id) {}
 
-    virtual iterator begin() = 0;
-    virtual iterator end() = 0;
+    virtual iterator begin() { return iterator(nullptr); }
+    virtual iterator end() { return iterator(nullptr); }
     virtual shared_ptr_type getObjectByID(size_type index) = 0;
 
     virtual void transform(const Mover &mover) {}

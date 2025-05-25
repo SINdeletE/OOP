@@ -6,19 +6,18 @@
 #define BASEFIGURELPBUILDER_HPP
 #include <string>
 
-#include "../../BaseBuilder.hpp"
 #include "../../../BaseObject/Figure/ConcreteFigure/BaseConcreteFigureLP.hpp"
 
 
-class BaseFigureLPBuilder : public BaseBuilder
+class BaseFigureLPBuilder
 {
 public:
     BaseFigureLPBuilder() = delete;
     explicit BaseFigureLPBuilder(const std::string &filename) {}
-    ~BaseFigureLPBuilder() override = default;
+    virtual ~BaseFigureLPBuilder() = default;
 
-    bool isBuilded() override { return false; }
-    void reset() override {}
+    virtual bool isBuilded() { return false; }
+    virtual void reset() {}
 
     [[nodiscard]] virtual bool buildLinks() = 0;
     [[nodiscard]] virtual bool buildPoints() = 0;

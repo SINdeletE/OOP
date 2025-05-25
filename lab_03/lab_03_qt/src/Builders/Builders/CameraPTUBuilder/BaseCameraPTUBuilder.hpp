@@ -7,19 +7,18 @@
 #include <memory>
 #include <string>
 
-#include "../../BaseBuilder.hpp"
 #include "../../../BaseObject/Camera/CameraPTU.hpp"
 
 
-class BaseCameraPTUBuilder : public BaseBuilder
+class BaseCameraPTUBuilder
 {
 public:
     BaseCameraPTUBuilder() = delete;
     explicit BaseCameraPTUBuilder(const std::string &filename) {}
-    ~BaseCameraPTUBuilder() override = default;
+    virtual ~BaseCameraPTUBuilder() = default;
 
-    bool isBuilded() override { return false; }
-    void reset() override {}
+    virtual bool isBuilded() { return false; }
+    virtual void reset() {}
 
     [[nodiscard]] virtual bool buildPosition() = 0;
     [[nodiscard]] virtual bool buildTarget() = 0;

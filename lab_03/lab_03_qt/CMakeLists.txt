@@ -53,7 +53,6 @@ add_executable(lab_03_qt main.cpp
         src/Managers/SceneManager/History/History.hpp
         src/Facade/Facade.cpp
         src/Facade/Facade.hpp
-        src/Builders/BaseBuilder.hpp
         src/Factory/BaseFactory.hpp
         src/Factory/ManagerFactory/ManagerFactory.cpp
         src/Factory/ManagerFactory/ManagerFactory.hpp
