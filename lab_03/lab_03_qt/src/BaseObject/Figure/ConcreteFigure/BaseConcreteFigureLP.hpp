@@ -8,11 +8,15 @@
 #include "../Figure.hpp"
 #include "../../../Transforms/Transforms.hpp"
 #include "../../../Visitors/Draw/FigureLP/DrawFigureLPVisitor.hpp"
+#include "ConcreteFigureLP/FigureLP/AbstractFigureLP.hpp"
 #include "ConcreteFigureLP/Links/Links.hpp"
 #include "ConcreteFigureLP/Point/Points.hpp"
 
 class BaseConcreteFigureLP : public Figure
 {
+protected:
+    std::shared_ptr<AbstractFigureLP> figureLP_{};
+
 public:
     BaseConcreteFigureLP() = default;
     ~BaseConcreteFigureLP() override = default;

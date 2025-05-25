@@ -17,11 +17,8 @@ class CameraPTU : public BaseCameraPTU
     friend class CameraPTUTransformer;
     friend class CameraPTUBuilder;
 
-protected:
-    std::shared_ptr<BaseCameraPTUImpl> _cameraPTU;
-
 public:
-    CameraPTU() : _cameraPTU() {}
+    CameraPTU() = default;
     explicit CameraPTU(const std::shared_ptr<BaseCameraPTUImpl> &cameraPTU) { _cameraPTU = cameraPTU; }
     ~CameraPTU() override = default;
 

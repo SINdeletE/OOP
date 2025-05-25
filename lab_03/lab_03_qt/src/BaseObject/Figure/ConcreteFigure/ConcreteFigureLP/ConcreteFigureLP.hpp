@@ -17,13 +17,10 @@ class ConcreteFigureLP : public BaseConcreteFigureLP
     friend class TXTLPReader;
     friend class FigureLPBuilder;
 
-protected:
-    std::shared_ptr<AbstractFigureLP> figureLP_;
-
 public:
-    ConcreteFigureLP() : figureLP_() {}
+    ConcreteFigureLP() = default;
     explicit ConcreteFigureLP(const ConcreteFigureLP &other) { figureLP_ = other.figureLP_; }
-    ConcreteFigureLP(const std::shared_ptr<AbstractFigureLP> &figure) {figureLP_ = figure;}
+    explicit ConcreteFigureLP(const std::shared_ptr<AbstractFigureLP> &figure) {figureLP_ = figure;}
     ~ConcreteFigureLP() override = default;
 
     ConcreteFigureLP& operator=(const ConcreteFigureLP &other) { figureLP_ = other.figureLP_; return *this; }
