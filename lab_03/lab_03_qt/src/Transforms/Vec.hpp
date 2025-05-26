@@ -8,6 +8,7 @@
 
 #include "../BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/Point/Points.hpp"
 
+#define EPS std::numeric_limits<double>::epsilon()
 
 class Vec
 {

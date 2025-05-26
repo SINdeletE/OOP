@@ -22,10 +22,6 @@ public:
 
     BaseObject::shared_ptr_type getObjectByID(size_type index) override { return nullptr; }
 
-    void transform(const Mover &mover) override {}
-    void transform(const Rotater &rotater) override {}
-    void transform(const Scaler &scaler) override {}
-
     void accept(const BaseDrawTemplateVisitor &visitor) override;
     void accept(BaseTransformVisitor &visitor) override {}
 };

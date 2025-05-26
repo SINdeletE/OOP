@@ -59,8 +59,14 @@ Point CameraPTUTransformer::transform(const Point &other) const
     return toPerspective({x_camera, y_camera, z_camera});
 }
 
-Point CameraPTUTransformer::toPerspective(const Point& point)
+Point CameraPTUTransformer::toPerspective(const Point& point) const
 {
+    if (point.GetZ() > -EPS)
+    {
+        const time_t cur_time = time(nullptr);
+        throw ErrorTransformer_invalid_camera_parameters(__FILE__, typeid(*this).name(), __LINE__, ctime(&cur_time));
+    }
+
     return {point.GetX() / fabs(point.GetZ()) * HALF_SCENE_WIDTH, \
                point.GetY() / fabs(point.GetZ()) * HALF_SCENE_HEIGHT, point.GetZ()};
 }

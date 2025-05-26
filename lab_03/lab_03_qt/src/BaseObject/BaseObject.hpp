@@ -40,10 +40,6 @@ public:
     virtual iterator end() { return iterator(nullptr); }
     virtual shared_ptr_type getObjectByID(size_type index) = 0;
 
-    virtual void transform(const Mover &mover) {}
-    virtual void transform(const Rotater &rotater) {}
-    virtual void transform(const Scaler &scaler) {}
-
     virtual void accept(const BaseDrawTemplateVisitor &visitor) = 0;
     virtual void accept(BaseTransformVisitor &visitor) = 0;
 };

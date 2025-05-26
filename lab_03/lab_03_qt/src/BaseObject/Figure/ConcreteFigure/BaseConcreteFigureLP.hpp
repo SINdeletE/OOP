@@ -21,10 +21,6 @@ public:
     BaseConcreteFigureLP() = default;
     ~BaseConcreteFigureLP() override = default;
 
-    void transform(const Mover &mover) override {}
-    void transform(const Rotater &rotater) override {}
-    void transform(const Scaler &scaler) override {}
-
     void accept(const BaseDrawTemplateVisitor &visitor) override {}
     void accept(BaseTransformVisitor &visitor) override {}
 };

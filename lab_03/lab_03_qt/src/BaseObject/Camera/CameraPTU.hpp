@@ -29,9 +29,6 @@ public:
     bool VisibilityCheck() override { return false; }
     bool CompositeCheck() override { return false; }
 
-    void transform(const Mover &mover) override { _cameraPTU->transform(mover); }
-    void transform(const Rotater &rotater) override { _cameraPTU->transform(rotater); }
-
     void accept(const BaseDrawTemplateVisitor& visitor) override;
     void accept(BaseTransformVisitor &visitor) override { visitor.visit(*this); }
 };

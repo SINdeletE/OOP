@@ -19,7 +19,7 @@ public:
 private:
     std::shared_ptr<CameraPTU> _camera;
 
-    [[nodiscard]] static Point toPerspective(const Point &point);
+    [[nodiscard]] Point toPerspective(const Point &point) const;
 };
 
 

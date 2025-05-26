@@ -30,10 +30,6 @@ public:
     ConcreteFigureLP& operator=(const ConcreteFigureLP &other) { figureLP_ = other.figureLP_; return *this; }
     ConcreteFigureLP& operator=(const std::shared_ptr<AbstractFigureLP> &figure) {figureLP_ = figure; return *this; }
 
-    void transform(const Mover &mover) override { figureLP_->transform(mover); }
-    void transform(const Rotater &rotater) override { figureLP_->transform(rotater); }
-    void transform(const Scaler &scaler) override { figureLP_->transform(scaler); }
-
     void accept(const BaseDrawTemplateVisitor& visitor) override;
     void accept(BaseTransformVisitor &visitor) override { visitor.visit(*this); }
 };

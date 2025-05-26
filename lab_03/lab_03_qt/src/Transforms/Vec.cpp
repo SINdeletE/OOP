@@ -6,8 +6,6 @@
 
 #include "../Exceptions/transform/VecException.hpp"
 
-#define EPS std::numeric_limits<double>::epsilon()
-
 Vec& Vec::vecMul(const Vec& other)
 {
     const double new_x = _y * other._z - _z * other._y;

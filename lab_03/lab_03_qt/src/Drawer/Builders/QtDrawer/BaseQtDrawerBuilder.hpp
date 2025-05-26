@@ -11,21 +11,21 @@
 #include "../../Drawer/BaseDrawer.hpp"
 
 
-class BaseQtDrawerBuilder : public BaseDrawerBuilder
+class BaseQtDrawerBuilder
 {
 public:
     BaseQtDrawerBuilder() = delete;
-    explicit BaseQtDrawerBuilder(const std::shared_ptr<BaseGraphics> &graphics, const std::shared_ptr<BaseColorParameters> &color_parameters) : BaseDrawerBuilder(graphics, color_parameters) {}
-    ~BaseQtDrawerBuilder() override = default;
+    explicit BaseQtDrawerBuilder(const std::shared_ptr<BaseGraphics> &graphics, const std::shared_ptr<BaseColorParameters> &color_parameters) {}
+    virtual ~BaseQtDrawerBuilder() = default;
 
-    bool isBuilded() override { return false; }
-    void reset() override {}
+    virtual bool isBuilded() { return false; }
+    virtual void reset() = 0;
 
     virtual bool buildColor() = 0;
     virtual bool buildPen() = 0;
     virtual bool buildDrawer() = 0;
 
-    std::shared_ptr<BaseDrawer> getDrawer() override { return nullptr; }
+    virtual std::shared_ptr<BaseDrawer> getDrawer() { return nullptr; }
 };
 
 
