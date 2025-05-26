@@ -219,6 +219,8 @@ add_executable(lab_03_qt main.cpp
         src/BaseObject/Camera/CameraPTUImpl.hpp
         src/BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/FigureLP/AbstractFigureLP.hpp
         src/BaseObject/Camera/BaseCameraPTUImpl.hpp
+        src/Builders/Readers/LPReaders/csv/CSVLPReader.cpp
+        src/Builders/Readers/LPReaders/csv/CSVLPReader.hpp
 )
 
 target_link_libraries(lab_03_qt

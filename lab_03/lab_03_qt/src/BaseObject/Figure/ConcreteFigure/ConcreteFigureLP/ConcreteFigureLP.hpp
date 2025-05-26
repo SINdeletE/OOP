@@ -18,9 +18,6 @@ class ConcreteFigureLP : public BaseConcreteFigureLP
     friend class RotateObjectVisitor;
     friend class ScaleObjectVisitor;
 
-    friend class TXTLPReader;
-    friend class FigureLPBuilder;
-
 public:
     ConcreteFigureLP() = default;
     explicit ConcreteFigureLP(const ConcreteFigureLP &other) { figureLP_ = other.figureLP_; }

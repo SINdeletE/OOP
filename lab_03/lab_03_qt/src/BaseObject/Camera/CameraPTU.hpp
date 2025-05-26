@@ -19,7 +19,6 @@ class CameraPTU : public BaseCameraPTU
     friend class ScaleObjectVisitor;
 
     friend class CameraPTUTransformer;
-    friend class CameraPTUBuilder;
 
 public:
     CameraPTU() = default;

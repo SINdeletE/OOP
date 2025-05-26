@@ -21,6 +21,7 @@ public:
     void removeItem(const size_t id);
 
     int selectedItem() const { return _table->currentRow(); }
+    QSet<int> selectedItems() const;
 
 private:
     QTableWidget *_table{nullptr};

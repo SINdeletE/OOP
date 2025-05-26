@@ -21,12 +21,12 @@ public:
 
     [[nodiscard]] bool buildLinks() override;
     [[nodiscard]] bool buildPoints() override;
-    [[nodiscard]] std::shared_ptr<BaseConcreteFigureLP> getFigureLP() const override { return FigureLP_; }
+    [[nodiscard]] std::shared_ptr<BaseConcreteFigureLP> getFigureLP() const override { return std::make_shared<ConcreteFigureLP>(FigureLP_); }
 
 private:
     int _total{0};
 
-    std::shared_ptr<ConcreteFigureLP> FigureLP_;
+    std::shared_ptr<FigureLP> FigureLP_;
     std::shared_ptr<BaseLPReader> reader_;
 };
 

@@ -115,10 +115,10 @@ Points TXTLPReader::readPoints()
 
 std::shared_ptr<ConcreteFigureLP> TXTLPReader::readFigureLP()
 {
-    ConcreteFigureLP figure{};
+    auto figure = std::make_shared<FigureLP>();
 
-    figure.figureLP_->setPoints(readPoints());
-    figure.figureLP_->setLinks(readLinks());
+    figure->setPoints(readPoints());
+    figure->setLinks(readLinks());
 
     return std::make_shared<ConcreteFigureLP>(figure);
 }

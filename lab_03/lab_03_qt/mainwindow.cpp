@@ -149,6 +149,7 @@ void mainwindow::objectTableInit()
     table->setUpdatesEnabled(true);
     QStringList columnNames = {"Object name"};
     table->setHorizontalHeaderLabels(columnNames);
+    table->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     QVBoxLayout* layout = new QVBoxLayout(ui->ObjectContainer);
     layout->addWidget(table);
@@ -166,6 +167,7 @@ void mainwindow::cameraTableInit()
     table->setUpdatesEnabled(true);
     QStringList columnNames = {"Camera name"};
     table->setHorizontalHeaderLabels(columnNames);
+    table->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     QVBoxLayout* layout = new QVBoxLayout(ui->CameraContainer);
     layout->addWidget(table);
@@ -214,9 +216,9 @@ void mainwindow::on_DeleteCameraButton_clicked() const
         _facade->execute(command);
 
         _cameraTable->removeItem(id);
-
-        this->redraw();
     }
+
+    this->redraw();
 }
 
 std::shared_ptr<Mover> mainwindow::moverFromGUI() const
@@ -248,20 +250,23 @@ std::shared_ptr<Mover> mainwindow::moverFromGUI() const
 
 void mainwindow::on_MoveButton_clicked() const
 {
-    const auto id = _objectTable->selectedItem();
+    const auto ids = _objectTable->selectedItems();
     auto mover = this->moverFromGUI();
 
-    if (mover != nullptr && id != -1)
+    if (mover != nullptr)
     {
-        std::shared_ptr<BaseObject> object{nullptr};
-        FigureCommandGetById command1{object, static_cast<size_t>(id)};
-        _facade->execute(command1);
+        for (const int id : ids)
+        {
+            std::shared_ptr<BaseObject> object{nullptr};
+            FigureCommandGetById command1{object, static_cast<size_t>(id)};
+            _facade->execute(command1);
 
-        TransformManagerCommandSetParams command2{object, mover};
-        _facade->execute(command2);
+            TransformManagerCommandSetParams command2{object, mover};
+            _facade->execute(command2);
 
-        TransformManagerCommandRequest command3{};
-        _facade->execute(command3);
+            TransformManagerCommandRequest command3{};
+            _facade->execute(command3);
+        }
 
         this->redraw();
     }
@@ -364,20 +369,23 @@ std::shared_ptr<Scaler> mainwindow::scalerFromGUI() const
 
 void mainwindow::on_RotateButton_clicked() const
 {
-    const auto id = _objectTable->selectedItem();
+    const auto ids = _objectTable->selectedItems();
     auto rotater = this->rotaterFromGUI();
 
-    if (rotater != nullptr && id != -1)
+    if (rotater != nullptr)
     {
-        std::shared_ptr<BaseObject> object{nullptr};
-        FigureCommandGetById command1{object, static_cast<size_t>(id)};
-        _facade->execute(command1);
+        for (const int id : ids)
+        {
+            std::shared_ptr<BaseObject> object{nullptr};
+            FigureCommandGetById command1{object, static_cast<size_t>(id)};
+            _facade->execute(command1);
 
-        TransformManagerCommandSetParams command2{object, rotater};
-        _facade->execute(command2);
+            TransformManagerCommandSetParams command2{object, rotater};
+            _facade->execute(command2);
 
-        TransformManagerCommandRequest command3{};
-        _facade->execute(command3);
+            TransformManagerCommandRequest command3{};
+            _facade->execute(command3);
+        }
 
         this->redraw();
     }
@@ -385,20 +393,23 @@ void mainwindow::on_RotateButton_clicked() const
 
 void mainwindow::on_ScaleButton_clicked() const
 {
-    const auto id = _objectTable->selectedItem();
+    const auto ids = _objectTable->selectedItems();
     auto scaler = this->scalerFromGUI();
 
-    if (scaler != nullptr && id != -1)
+    if (scaler != nullptr)
     {
-        std::shared_ptr<BaseObject> object{nullptr};
-        FigureCommandGetById command1{object, static_cast<size_t>(id)};
-        _facade->execute(command1);
+        for (const int id : ids)
+        {
+            std::shared_ptr<BaseObject> object{nullptr};
+            FigureCommandGetById command1{object, static_cast<size_t>(id)};
+            _facade->execute(command1);
 
-        TransformManagerCommandSetParams command2{object, scaler};
-        _facade->execute(command2);
+            TransformManagerCommandSetParams command2{object, scaler};
+            _facade->execute(command2);
 
-        TransformManagerCommandRequest command3{};
-        _facade->execute(command3);
+            TransformManagerCommandRequest command3{};
+            _facade->execute(command3);
+        }
 
         this->redraw();
     }
@@ -477,20 +488,23 @@ std::shared_ptr<Rotater> mainwindow::rotaterCamFromGUI() const
 
 void mainwindow::on_MoveButton_Cam_clicked() const
 {
-    const auto id = _cameraTable->selectedItem();
+    const auto ids = _cameraTable->selectedItems();
     auto mover = this->moverCamFromGUI();
 
-    if (mover != nullptr && id != -1)
+    if (mover != nullptr)
     {
-        std::shared_ptr<BaseObject> object{nullptr};
-        CameraCommandGetById command1{object, static_cast<size_t>(id)};
-        _facade->execute(command1);
+        for (const int id : ids)
+        {
+            std::shared_ptr<BaseObject> object{nullptr};
+            CameraCommandGetById command1{object, static_cast<size_t>(id)};
+            _facade->execute(command1);
 
-        TransformManagerCommandSetParams command2{object, mover};
-        _facade->execute(command2);
+            TransformManagerCommandSetParams command2{object, mover};
+            _facade->execute(command2);
 
-        TransformManagerCommandRequest command3{};
-        _facade->execute(command3);
+            TransformManagerCommandRequest command3{};
+            _facade->execute(command3);
+        }
 
         this->redraw();
     }
@@ -498,20 +512,23 @@ void mainwindow::on_MoveButton_Cam_clicked() const
 
 void mainwindow::on_RotateButton_Cam_clicked() const
 {
-    const auto id = _cameraTable->selectedItem();
+    const auto ids = _cameraTable->selectedItems();
     auto rotater = this->rotaterCamFromGUI();
 
-    if (rotater != nullptr && id != -1)
+    if (rotater != nullptr)
     {
-        std::shared_ptr<BaseObject> object{nullptr};
-        CameraCommandGetById command1{object, static_cast<size_t>(id)};
-        _facade->execute(command1);
+        for (const int id : ids)
+        {
+            std::shared_ptr<BaseObject> object{nullptr};
+            CameraCommandGetById command1{object, static_cast<size_t>(id)};
+            _facade->execute(command1);
 
-        TransformManagerCommandSetParams command2{object, rotater};
-        _facade->execute(command2);
+            TransformManagerCommandSetParams command2{object, rotater};
+            _facade->execute(command2);
 
-        TransformManagerCommandRequest command3{};
-        _facade->execute(command3);
+            TransformManagerCommandRequest command3{};
+            _facade->execute(command3);
+        }
 
         this->redraw();
     }

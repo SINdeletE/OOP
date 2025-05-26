@@ -18,7 +18,7 @@ public:
     [[nodiscard]] bool buildPosition() override;
     [[nodiscard]] bool buildTarget() override;
     [[nodiscard]] bool buildUp() override;
-    [[nodiscard]] std::shared_ptr<BaseCameraPTU> getCameraPTU() const override { return _camera; }
+    [[nodiscard]] std::shared_ptr<BaseCameraPTU> getCameraPTU() const override { return std::make_shared<CameraPTU>(_camera); }
 
     bool isBuilded() override { return (_total == 3); }
     void reset() override { _camera.reset(); };
@@ -26,7 +26,7 @@ public:
 private:
     int _total{0};
 
-    std::shared_ptr<CameraPTU> _camera;
+    std::shared_ptr<CameraPTUImpl> _camera;
     std::shared_ptr<BasePTUReader> _reader;
 };
 

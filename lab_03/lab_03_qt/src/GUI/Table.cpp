@@ -58,4 +58,18 @@ void Table::setTable(QTableWidget *table)
     _table = table;
 }
 
+QSet<int> Table::selectedItems() const
+{
+    QList<QTableWidgetItem*> items = _table->selectedItems();
+    QSet<int> rows;
+
+    for (const QTableWidgetItem* item : items)
+    {
+        rows.insert(item->row());
+    }
+
+    return rows;
+}
+
+
 
