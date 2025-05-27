@@ -27,4 +27,14 @@ public:
             const char *error_info = "Reader: Invalid File") noexcept : BaseException(filename, classname, line, time, error_info) {}
 };
 
+class ErrorReader_invalid_archive : public BaseException
+{
+public:
+    ErrorReader_invalid_archive(const char *filename,
+            const char *classname,
+            const long line,
+            const char *time,
+            const char *error_info = "Reader: Invalid archive") noexcept : BaseException(filename, classname, line, time, error_info) {}
+};
+
 #endif //ERRORREADERINVALIDFILE_HPP

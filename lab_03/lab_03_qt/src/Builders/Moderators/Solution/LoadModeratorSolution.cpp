@@ -17,7 +17,12 @@ LoadModeratorSolution::LoadModeratorSolution()
     try
     {
         this->reg(".txt", std::make_shared<ConcreteLoadModeratorCreator<FigureLPModerator>>());
+        this->reg(".csv", std::make_shared<ConcreteLoadModeratorCreator<FigureLPModerator>>());
+        this->reg(".bin", std::make_shared<ConcreteLoadModeratorCreator<FigureLPModerator>>());
+
         this->reg(".cmr", std::make_shared<ConcreteLoadModeratorCreator<CameraPTUModerator>>());
+        this->reg(".csvcmr", std::make_shared<ConcreteLoadModeratorCreator<CameraPTUModerator>>());
+        this->reg(".bincmr", std::make_shared<ConcreteLoadModeratorCreator<CameraPTUModerator>>());
     }
     catch (std::bad_alloc &e)
     {

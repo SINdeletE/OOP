@@ -8,6 +8,8 @@
 
 #include "../../../Exceptions/Factory/ReaderFactoryException.hpp"
 #include "../LPReaders/txt/TXTLPReader.hpp"
+#include "bin/BINLPReader.hpp"
+#include "csv/CSVLPReader.hpp"
 
 
 LPReaderSolution::LPReaderSolution() : _map()
@@ -15,6 +17,8 @@ LPReaderSolution::LPReaderSolution() : _map()
     _map.max_load_factor(1.0);
 
     reg({".txt", std::make_unique<ConcreteLPReaderCreator<TXTLPReader>>()});
+    reg({".csv", std::make_unique<ConcreteLPReaderCreator<CSVLPReader>>()});
+    reg({".bin", std::make_unique<ConcreteLPReaderCreator<BINLPReader>>()});
 }
 
 std::shared_ptr<BaseLPReader> LPReaderSolution::createReader(const std::string& filename)

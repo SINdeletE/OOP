@@ -12,6 +12,7 @@ find_package(Qt6 COMPONENTS
         Gui
         Widgets
         REQUIRED)
+find_package(LibArchive REQUIRED)
 
 add_executable(lab_03_qt main.cpp
         src/BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/Links/Links.cpp
@@ -221,11 +222,21 @@ add_executable(lab_03_qt main.cpp
         src/BaseObject/Camera/BaseCameraPTUImpl.hpp
         src/Builders/Readers/LPReaders/csv/CSVLPReader.cpp
         src/Builders/Readers/LPReaders/csv/CSVLPReader.hpp
+        src/Builders/Readers/PTUReader/csv/CSVPTUReader.cpp
+        src/Builders/Readers/PTUReader/csv/CSVPTUReader.hpp
+        src/Builders/Readers/LPReaders/bin/BINLPReader.cpp
+        src/Builders/Readers/LPReaders/bin/BINLPReader.hpp
+        src/Builders/Readers/PTUReader/bin/BINPTUReader.cpp
+        src/Builders/Readers/PTUReader/bin/BINPTUReader.hpp
+        src/Builders/Readers/ArchiveReaders/BaseArchiveReader.hpp
+        src/Builders/Readers/ArchiveReaders/targz/TARGZReader.cpp
+        src/Builders/Readers/ArchiveReaders/targz/TARGZReader.hpp
 )
 
 target_link_libraries(lab_03_qt
         Qt::Core
         Qt::Gui
         Qt::Widgets
+        LibArchive::LibArchive
 )
 

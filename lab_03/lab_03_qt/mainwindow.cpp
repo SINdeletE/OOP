@@ -74,7 +74,7 @@ void mainwindow::on_actionAdd_Object_triggered()
     const QString fileName = QFileDialog::getOpenFileName(this,
                                                 tr("Open Figure File"),
                                                 QDir::currentPath(),
-                                                tr("Figure Files (*.txt)"));
+                                                tr("Figure Files (*.txt *.csv *.tar.gz)"));
     const QString relativePath = QDir().relativeFilePath(fileName.toUtf8().constData());
     if (! fileName.isEmpty())
     {
@@ -126,7 +126,7 @@ void mainwindow::on_actionAdd_Camera_triggered()
     const QString fileName = QFileDialog::getOpenFileName(this,
                                                 tr("Open Camera File"),
                                                 QDir::currentPath(),
-                                                tr("Camera Files (*.cmr)"));
+                                                tr("Camera Files (*.cmr *.csvcmr)"));
     const QString relativePath = QDir().relativeFilePath(fileName.toUtf8().constData());
     if (! fileName.isEmpty())
     {

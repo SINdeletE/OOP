@@ -7,7 +7,9 @@
 #include <filesystem>
 
 #include "../../../Exceptions/Reader/ReaderException.hpp"
+#include "bin/BINPTUReader.hpp"
 #include "cmr/CMRPTUReader.hpp"
+#include "csv/CSVPTUReader.hpp"
 
 void PTUReaderSolution::reg(std::pair<std::string, std::unique_ptr<PTUReaderCreator>>&& other)
 {
@@ -27,6 +29,8 @@ PTUReaderSolution::PTUReaderSolution() : _map()
     _map.max_load_factor(1.0);
 
     reg({".cmr", std::make_unique<ConcretePTUReaderCreator<CMRPTUReader>>()});
+    reg({".csvcmr", std::make_unique<ConcretePTUReaderCreator<CSVPTUReader>>()});
+    reg({".bincmr", std::make_unique<ConcretePTUReaderCreator<BINPTUReader>>()});
 }
 
 std::string PTUReaderSolution::getExtension(const std::string& filename)
