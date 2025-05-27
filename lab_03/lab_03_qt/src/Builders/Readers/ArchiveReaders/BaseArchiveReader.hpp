@@ -13,6 +13,7 @@ public:
     BaseArchiveReader() = default;
     virtual ~BaseArchiveReader() = default;
 
+    virtual void next() = 0;
     virtual std::string current() const = 0;
     virtual bool isEnd() const = 0;
 };

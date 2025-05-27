@@ -4,6 +4,7 @@
 
 #include "DrawVisitorSolution.hpp"
 
+#include "../../../BaseObject/Composite/CompositeObject.hpp"
 #include "../../../BaseObject/Figure/ConcreteFigure/ConcreteFigureLP/ConcreteFigureLP.hpp"
 #include "../../../Exceptions/Visitors/VisitorException.hpp"
 
@@ -12,6 +13,7 @@ DrawVisitorSolution::DrawVisitorSolution()
     try
     {
         this->reg(std::make_shared<ConcreteFigureLP>(), std::make_shared<ConcreteDrawVisitorCreator<DrawFigureLPVisitor>>());
+        this->reg(std::make_shared<CompositeObject>(), std::make_shared<ConcreteDrawVisitorCreator<DrawFigureLPVisitor>>());
     }
     catch (std::bad_alloc &e)
     {

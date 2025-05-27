@@ -9,6 +9,7 @@
 #include "LoadModeratorCreator.hpp"
 #include "../../../Exceptions/Moderator/ModeratorException.hpp"
 #include "../Moderators/CameraPTU/CameraPTUModerator.hpp"
+#include "../Moderators/Composite/CompositeLoadModerator.hpp"
 #include "../Moderators/FigureLP/FigureLPModerator.hpp"
 
 
@@ -23,6 +24,8 @@ LoadModeratorSolution::LoadModeratorSolution()
         this->reg(".cmr", std::make_shared<ConcreteLoadModeratorCreator<CameraPTUModerator>>());
         this->reg(".csvcmr", std::make_shared<ConcreteLoadModeratorCreator<CameraPTUModerator>>());
         this->reg(".bincmr", std::make_shared<ConcreteLoadModeratorCreator<CameraPTUModerator>>());
+
+        this->reg(".gz", std::make_shared<ConcreteLoadModeratorCreator<CompositeLoadModerator>>());
     }
     catch (std::bad_alloc &e)
     {

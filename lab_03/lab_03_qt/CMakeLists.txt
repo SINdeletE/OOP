@@ -231,6 +231,8 @@ add_executable(lab_03_qt main.cpp
         src/Builders/Readers/ArchiveReaders/BaseArchiveReader.hpp
         src/Builders/Readers/ArchiveReaders/targz/TARGZReader.cpp
         src/Builders/Readers/ArchiveReaders/targz/TARGZReader.hpp
+        src/Builders/Moderators/Moderators/Composite/CompositeLoadModerator.cpp
+        src/Builders/Moderators/Moderators/Composite/CompositeLoadModerator.hpp
 )
 
 target_link_libraries(lab_03_qt

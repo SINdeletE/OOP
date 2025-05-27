@@ -5,6 +5,7 @@
 #ifndef TARGZREADER_HPP
 #define TARGZREADER_HPP
 #include <filesystem>
+#include <iostream>
 
 #include "../BaseArchiveReader.hpp"
 
@@ -17,18 +18,16 @@ public:
 
     ~TARGZReader() override;
 
-    void next()
+    void next() override
     {
         ++_iter;
     }
     std::string current() const override
     {
         const auto value = *_iter;
-        const auto full_path = value.path();
-        const auto cur_path = std::filesystem::current_path();
-        const auto relative_path = full_path.lexically_relative(cur_path);
+        const auto& full_path = value.path();
 
-        return relative_path.string();
+        return full_path.string();
     }
     bool isEnd() const override
     {
