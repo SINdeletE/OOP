@@ -5,7 +5,7 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
-#include <QMainWindow>
+#include "src/ElevatorSystem.hpp"
 #include "ui_mainwindow.h"
 
 QT_BEGIN_NAMESPACE
@@ -22,8 +22,23 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void on_B1_UP_clicked();
+
+    void on_B2_UP_clicked();
+    void on_B2_DOWN_clicked();
+
+    void on_B3_UP_clicked();
+    void on_B3_DOWN_clicked();
+
+    void on_B4_UP_clicked();
+    void on_B4_DOWN_clicked();
+
+    void on_B5_DOWN_clicked();
+
 private:
     Ui::MainWindow *ui;
+    ElevatorSystem _system{};
 };
 
 #endif //MAINWINDOW_HPP

@@ -19,6 +19,17 @@ add_executable(lab_04 main.cpp
         mainwindow.cpp
         mainwindow.hpp
         mainwindow.ui
+        src/Elevator/door/ElevatorDoor.cpp
+        src/Elevator/door/ElevatorDoor.hpp
+        src/Elevator/Elevator.cpp
+        src/Elevator/Elevator.hpp
+        src/Elevator/Controller/Controller.cpp
+        src/Elevator/Controller/Controller.hpp
+        src/consts.h
+        src/ElevatorSystem.cpp
+        src/ElevatorSystem.hpp
+        src/Elevator/buttons/ElevatorButton.cpp
+        src/Elevator/buttons/ElevatorButton.hpp
 )
 target_link_libraries(lab_04
         Qt::Core
