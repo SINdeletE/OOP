@@ -56,6 +56,8 @@ void ElevatorDoor::slotClose()
     {
         _state = CLOSE;
         std::cout << "ДВЕРИ: Закрыты" << std::endl;
+
+        emit signalDoorClosed();
     }
 }
 

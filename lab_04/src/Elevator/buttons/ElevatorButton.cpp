@@ -36,10 +36,10 @@ void ElevatorButton::slotReleased()
 void ElevatorButton::buttonPrint()
 {
     if (_direction == UP)
-        std::cout << _floor << ' ' << "UP" << std::endl;
+        std::cout << "                      " << _floor << ' ' << "UP" << std::endl;
     else if (_direction == DOWN)
-        std::cout << _floor << ' ' << "DOWN" << std::endl;
+        std::cout << "                      " << _floor << ' ' << "DOWN" << std::endl;
     else if (_direction == NONE)
-        std::cout << _floor << ' ' << "-" << std::endl;
+        std::cout << "                      " << _floor << ' ' << "-" << std::endl;
 }
 

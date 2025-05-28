@@ -32,6 +32,9 @@ private slots:
     void slotClosing();
     void slotClose();
 
+signals:
+    void signalDoorClosed();
+
 private:
     DoorState _state{CLOSE};
 
