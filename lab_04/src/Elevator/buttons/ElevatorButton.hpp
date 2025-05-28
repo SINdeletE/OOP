@@ -23,6 +23,7 @@ public:
     ~ElevatorButton() override = default;
 
     void setFloor(const int floor) { _floor = floor; }
+    void setDirection(const Direction direction) { _direction = direction; }
 
 public slots:
     void slotPressed();
@@ -31,14 +32,16 @@ private slots:
     void slotReleased();
 
 signals:
-    void signalPressed(int &floor, DirectionState &direction);
+    void signalPressed(int &floor, Direction &direction);
     void signalReleased();
 
 private:
     ButtonState _state{RELEASED};
-    DirectionState _direction{NONE};
+    Direction _direction{NONE};
 
     int _floor;
+
+    void buttonPrint();
 };
 
 

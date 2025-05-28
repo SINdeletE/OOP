@@ -5,7 +5,7 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
-#include "src/ElevatorSystem.hpp"
+#include "./src/ElevatorSystem.hpp"
 #include "ui_mainwindow.h"
 
 QT_BEGIN_NAMESPACE
@@ -35,6 +35,18 @@ public slots:
     void on_B4_DOWN_clicked();
 
     void on_B5_DOWN_clicked();
+
+    // -----------------------------------------
+
+    void on_E1_1_clicked();
+    void on_E2_1_clicked();
+    void on_E3_1_clicked();
+    void on_E4_1_clicked();
+    void on_E5_1_clicked();
+
+signals:
+    void floorButtonClicked(int floor, Direction direction);
+    void elevatorButtonClicked(int floor);
 
 private:
     Ui::MainWindow *ui;

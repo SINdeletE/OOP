@@ -12,7 +12,7 @@
 #define FLOORS 5
 #define ELEVATORS 2
 
-enum DirectionState
+enum Direction
 {
     NONE = 0,
     UP,

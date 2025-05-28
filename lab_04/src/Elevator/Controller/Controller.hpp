@@ -19,11 +19,23 @@ class Controller : public QObject
 {
     Q_OBJECT
 
+public:
+    Controller();
+    ~Controller() override = default;
+
+    void addElevatorButton(Direction direction);
+    void addInsideButton();
+
+public slots:
+    void floorButtonClicked(int floor, Direction direction) const;
+    void elevatorButtonClicked(int floor) const;
+
 private:
     ControllerState _state{ABLE};
 
-    std::vector<ElevatorButton> _elevatorButtons;
-    std::vector<ElevatorButton> _floorButtons;
+    std::vector<std::shared_ptr<ElevatorButton>> _elevatorButtons_UP;
+    std::vector<std::shared_ptr<ElevatorButton>> _elevatorButtons_DOWN;
+    std::vector<std::shared_ptr<ElevatorButton>> _insideButtons;
 };
 
 

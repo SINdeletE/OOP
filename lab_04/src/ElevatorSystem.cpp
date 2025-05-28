@@ -6,7 +6,21 @@
 
 ElevatorSystem::ElevatorSystem()
 {
-    for (int i = 0; i < ELEVATORS; ++i)
-        _elevators.push_back(std::make_shared<Elevator>());
+    connect(this, &ElevatorSystem::elevatorButtonClickedRequest,
+            &_controller, &Controller::elevatorButtonClicked);
+    connect(this, &ElevatorSystem::floorButtonClickedRequest,
+            &_controller, &Controller::floorButtonClicked);
 }
+
+void ElevatorSystem::handleFloorCall(const int floor, const Direction direction)
+{
+    emit floorButtonClickedRequest(floor, direction);
+}
+
+void ElevatorSystem::handleElevatorCall(const int floor)
+{
+    emit elevatorButtonClickedRequest(floor);
+}
+
+
 

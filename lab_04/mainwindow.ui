@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>446</width>
+    <width>671</width>
     <height>606</height>
    </rect>
   </property>
@@ -489,8 +489,8 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>20</y>
+      <x>450</x>
+      <y>10</y>
       <width>191</width>
       <height>531</height>
      </rect>
@@ -4407,15 +4407,15 @@
    <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>20</y>
+      <x>10</x>
+      <y>30</y>
       <width>160</width>
       <height>156</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <widget class="QPushButton" name="F5">
+      <widget class="QPushButton" name="E5_1">
        <property name="palette">
         <palette>
          <active>
@@ -4891,7 +4891,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="F4">
+      <widget class="QPushButton" name="E4_1">
        <property name="palette">
         <palette>
          <active>
@@ -5367,7 +5367,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="F3">
+      <widget class="QPushButton" name="E3_1">
        <property name="palette">
         <palette>
          <active>
@@ -5843,7 +5843,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="F2">
+      <widget class="QPushButton" name="E2_1">
        <property name="palette">
         <palette>
          <active>
@@ -6319,7 +6319,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="F1">
+      <widget class="QPushButton" name="E1_1">
        <property name="palette">
         <palette>
          <active>
@@ -6802,7 +6802,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>446</width>
+     <width>671</width>
      <height>23</height>
     </rect>
    </property>
