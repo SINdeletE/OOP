@@ -79,7 +79,10 @@ void Controller::targetRequest(const int floor, const Direction direction)
         _state = _state;
 
         if (this->targetExists(floor, direction))
+        {
+            this->sameTargetProcessing(floor, direction);
             return;
+        }
 
         if (direction == NONE)
         {
@@ -102,8 +105,7 @@ void Controller::targetRequest(const int floor, const Direction direction)
                 _targets.insert(iter, {floor, direction});
             }
         }
-
-        if (_targets.empty())
+        else if (_targets.empty())
         {
             _targets.emplace_back(floor, direction);
             _currentDirection = diffToDirection(floor - _currentFloor);
@@ -186,7 +188,6 @@ void Controller::slotUnlock()
 
     if (! _targets.empty())
     {
-        std::cout << direction << std::endl;
         direction = diffToDirection(_targets.front().first - _currentFloor);
     }
 
@@ -198,8 +199,19 @@ bool Controller::targetExists(const int floor, const Direction direction)
 {
     bool flag = false;
     for (auto iter = _targets.begin(); ! flag && iter != _targets.end(); ++iter)
-        if (iter->first == floor && iter->second == direction)
+        if (iter->first == floor)
             flag = true;
 
     return flag;
+}
+
+void Controller::sameTargetProcessing(const int floor, const Direction direction)
+{
+    bool flag = false;
+    for (auto iter = _targets.begin(); ! flag && iter != _targets.end(); ++iter)
+        if (iter->first == floor && iter->second != direction)
+        {
+            iter->second = NONE;
+            flag = true;
+        }
 }

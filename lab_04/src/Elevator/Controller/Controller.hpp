@@ -57,6 +57,7 @@ private:
     static Direction diffToDirection(int diff);
 
     bool targetExists(int floor, Direction direction);
+    void sameTargetProcessing(int floor, Direction direction);
 };
 
 
