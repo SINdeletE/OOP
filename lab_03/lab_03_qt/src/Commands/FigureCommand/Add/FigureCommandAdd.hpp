@@ -20,8 +20,8 @@ public:
     {
         _action = [manager](const BaseObject::shared_ptr_type& object) { manager->addObject(object); };
     }
-    void setManagerAction(const std::shared_ptr<LoadManager> &manager) override { _loadManager = manager; }
-    void setManagerAction(const std::shared_ptr<DrawManager> &manager) override { _drawManager = manager; }
+    void setManagerAction(const std::shared_ptr<LoadManager> &manager) override {}
+    void setManagerAction(const std::shared_ptr<DrawManager> &manager) override {}
     void setManagerAction(const std::shared_ptr<TransformManager> &manager) override {}
 
     void execute() override;
@@ -30,9 +30,6 @@ private:
     BaseObject::shared_ptr_type _object;
     std::function<void(const BaseObject::shared_ptr_type&)> _action;
 
-    std::shared_ptr<SceneManager> _sceneManager;
-    std::shared_ptr<LoadManager> _loadManager;
-    std::shared_ptr<DrawManager> _drawManager;
 };
 
 

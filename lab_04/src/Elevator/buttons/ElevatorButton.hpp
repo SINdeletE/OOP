@@ -32,7 +32,7 @@ private slots:
     void slotReleased();
 
 signals:
-    void signalPressed(int &floor, Direction &direction);
+    void signalPressed(int floor, Direction direction);
     void signalReleased();
 
 private:

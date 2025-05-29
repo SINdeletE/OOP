@@ -10,6 +10,17 @@ ElevatorSystem::ElevatorSystem()
             &_controller, &Controller::elevatorButtonClicked);
     connect(this, &ElevatorSystem::floorButtonClickedRequest,
             &_controller, &Controller::floorButtonClicked);
+
+    connect(&_controller, &Controller::signalControllerStart,
+            &_elevator, &Elevator::slotStart);
+    connect(&_controller, &Controller::signalControllerFinish,
+            &_elevator, &Elevator::onTarget);
+    connect(&_elevator, &Elevator::signalOnFloor,
+            &_controller, &Controller::floorControl);
+    connect(&_elevator, &Elevator::signalOnTarget,
+            &_controller, &Controller::slotLock);
+    connect(&_elevator, &Elevator::signalEndTarget,
+            &_controller, &Controller::slotUnlock);
 }
 
 void ElevatorSystem::handleFloorCall(const int floor, const Direction direction)

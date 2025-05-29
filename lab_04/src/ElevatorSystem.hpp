@@ -26,7 +26,7 @@ signals:
     void elevatorButtonClickedRequest(int floor);
 
 private:
-    Elevator _elevators{};
+    Elevator _elevator{};
     Controller _controller{};
 };
 

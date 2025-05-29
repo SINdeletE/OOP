@@ -26,7 +26,7 @@ void ElevatorDoor::slotOpening()
     {
         _state = OPENING;
         std::cout << "ДВЕРИ: Открываются" << std::endl;
-        _waiting.start(TIMER_DOOR_OPENING);
+        _opening.start(TIMER_DOOR_OPENING);
     }
 }
 

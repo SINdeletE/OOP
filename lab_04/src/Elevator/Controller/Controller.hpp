@@ -4,6 +4,7 @@
 
 #ifndef CONTROLLER_HPP
 #define CONTROLLER_HPP
+#include <deque>
 #include <qobject.h>
 
 #include "../../consts.h"
@@ -12,7 +13,8 @@
 enum ControllerState
 {
     ABLE,
-    UNABLE
+    BUSY,
+    LOCK
 };
 
 class Controller : public QObject
@@ -27,15 +29,34 @@ public:
     void addInsideButton();
 
 public slots:
+    // GUI
     void floorButtonClicked(int floor, Direction direction) const;
     void elevatorButtonClicked(int floor) const;
+
+    void targetRequest(int floor, Direction direction);
+    void floorControl();
+
+    void slotLock();
+    void slotUnlock();
+
+signals:
+    void signalControllerStart(Direction direction);
+    void signalControllerFinish();
 
 private:
     ControllerState _state{ABLE};
 
+    Direction _currentDirection{NONE};
+    std::deque<std::pair<int, Direction>> _targets{};
+    int _currentFloor{1};
+
     std::vector<std::shared_ptr<ElevatorButton>> _elevatorButtons_UP;
     std::vector<std::shared_ptr<ElevatorButton>> _elevatorButtons_DOWN;
     std::vector<std::shared_ptr<ElevatorButton>> _insideButtons;
+
+    static Direction diffToDirection(int diff);
+
+    bool targetExists(int floor, Direction direction);
 };
 
 
