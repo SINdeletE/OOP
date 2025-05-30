@@ -13,7 +13,8 @@
 enum ControllerState
 {
     ABLE,
-    BUSY,
+    REQUESTING,
+    CONTROLLING,
     LOCK
 };
 
@@ -58,6 +59,8 @@ private:
 
     bool targetExists(int floor, Direction direction);
     void sameTargetProcessing(int floor, Direction direction);
+    void parse(std::deque<std::pair<int, Direction>>::iterator &codirect_iter, \
+               std::deque<std::pair<int, Direction>>::iterator &diffdirect_iter);
 };
 
 

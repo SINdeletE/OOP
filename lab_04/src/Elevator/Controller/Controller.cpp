@@ -74,9 +74,13 @@ void Controller::elevatorButtonClicked(const int floor) const
 
 void Controller::targetRequest(const int floor, const Direction direction)
 {
-    if (_state == ABLE || _state == LOCK)
+    if (_state == ABLE || _state == LOCK || _state == REQUESTING || _state == CONTROLLING)
     {
-        _state = _state;
+        bool flag = true;
+        if (_state == LOCK)
+            flag = false;
+
+        _state = REQUESTING;
 
         if (this->targetExists(floor, direction))
         {
@@ -91,7 +95,7 @@ void Controller::targetRequest(const int floor, const Direction direction)
                 _targets.emplace_front(floor, direction);
                 _currentDirection = diffToDirection(floor - _currentFloor);
 
-                if (_state != LOCK) emit signalControllerStart(_currentDirection);
+                if (flag) emit signalControllerStart(_currentDirection);
             }
             else if (! _targets.empty() && diffToDirection(floor - _currentFloor) == _currentDirection)
             {
@@ -110,7 +114,7 @@ void Controller::targetRequest(const int floor, const Direction direction)
             _targets.emplace_back(floor, direction);
             _currentDirection = diffToDirection(floor - _currentFloor);
 
-            if (_state != LOCK) emit signalControllerStart(_currentDirection);
+            if (flag) emit signalControllerStart(_currentDirection);
         }
         else if (! _targets.empty() && diffToDirection(floor - _currentFloor) == _currentDirection && direction == _currentDirection)
         {
@@ -118,61 +122,18 @@ void Controller::targetRequest(const int floor, const Direction direction)
         }
         else
             _targets.emplace_back(floor, direction);
-
-
     }
 }
 
 void Controller::floorControl()
 {
-    if (_state == ABLE)
+    if (_state == ABLE || _state == REQUESTING || _state == CONTROLLING)
     {
-        _state = ABLE;
+        _state = CONTROLLING;
 
-        auto codirect_tmp_iter = _targets.end();
         auto codirect_iter = _targets.end(); // Поиск кнопки НЕпротивоположного направления того же этажа
         auto diffdirect_iter = _targets.end(); // Поиск кнопки противоположного направления того же этажа
-        for (auto iter = _targets.begin(); iter != _targets.end(); ++iter)
-        {
-            // Находим хотя бы какой-то сигнал НЕпротивоположного направления
-            if (iter->second != -_currentDirection)
-            {
-                codirect_tmp_iter = iter;
-            }
-
-            if (iter->first == _currentFloor && iter->second != -_currentDirection)
-                codirect_iter = iter;
-            else if (iter->first == _currentFloor && iter->second == -_currentDirection)
-                diffdirect_iter = iter;
-        }
-
-
-        // Максимальный этаж НЕпротивополодного направления
-        auto max_codirect_iter = codirect_tmp_iter;
-        for (auto iter = _targets.begin(); iter != _targets.end(); ++iter)
-        {
-            // Поиск максимально удалённого этажа НЕпротивоположного направления
-            if (codirect_tmp_iter != _targets.end() && \
-                _currentDirection * iter->first > _currentDirection * codirect_tmp_iter->first && \
-                iter->second != -_currentDirection)
-            {
-                max_codirect_iter = iter;
-            }
-
-            // Поиск максимально удалённого этажа противоположного направления
-            if (diffdirect_iter != _targets.end() && \
-                _currentDirection * iter->first > _currentDirection * diffdirect_iter->first && \
-                iter->second == -_currentDirection)
-            {
-                diffdirect_iter = iter;
-            }
-        }
-
-        // Если существует этаж того же направления, больший этажа противоположного направления, то
-        // Обработка этажа с противоположным направлением не имеет смысла
-        if (max_codirect_iter != _targets.end() && diffdirect_iter != _targets.end() && \
-            _currentDirection * max_codirect_iter->first > _currentDirection * diffdirect_iter->first)
-            diffdirect_iter = _targets.end();
+        this->parse(codirect_iter, diffdirect_iter);
 
         // Обработка НЕпротивоположного направления с тем же этажом
         if (codirect_iter != _targets.end())
@@ -216,17 +177,20 @@ void Controller::slotLock()
 
 void Controller::slotUnlock()
 {
-    _state = ABLE;
-
-    Direction direction = NONE;
-
-    if (! _targets.empty())
+    if (_state == LOCK || _state == REQUESTING)
     {
-        direction = diffToDirection(_targets.front().first - _currentFloor);
-    }
+        _state = ABLE;
 
-    _currentDirection = direction;
-    emit signalControllerStart(direction);
+        Direction direction = NONE;
+
+        if (! _targets.empty())
+        {
+            direction = diffToDirection(_targets.front().first - _currentFloor);
+        }
+
+        _currentDirection = direction;
+        emit signalControllerStart(direction);
+    }
 }
 
 bool Controller::targetExists(const int floor, const Direction direction)
@@ -249,5 +213,55 @@ void Controller::sameTargetProcessing(const int floor, const Direction direction
             flag = true;
         }
 }
+
+void Controller::parse(std::deque<std::pair<int, Direction>>::iterator& codirect_iter,
+                       std::deque<std::pair<int, Direction>>::iterator& diffdirect_iter)
+{
+    auto codirect_tmp_iter = _targets.end();
+    codirect_iter = _targets.end(); // Поиск кнопки НЕпротивоположного направления того же этажа
+    diffdirect_iter = _targets.end(); // Поиск кнопки противоположного направления того же этажа
+    for (auto iter = _targets.begin(); iter != _targets.end(); ++iter)
+    {
+        // Находим хотя бы какой-то сигнал НЕпротивоположного направления
+        if (iter->second != -_currentDirection)
+        {
+            codirect_tmp_iter = iter;
+        }
+
+        if (iter->first == _currentFloor && iter->second != -_currentDirection)
+            codirect_iter = iter;
+        else if (iter->first == _currentFloor && iter->second == -_currentDirection)
+            diffdirect_iter = iter;
+    }
+
+
+    // Максимальный этаж НЕпротивополодного направления
+    auto max_codirect_iter = codirect_tmp_iter;
+    for (auto iter = _targets.begin(); iter != _targets.end(); ++iter)
+    {
+        // Поиск максимально удалённого этажа НЕпротивоположного направления
+        if (codirect_tmp_iter != _targets.end() && \
+            _currentDirection * iter->first > _currentDirection * codirect_tmp_iter->first && \
+            iter->second != -_currentDirection)
+        {
+            max_codirect_iter = iter;
+        }
+
+        // Поиск максимально удалённого этажа противоположного направления
+        if (diffdirect_iter != _targets.end() && \
+            _currentDirection * iter->first > _currentDirection * diffdirect_iter->first && \
+            iter->second == -_currentDirection)
+        {
+            diffdirect_iter = iter;
+        }
+    }
+
+    // Если существует этаж того же направления, больший этажа противоположного направления, то
+    // Обработка этажа с противоположным направлением не имеет смысла
+    if (max_codirect_iter != _targets.end() && diffdirect_iter != _targets.end() && \
+        _currentDirection * max_codirect_iter->first > _currentDirection * diffdirect_iter->first)
+        diffdirect_iter = _targets.end();
+}
+
 
 
