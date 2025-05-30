@@ -43,6 +43,7 @@ public slots:
 signals:
     void signalControllerStart(Direction direction);
     void signalControllerFinish();
+    void signalReopen();
 
 private:
     ControllerState _state{ABLE};
@@ -57,11 +58,12 @@ private:
 
     static Direction diffToDirection(int diff);
 
-    bool targetExists(int floor, Direction direction);
+    bool targetExists(int floor);
     void sameTargetProcessing(int floor, Direction direction);
     void parse(std::deque<std::pair<int, Direction>>::iterator &codirect_iter, \
                std::deque<std::pair<int, Direction>>::iterator &diffdirect_iter);
     Direction getNewDirection();
+    bool isNeedToReopen(int floor, Direction direction);
 };
 
 

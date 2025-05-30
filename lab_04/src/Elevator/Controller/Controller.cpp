@@ -82,46 +82,28 @@ void Controller::targetRequest(const int floor, const Direction direction)
 
         _state = REQUESTING;
 
-        if (this->targetExists(floor, direction))
+        if (_targets.empty())
         {
-            this->sameTargetProcessing(floor, direction);
-            return;
-        }
-
-        if (direction == NONE)
-        {
-            if (_targets.empty())
+            if (! (! flag && floor == _currentFloor))
             {
                 _targets.emplace_front(floor, direction);
                 _currentDirection = diffToDirection(floor - _currentFloor);
-
-                if (flag) emit signalControllerStart(_currentDirection);
             }
-            else if (! _targets.empty() && diffToDirection(floor - _currentFloor) == _currentDirection)
-            {
-                _targets.emplace_front(floor, direction);
-            }
-            else
-            {
-                auto iter = _targets.begin();
 
-                while (iter != _targets.end() && iter->second == NONE) ++iter;
-                _targets.insert(iter, {floor, direction});
-            }
-        }
-        else if (_targets.empty())
-        {
-            _targets.emplace_back(floor, direction);
-            _currentDirection = diffToDirection(floor - _currentFloor);
-
-            if (flag) emit signalControllerStart(_currentDirection);
-        }
-        else if (! _targets.empty() && diffToDirection(floor - _currentFloor) == _currentDirection && direction == _currentDirection)
-        {
-            _targets.emplace_front(floor, direction);
+            if (flag)
+                emit signalControllerStart(_currentDirection);
+            else if (floor == _currentFloor)
+                emit signalReopen();
         }
         else
-            _targets.emplace_back(floor, direction);
+        {
+            this->sameTargetProcessing(floor, direction);
+
+            if (! flag && floor == _currentFloor)
+                emit signalReopen();
+            else
+                _targets.emplace_front(floor, direction);
+        }
     }
 }
 
@@ -194,7 +176,7 @@ void Controller::slotUnlock()
     }
 }
 
-bool Controller::targetExists(const int floor, const Direction direction)
+bool Controller::targetExists(const int floor)
 {
     bool flag = false;
     for (auto iter = _targets.begin(); ! flag && iter != _targets.end(); ++iter)
@@ -208,10 +190,12 @@ void Controller::sameTargetProcessing(const int floor, const Direction direction
 {
     bool flag = false;
     for (auto iter = _targets.begin(); ! flag && iter != _targets.end(); ++iter)
-        if (iter->first == floor && iter->second != direction)
+        if (iter->first == floor)
         {
-            iter->second = NONE;
             flag = true;
+
+            if (iter->second != direction)
+                iter->second = NONE;
         }
 }
 

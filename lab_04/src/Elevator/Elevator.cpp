@@ -22,7 +22,7 @@ Elevator::Elevator(QObject* parent) : QObject(parent)
 
 void Elevator::onTarget()
 {
-    if (_state == MOVING)
+    if (_state == MOVING || _state == WAITING)
     {
         _state = WAITING;
         _direction = NONE;
@@ -54,8 +54,6 @@ void Elevator::onFloor()
         }
         _movetime.start(TIMER_ELEVATOR_FLOORS_PERIOD);
     }
-    // else
-    //     _movetime.start(20);
 }
 
 void Elevator::slotStart(const Direction direction)

@@ -15,6 +15,10 @@ ElevatorSystem::ElevatorSystem()
             &_elevator, &Elevator::slotStart);
     connect(&_controller, &Controller::signalControllerFinish,
             &_elevator, &Elevator::onTarget);
+    connect(&_controller, &Controller::signalReopen,
+            &_elevator, &Elevator::onTarget);
+
+
     connect(&_elevator, &Elevator::signalOnFloor,
             &_controller, &Controller::floorControl);
     connect(&_elevator, &Elevator::signalOnTarget,
