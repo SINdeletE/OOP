@@ -74,10 +74,10 @@ void Controller::elevatorButtonClicked(const int floor) const
 
 void Controller::targetRequest(const int floor, const Direction direction)
 {
-    if (_state == ABLE || _state == LOCK || _state == REQUESTING || _state == CONTROLLING)
+    if (_state == ABLE || _state == UNABLETOCONTROL || _state == REQUESTING || _state == CONTROLLING)
     {
         bool flag = true;
-        if (_state == LOCK)
+        if (_state == UNABLETOCONTROL)
             flag = false;
 
         _state = REQUESTING;
@@ -172,12 +172,12 @@ Direction Controller::diffToDirection(const int diff)
 
 void Controller::slotLock()
 {
-    _state = LOCK;
+    _state = UNABLETOCONTROL;
 }
 
 void Controller::slotUnlock()
 {
-    if (_state == LOCK || _state == REQUESTING)
+    if (_state == UNABLETOCONTROL || _state == REQUESTING)
     {
         _state = ABLE;
 

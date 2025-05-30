@@ -15,7 +15,7 @@ enum ControllerState
     ABLE,
     REQUESTING,
     CONTROLLING,
-    LOCK
+    UNABLETOCONTROL
 };
 
 class Controller : public QObject
