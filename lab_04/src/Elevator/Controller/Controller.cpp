@@ -82,6 +82,8 @@ void Controller::targetRequest(const int floor, const Direction direction)
 
         _state = REQUESTING;
 
+        this->sameTargetProcessing(floor, direction);
+
         if (_targets.empty())
         {
             if (! (! flag && floor == _currentFloor))
@@ -97,11 +99,9 @@ void Controller::targetRequest(const int floor, const Direction direction)
         }
         else
         {
-            this->sameTargetProcessing(floor, direction);
-
             if (! flag && floor == _currentFloor)
                 emit signalReopen();
-            else
+            else if (! targetExists(floor))
                 _targets.emplace_front(floor, direction);
         }
     }
