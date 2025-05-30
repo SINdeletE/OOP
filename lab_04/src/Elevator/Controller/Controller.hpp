@@ -61,6 +61,7 @@ private:
     void sameTargetProcessing(int floor, Direction direction);
     void parse(std::deque<std::pair<int, Direction>>::iterator &codirect_iter, \
                std::deque<std::pair<int, Direction>>::iterator &diffdirect_iter);
+    Direction getNewDirection();
 };
 
 

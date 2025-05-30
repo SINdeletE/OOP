@@ -14,6 +14,8 @@ Elevator::Elevator(QObject* parent) : QObject(parent)
             this, &Elevator::onFloor);
     connect(this, &Elevator::signalStart,
             this, &Elevator::onFloor);
+    connect(this, &Elevator::signalOnTarget,
+            &_door, &ElevatorDoor::slotOpening);
 
     std::cout << "Лифт на этаже 1" << std::endl;
 }
@@ -25,7 +27,6 @@ void Elevator::onTarget()
         _state = WAITING;
         _direction = NONE;
 
-        _door.slotOpening();
         emit signalOnTarget();
     }
 }
@@ -53,8 +54,8 @@ void Elevator::onFloor()
         }
         _movetime.start(TIMER_ELEVATOR_FLOORS_PERIOD);
     }
-    else
-        _movetime.start(20);
+    // else
+    //     _movetime.start(20);
 }
 
 void Elevator::slotStart(const Direction direction)

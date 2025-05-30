@@ -153,7 +153,8 @@ void Controller::floorControl()
             }
             else
             {
-                _currentFloor += _currentDirection;
+                if (_currentFloor + _currentDirection > 0 && \
+                    _currentFloor + _currentDirection <= FLOORS) _currentFloor += _currentDirection;
                 std::cout << "Лифт на этаже " << _currentFloor << std::endl;
             }
         }
@@ -162,7 +163,7 @@ void Controller::floorControl()
 
 Direction Controller::diffToDirection(const int diff)
 {
-    if (diff >= 0)
+    if (diff > 0)
     {
         return UP;
     }
@@ -185,7 +186,7 @@ void Controller::slotUnlock()
 
         if (! _targets.empty())
         {
-            direction = diffToDirection(_targets.front().first - _currentFloor);
+            direction = getNewDirection();
         }
 
         _currentDirection = direction;
@@ -263,5 +264,33 @@ void Controller::parse(std::deque<std::pair<int, Direction>>::iterator& codirect
         diffdirect_iter = _targets.end();
 }
 
+Direction Controller::getNewDirection()
+{
+    Direction direction = NONE;
+
+    if (_targets.empty())
+    {
+        direction = NONE;
+    }
+    else
+    {
+        bool flag = true;
+        for (auto iter = _targets.begin(); flag && iter != _targets.end(); ++iter)
+            if (_currentDirection * (iter->first - _currentFloor) >= 0)
+                flag = false;
+
+        if (flag)
+        {
+            if (_currentDirection == UP)
+                direction = DOWN;
+            else if (_currentDirection == DOWN)
+                direction = UP;
+        }
+        else
+            direction = _currentDirection;
+    }
+
+    return direction;
+}
 
 

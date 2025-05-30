@@ -22,8 +22,11 @@ ElevatorDoor::ElevatorDoor()
 
 void ElevatorDoor::slotOpening()
 {
-    if (_state == CLOSE)
+    if (_state == CLOSE || _state == CLOSING)
     {
+        if (_state == CLOSING)
+            _closing.stop();
+
         _state = OPENING;
         std::cout << "ДВЕРИ: Открываются" << std::endl;
         _opening.start(TIMER_DOOR_OPENING);
