@@ -10,10 +10,12 @@ Elevator::Elevator(QObject* parent) : QObject(parent)
 {
     connect(&_door, &ElevatorDoor::signalDoorClosed,
             this, &Elevator::endTarget);
+
     connect(&_movetime, &QTimer::timeout,
             this, &Elevator::onFloor);
     connect(this, &Elevator::signalStart,
             this, &Elevator::onFloor);
+
     connect(this, &Elevator::signalOnTarget,
             &_door, &ElevatorDoor::slotOpening);
 
@@ -22,7 +24,7 @@ Elevator::Elevator(QObject* parent) : QObject(parent)
 
 void Elevator::onTarget()
 {
-    if (_state == MOVING || _state == WAITING)
+    if (_state == MOVING || _state == WAITING || _state == DIRECTION)
     {
         _state = WAITING;
         _direction = NONE;
@@ -42,9 +44,9 @@ void Elevator::endTarget()
 
 void Elevator::onFloor()
 {
-    if (_direction)
+    if (_direction && (_state == DIRECTION || _state == MOVING))
     {
-        if (_state == STOPPED)
+        if (_state == DIRECTION)
         {
             _state = MOVING;
         }
@@ -58,9 +60,15 @@ void Elevator::onFloor()
 
 void Elevator::slotStart(const Direction direction)
 {
-    _direction = direction;
+    if (_state == STOPPED || _state == DIRECTION)
+    {
+        _state = DIRECTION;
 
-    emit signalStart();
+        _direction = direction;
+
+        emit signalStart();
+    }
+
 }
 
 

@@ -11,9 +11,10 @@
 
 enum ElevatorState
 {
-    WAITING,
-    STOPPED,
-    MOVING
+    WAITING = 0,
+    STOPPED = 1,
+    MOVING = 2,
+    DIRECTION = 3
 };
 
 class Elevator : public QObject

@@ -6,71 +6,6 @@
 
 #include <iostream>
 
-void Controller::floorButtonClicked(const int floor, const Direction direction) const
-{
-    if (direction == Direction::UP)
-    {
-        _elevatorButtons_UP[floor - 1]->slotPressed();
-    }
-    else if (direction == Direction::DOWN)
-    {
-        _elevatorButtons_DOWN[floor - 1]->slotPressed();
-    }
-}
-
-Controller::Controller()
-{
-    for (int i = 0; i < FLOORS; ++i)
-    {
-        addElevatorButton(UP);
-        addElevatorButton(DOWN);
-        addInsideButton();
-    }
-}
-
-void Controller::addElevatorButton(const Direction direction)
-{
-    if (direction == Direction::UP)
-    {
-        const auto button = std::make_shared<ElevatorButton>();
-
-        button->setFloor(_elevatorButtons_UP.size() + 1);
-        button->setDirection(direction);
-        _elevatorButtons_UP.push_back(button);
-
-        connect(button.get(), &ElevatorButton::signalPressed, \
-                this, &Controller::targetRequest);
-    }
-    else if (direction == Direction::DOWN)
-    {
-        const auto button = std::make_shared<ElevatorButton>();
-
-        button->setFloor(_elevatorButtons_DOWN.size() + 1);
-        button->setDirection(direction);
-        _elevatorButtons_DOWN.push_back(button);
-
-        connect(button.get(), &ElevatorButton::signalPressed, \
-                this, &Controller::targetRequest);
-    }
-}
-
-void Controller::addInsideButton()
-{
-    const auto button = std::make_shared<ElevatorButton>();
-
-    button->setFloor(_elevatorButtons_DOWN.size());
-    button->setDirection(NONE);
-    _insideButtons.push_back(button);
-
-    connect(button.get(), &ElevatorButton::signalPressed, \
-                this, &Controller::targetRequest);
-}
-
-void Controller::elevatorButtonClicked(const int floor) const
-{
-    // GUI
-    _insideButtons[floor - 1]->slotPressed();
-}
 
 void Controller::targetRequest(const int floor, const Direction direction)
 {
@@ -143,16 +78,6 @@ void Controller::floorControl()
     }
 }
 
-Direction Controller::diffToDirection(const int diff)
-{
-    if (diff > 0)
-    {
-        return UP;
-    }
-
-    return DOWN;
-}
-
 void Controller::slotLock()
 {
     _state = UNABLETOCONTROL;
@@ -174,6 +99,124 @@ void Controller::slotUnlock()
         _currentDirection = direction;
         emit signalControllerStart(direction);
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void Controller::floorButtonClicked(const int floor, const Direction direction) const
+{
+    if (direction == Direction::UP)
+    {
+        _elevatorButtons_UP[floor - 1]->slotPressed();
+    }
+    else if (direction == Direction::DOWN)
+    {
+        _elevatorButtons_DOWN[floor - 1]->slotPressed();
+    }
+}
+
+Controller::Controller()
+{
+    for (int i = 0; i < FLOORS; ++i)
+    {
+        addElevatorButton(UP);
+        addElevatorButton(DOWN);
+        addInsideButton();
+    }
+}
+
+void Controller::addElevatorButton(const Direction direction)
+{
+    if (direction == Direction::UP)
+    {
+        const auto button = std::make_shared<ElevatorButton>();
+
+        button->setFloor(_elevatorButtons_UP.size() + 1);
+        button->setDirection(direction);
+        _elevatorButtons_UP.push_back(button);
+
+        connect(button.get(), &ElevatorButton::signalPressed, \
+                this, &Controller::targetRequest);
+    }
+    else if (direction == Direction::DOWN)
+    {
+        const auto button = std::make_shared<ElevatorButton>();
+
+        button->setFloor(_elevatorButtons_DOWN.size() + 1);
+        button->setDirection(direction);
+        _elevatorButtons_DOWN.push_back(button);
+
+        connect(button.get(), &ElevatorButton::signalPressed, \
+                this, &Controller::targetRequest);
+    }
+}
+
+void Controller::addInsideButton()
+{
+    const auto button = std::make_shared<ElevatorButton>();
+
+    button->setFloor(_elevatorButtons_DOWN.size());
+    button->setDirection(NONE);
+    _insideButtons.push_back(button);
+
+    connect(button.get(), &ElevatorButton::signalPressed, \
+                this, &Controller::targetRequest);
+}
+
+void Controller::elevatorButtonClicked(const int floor) const
+{
+    // GUI
+    _insideButtons[floor - 1]->slotPressed();
+}
+
+Direction Controller::diffToDirection(const int diff)
+{
+    if (diff > 0)
+    {
+        return UP;
+    }
+
+    return DOWN;
 }
 
 bool Controller::targetExists(const int floor)

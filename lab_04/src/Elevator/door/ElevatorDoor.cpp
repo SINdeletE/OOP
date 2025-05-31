@@ -24,12 +24,16 @@ void ElevatorDoor::slotOpening()
 {
     if (_state == CLOSE || _state == CLOSING)
     {
+        int time = 0;
         if (_state == CLOSING)
+        {
+            time = _closing.remainingTime();
             _closing.stop();
+        }
 
         _state = OPENING;
         std::cout << "ДВЕРИ: Открываются" << std::endl;
-        _opening.start(TIMER_DOOR_OPENING);
+        _opening.start(TIMER_DOOR_OPENING - time);
     }
 }
 

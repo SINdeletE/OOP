@@ -318,7 +318,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="Zs55Wov109G0kzRI-hon-5" value="Окончательное&lt;div&gt;закрытие дверей&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="cChnqFwJbqHug1bugDJf-12">
+        <mxCell id="Zs55Wov109G0kzRI-hon-5" value="Окончательное&lt;div&gt;закрытие дверей&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="cChnqFwJbqHug1bugDJf-12" vertex="1" connectable="0">
           <mxGeometry x="0.1348" y="1" relative="1" as="geometry">
             <mxPoint y="-1" as="offset" />
           </mxGeometry>
@@ -326,12 +326,16 @@
         <mxCell id="cChnqFwJbqHug1bugDJf-2" value="Waiting" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1510" y="430" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="cChnqFwJbqHug1bugDJf-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cChnqFwJbqHug1bugDJf-3" target="cChnqFwJbqHug1bugDJf-4" edge="1">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="cChnqFwJbqHug1bugDJf-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cChnqFwJbqHug1bugDJf-3" target="uUsVXZOWjivWD5OJ1iBA-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1590" y="600" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="Zs55Wov109G0kzRI-hon-6" value="Начало&lt;div&gt;движения&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="cChnqFwJbqHug1bugDJf-11">
+        <mxCell id="Zs55Wov109G0kzRI-hon-6" value="Установка направления&lt;div&gt;движения в начале и&lt;/div&gt;&lt;div&gt;остановка лифта&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="cChnqFwJbqHug1bugDJf-11" vertex="1" connectable="0">
           <mxGeometry x="-0.0828" y="2" relative="1" as="geometry">
-            <mxPoint as="offset" />
+            <mxPoint x="-2" y="26" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="cChnqFwJbqHug1bugDJf-3" value="Stopped" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -344,29 +348,60 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="Zs55Wov109G0kzRI-hon-3" value="Открытие дверей" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="cChnqFwJbqHug1bugDJf-5">
+        <mxCell id="Zs55Wov109G0kzRI-hon-3" value="Открытие дверей" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="cChnqFwJbqHug1bugDJf-5" vertex="1" connectable="0">
           <mxGeometry x="-0.3703" y="-1" relative="1" as="geometry">
             <mxPoint y="-1" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="cChnqFwJbqHug1bugDJf-4" value="Moving" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="1400" y="560" width="120" height="80" as="geometry" />
+          <mxGeometry x="1370" y="620" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="Zs55Wov109G0kzRI-hon-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;elbow=horizontal;" edge="1" parent="1" source="cChnqFwJbqHug1bugDJf-2" target="cChnqFwJbqHug1bugDJf-2">
+        <mxCell id="Zs55Wov109G0kzRI-hon-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;elbow=horizontal;" parent="1" source="cChnqFwJbqHug1bugDJf-2" target="cChnqFwJbqHug1bugDJf-2" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="1590" y="400" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="Zs55Wov109G0kzRI-hon-4" value="Переоткрытие дверей" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+        <mxCell id="Zs55Wov109G0kzRI-hon-4" value="Переоткрытие дверей" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="1495" y="370" width="150" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Zs55Wov109G0kzRI-hon-7" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="JTYOdlHXEhjfLXTEMOTC-3" target="JTYOdlHXEhjfLXTEMOTC-5">
+        <mxCell id="Zs55Wov109G0kzRI-hon-7" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" source="JTYOdlHXEhjfLXTEMOTC-3" target="JTYOdlHXEhjfLXTEMOTC-5" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1140" y="600" as="sourcePoint" />
             <mxPoint x="1180" y="600" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="uUsVXZOWjivWD5OJ1iBA-1" value="Во время закрытия дверей&lt;div&gt;был вызван текущий этаж&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="Zs55Wov109G0kzRI-hon-7" vertex="1" connectable="0">
+          <mxGeometry x="0.0463" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uUsVXZOWjivWD5OJ1iBA-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="uUsVXZOWjivWD5OJ1iBA-2" target="cChnqFwJbqHug1bugDJf-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uUsVXZOWjivWD5OJ1iBA-4" value="Начало&lt;div&gt;движения&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="uUsVXZOWjivWD5OJ1iBA-3" vertex="1" connectable="0">
+          <mxGeometry x="0.1806" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uUsVXZOWjivWD5OJ1iBA-2" value="Direction" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1495" y="720" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="uUsVXZOWjivWD5OJ1iBA-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;elbow=vertical;" parent="1" source="uUsVXZOWjivWD5OJ1iBA-2" target="uUsVXZOWjivWD5OJ1iBA-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1680" y="760" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uUsVXZOWjivWD5OJ1iBA-9" value="Установка&lt;div&gt;направления движения&lt;/div&gt;&lt;div&gt;на основе новых сигналов&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="uUsVXZOWjivWD5OJ1iBA-6" vertex="1" connectable="0">
+          <mxGeometry x="0.2891" relative="1" as="geometry">
+            <mxPoint x="82" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uUsVXZOWjivWD5OJ1iBA-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cChnqFwJbqHug1bugDJf-4" target="cChnqFwJbqHug1bugDJf-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

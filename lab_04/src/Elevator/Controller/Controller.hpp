@@ -33,12 +33,25 @@ public slots:
     // GUI
     void floorButtonClicked(int floor, Direction direction) const;
     void elevatorButtonClicked(int floor) const;
+    // GUI
+
+
+
+
+
+
+
 
     void targetRequest(int floor, Direction direction);
     void floorControl();
 
     void slotLock();
     void slotUnlock();
+
+
+
+
+
 
 signals:
     void signalControllerStart(Direction direction);
