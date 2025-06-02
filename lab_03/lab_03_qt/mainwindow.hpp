@@ -44,6 +44,8 @@ private slots:
     void on_MoveButton_Cam_clicked() const;
     void on_RotateButton_Cam_clicked() const;
 
+    void on_CombineButton_clicked();
+
 private:
     Ui::mainwindow *ui;
     QGraphicsScene *scene;
@@ -69,6 +71,8 @@ private:
 
     std::shared_ptr<Mover> moverCamFromGUI() const;
     std::shared_ptr<Rotater> rotaterCamFromGUI() const;
+
+    void toVector(std::vector<int> &v, const QSet<int> &set);
 };
 
 #endif //MAINWINDOW_HPP

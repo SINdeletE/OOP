@@ -233,6 +233,9 @@ add_executable(lab_03_qt main.cpp
         src/Builders/Readers/ArchiveReaders/targz/TARGZReader.hpp
         src/Builders/Moderators/Moderators/Composite/CompositeLoadModerator.cpp
         src/Builders/Moderators/Moderators/Composite/CompositeLoadModerator.hpp
+        src/GUI/Combiner.cpp
+        src/GUI/Combiner.hpp
+        src/Exceptions/GUI/CombinerException.hpp
 )
 
 target_link_libraries(lab_03_qt

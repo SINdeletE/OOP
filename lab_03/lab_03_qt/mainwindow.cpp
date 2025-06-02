@@ -6,7 +6,6 @@
 
 #include "mainwindow.hpp"
 
-#include <iostream>
 #include <QFileDialog>
 #include "ui_mainwindow.h"
 #include "src/Commands/CameraCommand/Add/CameraCommandAdd.hpp"
@@ -30,6 +29,7 @@
 #include "src/Commands/ManagerCommand/Scene Manager/GetScene/SceneManagerCommandGetScene.hpp"
 #include "src/Commands/ManagerCommand/Transform manager/TransformManagerCommandSetParams/TransformManagerCommandSetParams.hpp"
 #include "src/Exceptions/Managers/DrawManagerException.hpp"
+#include "src/GUI/Combiner.hpp"
 
 
 mainwindow::mainwindow(QWidget *parent) :
@@ -533,4 +533,49 @@ void mainwindow::on_RotateButton_Cam_clicked() const
         this->redraw();
     }
 }
+
+void mainwindow::on_CombineButton_clicked()
+{
+    const auto tmp = _objectTable->selectedItems();
+    std::vector<int> ids{};
+
+    this->toVector(ids, tmp);
+
+    Combiner combiner{};
+    std::shared_ptr<BaseObject> object{nullptr};
+    for (auto iter = ids.rbegin(); iter != ids.rend(); ++iter)
+    {
+        FigureCommandGetById command1{object, static_cast<size_t>(*iter)};
+        _facade->execute(command1);
+
+        FigureRemoveCommand command2{static_cast<size_t>(*iter)};
+        _facade->execute(command2);
+
+        combiner.addChild(object);
+    }
+
+    if (! ids.empty())
+    {
+        object = combiner.getChild();
+        FigureCommandAdd command3{object};
+        _facade->execute(command3);
+
+        this->redraw();
+
+        for (auto iter = ids.rbegin(); iter != ids.rend(); ++iter)
+            _objectTable->removeItem(static_cast<size_t>(*iter));
+        _objectTable->pushItem("Combine");
+    }
+
+}
+
+void mainwindow::toVector(std::vector<int>& v, const QSet<int>& set)
+{
+    for (auto id : set)
+        v.push_back(id);
+
+    std::ranges::stable_sort(v);
+}
+
+
 

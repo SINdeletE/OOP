@@ -1270,7 +1270,7 @@
      <rect>
       <x>730</x>
       <y>400</y>
-      <width>381</width>
+      <width>401</width>
       <height>41</height>
      </rect>
     </property>
@@ -1293,6 +1293,13 @@
       <widget class="QPushButton" name="DeleteCameraButton">
        <property name="text">
         <string>Delete Camera</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="CombineButton">
+       <property name="text">
+        <string>Combine</string>
        </property>
       </widget>
      </item>
